@@ -56,26 +56,27 @@ services:
     ports:
       - ${POSTGRESQL_SLAVE_PORT_1}:5432
 
-  cifarm-server-postgresql-slave-2:
-    <<: *common-slave
-    ports:
-      - ${POSTGRESQL_SLAVE_PORT_2}:5432
+  # Use the following block to add more slaves
+  # cifarm-server-postgresql-slave-2:
+  #   <<: *common-slave
+  #   ports:
+  #     - ${POSTGRESQL_SLAVE_PORT_2}:5432
 
-  cifarm-server-postgresql-slave-3:
-    <<: *common-slave
-    ports:
-      - ${POSTGRESQL_SLAVE_PORT_3}:5432
+  # cifarm-server-postgresql-slave-3:
+  #   <<: *common-slave
+  #   ports:
+  #     - ${POSTGRESQL_SLAVE_PORT_3}:5432
 
-  cifarm-server-postgresql-slave-4:
-    <<: *common-slave
-    ports:
-      - ${POSTGRESQL_SLAVE_PORT_4}:5432
+  # cifarm-server-postgresql-slave-4:
+  #   <<: *common-slave
+  #   ports:
+  #     - ${POSTGRESQL_SLAVE_PORT_4}:5432
 
-  cifarm-server-postgresql-slave-5:
-    <<: *common-slave
-    ports:
-      - ${POSTGRESQL_SLAVE_PORT_5}:5432
-
+  # cifarm-server-postgresql-slave-5:
+  #   <<: *common-slave
+  #   ports:
+  #     - ${POSTGRESQL_SLAVE_PORT_5}:5432
+  
 volumes:
   postgresql_master_data:
     driver: local
