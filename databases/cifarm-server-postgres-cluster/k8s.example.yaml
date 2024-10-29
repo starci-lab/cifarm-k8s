@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cifarm-server-postgres-cluster-example
+  labels:
+    app: cifarm
+spec:
+  containers:
+    - name: cifarm-server-postgresql-master-example
+      image: bitnami/postgresql
+      command: [ "/bin/sh", "-c", "env" ]
+      envFrom:
+      - configMapRef:
+          name: local-configmap
+      # olds
+      # env:
+      #   - name: POSTGRESQL_PGAUDIT_LOG
+      #     valueFrom:
+      #       configMapKeyRef:
+      #         name: local-configmap
+      #         key: POSTGRESQL_PGAUDIT_LOG
+      #   - name: POSTGRESQL_LOG_HOSTNAME
+      #     valueFrom:
+      #       configMapKeyRef:
+      #         name: local-configmap
+      #         key: POSTGRESQL_LOG_HOSTNAME
+      #   - name: POSTGRESQL_REPLICATION_MODE
+      #     valueFrom:
+      #       configMapKeyRef:
+      #         name: local-configmap
+      #         key: POSTGRESQL_REPLICATION_MODE
+      #   - name: POSTGRESQL_REPLICATION_USER
+      #     valueFrom:
+      #       configMapKeyRef:
+      #         name: local-configmap
+      #         key: POSTGRESQL_REPLICATION_USER
+      #   - name: POSTGRESQL_REPLICATION_PASSWORD
+      #     valueFrom:
+      #       configMapKeyRef:
+      #         name: local-configmap
+      #         key: POSTGRESQL_REPLICATION_PASSWORD
+      #   - name: POSTGRESQL_USERNAME
+      #     valueFrom:
+      #       configMapKeyRef:
+      #         name: local-configmap
+      #         key: POSTGRESQL_USERNAME
+      #   - name: POSTGRESQL_PASSWORD
+      #     valueFrom:
+      #       configMapKeyRef:
+      #         name: local-configmap
+      #         key: POSTGRESQL_PASSWORD
+      #   - name: POSTGRESQL_DATABASE
+      #     valueFrom:
+      #       configMapKeyRef:
+      #         name: local-configmap
+      #         key: POSTGRESQL_DATABASE
+      #   - name: POSTGRESQL_ALLOW_EMPTY_PASSWORD
+      #     valueFrom:
+      #       configMapKeyRef:
+      #         name: local-configmap
+      #         key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
+      ports:
+        - containerPort: 5532
+          name: pm # postgresql-master
+      volumeMounts:
+      - name: cspcv # cifarm-server-postgresql-cluster-volume
+        mountPath: /var/lib/cifarm-server-postgresql-cluster-volume
+  volumes:
+    - name: cspcv # cifarm-server-postgresql-cluster-volume
+      persistentVolumeClaim:
+        claimName: cspcc # cifarm-server-postgresql-cluster-claim
+
+
+# kubectl apply -f ./databases/cifarm-server-postgres-cluster/k8s.example.yaml
