@@ -8,6 +8,7 @@ spec:
   initContainers:
     # master
     - name: redis-master
+      restartPolicy: Always
       image: bitnami/redis:latest
       env:
         - name: REDIS_REPLICATION_MODE
