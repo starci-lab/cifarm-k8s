@@ -63,12 +63,12 @@ spec:
         - containerPort: 5532
           name: pm # postgresql-master
       volumeMounts:
-      - name: cspcv # cifarm-server-postgresql-cluster-volume
-        mountPath: /var/lib/cifarm-server-postgresql-cluster-volume
+      - name: cspmv # cifarm-server-postgresql-master-volume
+        mountPath: /var/lib/cifarm-server-postgresql-master-volume
   volumes:
-    - name: cspcv # cifarm-server-postgresql-cluster-volume
+    - name: cspmv # cifarm-server-postgresql-master-volume
       persistentVolumeClaim:
-        claimName: cspcc # cifarm-server-postgresql-cluster-claim
+        claimName: cspmc # cifarm-server-postgresql-master-claim
 
 
 # kubectl create -f ./databases/cifarm-server-postgres-cluster/examples/k8s.example.yaml

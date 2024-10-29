@@ -1,0 +1,241 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cifarm-server-postgres-cluster
+  labels:
+    app: cifarm
+spec:
+  initContainers:
+    # master
+    - name: cifarm-server-postgresql-master
+      image: bitnami/postgresql
+      env:
+        # POSTGRESQL_PGAUDIT_LOG
+        - name: POSTGRESQL_PGAUDIT_LOG
+          value: "READ,WRITE"
+
+        # POSTGRESQL_LOG_HOSTNAME
+        - name: POSTGRESQL_LOG_HOSTNAME
+          value: "true"
+
+        # POSTGRESQL_REPLICATION_MODE
+        - name: POSTGRESQL_REPLICATION_MODE
+          value: "master"
+
+        # POSTGRESQL_REPLICATION_USER
+        - name: POSTGRESQL_REPLICATION_USER
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_REPLICATION_USER
+
+        # POSTGRESQL_REPLICATION_PASSWORD
+        - name: POSTGRESQL_REPLICATION_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_REPLICATION_PASSWORD
+
+        # POSTGRESQL_USERNAME
+        - name: POSTGRESQL_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_USERNAME
+
+        # POSTGRESQL_PASSWORD
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_PASSWORD
+        
+        # POSTGRESQL_DATABASE
+        - name: POSTGRESQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_DATABASE
+
+        # POSTGRESQL_ALLOW_EMPTY_PASSWORD
+        - name: ALLOW_EMPTY_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: ALLOW_EMPTY_PASSWORD
+        
+        # POSTGRESQL_MASTER_PORT
+        - name: POSTGRESQL_MASTER_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_MASTER_PORT
+      ports:
+        # we cannot pass env variables to containerPort, due to limitations in k8s
+        - containerPort: 5542
+          name: pm # postgresql-master
+      volumeMounts:
+      - name: cspmv # cifarm-server-postgresql-master-volume
+        mountPath: /var/lib/cifarm-server-postgresql-master-volume
+
+  containers:
+    # slave 1
+    - name: cifarm-server-postgresql-slave-1
+      image: bitnami/postgresql
+      env:
+        # POSTGRESQL_USERNAME
+        - name: POSTGRESQL_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_USERNAME
+
+        # POSTGRESQL_PASSWORD
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_PASSWORD
+
+        # POSTGRESQL_MASTER_HOST
+        - name: POSTGRESQL_MASTER_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_MASTER_HOST
+        
+        # POSTGRESQL_PGAUDIT_LOG
+        - name: POSTGRESQL_PGAUDIT_LOG
+          value: "READ"
+
+        # POSTGRESQL_LOG_HOSTNAME
+        - name: POSTGRESQL_LOG_HOSTNAME
+          value: "true"
+
+        # POSTGRESQL_REPLICATION_MODE
+        - name: POSTGRESQL_REPLICATION_MODE
+          value: "slave"
+
+        # POSTGRESQL_REPLICATION_USER
+        - name: POSTGRESQL_REPLICATION_USER
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_REPLICATION_USER 
+
+        # POSTGRESQL_REPLICATION_PASSWORD
+        - name: POSTGRESQL_REPLICATION_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_REPLICATION_PASSWORD
+
+        # POSTGRESQL_MASTER_PORT_NUMBER
+        - name: POSTGRESQL_MASTER_PORT_NUMBER
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_MASTER_PORT_NUMBER
+              
+        # POSTGRESQL_ALLOW_EMPTY_PASSWORD
+        - name: ALLOW_EMPTY_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: ALLOW_EMPTY_PASSWORD
+        
+        # POSTGRESQL_SLAVE_PORT_1
+        - name: POSTGRESQL_SLAVE_PORT_1
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_SLAVE_PORT_1
+      ports:
+        # we cannot pass env variables to containerPort, due to limitations in k8s
+        - containerPort: 5533 # 5533
+          name: ps2 # postgresql-slave-1
+      
+    # slave 2
+    - name: cifarm-server-postgresql-slave-2
+      image: bitnami/postgresql
+      env:
+        # POSTGRESQL_USERNAME
+        - name: POSTGRESQL_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_USERNAME
+
+        # POSTGRESQL_PASSWORD
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_PASSWORD
+
+        # POSTGRESQL_MASTER_HOST
+        - name: POSTGRESQL_MASTER_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_MASTER_HOST
+        
+        # POSTGRESQL_PGAUDIT_LOG
+        - name: POSTGRESQL_PGAUDIT_LOG
+          value: "READ"
+
+        # POSTGRESQL_LOG_HOSTNAME
+        - name: POSTGRESQL_LOG_HOSTNAME
+          value: "true"
+
+        # POSTGRESQL_REPLICATION_MODE
+        - name: POSTGRESQL_REPLICATION_MODE
+          value: "slave"
+
+        # POSTGRESQL_REPLICATION_USER
+        - name: POSTGRESQL_REPLICATION_USER
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_REPLICATION_USER 
+
+        # POSTGRESQL_REPLICATION_PASSWORD
+        - name: POSTGRESQL_REPLICATION_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_REPLICATION_PASSWORD
+
+        # POSTGRESQL_MASTER_PORT_NUMBER
+        - name: POSTGRESQL_MASTER_PORT_NUMBER
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_MASTER_PORT_NUMBER
+              
+        # POSTGRESQL_ALLOW_EMPTY_PASSWORD
+        - name: ALLOW_EMPTY_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: ALLOW_EMPTY_PASSWORD
+        
+        # POSTGRESQL_SLAVE_PORT_1
+        - name: POSTGRESQL_SLAVE_PORT_2
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_SLAVE_PORT_2
+      ports:
+        # we cannot pass env variables to containerPort, due to limitations in k8s
+        - containerPort: 5534 # 5534
+          name: ps2 # postgresql-slave-1
+
+  volumes:
+    - name: cspmv # cifarm-server-postgresql-master-volume
+      persistentVolumeClaim:
+        claimName: cspmc # cifarm-server-postgresql-master-claim
+
+# kubectl create -f ./pods//databases/cifarm-server-postgres-cluster/dev.yaml
+# kubectl get pods
+# kubectl delete pod cifarm-server-postgres-cluster
