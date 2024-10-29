@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cifarm-server-postgres-cluster
+  name: postgres-cluster
   labels:
     app: cifarm
 spec:
   initContainers:
     # master
-    - name: cifarm-server-postgresql-master
+    - name: postgres-cluster
       image: bitnami/postgresql
       restartPolicy: Always
       livenessProbe:
@@ -15,9 +15,7 @@ spec:
           command:
             - pg_isready
             - -U
-            - postgres
-            - -p
-            - "5432"
+            - user
         initialDelaySeconds: 30
         periodSeconds: 10
       readinessProbe:
@@ -25,9 +23,7 @@ spec:
           command:
             - pg_isready
             - -U
-            - postgres
-            - -p
-            - "5432"
+            - user
         initialDelaySeconds: 5
         periodSeconds: 5
       env:
@@ -57,6 +53,13 @@ spec:
               name: local-configmap
               key: POSTGRESQL_REPLICATION_PASSWORD
 
+        # POSTGRESQL_USERNAME
+        - name: POSTGRESQL_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_USERNAME
+
         # POSTGRESQL_PASSWORD
         - name: POSTGRESQL_PASSWORD
           valueFrom:
@@ -79,7 +82,7 @@ spec:
               key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
       ports:
         # we cannot pass env variables to containerPort, due to limitations in k8s
-        - containerPort: 5432
+        - containerPort: 5552
           name: pm # postgresql-master
       volumeMounts:
       - name: cspmv # cifarm-server-postgresql-master-volume
@@ -94,9 +97,7 @@ spec:
           command:
             - pg_isready
             - -U
-            - postgres
-            - -p
-            - "5433"
+            - user
         initialDelaySeconds: 30
         periodSeconds: 10
       readinessProbe:
@@ -104,89 +105,7 @@ spec:
           command:
             - pg_isready
             - -U
-            - postgres
-            - -p
-            - "5433"
-        initialDelaySeconds: 5
-        periodSeconds: 5
-      env:
-        # POSTGRESQL_PASSWORD
-        - name: POSTGRESQL_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              name: local-configmap
-              key: POSTGRESQL_PASSWORD
-
-        # POSTGRESQL_MASTER_HOST
-        - name: POSTGRESQL_MASTER_HOST
-          value: "127.0.0.1"
-        
-        # POSTGRESQL_PGAUDIT_LOG
-        - name: POSTGRESQL_PGAUDIT_LOG
-          value: "READ"
-
-        # POSTGRESQL_LOG_HOSTNAME
-        - name: POSTGRESQL_LOG_HOSTNAME
-          value: "true"
-
-        # POSTGRESQL_REPLICATION_MODE
-        - name: POSTGRESQL_REPLICATION_MODE
-          value: "slave"
-
-        # POSTGRESQL_REPLICATION_USER
-        - name: POSTGRESQL_REPLICATION_USER
-          valueFrom:
-            configMapKeyRef:
-              name: local-configmap
-              key: POSTGRESQL_REPLICATION_USER 
-
-        # POSTGRESQL_REPLICATION_PASSWORD
-        - name: POSTGRESQL_REPLICATION_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              name: local-configmap
-              key: POSTGRESQL_REPLICATION_PASSWORD
-
-        # POSTGRESQL_MASTER_PORT_NUMBER
-        - name: POSTGRESQL_MASTER_PORT_NUMBER
-          value: "5432"
-              
-        # POSTGRESQL_ALLOW_EMPTY_PASSWORD
-        - name: ALLOW_EMPTY_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              name: local-configmap
-              key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
-        
-        # POSTGRESQL_PORT_NUMBER
-        - name: POSTGRESQL_PORT_NUMBER
-          value: "5433"
-      ports:
-        # we cannot pass env variables to containerPort, due to limitations in k8s
-        - containerPort: 5433 # 5543
-          name: ps1 # postgresql-slave-1
-      
-    # slave 2
-    - name: cifarm-server-postgresql-slave-2
-      image: bitnami/postgresql
-      livenessProbe:
-        exec:
-          command:
-            - pg_isready
-            - -U
-            - postgres
-            - -p
-            - "5434"
-        initialDelaySeconds: 30
-        periodSeconds: 10
-      readinessProbe:
-        exec:
-          command:
-            - pg_isready
-            - -U
-            - postgres
-            - -p
-            - "5434"
+            - user
         initialDelaySeconds: 5
         periodSeconds: 5
       env:
@@ -206,7 +125,10 @@ spec:
 
         # POSTGRESQL_MASTER_HOST
         - name: POSTGRESQL_MASTER_HOST
-          value: "127.0.0.1"
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_MASTER_HOST
         
         # POSTGRESQL_PGAUDIT_LOG
         - name: POSTGRESQL_PGAUDIT_LOG
@@ -236,7 +158,7 @@ spec:
 
         # POSTGRESQL_MASTER_PORT_NUMBER
         - name: POSTGRESQL_MASTER_PORT_NUMBER
-          value: "5432"
+          value: "5552"
               
         # POSTGRESQL_ALLOW_EMPTY_PASSWORD
         - name: ALLOW_EMPTY_PASSWORD
@@ -244,14 +166,95 @@ spec:
             configMapKeyRef:
               name: local-configmap
               key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
-        
-        # POSTGRESQL_PORT_NUMBER
-        - name: POSTGRESQL_PORT_NUMBER
-          value: "5434"
+    
       ports:
         # we cannot pass env variables to containerPort, due to limitations in k8s
-        - containerPort: 5434 # 5544
-          name: ps2 # postgresql-slave-2
+        - containerPort: 5553 # 5533
+          name: ps2 # postgresql-slave-1
+      
+    # slave 2
+    - name: cifarm-server-postgresql-slave-2
+      image: bitnami/postgresql
+      livenessProbe:
+        exec:
+          command:
+            - pg_isready
+            - -U
+            - user
+        initialDelaySeconds: 30
+        periodSeconds: 10
+      readinessProbe:
+        exec:
+          command:
+            - pg_isready
+            - -U
+            - user
+        initialDelaySeconds: 5
+        periodSeconds: 5
+      env:
+        # POSTGRESQL_USERNAME
+        - name: POSTGRESQL_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_USERNAME
+
+        # POSTGRESQL_PASSWORD
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_PASSWORD
+
+        # POSTGRESQL_MASTER_HOST
+        - name: POSTGRESQL_MASTER_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_MASTER_HOST
+        
+        # POSTGRESQL_PGAUDIT_LOG
+        - name: POSTGRESQL_PGAUDIT_LOG
+          value: "READ"
+
+        # POSTGRESQL_LOG_HOSTNAME
+        - name: POSTGRESQL_LOG_HOSTNAME
+          value: "true"
+
+        # POSTGRESQL_REPLICATION_MODE
+        - name: POSTGRESQL_REPLICATION_MODE
+          value: "slave"
+
+        # POSTGRESQL_REPLICATION_USER
+        - name: POSTGRESQL_REPLICATION_USER
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_REPLICATION_USER 
+
+        # POSTGRESQL_REPLICATION_PASSWORD
+        - name: POSTGRESQL_REPLICATION_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_REPLICATION_PASSWORD
+
+        # POSTGRESQL_MASTER_PORT_NUMBER
+        - name: POSTGRESQL_MASTER_PORT_NUMBER
+          value: "5552"
+              
+        # POSTGRESQL_ALLOW_EMPTY_PASSWORD
+        - name: ALLOW_EMPTY_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
+
+      ports:
+        # we cannot pass env variables to containerPort, due to limitations in k8s
+        - containerPort: 5554 # 5534
+          name: ps2 # postgresql-slave-1
+
   volumes:
     - name: cspmv # cifarm-server-postgresql-master-volume
       persistentVolumeClaim:
