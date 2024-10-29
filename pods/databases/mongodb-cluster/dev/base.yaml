@@ -41,49 +41,49 @@ spec:
         - name: MONGODB_REPLICA_SET_NAME
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_REPLICA_SET_NAME
 
         # MONGODB_REPLICA_SET_KEY
         - name: MONGODB_REPLICA_SET_KEY
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_REPLICA_SET_KEY
 
         # MONGODB_USERNAME
         - name: MONGODB_USERNAME
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_USERNAME
 
         # MONGODB_PASSWORD
         - name: MONGODB_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_PASSWORD
 
         # MONGODB_ROOT_PASSWORD
         - name: MONGODB_ROOT_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_ROOT_PASSWORD
 
         # MONGODB_DATABASE
         - name: MONGODB_DATABASE
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_DATABASE
 
         # MONGODB_ALLOW_EMPTY_PASSWORD
         - name: ALLOW_EMPTY_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_ALLOW_EMPTY_PASSWORD
     
       ports:
@@ -129,21 +129,21 @@ spec:
         - name: MONGODB_REPLICA_SET_NAME
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_REPLICA_SET_NAME
 
         # MONGODB_REPLICA_SET_KEY
         - name: MONGODB_REPLICA_SET_KEY
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_REPLICA_SET_KEY
 
         # MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD
         - name: MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_ROOT_PASSWORD
 
         # MONGODB_ROOT_PASSWORD
@@ -154,21 +154,21 @@ spec:
         - name: MONGODB_DATABASE
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_DATABASE
 
         # MONGODB_ALLOW_EMPTY_PASSWORD
         - name: ALLOW_EMPTY_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_ALLOW_EMPTY_PASSWORD
 
         # MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD
         - name: MONGODB_INITIAL_PRIMARY_HOST
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-mongodb-cluster
               key: MONGODB_INITIAL_PRIMARY_HOST
         
         # MONGODB_PORT_NUMBER

@@ -47,35 +47,35 @@ spec:
         - name: POSTGRESQL_REPLICATION_USER
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_REPLICATION_USER
 
         # POSTGRESQL_REPLICATION_PASSWORD
         - name: POSTGRESQL_REPLICATION_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_REPLICATION_PASSWORD
 
         # POSTGRESQL_PASSWORD
         - name: POSTGRESQL_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_PASSWORD
         
         # POSTGRESQL_DATABASE
         - name: POSTGRESQL_DATABASE
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_DATABASE
 
         # POSTGRESQL_ALLOW_EMPTY_PASSWORD
         - name: ALLOW_EMPTY_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
       ports:
         # we cannot pass env variables to containerPort, due to limitations in k8s
@@ -114,7 +114,7 @@ spec:
         - name: POSTGRESQL_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_PASSWORD
 
         # POSTGRESQL_MASTER_HOST
@@ -137,14 +137,14 @@ spec:
         - name: POSTGRESQL_REPLICATION_USER
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_REPLICATION_USER 
 
         # POSTGRESQL_REPLICATION_PASSWORD
         - name: POSTGRESQL_REPLICATION_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_REPLICATION_PASSWORD
 
         # POSTGRESQL_MASTER_PORT_NUMBER
@@ -155,7 +155,7 @@ spec:
         - name: ALLOW_EMPTY_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
         
         # POSTGRESQL_PORT_NUMBER
@@ -194,14 +194,14 @@ spec:
         - name: POSTGRESQL_USERNAME
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_USERNAME
 
         # POSTGRESQL_PASSWORD
         - name: POSTGRESQL_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_PASSWORD
 
         # POSTGRESQL_MASTER_HOST
@@ -224,14 +224,14 @@ spec:
         - name: POSTGRESQL_REPLICATION_USER
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_REPLICATION_USER 
 
         # POSTGRESQL_REPLICATION_PASSWORD
         - name: POSTGRESQL_REPLICATION_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_REPLICATION_PASSWORD
 
         # POSTGRESQL_MASTER_PORT_NUMBER
@@ -242,7 +242,7 @@ spec:
         - name: ALLOW_EMPTY_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: local-configmap
+              name: local-cifarm-server-postgres-cluster
               key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
         
         # POSTGRESQL_PORT_NUMBER
