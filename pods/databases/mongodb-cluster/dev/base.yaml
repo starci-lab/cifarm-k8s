@@ -1,0 +1,191 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongodb-cluster
+  labels:
+    app: cifarm
+spec:
+  initContainers:
+    # primary
+    - name: mongodb-primary
+      image: bitnami/mongodb
+      restartPolicy: Always
+      livenessProbe:
+        exec:
+          command:
+            - echo 
+            - 'db.runCommand("ping").ok'
+            - |
+            - mongosh 
+            - localhost:27017/test
+            - --quiet
+        initialDelaySeconds: 30
+        periodSeconds: 10
+      readinessProbe:
+        exec:
+          command:
+            - echo 
+            - 'db.runCommand("ping").ok'
+            - |
+            - mongosh 
+            - localhost:27017/test
+            - --quiet
+        initialDelaySeconds: 5
+        periodSeconds: 5
+      env:
+        # MONGODB_REPLICA_SET_MODE
+        - name: MONGODB_REPLICA_SET_MODE
+          value: "primary"
+
+        # MONGODB_REPLICA_SET_NAME
+        - name: MONGODB_REPLICA_SET_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_REPLICA_SET_NAME
+
+        # MONGODB_REPLICA_SET_KEY
+        - name: MONGODB_REPLICA_SET_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_REPLICA_SET_KEY
+
+        # MONGODB_USERNAME
+        - name: MONGODB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_USERNAME
+
+        # MONGODB_PASSWORD
+        - name: MONGODB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_PASSWORD
+
+        # MONGODB_ROOT_PASSWORD
+        - name: MONGODB_ROOT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_ROOT_PASSWORD
+
+        # MONGODB_DATABASE
+        - name: MONGODB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_DATABASE
+
+        # MONGODB_ALLOW_EMPTY_PASSWORD
+        - name: ALLOW_EMPTY_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_ALLOW_EMPTY_PASSWORD
+    
+      ports:
+        # we cannot pass env variables to containerPort, due to limitations in k8s
+        - containerPort: 27017 # 27017
+          name: mp # mongodb-primary
+      volumeMounts:
+      - name: mpv # mongo-primary-volume
+        mountPath: /var/lib/mongo-primary-volume
+
+  containers:
+    # secondary 1
+    - name: mongodb-secondary-1
+      image: bitnami/mongodb
+      livenessProbe:
+        exec:
+          command:
+            - echo 
+            - 'db.runCommand("ping").ok'
+            - |
+            - mongosh 
+            - localhost:27018/test
+            - --quiet
+        initialDelaySeconds: 30
+        periodSeconds: 10
+      readinessProbe:
+        exec:
+          command:
+            - echo 
+            - 'db.runCommand("ping").ok'
+            - |
+            - mongosh 
+            - localhost:27018/test
+            - --quiet
+        initialDelaySeconds: 5
+        periodSeconds: 5
+      env:
+        # MONGODB_REPLICA_SET_MODE
+        - name: MONGODB_REPLICA_SET_MODE
+          value: "secondary"
+
+        # MONGODB_REPLICA_SET_NAME
+        - name: MONGODB_REPLICA_SET_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_REPLICA_SET_NAME
+
+        # MONGODB_REPLICA_SET_KEY
+        - name: MONGODB_REPLICA_SET_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_REPLICA_SET_KEY
+
+        # MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD
+        - name: MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_ROOT_PASSWORD
+
+        # MONGODB_ROOT_PASSWORD
+        - name: MONGODB_ROOT_PASSWORD
+          value: ""
+
+        # MONGODB_DATABASE
+        - name: MONGODB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_DATABASE
+
+        # MONGODB_ALLOW_EMPTY_PASSWORD
+        - name: ALLOW_EMPTY_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_ALLOW_EMPTY_PASSWORD
+
+        # MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD
+        - name: MONGODB_INITIAL_PRIMARY_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: local-configmap
+              key: MONGODB_INITIAL_PRIMARY_HOST
+        
+        # MONGODB_PORT_NUMBER
+        - name: MONGODB_PORT_NUMBER
+          value: "27018"
+    
+      ports:
+        # we cannot pass env variables to containerPort, due to limitations in k8s
+        - containerPort: 27018 # 27018
+          name: ms1 # mongodb-secondary-1
+
+  volumes:
+    - name: mpv # mongo-primary-volume
+      persistentVolumeClaim:
+        claimName: mpc # mongo-primary-claim
+
+# kubectl create -f ./pods//databases/cifarm-server-postgres-cluster/dev/base.yaml
+# kubectl get pods
+# kubectl delete pod cifarm-server-postgres-cluster
+# kubectl describe pod cifarm-server-postgres-cluster -n default
