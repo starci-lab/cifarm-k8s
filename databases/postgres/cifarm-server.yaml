@@ -1,11 +1,11 @@
-# this file is used to create a postgres master-3slave setup for cifarm server
+# this file is used to create a postgres master-slave setup for cifarm server
 version: "3"
 services:
   cifarm-server-postgresql-master:
     image: bitnami/postgresql
     restart: always
     env_file:
-      - ../../.env
+      - ../../.env.local
     ports:
       - ${POSTGRESQL_MASTER_PORT}:5432
     volumes:
@@ -32,8 +32,6 @@ services:
     restart: always
     env_file:
       - ../../.env
-    ports:
-      - 5432
     depends_on:
       - cifarm-server-postgresql-master
     environment:
@@ -55,18 +53,32 @@ services:
 
   cifarm-server-postgresql-slave-1:
     <<: *common-slave
+    ports:
+      - ${POSTGRESQL_SLAVE_PORT_1}:5432
 
   cifarm-server-postgresql-slave-2:
     <<: *common-slave
+    ports:
+      - ${POSTGRESQL_SLAVE_PORT_2}:5432
 
   cifarm-server-postgresql-slave-3:
     <<: *common-slave
+    ports:
+      - ${POSTGRESQL_SLAVE_PORT_3}:5432
 
   cifarm-server-postgresql-slave-4:
     <<: *common-slave
+    ports:
+      - ${POSTGRESQL_SLAVE_PORT_4}:5432
 
   cifarm-server-postgresql-slave-5:
     <<: *common-slave
+    ports:
+      - ${POSTGRESQL_SLAVE_PORT_5}:5432
+
 volumes:
   postgresql_master_data:
     driver: local
+
+# Test compose command
+# docker compose -f .\databases\postgres\cifarm-server.yaml up --build -d
