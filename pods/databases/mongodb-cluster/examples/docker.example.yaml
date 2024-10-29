@@ -1,0 +1,45 @@
+# this file is used to create a postgres master-slave setup for cifarm server
+version: "3"
+services:
+  mongodb-master:
+    image: bitnami/mongodb
+    restart: always
+    env_file:
+      - ../../../../.env.local
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/cifarm-server/mongodb
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
+    environment:
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_NAME=starci
+      - MONGODB_REPLICA_SET_KEY=starci
+      - MONGODB_USERNAME=starci
+      - MONGODB_ROOT_PASSWORD=bXyhFYHfexDLRsQSKAW86n3Gw4N9mJrM
+      - MONGODB_PASSWORD=bXyhFYHfexDLRsQSKAW86n3Gw4N9mJrM
+      - MONGODB_DATABASE=cifarm
+      - ALLOW_EMPTY_PASSWORD=no
+
+  mongodb-slave-1:
+    image: bitnami/mongodb
+    restart: always
+    env_file:
+      - ../../../../.env.local
+    depends_on:
+      - mongodb-master
+    environment:
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_NAME=starci
+      - MONGODB_REPLICA_SET_KEY=starci
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=bXyhFYHfexDLRsQSKAW86n3Gw4N9mJrM
+      - MONGODB_DATABASE=cifarm
+      - MONGODB_INITIAL_PRIMARY_HOST=host.docker.internal
+      - MONGODB_PORT_NUMBER=27018
+      - MONGODB_ROOT_PASSWORD=
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 27018:27017
+volumes:
+  mongodb:
+    driver: local
