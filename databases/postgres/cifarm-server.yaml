@@ -2,12 +2,12 @@
 version: "3"
 services:
   cifarm-server-postgresql-master:
-    image: postgres:latest
+    image: bitnami/postgresql
     restart: always
     env_file:
       - ../../.env
     ports:
-      - ${POSTGRESQL_MASTER_HOST_PORT}:5432
+      - ${POSTGRESQL_MASTER_PORT}:5432
     volumes:
       - postgresql_master_data:/cifarm-server/postgresql
       - ./db.sql:/docker-entrypoint-initdb.d/db.sql
@@ -20,7 +20,7 @@ services:
       - POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}
       - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
       - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
-      - ALLOW_EMPTY_PASSWORD=yes
+      - ALLOW_EMPTY_PASSWORD=${POSTGRESQL_ALLOW_EMPTY_PASSWORD}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRESQL_USERNAME}"]
       interval: 30s
@@ -28,7 +28,7 @@ services:
       retries: 5
 
   cifarm-server-postgresql-slave-1:
-    image: postgres:latest
+    image: bitnami/postgresql
     restart: always
     env_file:
       - ../../.env
@@ -37,17 +37,18 @@ services:
     depends_on:
       - cifarm-server-postgresql-master
     environment:
-      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
-      - POSTGRESQL_MASTER_HOST=cifarm-server-postgresql-master
+      - POSTGRES_USER=${POSTGRESQL_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_MASTER_HOST=host.docker.internal
       - POSTGRESQL_PGAUDIT_LOG=READ
       - POSTGRESQL_LOG_HOSTNAME=true
       - POSTGRESQL_REPLICATION_MODE=slave
       - POSTGRESQL_REPLICATION_USER=${POSTGRESQL_REPLICATION_USER}
       - POSTGRESQL_REPLICATION_PASSWORD=${POSTGRESQL_REPLICATION_PASSWORD}
-      - POSTGRESQL_MASTER_PORT_NUMBER=${POSTGRESQL_MASTER_HOST_PORT}
-      - ALLOW_EMPTY_PASSWORD=${ALLOW_EMPTY_PASSWORD}
+      - POSTGRESQL_MASTER_PORT_NUMBER=${POSTGRESQL_MASTER_PORT}
+      - ALLOW_EMPTY_PASSWORD=${POSTGRESQL_ALLOW_EMPTY_PASSWORD}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h ${POSTGRESQL_MASTER_HOST} -p ${POSTGRESQL_MASTER_PORT_NUMBER}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESQL_USERNAME}"]
       interval: 30s
       timeout: 10s
       retries: 5 
