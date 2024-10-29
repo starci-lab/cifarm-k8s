@@ -8,7 +8,7 @@ spec:
   initContainers:
     # master
     - name: redis-master
-      image: bitnami/postgresql
+      image: bitnami/redis:latest
       env:
         - name: REDIS_REPLICATION_MODE
           value: "master"
@@ -30,7 +30,7 @@ spec:
   containers:
     # slave 1
     - name: redis-slave-1
-      image: bitnami/redis
+      image: bitnami/redis:latest
       env:
         # REDIS_REPLICATION_MODE
         - name: REDIS_REPLICATION_MODE
