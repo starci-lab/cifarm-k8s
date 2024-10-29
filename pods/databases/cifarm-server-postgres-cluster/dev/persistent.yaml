@@ -1,0 +1,24 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: cifarm-server-postgresql-master-volume # cifarm-server-postgresql-master-volume
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 1Gi # 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/apps/cspmv/etc"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: cspmc # cifarm-server-postgresql-master-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi

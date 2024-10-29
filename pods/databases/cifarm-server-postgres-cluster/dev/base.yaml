@@ -9,6 +9,23 @@ spec:
     # master
     - name: cifarm-server-postgresql-master
       image: bitnami/postgresql
+      restartPolicy: Always
+      livenessProbe:
+        exec:
+          command:
+            - pg_isready
+            - -U
+            - user
+        initialDelaySeconds: 30
+        periodSeconds: 10
+      readinessProbe:
+        exec:
+          command:
+            - pg_isready
+            - -U
+            - user
+        initialDelaySeconds: 5
+        periodSeconds: 5
       env:
         # POSTGRESQL_PGAUDIT_LOG
         - name: POSTGRESQL_PGAUDIT_LOG
@@ -62,14 +79,7 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: local-configmap
-              key: ALLOW_EMPTY_PASSWORD
-        
-        # POSTGRESQL_MASTER_PORT
-        - name: POSTGRESQL_MASTER_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: local-configmap
-              key: POSTGRESQL_MASTER_PORT
+              key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
       ports:
         # we cannot pass env variables to containerPort, due to limitations in k8s
         - containerPort: 5542
@@ -77,11 +87,27 @@ spec:
       volumeMounts:
       - name: cspmv # cifarm-server-postgresql-master-volume
         mountPath: /var/lib/cifarm-server-postgresql-master-volume
-
+  
   containers:
     # slave 1
     - name: cifarm-server-postgresql-slave-1
       image: bitnami/postgresql
+      livenessProbe:
+        exec:
+          command:
+            - pg_isready
+            - -U
+            - user
+        initialDelaySeconds: 30
+        periodSeconds: 10
+      readinessProbe:
+        exec:
+          command:
+            - pg_isready
+            - -U
+            - user
+        initialDelaySeconds: 5
+        periodSeconds: 5
       env:
         # POSTGRESQL_USERNAME
         - name: POSTGRESQL_USERNAME
@@ -132,17 +158,14 @@ spec:
 
         # POSTGRESQL_MASTER_PORT_NUMBER
         - name: POSTGRESQL_MASTER_PORT_NUMBER
-          valueFrom:
-            configMapKeyRef:
-              name: local-configmap
-              key: POSTGRESQL_MASTER_PORT_NUMBER
+          value: "5542"
               
         # POSTGRESQL_ALLOW_EMPTY_PASSWORD
         - name: ALLOW_EMPTY_PASSWORD
           valueFrom:
             configMapKeyRef:
               name: local-configmap
-              key: ALLOW_EMPTY_PASSWORD
+              key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
         
         # POSTGRESQL_SLAVE_PORT_1
         - name: POSTGRESQL_SLAVE_PORT_1
@@ -158,6 +181,22 @@ spec:
     # slave 2
     - name: cifarm-server-postgresql-slave-2
       image: bitnami/postgresql
+      livenessProbe:
+        exec:
+          command:
+            - pg_isready
+            - -U
+            - user
+        initialDelaySeconds: 30
+        periodSeconds: 10
+      readinessProbe:
+        exec:
+          command:
+            - pg_isready
+            - -U
+            - user
+        initialDelaySeconds: 5
+        periodSeconds: 5
       env:
         # POSTGRESQL_USERNAME
         - name: POSTGRESQL_USERNAME
@@ -208,17 +247,14 @@ spec:
 
         # POSTGRESQL_MASTER_PORT_NUMBER
         - name: POSTGRESQL_MASTER_PORT_NUMBER
-          valueFrom:
-            configMapKeyRef:
-              name: local-configmap
-              key: POSTGRESQL_MASTER_PORT_NUMBER
+          value: "5542"
               
         # POSTGRESQL_ALLOW_EMPTY_PASSWORD
         - name: ALLOW_EMPTY_PASSWORD
           valueFrom:
             configMapKeyRef:
               name: local-configmap
-              key: ALLOW_EMPTY_PASSWORD
+              key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
         
         # POSTGRESQL_SLAVE_PORT_1
         - name: POSTGRESQL_SLAVE_PORT_2
@@ -236,6 +272,7 @@ spec:
       persistentVolumeClaim:
         claimName: cspmc # cifarm-server-postgresql-master-claim
 
-# kubectl create -f ./pods//databases/cifarm-server-postgres-cluster/dev.yaml
+# kubectl create -f ./pods//databases/cifarm-server-postgres-cluster/dev/base.yaml
 # kubectl get pods
 # kubectl delete pod cifarm-server-postgres-cluster
+# kubectl describe pod cifarm-server-postgres-cluster -n default
