@@ -166,13 +166,7 @@ spec:
             configMapKeyRef:
               name: local-configmap
               key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
-        
-        # POSTGRESQL_SLAVE_PORT_1
-        - name: POSTGRESQL_SLAVE_PORT_1
-          valueFrom:
-            configMapKeyRef:
-              name: local-configmap
-              key: POSTGRESQL_SLAVE_PORT_1
+    
       ports:
         # we cannot pass env variables to containerPort, due to limitations in k8s
         - containerPort: 5533 # 5533
@@ -255,13 +249,7 @@ spec:
             configMapKeyRef:
               name: local-configmap
               key: POSTGRESQL_ALLOW_EMPTY_PASSWORD
-        
-        # POSTGRESQL_SLAVE_PORT_1
-        - name: POSTGRESQL_SLAVE_PORT_2
-          valueFrom:
-            configMapKeyRef:
-              name: local-configmap
-              key: POSTGRESQL_SLAVE_PORT_2
+
       ports:
         # we cannot pass env variables to containerPort, due to limitations in k8s
         - containerPort: 5534 # 5534
