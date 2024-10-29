@@ -52,6 +52,106 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5 
+  cifarm-server-postgresql-slave-2:
+    image: bitnami/postgresql
+    restart: always
+    env_file:
+      - ../../.env
+    ports:
+      - 5432
+    depends_on:
+      - cifarm-server-postgresql-master
+    environment:
+      - POSTGRES_USER=${POSTGRESQL_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_MASTER_HOST=host.docker.internal
+      - POSTGRESQL_PGAUDIT_LOG=READ
+      - POSTGRESQL_LOG_HOSTNAME=true
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=${POSTGRESQL_REPLICATION_USER}
+      - POSTGRESQL_REPLICATION_PASSWORD=${POSTGRESQL_REPLICATION_PASSWORD}
+      - POSTGRESQL_MASTER_PORT_NUMBER=${POSTGRESQL_MASTER_PORT}
+      - ALLOW_EMPTY_PASSWORD=${POSTGRESQL_ALLOW_EMPTY_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESQL_USERNAME}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5 
+  cifarm-server-postgresql-slave-3:
+    image: bitnami/postgresql
+    restart: always
+    env_file:
+      - ../../.env
+    ports:
+      - 5432
+    depends_on:
+      - cifarm-server-postgresql-master
+    environment:
+      - POSTGRES_USER=${POSTGRESQL_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_MASTER_HOST=host.docker.internal
+      - POSTGRESQL_PGAUDIT_LOG=READ
+      - POSTGRESQL_LOG_HOSTNAME=true
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=${POSTGRESQL_REPLICATION_USER}
+      - POSTGRESQL_REPLICATION_PASSWORD=${POSTGRESQL_REPLICATION_PASSWORD}
+      - POSTGRESQL_MASTER_PORT_NUMBER=${POSTGRESQL_MASTER_PORT}
+      - ALLOW_EMPTY_PASSWORD=${POSTGRESQL_ALLOW_EMPTY_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESQL_USERNAME}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5 
+  cifarm-server-postgresql-slave-4:
+    image: bitnami/postgresql
+    restart: always
+    env_file:
+      - ../../.env
+    ports:
+      - 5432
+    depends_on:
+      - cifarm-server-postgresql-master
+    environment:
+      - POSTGRES_USER=${POSTGRESQL_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_MASTER_HOST=host.docker.internal
+      - POSTGRESQL_PGAUDIT_LOG=READ
+      - POSTGRESQL_LOG_HOSTNAME=true
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=${POSTGRESQL_REPLICATION_USER}
+      - POSTGRESQL_REPLICATION_PASSWORD=${POSTGRESQL_REPLICATION_PASSWORD}
+      - POSTGRESQL_MASTER_PORT_NUMBER=${POSTGRESQL_MASTER_PORT}
+      - ALLOW_EMPTY_PASSWORD=${POSTGRESQL_ALLOW_EMPTY_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESQL_USERNAME}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5 
+  cifarm-server-postgresql-slave-5:
+    image: bitnami/postgresql
+    restart: always
+    env_file:
+      - ../../.env
+    ports:
+      - 5432
+    depends_on:
+      - cifarm-server-postgresql-master
+    environment:
+      - POSTGRES_USER=${POSTGRESQL_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_MASTER_HOST=host.docker.internal
+      - POSTGRESQL_PGAUDIT_LOG=READ
+      - POSTGRESQL_LOG_HOSTNAME=true
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=${POSTGRESQL_REPLICATION_USER}
+      - POSTGRESQL_REPLICATION_PASSWORD=${POSTGRESQL_REPLICATION_PASSWORD}
+      - POSTGRESQL_MASTER_PORT_NUMBER=${POSTGRESQL_MASTER_PORT}
+      - ALLOW_EMPTY_PASSWORD=${POSTGRESQL_ALLOW_EMPTY_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESQL_USERNAME}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5 
 volumes:
   postgresql_master_data:
     driver: local
