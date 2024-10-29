@@ -71,4 +71,5 @@ spec:
         claimName: cspcc # cifarm-server-postgresql-cluster-claim
 
 
-# kubectl apply -f ./databases/cifarm-server-postgres-cluster/k8s.example.yaml
+# kubectl create -f ./databases/cifarm-server-postgres-cluster/examples/k8s.example.yaml
+# kubectl get pods
