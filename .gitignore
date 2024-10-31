@@ -127,5 +127,5 @@ zz_generated_*_test.go
 vendordiff.patch
 
 # secret.yaml
-secret.yaml
+secret.txt
 /databases

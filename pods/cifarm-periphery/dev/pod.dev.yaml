@@ -6,13 +6,26 @@ metadata:
   labels:
     app: cifarm
 spec:
-  container:
+  containers:
     - name: cifarm-periphery
       image: gcr.io/kaniko-project/executor:debug
       args: [
             "--context=git://github.com/starci-lab/cifarm-periphery.git",
-            "--destination=starci/cifarm-periphery-dev",
+            "--destination=starci183/cifarm-periphery-dev:latest",
             "--dockerfile=/.docker/dev/Dockerfile",
             ]
+      volumeMounts:
+        - name: kaniko-secret
+          mountPath: /kaniko/.docker
+      env:
+        - name: PORT
+          value: "3001"
       ports:
-        - containerPort: 27017
+        - containerPort: 3001
+  volumes:
+    - name: kaniko-secret
+      secret:
+        secretName: regcred
+        items:
+          - key: .dockerconfigjson
+            path: config.json
