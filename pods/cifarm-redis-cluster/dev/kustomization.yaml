@@ -1,5 +1,5 @@
 resources:
-  - secret.dev.yaml
+  - config-map.dev.yaml
   - persistent-volume.dev.yaml
   - persistent-volume-claim.dev.yaml
   - pod.dev.yaml

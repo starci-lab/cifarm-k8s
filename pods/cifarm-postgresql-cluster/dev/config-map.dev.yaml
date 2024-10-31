@@ -1,10 +1,9 @@
 apiVersion: v1
-kind: Secret
+kind: ConfigMap
 metadata:
-  name: cifarm-postgresql-master-secret
+  name: cifarm-postgresql-master-config-map
   namespace: default
-type: Opaque
-stringData:
+data:
   POSTGRESQL_REPLICATION_USER: "cifarm-postgresql-master"
   POSTGRESQL_REPLICATION_PASSWORD: "bXyhFYHfexDLRsQSKAW86n3Gw4N9mJrM"
   POSTGRESQL_USERNAME: "postgres"

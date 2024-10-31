@@ -3,8 +3,7 @@ kind: ConfigMap
 metadata:
   name: cifarm-mongodb-primary-config-map
   namespace: default
-type: Opaque
-stringData:
+data:
   MONGODB_REPLICA_SET_NAME: cifarm
   MONGODB_REPLICA_SET_KEY: bXyhFYHfexDLRsQSKAW86n3Gw4N9mJrM
   MONGODB_USERNAME: cifarm

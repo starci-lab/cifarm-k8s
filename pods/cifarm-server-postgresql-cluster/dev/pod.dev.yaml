@@ -42,29 +42,29 @@ spec:
         # POSTGRESQL_REPLICATION_USER
         - name: POSTGRESQL_REPLICATION_USER
           valueFrom:
-            secretKeyRef:
-              name: cifarm-server-postgresql-master-secret
+            configMapKeyRef:
+              name: cifarm-server-postgresql-master-config-map
               key: POSTGRESQL_REPLICATION_USER
 
         # POSTGRESQL_REPLICATION_PASSWORD
         - name: POSTGRESQL_REPLICATION_PASSWORD
           valueFrom:
-            secretKeyRef:
-              name: cifarm-server-postgresql-master-secret
+            configMapKeyRef:
+              name: cifarm-server-postgresql-master-config-map
               key: POSTGRESQL_REPLICATION_PASSWORD
 
         # POSTGRESQL_PASSWORD
         - name: POSTGRESQL_PASSWORD
           valueFrom:
-            secretKeyRef:
-              name: cifarm-server-postgresql-master-secret
+            configMapKeyRef:
+              name: cifarm-server-postgresql-master-config-map
               key: POSTGRESQL_PASSWORD
         
         # POSTGRESQL_DATABASE
         - name: POSTGRESQL_DATABASE
           valueFrom:
-            secretKeyRef:
-              name: cifarm-server-postgresql-master-secret
+            configMapKeyRef:
+              name: cifarm-server-postgresql-master-config-map
               key: POSTGRESQL_DATABASE
 
         # POSTGRESQL_ALLOW_EMPTY_PASSWORD
@@ -103,8 +103,8 @@ spec:
         # POSTGRESQL_PASSWORD
         - name: POSTGRESQL_PASSWORD
           valueFrom:
-            secretKeyRef:
-              name: cifarm-server-postgresql-master-secret
+            configMapKeyRef:
+              name: cifarm-server-postgresql-master-config-map
               key: POSTGRESQL_PASSWORD
 
         # POSTGRESQL_MASTER_HOST
@@ -126,15 +126,15 @@ spec:
         # POSTGRESQL_REPLICATION_USER
         - name: POSTGRESQL_REPLICATION_USER
           valueFrom:
-            secretKeyRef:
-              name: cifarm-server-postgresql-master-secret
+            configMapKeyRef:
+              name: cifarm-server-postgresql-master-config-map
               key: POSTGRESQL_REPLICATION_USER 
 
         # POSTGRESQL_REPLICATION_PASSWORD
         - name: POSTGRESQL_REPLICATION_PASSWORD
           valueFrom:
-            secretKeyRef:
-              name: cifarm-server-postgresql-master-secret
+            configMapKeyRef:
+              name: cifarm-server-postgresql-master-config-map
               key: POSTGRESQL_REPLICATION_PASSWORD
 
         # POSTGRESQL_MASTER_PORT_NUMBER

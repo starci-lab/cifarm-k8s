@@ -40,43 +40,43 @@ spec:
         # MONGODB_REPLICA_SET_NAME
         - name: MONGODB_REPLICA_SET_NAME
           valueFrom:
-            secretKeyRef:
-              name: cifarm-mongodb-primary-secret
+            configMapKeyRef:
+              name: cifarm-mongodb-primary-config-map
               key: MONGODB_REPLICA_SET_NAME
 
         # MONGODB_REPLICA_SET_KEY
         - name: MONGODB_REPLICA_SET_KEY
           valueFrom:
-            secretKeyRef:
-              name: cifarm-mongodb-primary-secret
+            configMapKeyRef:
+              name: cifarm-mongodb-primary-config-map
               key: MONGODB_REPLICA_SET_KEY
 
         # MONGODB_USERNAME
         - name: MONGODB_USERNAME
           valueFrom:
-            secretKeyRef:
-              name: cifarm-mongodb-primary-secret
+            configMapKeyRef:
+              name: cifarm-mongodb-primary-config-map
               key: MONGODB_USERNAME
 
         # MONGODB_PASSWORD
         - name: MONGODB_PASSWORD
           valueFrom:
-            secretKeyRef:
-              name: cifarm-mongodb-primary-secret
+            configMapKeyRef:
+              name: cifarm-mongodb-primary-config-map
               key: MONGODB_PASSWORD
 
         # MONGODB_ROOT_PASSWORD
         - name: MONGODB_ROOT_PASSWORD
           valueFrom:
-            secretKeyRef:
-              name: cifarm-mongodb-primary-secret
+            configMapKeyRef:
+              name: cifarm-mongodb-primary-config-map
               key: MONGODB_ROOT_PASSWORD
 
         # MONGODB_DATABASE
         - name: MONGODB_DATABASE
           valueFrom:
-            secretKeyRef:
-              name: cifarm-mongodb-primary-secret
+            configMapKeyRef:
+              name: cifarm-mongodb-primary-config-map
               key: MONGODB_DATABASE
 
         # MONGODB_ALLOW_EMPTY_PASSWORD
@@ -121,22 +121,22 @@ spec:
         # MONGODB_REPLICA_SET_NAME
         - name: MONGODB_REPLICA_SET_NAME
           valueFrom:
-            secretKeyRef:
-              name: cifarm-mongodb-primary-secret
+            configMapKeyRef:
+              name: cifarm-mongodb-primary-config-map
               key: MONGODB_REPLICA_SET_NAME
 
         # MONGODB_REPLICA_SET_KEY
         - name: MONGODB_REPLICA_SET_KEY
           valueFrom:
-            secretKeyRef:
-              name: cifarm-mongodb-primary-secret
+            configMapKeyRef:
+              name: cifarm-mongodb-primary-config-map
               key: MONGODB_REPLICA_SET_KEY
 
         # MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD
         - name: MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD
           valueFrom:
-            secretKeyRef:
-              name: cifarm-mongodb-primary-secret
+            configMapKeyRef:
+              name: cifarm-mongodb-primary-config-map
               key: MONGODB_ROOT_PASSWORD
 
         # MONGODB_ROOT_PASSWORD
@@ -146,8 +146,8 @@ spec:
         # MONGODB_DATABASE
         - name: MONGODB_DATABASE
           valueFrom:
-            secretKeyRef:
-              name: cifarm-mongodb-primary-secret
+            configMapKeyRef:
+              name: cifarm-mongodb-primary-config-map
               key: MONGODB_DATABASE
 
         # MONGODB_ALLOW_EMPTY_PASSWORD

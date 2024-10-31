@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cifarm-redis-master-config-map
+  namespace: default
+data:
+  TEMP: "temp"
