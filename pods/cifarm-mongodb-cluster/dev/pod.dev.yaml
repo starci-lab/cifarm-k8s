@@ -1,0 +1,170 @@
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongodb-cluster
+  labels:
+    app: cifarm
+spec:
+  initContainers:
+    - name: mongodb-primary
+      image: bitnami/mongodb
+      restartPolicy: Always
+      livenessProbe:
+        exec:
+          command:
+            - echo 
+            - 'db.runCommand("ping").ok'
+            - |
+            - mongosh 
+            - localhost:27017/test
+            - --quiet
+        initialDelaySeconds: 30
+        periodSeconds: 10
+      readinessProbe:
+        exec:
+          command:
+            - echo 
+            - 'db.runCommand("ping").ok'
+            - |
+            - mongosh 
+            - localhost:27017/test
+            - --quiet
+        initialDelaySeconds: 5
+        periodSeconds: 5
+      env:
+        # MONGODB_REPLICA_SET_MODE
+        - name: MONGODB_REPLICA_SET_MODE
+          value: "primary"
+
+        # MONGODB_REPLICA_SET_NAME
+        - name: MONGODB_REPLICA_SET_NAME
+          valueFrom:
+            secretKeyRef:
+              name: cifarm-mongodb-primary-secret
+              key: MONGODB_REPLICA_SET_NAME
+
+        # MONGODB_REPLICA_SET_KEY
+        - name: MONGODB_REPLICA_SET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: cifarm-mongodb-primary-secret
+              key: MONGODB_REPLICA_SET_KEY
+
+        # MONGODB_USERNAME
+        - name: MONGODB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: cifarm-mongodb-primary-secret
+              key: MONGODB_USERNAME
+
+        # MONGODB_PASSWORD
+        - name: MONGODB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cifarm-mongodb-primary-secret
+              key: MONGODB_PASSWORD
+
+        # MONGODB_ROOT_PASSWORD
+        - name: MONGODB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cifarm-mongodb-primary-secret
+              key: MONGODB_ROOT_PASSWORD
+
+        # MONGODB_DATABASE
+        - name: MONGODB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: cifarm-mongodb-primary-secret
+              key: MONGODB_DATABASE
+
+        # MONGODB_ALLOW_EMPTY_PASSWORD
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "no"
+      ports:
+        - containerPort: 27017
+      volumeMounts:
+      - name: volume
+        mountPath: /var/lib/volume
+
+  containers:
+    - name: mongodb-secondary
+      image: bitnami/mongodb
+      livenessProbe:
+        exec:
+          command:
+            - echo 
+            - 'db.runCommand("ping").ok'
+            - |
+            - mongosh 
+            - localhost:27018/test
+            - --quiet
+        initialDelaySeconds: 30
+        periodSeconds: 10
+      readinessProbe:
+        exec:
+          command:
+            - echo 
+            - 'db.runCommand("ping").ok'
+            - |
+            - mongosh 
+            - localhost:27018/test
+            - --quiet
+        initialDelaySeconds: 5
+        periodSeconds: 5
+      env:
+        # MONGODB_REPLICA_SET_MODE
+        - name: MONGODB_REPLICA_SET_MODE
+          value: "secondary"
+
+        # MONGODB_REPLICA_SET_NAME
+        - name: MONGODB_REPLICA_SET_NAME
+          valueFrom:
+            secretKeyRef:
+              name: cifarm-mongodb-primary-secret
+              key: MONGODB_REPLICA_SET_NAME
+
+        # MONGODB_REPLICA_SET_KEY
+        - name: MONGODB_REPLICA_SET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: cifarm-mongodb-primary-secret
+              key: MONGODB_REPLICA_SET_KEY
+
+        # MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD
+        - name: MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cifarm-mongodb-primary-secret
+              key: MONGODB_ROOT_PASSWORD
+
+        # MONGODB_ROOT_PASSWORD
+        - name: MONGODB_ROOT_PASSWORD
+          value: ""
+
+        # MONGODB_DATABASE
+        - name: MONGODB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: cifarm-mongodb-primary-secret
+              key: MONGODB_DATABASE
+
+        # MONGODB_ALLOW_EMPTY_PASSWORD
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "no"
+
+        # MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD
+        - name: MONGODB_INITIAL_PRIMARY_HOST
+          value: "127.0.0.1"
+        
+        - name: MONGODB_PORT_NUMBER
+          value: "27018"
+    
+      ports:
+        - containerPort: 27018
+
+  volumes:
+    - name: volume
+      persistentVolumeClaim:
+        claimName: cifarm-mongodb-primary-persistent-volume-claim

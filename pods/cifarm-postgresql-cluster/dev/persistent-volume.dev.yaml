@@ -1,0 +1,17 @@
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: cifarm-postgresql-master-persistent-volume
+  namespace: default
+  labels:
+    type: local
+spec:
+  accessModes:
+    - ReadWriteOnce 
+  storageClassName: cifarm-postgresql-master-storage-class
+  capacity:
+    storage: 10Gi
+  hostPath:
+    path: "/mnt/volumes/cifarm-postgresql-master" 
+    type: DirectoryOrCreate

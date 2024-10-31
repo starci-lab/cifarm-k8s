@@ -1,0 +1,10 @@
+resources:
+  - secret.dev.yaml
+  - persistent-volume.dev.yaml
+  - persistent-volume-claim.dev.yaml
+  - pod.dev.yaml
+
+# To apply the resources:
+# kubectl apply -k ./pods/cifarm-postgresql-cluster/dev
+# View the resources:
+# kubectl get pv,pvc

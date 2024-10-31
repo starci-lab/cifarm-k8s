@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cifarm-mongodb-primary-persistent-volume-claim
+  namespace: default
+spec:
+  storageClassName: cifarm-mongodb-primary-storage-class
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

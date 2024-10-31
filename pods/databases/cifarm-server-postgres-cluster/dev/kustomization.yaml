@@ -1,6 +1,0 @@
-resources:
-  - persistent.yaml
-  - base.yaml
-
-# kubectl kustomize ./pods/databases/cifarm-server-postgres-cluster
-# kubectl apply -k ./pods/databases/cifarm-server-postgres-cluster/kustomization.yaml

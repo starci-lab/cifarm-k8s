@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cifarm-postgresql-master-persistent-volume-claim
+  namespace: default
+spec:
+  storageClassName: cifarm-postgresql-master-storage-class
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
