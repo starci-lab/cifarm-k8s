@@ -3,10 +3,10 @@ echo Delete existing CiFarm Server PostgreSQL...
 helm uninstall cifarm-server-postgresql
 
 echo Building dependencies for PostgreSQL HA chart...
-helm dependency build bitnami/charts/bitnami/postgresql-ha
+helm repo add bitnami https://charts.bitnami.com/bitnami
 
 echo Installing CiFarm Server PostgreSQL...
-helm install cifarm-server-postgresql bitnami/charts/bitnami/postgresql-ha -f cifarm/cifarm-server-postgresql/values.dev.yaml
+helm install cifarm-server-postgresql bitnami/postgresql-ha --set postgresqlPassword=postgresql --set replication.password=postgres
 
 echo Installation complete.
 pause
