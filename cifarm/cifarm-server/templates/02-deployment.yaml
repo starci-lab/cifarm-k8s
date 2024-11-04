@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cifarm-server-deployment
+  labels:
+    app: cifarm-server
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: cifarm-server
+  template:
+    metadata:
+      labels:
+        app: cifarm-server
+    spec:
+      containers:
+      - name: cifarm-server
+        image: starci/cifarm-server
+        ports:
+        - containerPort: 7349
+        - containerPort: 7350
+        - containerPort: 7351
