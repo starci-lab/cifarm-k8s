@@ -3,7 +3,7 @@ echo Deleting previous secret...
 kubectl delete secret regcred
 
 echo Reading Docker registry credentials from file...
-for /f "tokens=1,2 delims==" %%A in (.env) do (
+for /f "tokens=1,2 delims==" %%A in (.env.secret) do (
     set %%A=%%B
 )
 

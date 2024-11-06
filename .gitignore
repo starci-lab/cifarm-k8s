@@ -127,4 +127,4 @@ zz_generated_*_test.go
 vendordiff.patch
 
 # secret.yaml
-.env
+.env.secret
