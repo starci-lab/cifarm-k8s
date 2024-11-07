@@ -1,7 +1,0 @@
-resources:
-  - pod.dev.yaml
-
-# To apply the resources:
-# kubectl apply -k ./pods/cifarm-periphery/dev
-# View the resources:
-# kubectl get pv,pvc

@@ -1,2 +1,0 @@
-replicaCount: 3
-dockerfilePath: .docker/development/Dockerfile
