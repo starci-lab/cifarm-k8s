@@ -1,16 +1,17 @@
-{{- if .Values.build }}
 apiVersion: v1
 kind: Pod
 metadata:
-  name: db-helper-kaniko-build
+  name: auth-service-kaniko-build
+  labels: 
+    mode: build
 spec:
   containers:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     args:
       - "--context=git://github.com/starci-lab/cifarm-containers"
-      - "--destination=starci/db-helper"
-      - "--dockerfile=./apps/db-helper/Dockerfile"
+      - "--destination=starci/auth-service"
+      - "--dockerfile=./apps/auth-service/Dockerfile"
     resources:
       limits:
         cpu: "2"
@@ -26,7 +27,3 @@ spec:
         items:
           - key: .dockerconfigjson
             path: config.json
-{{- else }}
-# Optionally, add what to do if `.Values.build` is not defined or is false
-# You can add an alternative configuration here, or leave it empty
-{{- end }}

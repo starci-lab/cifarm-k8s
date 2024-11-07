@@ -1,0 +1,53 @@
+---
+# Source: auth-service/templates/kaniko-build.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: auth-service-kaniko-build
+  labels: 
+    mode: build
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    args:
+      - "--context=git://github.com/starci-lab/cifarm-containers"
+      - "--destination=starci/auth-service"
+      - "--dockerfile=./apps/auth-service/Dockerfile"
+    resources:
+      limits:
+        cpu: "2"
+        memory: "2Gi"
+    volumeMounts:
+      - name: kaniko-secret
+        mountPath: /kaniko/.docker
+  restartPolicy: Never
+  volumes:
+    - name: kaniko-secret
+      secret:
+        secretName: regcred
+        items:
+          - key: .dockerconfigjson
+            path: config.json
+---
+# Source: auth-service/templates/pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db-helper
+  labels: 
+    mode: release
+spec:
+  containers:
+  - name: db-helper
+    image: starci/db-helper
+    resources:
+      limits:
+        cpu: "2"
+        memory: "2Gi"
+    # envFrom:
+    # - secretRef:
+    #     name: db-helper-env
+    env:
+      - name: GAMEPLAY_POSTGRES_HOST
+        value: cifarm-server-postgresql-postgresql-ha-pgpool

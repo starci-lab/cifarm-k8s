@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: db-helper
+  labels: 
+    mode: release
 spec:
   containers:
   - name: db-helper
