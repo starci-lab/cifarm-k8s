@@ -10,7 +10,7 @@ spec:
     image: gcr.io/kaniko-project/executor:debug
     args:
       - "--context=git://github.com/starci-lab/cifarm-containers"
-      - "--destination=starci/auth-service"
+      - "--destination=starci183/auth-service"
       - "--dockerfile=./apps/auth-service/Dockerfile"
     resources:
       limits:

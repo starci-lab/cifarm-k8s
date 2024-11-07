@@ -6,3 +6,5 @@ export $(grep -v '^#' .env.local | xargs)
 
 echo "Loading .env.secret..."
 export $(grep -v '^#' .env.secret | xargs)
+
+#Path: source load-dev-env.sh
