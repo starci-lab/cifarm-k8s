@@ -4,12 +4,13 @@
 echo "Deleting previous secret..."
 kubectl delete secret regcred --ignore-not-found
 
+# Remove trailing slash from the DOCKER_SERVER
 # Create the Kubernetes secret using the Docker credentials
 echo "Setting up credentials for Docker registry..."
 kubectl create secret docker-registry regcred \
-  --docker-server="$DOCKER_SERVER" \
-  --docker-username="$DOCKER_USERNAME" \
-  --docker-password="$DOCKER_PASSWORD" \
-  --docker-email="$DOCKER_EMAIL"
-
+  --docker-server=$DOCKER_SERVER \
+  --docker-username=$DOCKER_USERNAME \
+  --docker-password=$DOCKER_PASSWORD \
+  --docker-email=$DOCKER_EMAIL
+  
 #Path: docker-registry/dev/run.sh

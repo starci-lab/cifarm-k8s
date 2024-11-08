@@ -1,5 +1,7 @@
-#build with kaniko, push to gcr.io
-echo "Building auth-service image with kaniko..."
+#!/bin/bash
+
+# Create manifest
+echo "Creating auth-service manifest..."
 helm template auth-service ./containers/auth-service \
     > ./containers/auth-service/manifest.yaml
 

@@ -30,24 +30,32 @@ spec:
           - key: .dockerconfigjson
             path: config.json
 ---
-# Source: auth-service/templates/pod.yaml
-apiVersion: v1
-kind: Pod
+# Source: auth-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: db-helper
-  labels: 
-    mode: release
+  name: auth-service
+  labels:
+    mode: deploy
 spec:
-  containers:
-  - name: db-helper
-    image: starci/db-helper
-    resources:
-      limits:
-        cpu: "2"
-        memory: "2Gi"
-    # envFrom:
-    # - secretRef:
-    #     name: db-helper-env
-    env:
-      - name: GAMEPLAY_POSTGRES_HOST
-        value: cifarm-server-postgresql-postgresql-ha-pgpool
+  replicas: 3
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: starci/auth-service
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+          envFrom:
+            - secretRef:
+                name: auth-service-env
+          ports:
+            - containerPort: 3005
