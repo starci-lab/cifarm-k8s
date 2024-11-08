@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-api-gateway-load-balancer
+  labels:
+    kubernetes.io/name: rest-api-gateway
+    mode: deploy
+spec:
+  selector:
+    app.kubernetes.io/name: rest-api-gateway
+  ports:
+    - protocol: TCP
+      port: 3001
+      targetPort: 3001
+  type: LoadBalancer

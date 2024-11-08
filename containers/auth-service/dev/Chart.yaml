@@ -5,6 +5,3 @@ description: "Service for authentication and authorization"
 type: application
 version: 0.1.0
 appVersion: "1.16.0"
-
-#helm uninstall auth-service
-#helm install db-helper ./containers/db-helper

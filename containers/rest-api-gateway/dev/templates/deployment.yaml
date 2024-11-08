@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-service
+  name: rest-api-gateway-deployment
   labels:
+    app.kubernetes.io/name: rest-api-gateway
     mode: deploy
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app: rest-api-gateway
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        app: rest-api-gateway
     spec:
       containers:
-        - name: {{ .Release.Name }}
+        - name: rest-api-gateway
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           resources:
             limits:
@@ -23,6 +24,6 @@ spec:
               memory: "1Gi"
           envFrom:
             - secretRef:
-                name: auth-service-env
+                name: rest-api-gateway-env
           ports:
-            - containerPort: 3005
+            - containerPort: 3001
