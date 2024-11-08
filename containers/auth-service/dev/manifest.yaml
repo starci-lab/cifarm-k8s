@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service-cluster-ip
+  name: auth-service-cluster-ip 
   labels:
     mode: deploy
 spec:
@@ -76,4 +76,4 @@ spec:
           ports:
             - containerPort: 3005
 
-#kubectl exec -it auth-service-deployment-67448d654f-c8v6n -- netstat -tuln
+#kubectl exec -it auth-service-deployment-67448d654f-8jrwf -- netstat -tuln
