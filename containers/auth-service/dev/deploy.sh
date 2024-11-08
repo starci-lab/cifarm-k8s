@@ -2,8 +2,8 @@
 
 # Create manifest
 echo "Creating auth-service manifest..."
-helm template auth-service ./containers/auth-service \
-    > ./containers/auth-service/manifest.yaml
+helm template auth-service ./containers/auth-service/dev \
+    > ./containers/auth-service/dev/manifest.yaml
 
 # Delete Kubernetes secret
 echo "Delete Kubernetes secret..."
@@ -22,6 +22,6 @@ kubectl create secret generic auth-service-env \
 
 # Deploy the auth-service
 echo "Deploying the auth-service..."
-kubectl apply -f ./containers/auth-service/manifest.yaml -l mode=deploy
+kubectl apply -f ./containers/auth-service/dev/manifest.yaml -l mode=deploy
 
 #Path: containers/auth-service/dev/deploy.sh
