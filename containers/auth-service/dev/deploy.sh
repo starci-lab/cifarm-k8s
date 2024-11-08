@@ -13,12 +13,13 @@ kubectl delete secret auth-service-env --ignore-not-found
 echo "Creating a Kubernetes secret..."
 kubectl create secret generic auth-service-env \
     --from-literal=GAMEPLAY_POSTGRES_USER="postgres" \
-    --from-literal=GAMEPLAY_POSTGRES_PASS=$GAMEPLAY_POSTGRES_PASSWORD \
+    --from-literal=GAMEPLAY_POSTGRES_PASS=$GAMEPLAY_POSTGRES_PASS \
     --from-literal=GAMEPLAY_POSTGRES_HOST="gameplay-postgres-postgresql-ha-pgpool" \
     --from-literal=GAMEPLAY_POSTGRES_PORT=$GAMEPLAY_POSTGRES_PORT \
-    --from-literal=GAMEPLAY_POSTGRES_DBNAME=$GAMEPLAY_POSTGRES_DATABASE \
+    --from-literal=GAMEPLAY_POSTGRES_DBNAME=$GAMEPLAY_POSTGRES_DBNAME \
     --from-literal=CACHE_REDIS_HOST="cache-redis-master" \
     --from-literal=CACHE_REDIS_PORT=$CACHE_REDIS_PORT \
+    --from-literal=AUTH_SERVICE_HOST=$AUTH_SERVICE_PORT \
 
 # Deploy the auth-service
 echo "Deploying the auth-service..."

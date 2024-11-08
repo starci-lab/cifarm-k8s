@@ -5,7 +5,6 @@ kind: Service
 metadata:
   name: auth-service-cluster-ip
   labels:
-    kubernetes.io/name: auth-service
     mode: deploy
 spec:
   selector:
@@ -53,17 +52,16 @@ kind: Deployment
 metadata:
   name: auth-service-deployment
   labels:
-    app.kubernetes.io/name: auth-service
     mode: deploy
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: auth-service
+      app.kubernetes.io/name: auth-service
   template:
     metadata:
       labels:
-        app: auth-service
+        app.kubernetes.io/name: auth-service
     spec:
       containers:
         - name: auth-service
@@ -77,3 +75,5 @@ spec:
                 name: auth-service-env
           ports:
             - containerPort: 3005
+
+#kubectl exec -it auth-service-deployment-67448d654f-c8v6n -- netstat -tuln

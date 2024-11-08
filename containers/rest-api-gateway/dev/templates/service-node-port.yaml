@@ -1,15 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: rest-api-gateway-load-balancer
+  name: rest-api-gateway-node-port
   labels:
-    mode: deploy
+    mode: test
 spec:
   selector:
     app.kubernetes.io/name: rest-api-gateway
+  type: NodePort
   ports:
     - port: 3001
       targetPort: 3001
-  type: LoadBalancer
-
-#kubectl exec -it rest-api-gateway-deployment-7b9b75f985-5cps2 -- netstat -tuln
+      nodePort: 30123

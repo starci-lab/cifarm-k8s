@@ -3,21 +3,22 @@ kind: Deployment
 metadata:
   name: rest-api-gateway-deployment
   labels:
-    app.kubernetes.io/name: rest-api-gateway
     mode: deploy
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: rest-api-gateway
+      app.kubernetes.io/name: rest-api-gateway
   template:
     metadata:
+      name: rest-api-gateway
       labels:
-        app: rest-api-gateway
+        app.kubernetes.io/name: rest-api-gateway
     spec:
       containers:
         - name: rest-api-gateway
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             limits:
               cpu: "1"
@@ -27,3 +28,6 @@ spec:
                 name: rest-api-gateway-env
           ports:
             - containerPort: 3001
+
+#one replica - for testing
+#kubectl scale deployment rest-api-gateway-deployment --replicas=1

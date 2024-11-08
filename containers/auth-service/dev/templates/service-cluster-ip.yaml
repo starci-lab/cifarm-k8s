@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: auth-service-cluster-ip
   labels:
-    kubernetes.io/name: auth-service
     mode: deploy
 spec:
   selector:
