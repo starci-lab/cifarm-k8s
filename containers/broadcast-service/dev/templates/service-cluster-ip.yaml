@@ -9,6 +9,6 @@ spec:
     app.kubernetes.io/name: auth-service
   ports:
     - protocol: TCP
-      port: 3005
-      targetPort: 3005
+      port: {{ .Values.containerPort }}
+      targetPort: {{ .Values.containerPort }}
   type: ClusterIP

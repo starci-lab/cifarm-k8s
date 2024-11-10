@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Create manifest
-echo "Creating auth-service manifest..."
-helm template auth-service ./containers/auth-service/dev \
-    --set clusterName=$AUTH_SERVICE_HOST \
-    > ./containers/auth-service/dev/manifest.yaml
+echo "Creating broadcast-service manifest..."
+helm template broadcast-service ./containers/broadcast-service/dev \
+    --set clusterName=$BROADCAST_SERVICE_HOST \
+    > ./containers/broadcast-service/dev/manifest.yaml
 
 # Apply the manifest
-echo "Applying auth-service manifest..."
-kubectl apply -f ./containers/auth-service/dev/manifest.yaml -l mode=build
+echo "Applying broadcast-service manifest..."
+kubectl apply -f ./containers/broadcast-service/dev/manifest.yaml -l mode=build
 
-# Path: containers/auth-service/dev/build.sh
+# Path: containers/broadcast-service/dev/build.sh

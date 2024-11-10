@@ -2,5 +2,7 @@ debug: true
 replicaCount: 3
 
 image:
-  repository: starci183/auth-service
+  repository: starci183/broadcast-service
   tag: latest
+
+containerPort: 3005
