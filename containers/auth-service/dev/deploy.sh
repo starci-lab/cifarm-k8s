@@ -4,6 +4,7 @@
 echo "Creating auth-service manifest..."
 helm template auth-service ./containers/auth-service/dev \
     --set clusterName=$AUTH_SERVICE_HOST \
+    --set containerPort=$AUTH_SERVICE_PORT \
     > ./containers/auth-service/dev/manifest.yaml
 
 # Delete Kubernetes secret

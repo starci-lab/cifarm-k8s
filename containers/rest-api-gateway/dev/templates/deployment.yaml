@@ -27,7 +27,7 @@ spec:
             - secretRef:
                 name: rest-api-gateway-env
           ports:
-            - containerPort: 3001
+            - containerPort: {{ .Values.containerPort }}
 
 #one replica - for testing
 #kubectl scale deployment rest-api-gateway-deployment --replicas=1

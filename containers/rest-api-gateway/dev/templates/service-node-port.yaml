@@ -9,6 +9,6 @@ spec:
     app.kubernetes.io/name: rest-api-gateway
   type: NodePort
   ports:
-    - port: 3001
-      targetPort: 3001
-      nodePort: 30123
+    - port:  {{ .Values.containerPort }}
+      targetPort:  {{ .Values.containerPort }}
+      nodePort: {{ .Values.nodePort }}

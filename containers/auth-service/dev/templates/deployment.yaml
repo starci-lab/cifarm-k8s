@@ -25,6 +25,6 @@ spec:
             - secretRef:
                 name: auth-service-env
           ports:
-            - containerPort: 3005
+            - containerPort:  {{ .Values.containerPort }}
 
 #kubectl exec -it auth-service-deployment-67448d654f-8jrwf -- netstat -tuln

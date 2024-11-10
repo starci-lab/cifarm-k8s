@@ -8,8 +8,8 @@ spec:
   selector:
     app.kubernetes.io/name: rest-api-gateway
   ports:
-    - port: 3001
-      targetPort: 3001
+    - port: {{ .Values.containerPort }}
+      targetPort: {{ .Values.containerPort }}
   type: LoadBalancer
 
 #kubectl exec -it rest-api-gateway-deployment-7b9b75f985-5cps2 -- netstat -tuln

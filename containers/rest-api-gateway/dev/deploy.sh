@@ -3,6 +3,7 @@
 # Create manifest
 echo "Creating rest-api-gateway manifest..."
 helm template rest-api-gateway ./containers/rest-api-gateway/dev \
+    --set containerPort=$REST_API_GATEWAY_PORT \
     > ./containers/rest-api-gateway/dev/manifest.yaml
 
 # Delete Kubernetes secret
