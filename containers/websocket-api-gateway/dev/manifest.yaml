@@ -1,0 +1,96 @@
+---
+# Source: rest-api-gateway/templates/service-load-balancer.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-api-gateway-load-balancer
+  labels:
+    mode: deploy
+spec:
+  selector:
+    app.kubernetes.io/name: rest-api-gateway
+  ports:
+    - port: 3001
+      targetPort: 3001
+  type: LoadBalancer
+
+#kubectl exec -it rest-api-gateway-deployment-7b9b75f985-5cps2 -- netstat -tuln
+---
+# Source: rest-api-gateway/templates/service-node-port.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-api-gateway-node-port
+  labels:
+    mode: test
+spec:
+  selector:
+    app.kubernetes.io/name: rest-api-gateway
+  type: NodePort
+  ports:
+    - port: 3001
+      targetPort: 3001
+      nodePort: 30123
+---
+# Source: rest-api-gateway/templates/kaniko-build.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rest-api-gateway-kaniko-build
+  labels: 
+    mode: build
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    args:
+      - "--context=git://github.com/starci-lab/cifarm-containers"
+      - "--destination=starci183/rest-api-gateway:latest"
+      - "--dockerfile=./apps/rest-api-gateway/Dockerfile"
+    resources:
+      limits:
+        cpu: "2"
+        memory: "2Gi"
+    volumeMounts:
+      - name: kaniko-secret
+        mountPath: /kaniko/.docker
+  restartPolicy: Never
+  volumes:
+    - name: kaniko-secret
+      secret:
+        secretName: regcred
+        items:
+          - key: .dockerconfigjson
+            path: config.json
+---
+# Source: rest-api-gateway/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-api-gateway-deployment
+  labels:
+    mode: deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rest-api-gateway
+  template:
+    metadata:
+      name: rest-api-gateway
+      labels:
+        app.kubernetes.io/name: rest-api-gateway
+    spec:
+      containers:
+        - name: rest-api-gateway
+          image: starci183/rest-api-gateway:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+          envFrom:
+            - secretRef:
+                name: rest-api-gateway-env
+          ports:
+            - containerPort: 3001

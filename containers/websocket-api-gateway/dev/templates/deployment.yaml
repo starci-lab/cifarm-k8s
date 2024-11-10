@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: websocket-api-gateway-deployment
+  labels:
+    mode: deploy
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: websocket-api-gateway
+  template:
+    metadata:
+      name: websocket-api-gateway
+      labels:
+        app.kubernetes.io/name: websocket-api-gateway
+    spec:
+      containers:
+        - name: websocket-api-gateway
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+          envFrom:
+            - secretRef:
+                name: websocket-api-gateway-env
+          ports:
+            - containerPort: {{ .Values.containerPort }}
+
+#one replica - for testing
+#kubectl scale deployment websocket-api-gateway-deployment --replicas=1

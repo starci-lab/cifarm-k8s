@@ -1,0 +1,10 @@
+debug: true
+replicaCount: 3
+
+image:
+  repository: starci183/rest-api-gateway
+  tag: latest
+  pullPolicy: Never
+
+containerPort: 3003
+nodePort: 30123
