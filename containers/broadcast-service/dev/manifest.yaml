@@ -8,7 +8,7 @@ metadata:
     mode: deploy
 spec:
   selector:
-    app.kubernetes.io/name: auth-service
+    app.kubernetes.io/name: broadcast-service
   ports:
     - protocol: TCP
       port: 3004

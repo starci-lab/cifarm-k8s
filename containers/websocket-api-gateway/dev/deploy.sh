@@ -13,7 +13,8 @@ kubectl delete secret websocket-api-gateway-env --ignore-not-found
 # Create a Kubernetes secret
 echo "Creating a Kubernetes secret..."
 kubectl create secret generic websocket-api-gateway-env \
-    --from-literal=REST_API_GATEWAY_PORT=$WEBSOCKET_API_GATEWAY_PORT \
+    --from-literal=WEBSOCKET_API_GATEWAY_PORT=$WEBSOCKET_API_GATEWAY_PORT \
+    --from-literal=BROADCAST_SERVICE_HOST=$BROADCAST_SERVICE_HOST \
     --from-literal=ADAPTER_REDIS_HOST=$ADAPTER_REDIS_HOST
 
 # Deploy the websocket-api-gateway

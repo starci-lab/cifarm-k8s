@@ -45,7 +45,7 @@ spec:
     image: gcr.io/kaniko-project/executor:debug
     args:
       - "--context=git://github.com/starci-lab/cifarm-containers"
-      - "--destination=starci183/rest-api-gateway:latest"
+      - "--destination=starci183/websocket-api-gateway:latest"
       - "--dockerfile=./apps/websocket-api-gateway/Dockerfile"
     resources:
       limits:
@@ -83,8 +83,8 @@ spec:
     spec:
       containers:
         - name: websocket-api-gateway
-          image: starci183/rest-api-gateway:latest
-          imagePullPolicy: Never
+          image: starci183/websocket-api-gateway:latest
+          imagePullPolicy: Always
           resources:
             limits:
               cpu: "1"
