@@ -14,7 +14,7 @@ spec:
       targetPort: 3003
   type: LoadBalancer
 
-#kubectl exec -it websocket-api-gateway-deployment-7b9b75f985-5cps2 -- netstat -tuln
+#kubectl exec -it websocket-api-gateway-deployment-69c895dbfd-vwlfv -- netstat -tuln
 ---
 # Source: rest-api-gateway/templates/service-node-port.yaml
 apiVersion: v1
