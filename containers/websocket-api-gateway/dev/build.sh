@@ -3,7 +3,7 @@
 # Create manifest
 echo "Creating websocket-api-gateway manifest..."
 helm template websocket-api-gateway ./containers/websocket-api-gateway/dev \
-    --set     \
+    --set containerPort=$WEBSOCKET_API_GATEWAY_PORT \
     > ./containers/websocket-api-gateway/dev/manifest.yaml
 
 # Apply the manifest

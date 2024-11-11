@@ -3,40 +3,40 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: rest-api-gateway-load-balancer
+  name: websocket-api-gateway-load-balancer
   labels:
     mode: deploy
 spec:
   selector:
-    app.kubernetes.io/name: rest-api-gateway
+    app.kubernetes.io/name: websocket-api-gateway
   ports:
-    - port: 3001
-      targetPort: 3001
+    - port: 3003
+      targetPort: 3003
   type: LoadBalancer
 
-#kubectl exec -it rest-api-gateway-deployment-7b9b75f985-5cps2 -- netstat -tuln
+#kubectl exec -it websocket-api-gateway-deployment-7b9b75f985-5cps2 -- netstat -tuln
 ---
 # Source: rest-api-gateway/templates/service-node-port.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: rest-api-gateway-node-port
+  name: websocket-api-gateway-node-port
   labels:
     mode: test
 spec:
   selector:
-    app.kubernetes.io/name: rest-api-gateway
+    app.kubernetes.io/name: websocket-api-gateway
   type: NodePort
   ports:
-    - port: 3001
-      targetPort: 3001
+    - port: 3003
+      targetPort: 3003
       nodePort: 30123
 ---
 # Source: rest-api-gateway/templates/kaniko-build.yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: rest-api-gateway-kaniko-build
+  name: websocket-api-gateway-kaniko-build
   labels: 
     mode: build
 spec:
@@ -46,7 +46,7 @@ spec:
     args:
       - "--context=git://github.com/starci-lab/cifarm-containers"
       - "--destination=starci183/rest-api-gateway:latest"
-      - "--dockerfile=./apps/rest-api-gateway/Dockerfile"
+      - "--dockerfile=./apps/websocket-api-gateway/Dockerfile"
     resources:
       limits:
         cpu: "2"
@@ -67,30 +67,33 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rest-api-gateway-deployment
+  name: websocket-api-gateway-deployment
   labels:
     mode: deploy
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app.kubernetes.io/name: rest-api-gateway
+      app.kubernetes.io/name: websocket-api-gateway
   template:
     metadata:
-      name: rest-api-gateway
+      name: websocket-api-gateway
       labels:
-        app.kubernetes.io/name: rest-api-gateway
+        app.kubernetes.io/name: websocket-api-gateway
     spec:
       containers:
-        - name: rest-api-gateway
+        - name: websocket-api-gateway
           image: starci183/rest-api-gateway:latest
-          imagePullPolicy: Always
+          imagePullPolicy: Never
           resources:
             limits:
               cpu: "1"
               memory: "1Gi"
           envFrom:
             - secretRef:
-                name: rest-api-gateway-env
+                name: websocket-api-gateway-env
           ports:
-            - containerPort: 3001
+            - containerPort: 3003
+
+#one replica - for testing
+#kubectl scale deployment websocket-api-gateway-deployment --replicas=1
