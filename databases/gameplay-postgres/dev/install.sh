@@ -9,6 +9,6 @@ helm install gameplay-postgres bitnami/postgresql-ha \
  --set global.postgresql.repmgrPassword=$GAMEPLAY_POSTGRES_PASS \
  --set global.postgresql.database=$GAMEPLAY_POSTGRES_DBNAME \
  --set global.postgresql.repmgrDatabase=$GAMEPLAY_POSTGRES_DBNAME \
- --set postgresql.containerPorts.postgresql=$GAMEPLAY_POSTGRES_PORT \
+ --set postgresql.containerPorts.postgresql=$GAMEPLAY_POSTGRES_PORT
  
 #Path: databases/gameplay-postgres/dev/install.sh
