@@ -9,4 +9,4 @@ helm install cache-redis bitnami/redis \
   --set auth.enabled=false \
   --set master.containerPorts.redis=$CACHE_REDIS_PORT \
 
-# Path: databases/cache-redis/dev/install.sh
+# Path: learn/databases/cache-redis/dev/install.sh

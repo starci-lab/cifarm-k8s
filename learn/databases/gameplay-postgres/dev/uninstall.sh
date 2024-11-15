@@ -2,4 +2,4 @@
 echo "Uninstalling gameplay-postgres..."
 helm uninstall gameplay-postgres
 
-#Path: databases/gameplay-postgres/dev/uninstall.sh
+#Path: learn/databases/gameplay-postgres/dev/uninstall.sh

@@ -2,4 +2,4 @@
 echo "Uninstalling cache-redis..."
 helm uninstall cache-redis
 
-#Path: databases/cache-redis/dev/uninstall.sh
+#Path: learn/databases/cache-redis/dev/uninstall.sh
