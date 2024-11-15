@@ -6,7 +6,7 @@ datasources:
         type: prometheus
         access: proxy
         orgId: 1
-        url: http://prometheus.monitoring.svc.cluster.local
+        url: http://prometheus-server.monitoring.svc.cluster.local
         version: 1
         editable: true
         isDefault: true
@@ -15,6 +15,6 @@ datasources:
         type: alertmanager
         access: proxy
         orgId: 1
-        url: http://prometheus-alertmanager.monitoring.svc.cluster.local:9093
+        url: http://prometheus-alertmanager.monitoring.svc.cluster.local
         version: 1
         editable: true
