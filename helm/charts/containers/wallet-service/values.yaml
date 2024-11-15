@@ -6,3 +6,5 @@ image:
   tag: latest
 
 containerPort: 3008
+
+clusterName: "wallet-service"
