@@ -15,8 +15,8 @@ spec:
       - "--dockerfile=./apps/wallet-service/Dockerfile"
     resources:
       limits:
-        cpu: "4"
-        memory: "4Gi"
+        cpu: "2"
+        memory: "2Gi"
     volumeMounts:
       - name: kaniko-secret
         mountPath: /kaniko/.docker
