@@ -8,3 +8,4 @@ image:
 containerPort: 3008
 
 clusterName: "wallet-service"
+namespace: "wallet-service"
