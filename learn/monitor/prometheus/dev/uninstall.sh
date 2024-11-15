@@ -2,4 +2,4 @@
 echo "Uninstalling prometheus..."
 helm uninstall prometheus
 
-#Path: monitor/prometheus/dev/uninstall.sh
+#Path: learn/monitor/prometheus/dev/uninstall.sh
