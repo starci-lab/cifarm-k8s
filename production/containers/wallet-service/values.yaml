@@ -1,0 +1,8 @@
+debug: true
+replicaCount: 3
+
+image:
+  repository: starci183/wallet-service
+  tag: latest
+
+containerPort: 3008
