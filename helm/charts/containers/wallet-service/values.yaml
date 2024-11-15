@@ -7,10 +7,6 @@ metadata:
   namespace: "wallet-service"
 
 build:
-  resources:
-    limits:
-      cpu: "2"
-      memory: "2Gi"
   image:
     repository: starci183/wallet-service
     tag: latest
