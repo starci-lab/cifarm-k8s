@@ -1,11 +1,16 @@
 debug: true
 replicaCount: 3
-
-image:
-  repository: starci183/wallet-service
-  tag: latest
-
 containerPort: 3008
 
-clusterName: "wallet-service"
-namespace: "wallet-service"
+metadata:
+  clusterName: "wallet-service"
+  namespace: "wallet-service"
+
+build:
+  resources:
+    limits:
+      cpu: "2"
+      memory: "2Gi"
+  image:
+    repository: starci183/wallet-service
+    tag: latest

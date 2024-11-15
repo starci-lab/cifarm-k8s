@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wallet-service-deployment
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.metadata.namespace }}
   labels:
     mode: deploy
 spec:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: wallet-service
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          image: {{ .Values.build.image.repository }}:{{ .Values.build.image.tag }}
           resources:
             limits:
               cpu: "250m"

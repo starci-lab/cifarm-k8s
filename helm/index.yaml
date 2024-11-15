@@ -3,12 +3,12 @@ entries:
   wallet-service:
   - apiVersion: v1
     appVersion: 1.16.0
-    created: "2024-11-15T16:46:05.604645935+07:00"
+    created: "2024-11-15T18:01:39.643426745+07:00"
     description: Service for wallet management
-    digest: f359e681f9bac1e69f293e04017b76e9fe583ec2df1330eae0aa6ca71c037de4
+    digest: 1f4ada5c4d723919a0130427cfdc62deebb9204a3e71a004f348052602e1891a
     name: wallet-service
     type: application
     urls:
     - wallet-service-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-15T16:46:05.597119219+07:00"
+generated: "2024-11-15T18:01:39.635815904+07:00"
