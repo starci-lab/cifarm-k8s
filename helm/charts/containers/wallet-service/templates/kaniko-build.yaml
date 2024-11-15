@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: wallet-service-kaniko-build
-  namespace: {{ .Values.metadata.namespace }}
+  namespace: build
   labels: 
     mode: build
 spec:
