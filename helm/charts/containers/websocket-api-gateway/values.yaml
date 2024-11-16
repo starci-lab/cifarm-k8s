@@ -8,5 +8,5 @@ metadata:
 
 build:
   image:
-    repository: starci183/websocket-api-gateway
+    repository: cifarm/websocket-api-gateway
     tag: latest
