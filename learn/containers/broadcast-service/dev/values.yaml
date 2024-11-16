@@ -1,8 +1,0 @@
-debug: true
-replicaCount: 3
-
-image:
-  repository: starci183/broadcast-service
-  tag: latest
-
-containerPort: 3005

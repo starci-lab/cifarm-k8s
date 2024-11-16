@@ -1,8 +1,0 @@
-debug: true
-replicaCount: 3
-
-image:
-  repository: starci183/auth-service
-  tag: latest
-
-containerPort: 3004
