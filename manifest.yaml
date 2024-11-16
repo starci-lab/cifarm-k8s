@@ -1,9 +1,21 @@
 ---
+# Source: wallet-service/templates/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wallet-service
+---
+# Source: wallet-service/templates/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: build
+---
 # Source: wallet-service/templates/cluster-ip.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: wallet-service 
+  name: wallet-service
   namespace: wallet-service
   labels:
     mode: deploy
@@ -22,23 +34,23 @@ kind: Pod
 metadata:
   name: wallet-service-kaniko-build
   namespace: build
-  labels: 
+  labels:
     mode: build
 spec:
   containers:
-  - name: kaniko
-    image: gcr.io/kaniko-project/executor:debug
-    args:
-      - "--context=git://github.com/starci-lab/cifarm-containers"
-      - "--destination=starci183/wallet-service:latest"
-      - "--dockerfile=./apps/wallet-service/Dockerfile"
-    resources:
-      limits:
-        cpu: "2"
-        memory: "2Gi"
-    volumeMounts:
-      - name: kaniko-secret
-        mountPath: /kaniko/.docker
+    - name: kaniko
+      image: gcr.io/kaniko-project/executor:debug
+      args:
+        - "--context=git://github.com/starci-lab/cifarm-containers"
+        - "--destination=starci183/wallet-service:latest"
+        - "--dockerfile=./apps/wallet-service/Dockerfile"
+      resources:
+        limits:
+          cpu: 2
+          memory: 2Gi
+      volumeMounts:
+        - name: kaniko-secret
+          mountPath: /kaniko/.docker
   restartPolicy: Never
   volumes:
     - name: kaniko-secret
@@ -71,8 +83,8 @@ spec:
           image: starci183/wallet-service:latest
           resources:
             limits:
-              cpu: "250m"
-              memory: "256Mi"
+              cpu: 250m
+              memory: 256Mi
           envFrom:
             - secretRef:
                 name: wallet-service-env

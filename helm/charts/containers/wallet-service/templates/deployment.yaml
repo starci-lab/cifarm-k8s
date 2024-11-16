@@ -6,7 +6,7 @@ metadata:
   labels:
     mode: deploy
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.deployment.replicaCount }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ .Values.metadata.clusterName }}
@@ -20,10 +20,10 @@ spec:
           image: {{ .Values.build.image.repository }}:{{ .Values.build.image.tag }}
           resources:
             limits:
-              cpu: {{ .Values.resources.limits.cpu }}
-              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.deployment.resources.limits.cpu }}
+              memory: {{ .Values.deployment.resources.limits.memory }}
           envFrom:
             - secretRef:
-                name: {{ .Values.envSecret }}
+                name: {{ .Values.deployment.envSecret }}
           ports:
-            - containerPort: {{ .Values.containerPort }}
+            - containerPort: {{ .Values.deployment.containerPort }}
