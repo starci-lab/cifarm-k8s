@@ -1,0 +1,31 @@
+# Source: websocket-api-gateway/templates/kaniko-build.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: websocket-api-gateway-kaniko-build
+  labels: 
+    mode: build
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    args:
+      - "--context=git://github.com/starci-lab/cifarm-containers"
+      - "--destination=starci183/websocket-api-gateway:latest"
+      - "--dockerfile=./apps/websocket-api-gateway/Dockerfile"
+      - "--cache=false"
+    resources:
+      limits:
+        cpu: "2"
+        memory: "2Gi"
+    volumeMounts:
+      - name: kaniko-secret
+        mountPath: /kaniko/.docker
+  restartPolicy: Never
+  volumes:
+    - name: kaniko-secret
+      secret:
+        secretName: regcred
+        items:
+          - key: .dockerconfigjson
+            path: config.json
