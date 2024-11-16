@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wallet-service-deployment
+  name: {{ .Values.metadata.clusterName }}-deployment
   namespace: {{ .Values.metadata.namespace }}
   labels:
     mode: deploy
@@ -9,21 +9,21 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: wallet-service
+      app.kubernetes.io/name: {{ .Values.metadata.clusterName }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: wallet-service
+        app.kubernetes.io/name: {{ .Values.metadata.clusterName }}
     spec:
       containers:
-        - name: wallet-service
+        - name: {{ .Values.metadata.clusterName }}
           image: {{ .Values.build.image.repository }}:{{ .Values.build.image.tag }}
           resources:
             limits:
-              cpu: "250m"
-              memory: "256Mi"
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
           envFrom:
             - secretRef:
-                name: wallet-service-env
+                name: {{ .Values.envSecret }}
           ports:
             - containerPort: {{ .Values.containerPort }}

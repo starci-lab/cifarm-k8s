@@ -1,12 +1,25 @@
 debug: true
-replicaCount: 3
-containerPort: 3008
-
+# Global values
 metadata:
-  clusterName: "wallet-service"
-  namespace: "wallet-service"
+  clusterName: "wallet-service"        # Tên Service
+  namespace: "wallet-service"         # Namespace của Service
 
+buildNamespace: build                 # Namespace cho Kaniko build
+
+# Build configuration
 build:
   image:
     repository: starci183/wallet-service
     tag: latest
+  dockerfile: ./apps/wallet-service/Dockerfile
+  context: git://github.com/starci-lab/cifarm-containers
+
+# Deployment configuration
+replicaCount: 3                        # Số lượng replicas
+containerPort: 3008                    # Cổng container
+resources:
+  limits:
+    cpu: "250m"
+    memory: "256Mi"
+
+envSecret: wallet-service-env          # Secret chứa các biến môi trường
