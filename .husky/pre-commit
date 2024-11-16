@@ -1,6 +1,6 @@
 # Create taz
-helm package ./helm/charts/containers/wallet-service/
-helm package ./helm/charts/containers/websocket-api-gateway/
+helm package ./helm/charts/containers/wallet-service --destination ./helm/packages/
+helm package ./helm/charts/containers/websocket-api-gateway --destination ./helm/packages/
 
 # Update the index.yaml
-helm repo index ./helm
+helm repo index ./helm 
