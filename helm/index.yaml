@@ -3,9 +3,9 @@ entries:
   wallet-service:
   - apiVersion: v1
     appVersion: 1.16.0
-    created: "2024-11-16T13:14:09.2053485+07:00"
+    created: "2024-11-16T13:16:11.1132109+07:00"
     description: Service for wallet management
-    digest: a35f385f5b9482eff8fd82c80a5e565a3b0ab3cc64f7c18a7a6f0413330ecd5e
+    digest: a44db02b934bcf93924318e430aa8591af72c4e349ad29435cb4b8ba6ea943c0
     name: wallet-service
     type: application
     urls:
@@ -14,12 +14,12 @@ entries:
   websocket-api-gateway:
   - apiVersion: v1
     appVersion: 1.16.0
-    created: "2024-11-16T13:14:09.2063908+07:00"
+    created: "2024-11-16T13:16:11.1142183+07:00"
     description: Gateway for websocket connections
-    digest: 76bf45de26b54b91061ad3626bcc0561cdad8c46000942232eb0251e9f0df0ca
+    digest: f6aa9282ba4af702ea75987c7c7cdb9840cae9c818b596fca31093776d181929
     name: websocket-api-gateway
     type: application
     urls:
     - packages/websocket-api-gateway-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-16T13:14:09.2043728+07:00"
+generated: "2024-11-16T13:16:11.112202+07:00"

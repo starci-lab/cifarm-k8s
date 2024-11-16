@@ -1,7 +1,0 @@
-build: false # Set this to true to enable building resources
-
-GAMEPLAY_POSTGRES_PORT: 5432
-GAMEPLAY_POSTGRES_USER: postgres
-GAMEPLAY_POSTGRES_PASS: Cuong123_A
-GAMEPLAY_POSTGRES_DBNAME: cifarm
-GAMEPLAY_POSTGRES_HOST: cifarm-server-postgresql-postgresql-ha-pgpool
