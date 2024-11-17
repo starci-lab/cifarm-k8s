@@ -24,7 +24,7 @@ deployment:
   containerPort: 3008                    # Cổng container
   resources:
     limits:
-      cpu: "250m"
-      memory: "256Mi"
+      cpu: "100m"  # 0.1 CPU
+      memory: "128Mi"  # 0.125 GB
 
   envSecret: wallet-service-env          # Secret chứa các biến môi trường
