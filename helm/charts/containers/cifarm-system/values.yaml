@@ -1,5 +1,7 @@
 global:
   ingress:
+    enabled: true
+    # hostname: api.example.com
     tls:
       enabled: true
       secretName: api-gateway-tls

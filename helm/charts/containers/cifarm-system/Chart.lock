@@ -1,0 +1,12 @@
+dependencies:
+- name: wallet-service
+  repository: file://../wallet-service
+  version: 0.1.1
+- name: auth-service
+  repository: file://../auth-service
+  version: 0.1.1
+- name: websocket-api-gateway
+  repository: file://../websocket-api-gateway
+  version: 0.1.1
+digest: sha256:3c408d612f6010550c742c5184296b00aedfc0dfc4094ce8bc1c20be7a27391e
+generated: "2024-11-17T13:08:55.8563989+07:00"

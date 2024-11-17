@@ -21,7 +21,7 @@ build:
 # Deployment configuration
 deployment:
   replicaCount: 3                        # Số lượng replicas
-  containerPort: 3008                    # Cổng container
+  containerPort: 3005                    # Cổng container
   resources:
     limits:
       cpu: "100m"  # 0.1 CPU
