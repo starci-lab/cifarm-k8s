@@ -1,0 +1,17 @@
+global:
+  ingress:
+    tls:
+      enabled: true
+      secretName: api-gateway-tls
+
+rest-api-gateway:
+  deployment:
+    containerPort: 8080
+
+graphql-api-gateway:
+  deployment:
+    containerPort: 8081
+
+websocket-api-gateway:
+  deployment:
+    containerPort: 8082
