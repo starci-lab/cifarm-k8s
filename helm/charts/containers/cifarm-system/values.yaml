@@ -4,14 +4,14 @@ global:
       enabled: true
       secretName: api-gateway-tls
 
-rest-api-gateway:
+restApiGateway:
   deployment:
     containerPort: 8080
 
-graphql-api-gateway:
+graphqlApiGateway:
   deployment:
     containerPort: 8081
 
-websocket-api-gateway:
+websocketApiGateway:
   deployment:
     containerPort: 8082

@@ -18,7 +18,7 @@ spec:
               service:
                 name: rest-api-gateway
                 port:
-                  number: {{ .Values.rest-api-gateway.deployment.containerPort }}
+                  number: {{ .Values.restApiGateway.deployment.containerPort }}
 
     # GraphQL API Gateway
     - host: api.example.com
@@ -30,7 +30,7 @@ spec:
               service:
                 name: graphql-api-gateway
                 port:
-                  number: {{ .Values.graphql-api-gateway.deployment.containerPort }}
+                  number: {{ .Values.graphqlApiGateway.deployment.containerPort }}
 
     # WebSocket API Gateway
     - host: api.example.com
@@ -42,7 +42,7 @@ spec:
               service:
                 name: websocket-api-gateway
                 port:
-                  number: {{ .Values.websocket-api-gateway.deployment.containerPort }}
+                  number: {{ .Values.websocketApiGateway.deployment.containerPort }}
   tls:
     - hosts:
         - api.example.com
