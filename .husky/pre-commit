@@ -1,7 +1,7 @@
 # Create taz
 
-helm package ./charts/wallet-service/build --destination ./packages
-helm package ./charts/wallet-service/deployment --destination ./packages
+helm package ./charts/wallet-service/build --destination ./charts/_packages
+helm package ./charts/wallet-service/deployment --destination ./charts/_packages
 
 # Update the index.yaml
 helm repo index ./charts
