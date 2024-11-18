@@ -1,0 +1,21 @@
+{{- if .Values.horizontalPodAutoScaler.enabled }}
+  apiVersion: autoscaling/v2
+  kind: HorizontalPodAutoscaler
+  metadata:
+    name: {{ .Values.horizontalPodAutoScaler.metadata.name }}
+    namespace: {{ .Values.namespace.metadata.name }}
+  spec:
+    metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: {{ .Values.horizontalPodAutoScaler.metrics.resource.cpu.target.averageUtilization }}
+          type: Utilization
+      type: Resource
+    minReplicas: {{ .Values.horizontalPodAutoScaler.minReplicas }}
+    maxReplicas: {{ .Values.horizontalPodAutoScaler.maxReplicas }}
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: {{ .Values.deployment.metadata.name }}
+{{- end }}

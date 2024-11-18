@@ -1,0 +1,62 @@
+# Namespace configuration
+namespace: 
+  metadata:
+    name: wallet-service-deployment
+
+# ClusterIP configuration
+clusterIp:
+  metadata:
+    name: wallet-service-cluster-ip
+  selector:
+    name: wallet-service-selector
+
+# Secret configuration
+secret:
+  metadata:
+    name: wallet-service-deployment-secret
+  env:
+    gameplayPostgres:
+      dbName: "postgres1231234287932548753843589453"
+      host: "postgres"
+      port: 5432
+      user: "postgres"
+      pass: "postgres"
+
+# Deployment configuration
+deployment:
+  metadata:
+    name: wallet-service-deployment
+  args:
+    image:
+      repository: cifarm/wallet-service
+      tag: latest
+    dockerfile: ./apps/wallet-service/Dockerfile
+    context: git://github.com/starci-lab/cifarm-containers
+  replicaCount: 3
+  containerPort: 
+    port: 3008
+    targetPort: 3008
+  resources: 
+    requests:
+      cpu: "100m"  # 0.1 CPU
+      memory: "128Mi"  # 0.125 GB
+    limits:
+      cpu: "200m" # 0.2 CPU
+      memory: "256Mi"  # 0.25 GB
+
+#HPA configuration
+horizontalPodAutoScaler:
+  metadata:
+    name: wallet-service-hpa
+  metrics:
+    resource:
+      cpu:
+        target:
+          averageUtilization: 80
+  minReplicas: 1
+  maxReplicas: 5
+  enabled: false
+  
+
+
+   
