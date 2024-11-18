@@ -14,5 +14,5 @@ keywords:
 maintainers:
 - name: CiLab 2.0
   url: ""
-name: wallet-service
+name: wallet-service-build
 version: 1.0.0

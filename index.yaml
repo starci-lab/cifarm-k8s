@@ -1,0 +1,60 @@
+apiVersion: v1
+entries:
+  wallet-service:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-11-18T23:15:44.0758932+07:00"
+    description: N/A
+    digest: 97ddbaf79136771f480ec10aad35bf5691b6f3315f3f9bc8567e81b01050c099
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: wallet-service
+    urls:
+    - packages/wallet-service-1.0.0.tgz
+    version: 1.0.0
+  wallet-service-build:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-11-18T23:15:44.0764118+07:00"
+    description: N/A
+    digest: 4b8d3719c2e32c0a6527348e88004b1381679c680cdb78a63401e33828c84068
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: wallet-service-build
+    urls:
+    - packages/wallet-service-build-1.0.0.tgz
+    version: 1.0.0
+  wallet-service-deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-11-18T23:15:44.0769385+07:00"
+    description: N/A
+    digest: e24702bf69109b458c52ec59b323c7da5ea1abe116b72c280e384f2fd1fb924a
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: wallet-service-deployment
+    urls:
+    - packages/wallet-service-deployment-1.0.0.tgz
+    version: 1.0.0
+generated: "2024-11-18T23:15:44.0753506+07:00"
