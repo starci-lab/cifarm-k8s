@@ -1,0 +1,30 @@
+debug: true
+# Global values
+metadata:
+  clusterName: "rest-api-gateway"        # Tên Service
+  namespace: "rest-api-gateway"         # Namespace của Service
+
+buildNamespace: build                 # Namespace cho Kaniko build
+
+# Build configuration
+build:
+  image:
+    repository: cifarm/rest-api-gateway
+    tag: latest
+  resources:
+    limits:
+      cpu: "2"
+      memory: "2Gi"
+  dockerfile: ./apps/rest-api-gateway/Dockerfile
+  context: git://github.com/starci-lab/cifarm-containers
+
+# Deployment configuration
+deployment:
+  replicaCount: 3                        # Số lượng replicas
+  containerPort: 3008                    # Cổng container
+  resources:
+    limits:
+      cpu: "100m"  # 0.1 CPU
+      memory: "128Mi"  # 0.125 GB
+
+  envSecret: rest-api-gateway-env          # Secret chứa các biến môi trường
