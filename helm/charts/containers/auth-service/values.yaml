@@ -28,3 +28,9 @@ deployment:
       memory: "128Mi"  # 0.125 GB
 
   envSecret: auth-service-env          # Secret chứa các biến môi trường
+
+# Helm chart configuration
+#helm package ./helm/charts/containers/auth-service --destination ./helm/packages/
+
+# Helm chart index
+# helm repo index ./helm --url https://starci-lab.github.io/cifarm-k8s/helm
