@@ -45,7 +45,7 @@ deployment:
       memory: "256Mi"  # 0.25 GB
 
 #HPA configuration
-horizontalPodAutoScaler:
+hpa:
   metadata:
     name: wallet-service-hpa
   metrics:
