@@ -28,3 +28,4 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.secret.metadata.name }}
+                namespace: {{ .Values.namespace.metadata.name }}
