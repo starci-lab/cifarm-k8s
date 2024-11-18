@@ -16,7 +16,7 @@ secret:
     name: wallet-service-deployment-secret
   env:
     gameplayPostgres:
-      dbName: "postgres1231234287932548753843589453"
+      dbName: "postgres"
       host: "postgres"
       port: 5432
       user: "postgres"
@@ -32,7 +32,7 @@ deployment:
       tag: latest
     dockerfile: ./apps/wallet-service/Dockerfile
     context: git://github.com/starci-lab/cifarm-containers
-  replicaCount: 3
+  replicaCount: 1
   containerPort: 
     port: 3008
     targetPort: 3008
