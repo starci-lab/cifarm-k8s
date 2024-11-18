@@ -4,6 +4,6 @@ helm package ./charts/wallet-service/build --destination ./packages
 helm package ./charts/wallet-service/deployment --destination ./packages
 
 # Update the index.yaml
-helm repo index ./ 
+helm repo index ./charts
 
 #test
