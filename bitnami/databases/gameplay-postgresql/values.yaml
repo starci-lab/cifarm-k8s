@@ -70,7 +70,7 @@ nameOverride: ""
 fullnameOverride: ""
 ## @param namespaceOverride String to fully override common.names.namespace
 ##
-namespaceOverride: ""
+namespaceOverride: "gameplay-postgresql"
 ## @param commonLabels Common labels to add to all resources (sub-charts are not considered). Evaluated as a template
 ##
 commonLabels: {}
