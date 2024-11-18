@@ -16,7 +16,7 @@ secret:
     name: wallet-service-deployment-secret
   env:
     gameplayPostgres:
-      dbName: "postgres1231234287932548753843589453"
+      dbName: "postgres"
       host: "postgres"
       port: 5432
       user: "postgres"

@@ -25,13 +25,6 @@ spec:
             limits:
               cpu: {{ .Values.deployment.resources.limits.cpu }}
               memory: {{ .Values.deployment.resources.limits.memory }}
-          volumeMounts:
-            - name: deployment-secret
-              mountPath: /deployment/.docker
-      volumes:
-        - name: deployment-secret
-          secret:
-            secretName: {{ .Values.secret.metadata.name }}
-            items:
-              - key: .dockerconfigjson
-                path: config.json
+          envFrom:
+            - secretRef:
+                name: {{ .Values.secret.metadata.name }}
