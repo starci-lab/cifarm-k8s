@@ -44,19 +44,20 @@ deployment:
       cpu: "200m" # 0.2 CPU
       memory: "256Mi"  # 0.25 GB
 
-#HPA configuration
-hpa:
+# Service configuration
+scaledObject:
   metadata:
-    name: wallet-service-hpa
-  metrics:
-    resource:
-      cpu:
-        target:
-          averageUtilization: 80
-  minReplicas: 1
-  maxReplicas: 5
-  enabled: false
-  
-
-
-   
+    name: wallet-service-deployment-scaled-object
+  minReplicaCount: 1
+  maxReplicaCount: 3
+  cooldownPeriod: 30                   
+  pollingInterval: 5     
+  trigger:
+    serverAddress:
+      host: 
+        name: kube-prometheus-prometheus
+        namespace: monitoring
+      port: 9090
+    metricName: wallet-service-deployment-scaled-object_keda
+    query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"wallet-service-.*"}[1m]))"
+    threshold: "0.3"
