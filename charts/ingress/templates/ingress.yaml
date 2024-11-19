@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingress.metadata.name }}
+spec:
+  ingressClassName: nginx
+  rules:
+    {{- if .Values.ingress.rules.host.enabled }}
+    - host: {{ .Values.ingress.rules.host.name }}
+    {{- end }}
+    http:
+      paths:
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Values.ingress.rules.gateway.api.host }}
+              port:
+                number: {{ .Values.ingress.rules.gateway.api.port }}
+        - path: /graphql
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Values.ingress.rules.gateway.graphql.host }}
+              port:
+                number: {{ .Values.ingress.rules.gateway.graphql.port }}
+        - path: /websocket
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Values.ingress.rules.gateway.websocket.host }}
+              port:
+                number: {{ .Values.ingress.rules.gateway.websocket.port }}
+        - path: /monitor
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Values.ingress.rules.gateway.monitor.host }}
+              port:
+                number: {{ .Values.ingress.rules.gateway.monitor.port }}

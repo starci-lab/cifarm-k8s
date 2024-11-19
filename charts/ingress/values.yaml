@@ -1,0 +1,20 @@
+ingress:
+  metadata:
+    name: my-ingress
+  rules:
+    host:
+      enabled: false
+      name: "example.com"
+    gateway:
+      api:
+        host: "api-service"
+        port: 8080
+      graphql:
+        host: "graphql-service"
+        port: 8081
+      websocket:
+        host: "websocket-service"
+        port: 8082
+      monitor:
+        host: "monitor-service"
+        port: 8083
