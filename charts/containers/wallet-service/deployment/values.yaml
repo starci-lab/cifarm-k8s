@@ -33,11 +33,11 @@ deployment:
     targetPort: 3008
   resources: 
     requests:
-      cpu: "100m"
-      memory: "128Mi"
+      cpu: "62m"
+      memory: "64Mi"
     limits:
-      cpu: "200m"
-      memory: "256Mi"
+      cpu: "125m"
+      memory: "128Mi"
 
 # Service configuration
 scaledObject:

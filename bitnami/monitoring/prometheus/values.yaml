@@ -397,10 +397,10 @@ operator:
   ##
   resources:
     requests:
-      cpu: 50m
+      cpu: 62m
       memory: 64Mi
     limits:
-      cpu: 100m
+      cpu: 125m
       memory: 128Mi
   ## @param operator.podAffinityPreset Pod affinity preset
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
@@ -983,10 +983,10 @@ prometheus:
   ##
   resources: 
     requests:
-      cpu: 50m
+      cpu: 62m
       memory: 64Mi
     limits:
-      cpu: 100m
+      cpu: 125m
       memory: 128Mi
   ## @param prometheus.podAffinityPreset Prometheus Pod affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
@@ -1509,10 +1509,10 @@ prometheus:
     ##
     resources:
       requests:
-        cpu: 50m
+        cpu: 62m
         memory: 64Mi
       limits:
-        cpu: 100m
+        cpu: 125m
         memory: 128Mi
     ## Configure extra options for liveness probe
     ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes
@@ -2204,10 +2204,10 @@ alertmanager:
   ##
   resources: 
     requests:
-      cpu: 50m
+      cpu: 62m
       memory: 64Mi
     limits:
-      cpu: 100m
+      cpu: 125m
       memory: 128Mi
   ## @param alertmanager.podAffinityPreset Alertmanager Pod affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
@@ -2698,10 +2698,10 @@ blackboxExporter:
   ##
   resources:
     requests:
-      cpu: 50m
+      cpu: 62m
       memory: 64Mi
     limits:
-      cpu: 100m
+      cpu: 125m
       memory: 128Mi
   ## Configure Pods Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod

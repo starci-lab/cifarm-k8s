@@ -6,9 +6,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-11-19T20:35:38.0375329+07:00"
+    created: "2024-11-19T21:20:00.3424336+07:00"
     description: N/A
-    digest: f338471209175f230251d49b6b5a0f8092dcbfe46173d6a0a82d4cb5eff239cf
+    digest: f4afe979cb31030db06a56f8f835a4a94fb6b881ed48a0447d59aaed8ecf0d56
     home: N/A
     icon: N/A
     keywords:
@@ -25,9 +25,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-11-19T20:35:38.0380739+07:00"
+    created: "2024-11-19T21:20:00.3430457+07:00"
     description: N/A
-    digest: 59ef2ee24530236d6d36dc2df412b749fce4422e34194abd938456acb899a323
+    digest: 2f94f14a2178aed3cbfee9330ee0d2b685240dbfec7f61a5cd64c89aabf990ff
     home: N/A
     icon: N/A
     keywords:
@@ -38,4 +38,4 @@ entries:
     urls:
     - packages/wallet-service-deployment-1.0.0.tgz
     version: 1.0.0
-generated: "2024-11-19T20:35:38.0375329+07:00"
+generated: "2024-11-19T21:20:00.3398031+07:00"
