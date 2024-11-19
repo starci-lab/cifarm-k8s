@@ -1,0 +1,18 @@
+
+# SPDX-License-Identifier: MIT
+
+annotations:
+  category: Service
+  licenses: MIT
+apiVersion: v1
+appVersion: 1.1.0
+description: N/A
+home: N/A
+icon: N/A
+keywords:
+- service
+maintainers:
+- name: CiLab 2.0
+  url: ""
+name: wallet-service-build
+version: 1.0.0

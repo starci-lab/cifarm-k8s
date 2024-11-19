@@ -1,6 +1,6 @@
 ingress:
   metadata:
-    name: my-ingress
+    name: ingress
   rules:
     host:
       enabled: false
