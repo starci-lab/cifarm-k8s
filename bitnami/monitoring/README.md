@@ -99,7 +99,7 @@ http://127.0.0.1:9093
 Grafana is a powerful open-source platform used for data visualization and monitoring. In this context, it is integrated with Prometheus to create dashboards and visual representations of the metrics collected by Prometheus. Grafana allows users to easily explore and analyze their metrics through customizable, interactive dashboards.
 - **Kind**: Service  
 - **Type**: ClusterIP  
-- **Host**: `graphana.monitoring.svc.cluster.local`  
+- **Host**: `grafana.monitoring.svc.cluster.local`  
 - **Port**: 3000
 
 The following commands enable you to access the Grafana web interface locally through port forwarding.
