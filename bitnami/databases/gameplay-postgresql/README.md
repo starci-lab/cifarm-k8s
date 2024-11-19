@@ -8,7 +8,6 @@ In the following sections, we will walk through the necessary steps to configure
 ## Deployment Steps
 ### Add the Bitnami Helm Repository
 helm repo add bitnami https://charts.bitnami.com/bitnami
-```
 ### Create namespace
 ```bash
 kubectl create namespace gameplay-postgresql
