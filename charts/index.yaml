@@ -1,14 +1,33 @@
 apiVersion: v1
 entries:
+  cifarm-ingress:
+  - annotations:
+      category: Ingress
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-11-19T21:45:57.6200223+07:00"
+    description: N/A
+    digest: 6dab5d37be63c58cdf4b6fc937050f8455ecec763ab0c9af979ecf1e44ba92be
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: cifarm-ingress
+    urls:
+    - packages/cifarm-ingress-1.0.0.tgz
+    version: 1.0.0
   wallet-service-build:
   - annotations:
       category: Service
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-11-19T21:44:03.9625748+07:00"
+    created: "2024-11-19T21:45:57.620527+07:00"
     description: N/A
-    digest: 16448bcc10850178a8373281aa784a2b766a91c291292e1655105b748ae35bc2
+    digest: f1c1bea3398724adb8c5d67061e8ff0e9916331f56363a5101e57796fb513c7c
     home: N/A
     icon: N/A
     keywords:
@@ -25,9 +44,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-11-19T21:44:03.9625748+07:00"
+    created: "2024-11-19T21:45:57.620527+07:00"
     description: N/A
-    digest: d29976e1310bd45a0981b21ade3d6f2821ab724c1121d98bca44d232fc6ea256
+    digest: ec8102ecc417db2d2a73df6ff6e1090c5d307f98363fd7a7ca5332dc3b230d73
     home: N/A
     icon: N/A
     keywords:
@@ -38,4 +57,4 @@ entries:
     urls:
     - packages/wallet-service-deployment-1.0.0.tgz
     version: 1.0.0
-generated: "2024-11-19T21:44:03.9620493+07:00"
+generated: "2024-11-19T21:45:57.6199509+07:00"
