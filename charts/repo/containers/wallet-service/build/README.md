@@ -37,7 +37,7 @@ helm install wallet-service-build cifarm/wallet-service-build
     --set secret.imageCredentials.password=$DOCKER_PASSWORD
     --set secret.imageCredentials.email=$DOCKER_EMAIL
 # Using local repository
-helm install wallet-service-build ./charts/containers/wallet-service/build/
+helm install wallet-service-build ./charts/repo/containers/wallet-service/build/
     --set namespace wallet-service-build
     --set secret.imageCredentials.registry=$DOCKER_SERVER
     --set secret.imageCredentials.username=$DOCKER_USERNAME

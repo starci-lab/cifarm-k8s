@@ -39,7 +39,7 @@ helm install wallet-service-deployment cifarm/wallet-service-deployment
     --set secret.env.gameplayPostgres.user=$GAMEPLAY_POSTGRES_USER
     --set secret.env.gameplayPostgres.pass=$GAMEPLAY_POSTGRES_PASS
 # Using local repository
-helm install wallet-service-deployment ./charts/containers/wallet-service/build/
+helm install wallet-service-deployment ./charts/repo/containers/wallet-service/build/
     --set namespace wallet-service-deployment
     --set secret.env.gameplayPostgres.dbName=$GAMEPLAY_POSTGRES_DBNAME
     --set secret.env.gameplayPostgres.host=$GAMEPLAY_POSTGRES_HOST
