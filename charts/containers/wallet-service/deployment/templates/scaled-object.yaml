@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: {{ .Values.scaledObject.metadata.name }}
-  namespace: {{ .Values.namespace.metadata.name }}
+  namespace: {{ .Release.Namespace }}
 spec:
 spec:
   scaleTargetRef:

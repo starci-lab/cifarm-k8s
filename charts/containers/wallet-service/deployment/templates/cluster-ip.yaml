@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.clusterIp.metadata.name }}
-  namespace: {{ .Values.namespace.metadata.name }}
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
     app.kubernetes.io/name: {{ .Values.clusterIp.selector.name }}

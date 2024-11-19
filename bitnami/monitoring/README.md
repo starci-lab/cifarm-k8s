@@ -19,7 +19,7 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 ```bash
 kubectl create namespace monitoring
 ```
-### Install Protmetheus via Bitnami Helm Chart
+### Install Prometheus via Bitnami Helm Chart
 ```bash
 # Using a remote `values.yaml` file (GitHub)
 helm install prometheus bitnami/kube-prometheus \

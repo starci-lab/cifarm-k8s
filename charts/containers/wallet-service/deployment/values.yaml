@@ -1,8 +1,3 @@
-# Namespace configuration
-namespace: 
-  metadata:
-    name: wallet-service-deployment
-
 # ClusterIP configuration
 clusterIp:
   metadata:
@@ -38,11 +33,11 @@ deployment:
     targetPort: 3008
   resources: 
     requests:
-      cpu: "100m"  # 0.1 CPU
-      memory: "128Mi"  # 0.125 GB
+      cpu: "100m"
+      memory: "128Mi"
     limits:
-      cpu: "200m" # 0.2 CPU
-      memory: "256Mi"  # 0.25 GB
+      cpu: "200m"
+      memory: "256Mi"
 
 # Service configuration
 scaledObject:
@@ -55,12 +50,9 @@ scaledObject:
   trigger:
     serverAddress:
       host: 
-        # name: kube-prometheus-prometheus
-        name: kube-prometheus-prometheus
-        # namespace: monitoring
+        name: prometheus-kube-prometheus-prometheus
         namespace: monitoring
       port: 9090
     metricName: wallet-service-deployment-scaled-object_keda
-    # query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"wallet-service-.*"}[1m]))"
-    query: vector(0.5)
+    query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"wallet-service-.*"}[1m]))"
     threshold: "0.3"
