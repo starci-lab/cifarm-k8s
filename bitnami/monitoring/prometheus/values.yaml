@@ -45,7 +45,7 @@ nameOverride: ""
 fullnameOverride: ""
 ## @param namespaceOverride String to fully override common.names.namespace
 ##
-namespaceOverride: ""
+namespaceOverride: "monitoring"
 ## @param commonLabels Labels to add to all deployed objects
 ##
 commonLabels: {}
@@ -748,7 +748,14 @@ server:
   ## @param server.extraScrapeConfigs Promethus configuration, useful to declare new scrape_configs. This content will be merged with the 'server.configuration' value and stored in the the prometheus.yaml file.
   ## ref: <https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config>
   ##
-  extraScrapeConfigs: []
+  extraScrapeConfigs: |
+    - job_name: 'kubernetes-pods'
+      kubernetes_sd_configs:
+        - role: pod
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_label_app]
+          action: keep
+          regex: .+
   ## @param server.replicaCount Number of Prometheus replicas to deploy
   ##
   replicaCount: 1
