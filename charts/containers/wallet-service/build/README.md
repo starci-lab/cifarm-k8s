@@ -51,6 +51,6 @@ helm install wallet-service-build ./charts/containers/wallet-service/build/
 - **Host**: `wallet-service-cluster-ip.wallet-service-deployment.svc.cluster.local`  
 - **Port**: 3008
 ```bash
-# Forward port for Gameplay PostgreSQL
+# Forward port for Wallet Service
 kubectl port-forward svc/wallet-service-cluster-ip --namespace wallet-service-deployment 3008:3008
 ```
