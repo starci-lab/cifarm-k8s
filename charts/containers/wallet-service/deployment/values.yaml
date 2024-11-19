@@ -55,9 +55,12 @@ scaledObject:
   trigger:
     serverAddress:
       host: 
-        name: kube-prometheus-prometheus
-        namespace: monitoring
+        # name: kube-prometheus-prometheus
+        name: my-release-kube-prometheus-prometheus
+        # namespace: monitoring
+        namespace: default
       port: 9090
     metricName: wallet-service-deployment-scaled-object_keda
-    query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"wallet-service-.*"}[1m]))"
+    # query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"wallet-service-.*"}[1m]))"
+    query: vector(0.5)
     threshold: "0.3"
