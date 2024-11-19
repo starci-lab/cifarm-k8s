@@ -284,7 +284,7 @@ datasources:
         type: prometheus
         access: proxy
         orgId: 1
-        url: http://prometheus-server.monitoring.svc.cluster.local
+        url: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
         version: 1
         editable: true
         isDefault: true
@@ -293,7 +293,7 @@ datasources:
         type: alertmanager
         access: proxy
         orgId: 1
-        url: http://prometheus-alertmanager.monitoring.svc.cluster.local
+        url: http://prometheus-kube-prometheus-alertmanager.monitoring.svc.cluster.local:9093
         version: 1
         editable: true
 ## Create notifiers from a configMap
