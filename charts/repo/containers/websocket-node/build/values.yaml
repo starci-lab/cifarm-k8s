@@ -1,7 +1,7 @@
 # Secret configuration
 secret:
   metadata:
-    name: wallet-service-build-secret
+    name: websocket-node-build-secret
   imageCredentials:
     registry: "https://index.docker.io/v1/"
     username: ""
@@ -11,12 +11,12 @@ secret:
 # Kaniko configuration
 kaniko:
   metadata:
-    name: wallet-service-kaniko
+    name: websocket-node-kaniko
   args:
     image:
-      repository: cifarm/wallet-service
+      repository: cifarm/websocket-node
       tag: latest
-    dockerfile: ./apps/wallet-service/Dockerfile
+    dockerfile: ./apps/websocket-node/Dockerfile
     context: git://github.com/starci-lab/cifarm-containers
   resources: 
     requests:

@@ -1,4 +1,4 @@
-# Wallet Service Helm Chart
+# Cron Scheduler Helm Chart
 ## Introduction
 ## Build Steps
 ### Add/Update the Helm Repository (Remote)
@@ -18,7 +18,7 @@ fi
 ```
 ### Create namespace
 ```bash
-kubectl create namespace wallet-service-build
+kubectl create namespace cron-scheduler-build
 ```
 ### Create environments
 ```bash
@@ -30,27 +30,27 @@ export DOCKER_EMAIL="cifarm.starcilab@gmail.com"
 ### Install
 ```bash
 # Using remote helm (GitHub)
-helm install wallet-service-build cifarm/wallet-service-build
-    --set namespace wallet-service-build
+helm install cron-scheduler-build cifarm/cron-scheduler-build
+    --set namespace cron-scheduler-build
     --set secret.imageCredentials.registry=$DOCKER_SERVER
     --set secret.imageCredentials.username=$DOCKER_USERNAME
     --set secret.imageCredentials.password=$DOCKER_PASSWORD
     --set secret.imageCredentials.email=$DOCKER_EMAIL
 # Using local repository
-helm install wallet-service-build ./charts/repo/containers/wallet-service/build/
-    --set namespace wallet-service-build
+helm install cron-scheduler-build ./charts/repo/containers/cron-scheduler/build/
+    --set namespace cron-scheduler-build
     --set secret.imageCredentials.registry=$DOCKER_SERVER
     --set secret.imageCredentials.username=$DOCKER_USERNAME
     --set secret.imageCredentials.password=$DOCKER_PASSWORD
     --set secret.imageCredentials.email=$DOCKER_EMAIL
 ```
 ## Outcome
-### Wallet Service
+### Cron Scheduler
 - **Kind**: Service  
 - **Type**: ClusterIP  
-- **Host**: `wallet-service-cluster-ip.wallet-service-deployment.svc.cluster.local`  
+- **Host**: `cron-scheduler-cluster-ip.cron-scheduler-deployment.svc.cluster.local`  
 - **Port**: 3008
 ```bash
-# Forward port for Wallet Service
-kubectl port-forward svc/wallet-service-cluster-ip --namespace wallet-service-deployment 3008:3008
+# Forward port for Cron Scheduler
+kubectl port-forward svc/cron-scheduler-cluster-ip --namespace cron-scheduler-deployment 3008:3008
 ```

@@ -1,14 +1,14 @@
 # ClusterIP configuration
 clusterIp:
   metadata:
-    name: wallet-service-cluster-ip
+    name: cron-scheduler-cluster-ip
   selector:
-    name: wallet-service-selector
+    name: cron-scheduler-selector
 
 # Secret configuration
 secret:
   metadata:
-    name: wallet-service-deployment-secret
+    name: cron-scheduler-deployment-secret
   env:
     gameplayPostgres:
       dbName: "postgres"
@@ -20,12 +20,12 @@ secret:
 # Deployment configuration
 deployment:
   metadata:
-    name: wallet-service-deployment
+    name: cron-scheduler-deployment
   args:
     image:
-      repository: cifarm/wallet-service
+      repository: cifarm/cron-scheduler
       tag: latest
-    dockerfile: ./apps/wallet-service/Dockerfile
+    dockerfile: ./apps/cron-scheduler/Dockerfile
     context: git://github.com/starci-lab/cifarm-containers
   replicaCount: 1
   containerPort: 
@@ -42,7 +42,7 @@ deployment:
 # Service configuration
 scaledObject:
   metadata:
-    name: wallet-service-deployment-scaled-object
+    name: cron-scheduler-deployment-scaled-object
   minReplicaCount: 1
   maxReplicaCount: 3
   cooldownPeriod: 30                   
@@ -53,6 +53,6 @@ scaledObject:
         name: prometheus-kube-prometheus-prometheus
         namespace: monitoring
       port: 9090
-    metricName: wallet-service-deployment-scaled-object_keda
-    query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"wallet-service-.*"}[1m]))"
+    metricName: cron-scheduler-deployment-scaled-object_keda
+    query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"cron-scheduler-.*"}[1m]))"
     threshold: "0.3"

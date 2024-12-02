@@ -1,0 +1,28 @@
+# Secret configuration
+secret:
+  metadata:
+    name: rest-api-gateway-build-secret
+  imageCredentials:
+    registry: "https://index.docker.io/v1/"
+    username: ""
+    password: ""
+    email: ""
+
+# Kaniko configuration
+kaniko:
+  metadata:
+    name: rest-api-gateway-kaniko
+  args:
+    image:
+      repository: cifarm/rest-api-gateway
+      tag: latest
+    dockerfile: ./apps/rest-api-gateway/Dockerfile
+    context: git://github.com/starci-lab/cifarm-containers
+  resources: 
+    requests:
+      cpu: "1"
+      memory: "1Gi"
+    limits:
+      cpu: "2"
+      memory: "2Gi"
+
