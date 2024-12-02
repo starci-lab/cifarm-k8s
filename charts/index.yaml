@@ -1,52 +1,14 @@
 apiVersion: v1
 entries:
-  cron-scheduler-build:
-  - annotations:
-      category: Service
-      licenses: MIT
-    apiVersion: v1
-    appVersion: 1.1.0
-    created: "2024-12-02T16:49:45.2035069+07:00"
-    description: N/A
-    digest: b9ece4e877df61cfa87ebe562bbdf579eefdf783519c45737c6521d81d119848
-    home: N/A
-    icon: N/A
-    keywords:
-    - service
-    maintainers:
-    - name: CiLab 2.0
-    name: cron-scheduler-build
-    urls:
-    - packages/cron-scheduler-build-1.0.0.tgz
-    version: 1.0.0
-  cron-scheduler-deployment:
-  - annotations:
-      category: Deployment
-      licenses: MIT
-    apiVersion: v1
-    appVersion: 1.1.0
-    created: "2024-12-02T16:49:45.2035069+07:00"
-    description: N/A
-    digest: c653d0dc46c42c63b65e1833442efce704bfb205540231f07370c5f5bb4f09d7
-    home: N/A
-    icon: N/A
-    keywords:
-    - service
-    maintainers:
-    - name: CiLab 2.0
-    name: cron-scheduler-deployment
-    urls:
-    - packages/cron-scheduler-deployment-1.0.0.tgz
-    version: 1.0.0
   cron-worker-build:
   - annotations:
       category: Service
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-02T16:49:45.2035069+07:00"
+    created: "2024-12-02T17:18:10.8940085+07:00"
     description: N/A
-    digest: 8a472b4b1944328137319c7d12e96bf507b9339ddf03eda75dba60e1bccb8b33
+    digest: aaeeec66e005d6a35e0df075e2b0a55cb0851141d85ad6cdc1438b882543a4b0
     home: N/A
     icon: N/A
     keywords:
@@ -63,9 +25,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-02T16:49:45.2035069+07:00"
+    created: "2024-12-02T17:18:10.894631+07:00"
     description: N/A
-    digest: b194e30c4e2f0349959fc72702a1be1bb196437a432dd6cb6cdc2ae573570b60
+    digest: 8876ae28165dbc52ab8d239984717058fb3a29a2a45e13db4a803eb52245de79
     home: N/A
     icon: N/A
     keywords:
@@ -82,9 +44,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-02T16:49:45.2078697+07:00"
+    created: "2024-12-02T17:18:10.894631+07:00"
     description: N/A
-    digest: f1707125e1b8b3ed7d65ac3e6006b7d7c6b20167071b97adb378e2999107ef3b
+    digest: bc52050757dc750fb3406241ada15eb25e4b2b1df1e3e3b9dc65f0acb9435d89
     home: N/A
     icon: N/A
     keywords:
@@ -101,9 +63,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-02T16:49:45.2078697+07:00"
+    created: "2024-12-02T17:18:10.8951354+07:00"
     description: N/A
-    digest: c93663f71eb51cbed37c20f72d6252f4cda9bd677a25f7de7abe92f72702e45d
+    digest: 64a01ae196d4774c1603daa5868b8b499d2f8ec4afd19b39ecad025719b1192e
     home: N/A
     icon: N/A
     keywords:
@@ -120,9 +82,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-11-19T21:48:36.2004327+07:00"
+    created: "2024-12-02T17:18:10.8952626+07:00"
     description: N/A
-    digest: 6113a4ce5e37207118ff2674857c94d02c5c3ab0fe19853f0925305f3f92ddc5
+    digest: 73bdeaaeec10456af0f3a743fc07a1d25d29f7724a125ed4407c9062671ff474
     home: N/A
     icon: N/A
     keywords:
@@ -139,9 +101,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-02T16:49:45.2078697+07:00"
+    created: "2024-12-02T17:18:10.8952626+07:00"
     description: N/A
-    digest: c0870bb053f83aa30c84318d8a0058603436c4f9f277e0bb7a1aa683880a48e7
+    digest: e7a304467fa9ee650c59a9c2bb1e9be55101d28cd5f5583f74fa959a21767aec
     home: N/A
     icon: N/A
     keywords:
@@ -158,9 +120,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-02T16:49:45.2097739+07:00"
+    created: "2024-12-02T17:18:10.8959235+07:00"
     description: N/A
-    digest: 15915d1fbfc30f63a718a4685db2552e0047de442f7c821cf48c3afd017b5dc0
+    digest: dfbcfcf1c2aea72765530ad1bcb7cdb7a7c9d266ffb381bae411f3486667ea89
     home: N/A
     icon: N/A
     keywords:
@@ -177,9 +139,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-11-19T21:48:36.2004327+07:00"
+    created: "2024-12-02T17:18:10.8976403+07:00"
     description: N/A
-    digest: 1788415fb499c1bb91d25b7e909ba0b423f572977c2fdde4d6bcb77879224ae8
+    digest: f1bc279878734580a77c458370d6af0b515fdaa550977a500c59de4f873bad79
     home: N/A
     icon: N/A
     keywords:
@@ -196,9 +158,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-11-19T21:48:36.2009536+07:00"
+    created: "2024-12-02T17:18:10.8981434+07:00"
     description: N/A
-    digest: 9faae510a8b909e9878f7b80ed2e69308585d96cbbbde234ba8f13fd0db4dbc8
+    digest: 304a658c0a0fdecb60380dd772a674ffafa9e8376a3473c04eac376d43bb6b55
     home: N/A
     icon: N/A
     keywords:
@@ -209,4 +171,42 @@ entries:
     urls:
     - packages/wallet-service-deployment-1.0.0.tgz
     version: 1.0.0
-generated: "2024-11-19T21:48:36.199912+07:00"
+  websocket-node-build:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:18:10.8986776+07:00"
+    description: N/A
+    digest: 1e916b504c1c28e4148aee3f97dfb4eefb68196417492570645cebf49db6c8db
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: websocket-node-build
+    urls:
+    - packages/websocket-node-build-1.0.0.tgz
+    version: 1.0.0
+  websocket-node-deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:18:10.8986776+07:00"
+    description: N/A
+    digest: 1735eb871bfe9e3d5eb5d9e41e626596bfa6e3163a362c3ebfdba287da0d8735
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: websocket-node-deployment
+    urls:
+    - packages/websocket-node-deployment-1.0.0.tgz
+    version: 1.0.0
+generated: "2024-12-02T17:18:10.8933861+07:00"
