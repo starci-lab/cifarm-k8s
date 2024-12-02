@@ -19,8 +19,3 @@ helm package ./charts/repo/ingress --destination ./charts/packages
 
 # Update the index.yaml
 helm repo index ./charts
-
-# Commit the changes
-git add .
-git commit -m "Update the charts"
-git push origin main
