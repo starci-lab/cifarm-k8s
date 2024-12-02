@@ -1,0 +1,3 @@
+{{- define "imagePullSecret" }}
+{{- printf "{\"auths\":{\"%s\":{\"username\":\"%s\",\"password\":\"%s\",\"email\":\"%s\",\"auth\":\"%s\"}}}" .Values.secret.imageCredentials.registry .Values.secret.imageCredentials.username .Values.secret.imageCredentials.password .Values.secret.imageCredentials.email (printf "%s:%s" .Values.secret.imageCredentials.username .Values.secret.imageCredentials.password | b64enc) | b64enc }}
+{{- end }}

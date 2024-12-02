@@ -1,10 +1,21 @@
 # Create taz
 
-helm package ./charts/repo/containers/wallet-service/build --destination ./charts/packages
-helm package ./charts/repo/containers/wallet-service/deployment --destination ./charts/packages
+helm package ./charts/repo/containers/gameplay-service/build --destination ./charts/packages
+helm package ./charts/repo/containers/gameplay-service/deployment --destination ./charts/packages
+
+helm package ./charts/repo/containers/rest-api-gateway/build --destination ./charts/packages
+helm package ./charts/repo/containers/rest-api-gateway/deployment --destination ./charts/packages
+
+helm package ./charts/repo/containers/cron-scheduler/build --destination ./charts/packages
+helm package ./charts/repo/containers/cron-scheduler/deployment --destination ./charts/packages
+
+helm package ./charts/repo/containers/cron-worker/build --destination ./charts/packages
+helm package ./charts/repo/containers/cron-worker/deployment --destination ./charts/packages
+
+helm package ./charts/repo/containers/websocket-node/build --destination ./charts/packages
+helm package ./charts/repo/containers/websocket-node/deployment --destination ./charts/packages
+
 helm package ./charts/repo/ingress --destination ./charts/packages
 
 # Update the index.yaml
 helm repo index ./charts
-
-#test

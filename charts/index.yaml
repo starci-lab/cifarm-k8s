@@ -1,14 +1,128 @@
 apiVersion: v1
 entries:
+  cron-scheduler-build:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T16:49:45.2035069+07:00"
+    description: N/A
+    digest: b9ece4e877df61cfa87ebe562bbdf579eefdf783519c45737c6521d81d119848
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: cron-scheduler-build
+    urls:
+    - packages/cron-scheduler-build-1.0.0.tgz
+    version: 1.0.0
+  cron-scheduler-deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T16:49:45.2035069+07:00"
+    description: N/A
+    digest: c653d0dc46c42c63b65e1833442efce704bfb205540231f07370c5f5bb4f09d7
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: cron-scheduler-deployment
+    urls:
+    - packages/cron-scheduler-deployment-1.0.0.tgz
+    version: 1.0.0
+  cron-worker-build:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T16:49:45.2035069+07:00"
+    description: N/A
+    digest: 8a472b4b1944328137319c7d12e96bf507b9339ddf03eda75dba60e1bccb8b33
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: cron-worker-build
+    urls:
+    - packages/cron-worker-build-1.0.0.tgz
+    version: 1.0.0
+  cron-worker-deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T16:49:45.2035069+07:00"
+    description: N/A
+    digest: b194e30c4e2f0349959fc72702a1be1bb196437a432dd6cb6cdc2ae573570b60
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: cron-worker-deployment
+    urls:
+    - packages/cron-worker-deployment-1.0.0.tgz
+    version: 1.0.0
+  gameplay-service-build:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T16:49:45.2078697+07:00"
+    description: N/A
+    digest: f1707125e1b8b3ed7d65ac3e6006b7d7c6b20167071b97adb378e2999107ef3b
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: gameplay-service-build
+    urls:
+    - packages/gameplay-service-build-1.0.0.tgz
+    version: 1.0.0
+  gameplay-service-deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T16:49:45.2078697+07:00"
+    description: N/A
+    digest: c93663f71eb51cbed37c20f72d6252f4cda9bd677a25f7de7abe92f72702e45d
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: gameplay-service-deployment
+    urls:
+    - packages/gameplay-service-deployment-1.0.0.tgz
+    version: 1.0.0
   ingress:
   - annotations:
       category: Ingress
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-11-19T21:53:33.2052826+07:00"
+    created: "2024-11-19T21:48:36.2004327+07:00"
     description: N/A
-    digest: 91afe19792c78cca4c6a587a7b9751f26324d2b7e4fbe10cf6dc9958a7b0a8d3
+    digest: 6113a4ce5e37207118ff2674857c94d02c5c3ab0fe19853f0925305f3f92ddc5
     home: N/A
     icon: N/A
     keywords:
@@ -19,13 +133,51 @@ entries:
     urls:
     - packages/ingress-1.0.0.tgz
     version: 1.0.0
+  rest-api-gateway-build:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T16:49:45.2078697+07:00"
+    description: N/A
+    digest: c0870bb053f83aa30c84318d8a0058603436c4f9f277e0bb7a1aa683880a48e7
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: rest-api-gateway-build
+    urls:
+    - packages/rest-api-gateway-build-1.0.0.tgz
+    version: 1.0.0
+  rest-api-gateway-deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T16:49:45.2097739+07:00"
+    description: N/A
+    digest: 15915d1fbfc30f63a718a4685db2552e0047de442f7c821cf48c3afd017b5dc0
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: rest-api-gateway-deployment
+    urls:
+    - packages/rest-api-gateway-deployment-1.0.0.tgz
+    version: 1.0.0
   wallet-service-build:
   - annotations:
       category: Service
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-11-19T21:53:33.2052826+07:00"
+    created: "2024-11-19T21:48:36.2004327+07:00"
     description: N/A
     digest: 1788415fb499c1bb91d25b7e909ba0b423f572977c2fdde4d6bcb77879224ae8
     home: N/A
@@ -44,7 +196,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-11-19T21:53:33.2058007+07:00"
+    created: "2024-11-19T21:48:36.2009536+07:00"
     description: N/A
     digest: 9faae510a8b909e9878f7b80ed2e69308585d96cbbbde234ba8f13fd0db4dbc8
     home: N/A
@@ -57,4 +209,4 @@ entries:
     urls:
     - packages/wallet-service-deployment-1.0.0.tgz
     version: 1.0.0
-generated: "2024-11-19T21:53:33.2047665+07:00"
+generated: "2024-11-19T21:48:36.199912+07:00"

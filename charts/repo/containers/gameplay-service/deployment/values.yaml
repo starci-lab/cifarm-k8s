@@ -1,0 +1,58 @@
+# ClusterIP configuration
+clusterIp:
+  metadata:
+    name: gameplay-service-cluster-ip
+  selector:
+    name: gameplay-service-selector
+
+# Secret configuration
+secret:
+  metadata:
+    name: gameplay-service-deployment-secret
+  env:
+    gameplayPostgres:
+      dbName: "postgres"
+      host: "postgres"
+      port: 5432
+      user: "postgres"
+      pass: "postgres"
+
+# Deployment configuration
+deployment:
+  metadata:
+    name: gameplay-service-deployment
+  args:
+    image:
+      repository: cifarm/gameplay-service
+      tag: latest
+    dockerfile: ./apps/gameplay-service/Dockerfile
+    context: git://github.com/starci-lab/cifarm-containers
+  replicaCount: 1
+  containerPort: 
+    port: 3008
+    targetPort: 3008
+  resources: 
+    requests:
+      cpu: "62m"
+      memory: "64Mi"
+    limits:
+      cpu: "125m"
+      memory: "128Mi"
+
+# Service configuration
+scaledObject:
+  metadata:
+    name: gameplay-service-deployment-scaled-object
+  minReplicaCount: 1
+  maxReplicaCount: 3
+  cooldownPeriod: 30                   
+  pollingInterval: 5     
+  trigger:
+    serverAddress:
+      host: 
+        name: prometheus-kube-prometheus-prometheus
+        namespace: monitoring
+      port: 9090
+    metricName: gameplay-service-deployment-scaled-object_keda
+    query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"gameplay-service-.*"}[1m]))"
+    threshold: "0.3"

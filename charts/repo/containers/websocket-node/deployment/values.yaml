@@ -1,0 +1,58 @@
+# ClusterIP configuration
+clusterIp:
+  metadata:
+    name: websocket-node-cluster-ip
+  selector:
+    name: websocket-node-selector
+
+# Secret configuration
+secret:
+  metadata:
+    name: websocket-node-deployment-secret
+  env:
+    gameplayPostgres:
+      dbName: "postgres"
+      host: "postgres"
+      port: 5432
+      user: "postgres"
+      pass: "postgres"
+
+# Deployment configuration
+deployment:
+  metadata:
+    name: websocket-node-deployment
+  args:
+    image:
+      repository: cifarm/websocket-node
+      tag: latest
+    dockerfile: ./apps/websocket-node/Dockerfile
+    context: git://github.com/starci-lab/cifarm-containers
+  replicaCount: 1
+  containerPort: 
+    port: 3008
+    targetPort: 3008
+  resources: 
+    requests:
+      cpu: "62m"
+      memory: "64Mi"
+    limits:
+      cpu: "125m"
+      memory: "128Mi"
+
+# Service configuration
+scaledObject:
+  metadata:
+    name: websocket-node-deployment-scaled-object
+  minReplicaCount: 1
+  maxReplicaCount: 3
+  cooldownPeriod: 30                   
+  pollingInterval: 5     
+  trigger:
+    serverAddress:
+      host: 
+        name: prometheus-kube-prometheus-prometheus
+        namespace: monitoring
+      port: 9090
+    metricName: websocket-node-deployment-scaled-object_keda
+    query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"websocket-node-.*"}[1m]))"
+    threshold: "0.3"
