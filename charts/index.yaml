@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 apiVersion: v1
 entries:
   cron-worker-build:
@@ -210,3 +211,217 @@ entries:
     - packages/websocket-node-deployment-1.0.0.tgz
     version: 1.0.0
 generated: "2024-12-02T17:19:40.8174387+07:00"
+=======
+apiVersion: v1
+entries:
+  cron-worker-build:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:20:08.0668151+07:00"
+    description: N/A
+    digest: ebe4fb0a1a2eaf7301dcd2c4773301057b81830aaa52d149243270a2865615c7
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: cron-worker-build
+    urls:
+    - packages/cron-worker-build-1.0.0.tgz
+    version: 1.0.0
+  cron-worker-deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:20:08.0668151+07:00"
+    description: N/A
+    digest: cb417b420f49391b51c918ae2aa7ca7a8ef1f3210e3447926aa51ea3d6f2dbc8
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: cron-worker-deployment
+    urls:
+    - packages/cron-worker-deployment-1.0.0.tgz
+    version: 1.0.0
+  gameplay-service-build:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:20:08.0673297+07:00"
+    description: N/A
+    digest: 0e83117d6a5fb2cb35a873cadd7d6b34cd743dda12bd4a04fbeeb2b16a86515e
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: gameplay-service-build
+    urls:
+    - packages/gameplay-service-build-1.0.0.tgz
+    version: 1.0.0
+  gameplay-service-deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:20:08.0678499+07:00"
+    description: N/A
+    digest: 05bfaa9fcefd60a8e5850afe8b96f9f600f3b49fd25006a3b88dc450f9556ff3
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: gameplay-service-deployment
+    urls:
+    - packages/gameplay-service-deployment-1.0.0.tgz
+    version: 1.0.0
+  ingress:
+  - annotations:
+      category: Ingress
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:20:08.0678499+07:00"
+    description: N/A
+    digest: 8456e6c419d5cfce7447d3795f160f2c1d13bbc5b03143095cb1ad77124afd3f
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: ingress
+    urls:
+    - packages/ingress-1.0.0.tgz
+    version: 1.0.0
+  rest-api-gateway-build:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:20:08.0683738+07:00"
+    description: N/A
+    digest: 1ee7206e79adca7fcd4e4981aa3d390741c3df2f1cc98aa399118d9ec2964521
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: rest-api-gateway-build
+    urls:
+    - packages/rest-api-gateway-build-1.0.0.tgz
+    version: 1.0.0
+  rest-api-gateway-deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:20:08.0700634+07:00"
+    description: N/A
+    digest: 883fbb70645621eaef18ef0d11e63b71111970c76ff67729aac7b349b57fff4e
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: rest-api-gateway-deployment
+    urls:
+    - packages/rest-api-gateway-deployment-1.0.0.tgz
+    version: 1.0.0
+  wallet-service-build:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:20:08.0732409+07:00"
+    description: N/A
+    digest: fee4afe66b03f8124ec1f8f8e66610adcbce2ce0e1a91362c4242d46cfd35891
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: wallet-service-build
+    urls:
+    - packages/wallet-service-build-1.0.0.tgz
+    version: 1.0.0
+  wallet-service-deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:20:08.0732409+07:00"
+    description: N/A
+    digest: 39b7ca7d2c17d3082850fa04fc1f919537964175d76cbcc933d12c3094d2fb97
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: wallet-service-deployment
+    urls:
+    - packages/wallet-service-deployment-1.0.0.tgz
+    version: 1.0.0
+  websocket-node-build:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:20:08.0737646+07:00"
+    description: N/A
+    digest: efb6b77a10fd6d99e2ed0adec1d10f0993e0ad93ea1390ba2a9e500bd7120fcd
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: websocket-node-build
+    urls:
+    - packages/websocket-node-build-1.0.0.tgz
+    version: 1.0.0
+  websocket-node-deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-02T17:20:08.0737646+07:00"
+    description: N/A
+    digest: fd90008a604bcd0ebacb98e9eb64c4051f77f938320031bf61ca22979ff66246
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: websocket-node-deployment
+    urls:
+    - packages/websocket-node-deployment-1.0.0.tgz
+    version: 1.0.0
+generated: "2024-12-02T17:20:08.0662635+07:00"
+>>>>>>> b25b39f25ca17333b8f6840577a502ce8fe897b8
