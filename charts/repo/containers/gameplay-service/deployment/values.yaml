@@ -50,7 +50,17 @@ secret:
     containers:
       subgraphStaticUrl: "http://localhost:3007/graphql"
       restApiGateway:
-        host
+        host: "localhost"
+        port: 3001
+      websocketApiGateway:
+        host: "localhost"
+        port: 3002
+      graphqlApiGateway:
+        host: "localhost"
+        port: 3003
+      gameplayService:
+        host: "localhost"
+        port: 3014
 
 # Deployment configuration
 deployment:
