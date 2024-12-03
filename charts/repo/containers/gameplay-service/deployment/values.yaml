@@ -10,15 +10,33 @@ secret:
   metadata:
     name: gameplay-service-secret
   env:
+    jwt:
+      secret: "C3ZofmtZ+hXQF2d~&bBu9x'UtkUyz?)MwXiXy_eGFlyO|:v!JW$?iZ&U6:kPQg("
+      accessTokenExpiration: "5m"
+      refreshTokenExpiration: "7d"
     gameplayPostgres:
       dbName: "postgres"
       host: "postgres"
       port: 5432
       user: "postgres"
       pass: "postgres"
+    gameplayTestPostgres:
+      dbName: "postgres"
+      host: "postgres"
+      port: 5432
+      user: "postgres"
+      pass: "postgres"
     redis:
-      host: "redis"
-      port: 6379
+      ttl: 86400000
+      cache:
+        host: "redis"
+        port: 6379
+      adapter:
+        host: "redis"
+        port: 6379
+      job:
+        host: "redis"
+        port: 6379
     kafka:
       broker1:
         host: "kafka"
@@ -29,6 +47,10 @@ secret:
       broker3:
         host: "kafka"
         port: 9092
+    containers:
+      subgraphStaticUrl: "http://localhost:3007/graphql"
+      restApiGateway:
+        host
 
 # Deployment configuration
 deployment:
@@ -40,17 +62,17 @@ deployment:
       tag: latest
     dockerfile: ./apps/gameplay-service/Dockerfile
     context: git://github.com/starci-lab/cifarm-containers
-  replicaCount: 1
+  replicaCount: 2
   containerPort: 
     port: 3014
     targetPort: 3014
   resources: 
     requests:
-      cpu: "12.5m"
-      memory: "32Mi"
+      cpu: "20m"
+      memory: "40Mi"
     limits:
       cpu: "200m"
-      memory: "512Mi"
+      memory: "400Mi"
 
 # Service configuration
 scaledObject:
