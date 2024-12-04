@@ -1,14 +1,14 @@
 # ClusterIP configuration
 clusterIp:
   metadata:
-    name: gameplay-service-cluster-ip
+    name: static-subgraph-cluster-ip
   selector:
-    name: gameplay-service-selector
+    name: static-subgraph-selector
 
 # Secret configuration
 secret:
   metadata:
-    name: gameplay-service-secret
+    name: static-subgraph-secret
   env:
     jwt:
       secret: "C3ZofmtZ+hXQF2d~&bBu9x'UtkUyz?)MwXiXy_eGFlyO|:v!JW$?iZ&U6:kPQg("
@@ -38,18 +38,18 @@ secret:
         host: "redis"
         port: 6379
     kafka:
-      headless:
-        headless1:
+      producers:
+        producer1:
           host: "kafka"
           port: 9092
-        headless2:
+        producer2:
           host: "kafka"
           port: 9092
-        headless3:
+        producer3:
           host: "kafka"
           port: 9092
-      default:
-        default1:
+      consumers:
+        consumer1:
           host: "kafka"
           port: 9092
     containers:
@@ -72,29 +72,29 @@ secret:
 # Deployment configuration
 deployment:
   metadata:
-    name: gameplay-service
+    name: static-subgraph
   args:
     image:
-      repository: cifarm/gameplay-service
+      repository: cifarm/static-subgraph
       tag: latest
-    dockerfile: ./apps/gameplay-service/Dockerfile
+    dockerfile: ./apps/static-subgraph/Dockerfile
     context: git://github.com/starci-lab/cifarm-containers
   replicaCount: 2
   containerPort: 
-    port: 3014
-    targetPort: 3014
-  resources: 
+    port: 3007
+    targetPort: 3007
+  resources:
     requests:
-      cpu: "20m"
-      memory: "40Mi"
+      cpu: "10m"
+      memory: "20Mi"
     limits:
-      cpu: "200m"
-      memory: "400Mi"
+      cpu: "100m"
+      memory: "200Mi"
 
 # Service configuration
 scaledObject:
   metadata:
-    name: gameplay-service-scaled-object
+    name: static-subgraph-scaled-object
   minReplicaCount: 1
   maxReplicaCount: 3
   cooldownPeriod: 30                   
@@ -105,6 +105,6 @@ scaledObject:
         name: prometheus-kube-prometheus-prometheus
         namespace: monitoring
       port: 9090
-    metricName: gameplay-service-scaled-object_keda
-    query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"gameplay-service-.*"}[1m]))"
+    metricName: static-subgraph-scaled-object_keda
+    query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"static-subgraph-.*"}[1m]))"
     threshold: "0.3"

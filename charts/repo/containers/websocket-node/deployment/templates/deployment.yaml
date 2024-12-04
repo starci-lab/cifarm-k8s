@@ -14,7 +14,7 @@ spec:
         app.kubernetes.io/name: {{ .Values.clusterIp.selector.name }}
     spec:
       containers:
-        - name: {{ .Values.namespace.metadata.name }}
+        - name: {{ .Values.deployment.metadata.name }}
           image: "{{ .Values.deployment.args.image.repository }}:{{ .Values.deployment.args.image.tag }}"
           ports:
             - containerPort: {{ .Values.deployment.containerPort.port }}
@@ -28,3 +28,4 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.secret.metadata.name }}
+                

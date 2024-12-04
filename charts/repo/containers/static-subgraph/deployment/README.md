@@ -1,4 +1,4 @@
-# Wallet Service Helm Chart
+# Websocket Node Helm Chart
 ## Introduction
 ## Deployment Steps
 ### Add/Update the Helm Repository (Remote)
@@ -18,7 +18,7 @@ fi
 ```
 ### Create namespace
 ```bash
-kubectl create namespace wallet-service-deployment
+kubectl create namespace websocket-node-deployment
 ```
 ### Create environments
 ```bash
@@ -31,16 +31,16 @@ export GAMEPLAY_POSTGRES_PASS=Cuong123_A
 ### Install
 ```bash
 # Using remote helm (GitHub)
-helm install wallet-service-deployment cifarm/wallet-service-deployment
-    --set namespace wallet-service-deployment
+helm install websocket-node-deployment cifarm/websocket-node-deployment
+    --set namespace websocket-node-deployment
     --set secret.env.gameplayPostgres.dbName=$GAMEPLAY_POSTGRES_DBNAME
     --set secret.env.gameplayPostgres.host=$GAMEPLAY_POSTGRES_HOST
     --set secret.env.gameplayPostgres.port=$GAMEPLAY_POSTGRES_PORT
     --set secret.env.gameplayPostgres.user=$GAMEPLAY_POSTGRES_USER
     --set secret.env.gameplayPostgres.pass=$GAMEPLAY_POSTGRES_PASS
 # Using local repository
-helm install wallet-service-deployment ./charts/repo/containers/wallet-service/build/
-    --set namespace wallet-service-deployment
+helm install websocket-node-deployment ./charts/repo/containers/websocket-node/build/
+    --set namespace websocket-node-deployment
     --set secret.env.gameplayPostgres.dbName=$GAMEPLAY_POSTGRES_DBNAME
     --set secret.env.gameplayPostgres.host=$GAMEPLAY_POSTGRES_HOST
     --set secret.env.gameplayPostgres.port=$GAMEPLAY_POSTGRES_PORT
@@ -48,12 +48,12 @@ helm install wallet-service-deployment ./charts/repo/containers/wallet-service/b
     --set secret.env.gameplayPostgres.pass=$GAMEPLAY_POSTGRES_PASS
 ```
 ## Outcome
-### Wallet Service
+### Websocket Node
 - **Kind**: Service  
 - **Type**: ClusterIP  
-- **Host**: `wallet-service-cluster-ip.wallet-service-deployment.svc.cluster.local`  
+- **Host**: `websocket-node-cluster-ip.websocket-node-deployment.svc.cluster.local`  
 - **Port**: 3008
 ```bash
 # Forward port for Gameplay PostgreSQL
-kubectl port-forward svc/wallet-service-cluster-ip --namespace wallet-service-deployment 3008:3008
+kubectl port-forward svc/websocket-node-cluster-ip --namespace websocket-node-deployment 3008:3008
 ```

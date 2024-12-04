@@ -8,41 +8,93 @@ clusterIp:
 # Secret configuration
 secret:
   metadata:
-    name: websocket-node-deployment-secret
+    name: websocket-node-secret
   env:
+    jwt:
+      secret: "C3ZofmtZ+hXQF2d~&bBu9x'UtkUyz?)MwXiXy_eGFlyO|:v!JW$?iZ&U6:kPQg("
+      accessTokenExpiration: "5m"
+      refreshTokenExpiration: "7d"
     gameplayPostgres:
       dbName: "postgres"
       host: "postgres"
       port: 5432
       user: "postgres"
       pass: "postgres"
+    gameplayTestPostgres:
+      dbName: "postgres"
+      host: "postgres"
+      port: 5432
+      user: "postgres"
+      pass: "postgres"
+    redis:
+      ttl: 86400000
+      cache:
+        host: "redis"
+        port: 6379
+      adapter:
+        host: "redis"
+        port: 6379
+      job:
+        host: "redis"
+        port: 6379
+    kafka:
+      headless:
+        headless1:
+          host: "kafka"
+          port: 9092
+        headless2:
+          host: "kafka"
+          port: 9092
+        headless3:
+          host: "kafka"
+          port: 9092
+      default:
+        default1:
+          host: "kafka"
+          port: 9092
+    containers:
+      subgraphStatic:
+        url: "http://localhost:3007/graphql"
+        port: 3007
+      restApiGateway:
+        host: "localhost"
+        port: 3001
+      websocketApiGateway:
+        host: "localhost"
+        port: 3002
+      graphqlApiGateway:
+        host: "localhost"
+        port: 3003
+      gameplayService:
+        host: "localhost"
+        port: 3014
 
 # Deployment configuration
 deployment:
   metadata:
-    name: websocket-node-deployment
+    name: websocket-node
   args:
     image:
       repository: cifarm/websocket-node
       tag: latest
     dockerfile: ./apps/websocket-node/Dockerfile
     context: git://github.com/starci-lab/cifarm-containers
-  replicaCount: 1
+  replicaCount: 2
   containerPort: 
-    port: 3008
-    targetPort: 3008
-  resources: 
+    port: 3003
+    targetPort: 3003
+  resources:
     requests:
-      cpu: "62m"
-      memory: "64Mi"
+      cpu: "10m"
+      memory: "20Mi"
     limits:
-      cpu: "125m"
-      memory: "128Mi"
+      cpu: "100m"
+      memory: "200Mi"
 
 # Service configuration
 scaledObject:
   metadata:
-    name: websocket-node-deployment-scaled-object
+    name: websocket-node-scaled-object
   minReplicaCount: 1
   maxReplicaCount: 3
   cooldownPeriod: 30                   
@@ -53,6 +105,6 @@ scaledObject:
         name: prometheus-kube-prometheus-prometheus
         namespace: monitoring
       port: 9090
-    metricName: websocket-node-deployment-scaled-object_keda
+    metricName: websocket-node-scaled-object_keda
     query: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring", pod=~"websocket-node-.*"}[1m]))"
     threshold: "0.3"
