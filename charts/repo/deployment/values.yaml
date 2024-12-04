@@ -22,6 +22,8 @@ env:
 
   REDIS_TTL: "86400000"
 
+  GRAPHQL_STATIC_SUBGRAPH_PORT: 3007
+
   CACHE_REDIS_HOST: "cache-redis-master.databases.svc.cluster.local"
   CACHE_REDIS_PORT: 6379
 
