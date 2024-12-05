@@ -6,7 +6,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9610313+07:00"
+    created: "2024-12-05T19:47:45.0933679+07:00"
     description: N/A
     digest: f49323ff06a66c82272bbeac93f1c972ad33ffe492eb6cfe5612937df3cca0c3
     home: N/A
@@ -25,7 +25,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9615478+07:00"
+    created: "2024-12-05T19:47:45.100927+07:00"
     description: N/A
     digest: 44ce393ce5f0923d02b70451a6bfda21c96b79635cbae7551a6671fbc2a818a0
     home: N/A
@@ -38,13 +38,32 @@ entries:
     urls:
     - packages/cron-worker-deployment-1.0.0.tgz
     version: 1.0.0
+  deployment:
+  - annotations:
+      category: Deployment
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.1.0
+    created: "2024-12-05T19:47:45.101458+07:00"
+    description: N/A
+    digest: 559e5a7dc16ad589d23c962dcb5665f36b103b03df19eede4c419871142c9d14
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: deployment
+    urls:
+    - packages/deployment-1.0.0.tgz
+    version: 1.0.0
   gameplay-service:
   - annotations:
       category: Deployment
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9621765+07:00"
+    created: "2024-12-05T19:47:45.1091495+07:00"
     description: N/A
     digest: 3ff527081c3ba2c10a597ee853dd8c043750de64abc9686a493bbbfafadd3219
     home: N/A
@@ -63,9 +82,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9621765+07:00"
+    created: "2024-12-05T19:47:45.1096575+07:00"
     description: N/A
-    digest: d0ee154fa20431ad8981d337f250dae68039fbfa103024deecd2163972cde759
+    digest: afe0cb49e28ba18443f0a1d598e5b91df5da5414c4d2e4c2451bfc473977b622
     home: N/A
     icon: N/A
     keywords:
@@ -82,7 +101,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9648542+07:00"
+    created: "2024-12-05T19:47:45.1219152+07:00"
     description: N/A
     digest: 80751af50e4c69f18e7ed55ffacc798cb66c517d7ced49f687e687d942856987
     home: N/A
@@ -101,9 +120,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9648542+07:00"
+    created: "2024-12-05T19:47:45.1224417+07:00"
     description: N/A
-    digest: e14d1d56d89caf1eefcac47298e6d51d8dc82cb2e565452e65e793a4c0dcf575
+    digest: 67a96236a7121cdfc791308744ae2725f5982c3aa34cb065b81c669fc5f46503
     home: N/A
     icon: N/A
     keywords:
@@ -120,7 +139,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9679502+07:00"
+    created: "2024-12-05T19:47:45.1336225+07:00"
     description: N/A
     digest: 4ce99651f18cf06e3928e318c56fb4ada1eaf3971400a2c76f7941013eae313d
     home: N/A
@@ -139,7 +158,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9679502+07:00"
+    created: "2024-12-05T19:47:45.1438964+07:00"
     description: N/A
     digest: a7ac70c00906792a336054de2c551bd25c6565f09d4bdece2c99b09a64746468
     home: N/A
@@ -158,7 +177,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9679502+07:00"
+    created: "2024-12-05T19:47:45.1567008+07:00"
     description: N/A
     digest: 6f6f5d4a7ccaf795dfcbf5c22fc2a5c3ddcd876038b4ac3a2fd50593b708e309
     home: N/A
@@ -177,7 +196,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9679502+07:00"
+    created: "2024-12-05T19:47:45.1655333+07:00"
     description: N/A
     digest: 21257349619ee8a4f70520b9a40cbe71198252dd94880f178e1e5dc9b5c3e14e
     home: N/A
@@ -196,7 +215,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9679502+07:00"
+    created: "2024-12-05T19:47:45.1719632+07:00"
     description: N/A
     digest: 8c86c2e0a03f9f8507661c8993f0b3cd032ef89da82ccad54087e0a8ef0e51cc
     home: N/A
@@ -215,7 +234,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9679502+07:00"
+    created: "2024-12-05T19:47:45.1789064+07:00"
     description: N/A
     digest: 5110063fdca20da56e96d927d9133b664f59ae5498f4b64f6acd745a4c2bd754
     home: N/A
@@ -234,7 +253,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-04T18:03:03.9679502+07:00"
+    created: "2024-12-05T19:47:45.1849428+07:00"
     description: N/A
     digest: c0981e689574e78a73ce8829102689ce68965811ee6d3342400aeed6493556bb
     home: N/A
@@ -247,4 +266,4 @@ entries:
     urls:
     - packages/websocket-node-deployment-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-04T18:03:03.9604907+07:00"
+generated: "2024-12-05T19:47:45.086307+07:00"

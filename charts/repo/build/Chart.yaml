@@ -14,5 +14,5 @@ keywords:
 maintainers:
 - name: CiLab 2.0
   url: ""
-name: gameplay-service-build
+name: build
 version: 1.0.0
