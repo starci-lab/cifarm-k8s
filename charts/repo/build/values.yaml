@@ -1,0 +1,19 @@
+imageCredentials:
+    registry: "https://index.docker.io/v1/"
+    username: "cifarm"
+    password: "*****"
+    email: "cifarm.starcilab@gmail.com"
+  
+image:
+  repository: "cifarm/gameplay-service"
+  tag: "latest"
+  dockerfile: ./apps/gameplay-service/Dockerfile
+  context: git://github.com/starci-lab/cifarm-containers
+  
+resources: 
+    requests:
+      cpu: "20m"
+      memory: "40Mi"
+    limits:
+      cpu: "200m"
+      memory: "400Mi"
