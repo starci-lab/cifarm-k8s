@@ -11,11 +11,11 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - portainer.eks.starci.net
-        - grafana.eks.starci.net
+        - portainer.cifarm.starci.net
+        - grafana.cifarm.starci.net
       secretName: utility-letsencrypt-production-tls
   rules:
-    - host: portainer.eks.starci.net
+    - host: portainer.cifarm.starci.net
       http:
         paths:
           - backend:
@@ -25,7 +25,7 @@ spec:
                   number: 9000
             path: /
             pathType: Prefix
-    - host: grafana.eks.starci.net
+    - host: grafana.cifarm.starci.net
       http:
         paths:
           - backend:

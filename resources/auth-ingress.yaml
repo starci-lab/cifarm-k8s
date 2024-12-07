@@ -16,11 +16,11 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - prometheus.eks.starci.net
-        - prometheus-alertmanager.eks.starci.net
+        - prometheus.cifarm.starci.net
+        - prometheus-alertmanager.cifarm.starci.net
       secretName: auth-letsencrypt-production-tls
   rules:
-    - host: prometheus.eks.starci.net
+    - host: prometheus.cifarm.starci.net
       http:
         paths:
           - backend:
@@ -30,7 +30,7 @@ spec:
                   number: 9090
             path: /
             pathType: Prefix
-    - host: prometheus-alertmanager.eks.starci.net
+    - host: prometheus-alertmanager.cifarm.starci.net
       http:
         paths:
           - backend:
