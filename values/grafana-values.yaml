@@ -31,7 +31,7 @@ datasources:
         orgId: 1  # Organization ID in Grafana (default organization)
         url: https://prometheus.eks.starci.net  # URL for Prometheus instance
         version: 1  # Version of the data source configuration
-        editable: false  # Allow users to edit the data source configuration
+        editable: true  # Allow users to edit the data source configuration
         isDefault: true  # Set this as the default data source
         basicAuth: true
         basicAuthUser: example
@@ -52,12 +52,13 @@ datasources:
         orgId: 1  # Organization ID in Grafana
         url: https://prometheus-alertmanager.eks.starci.net  # URL for Alertmanager instance
         version: 1  # Version of the data source configuration
-        editable: false  # Allow users to edit the data source configuration
+        editable: true  # Allow users to edit the data source configuration
         basicAuth: true
         basicAuthUser: example
         secureJsonData:
           basicAuthPassword: example
         jsonData:
+          implementation: prometheus  # Implementation type (Prometheus)
           httpMethod: POST        # HTTP method (POST or GET)
           keepCookies: []         # Cookies to keep
           timeInterval: "5s"     # Time interval between queries
