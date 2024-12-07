@@ -13,8 +13,19 @@ spec:
     - hosts:
         - portainer.eks.starci.net
         - grafana.eks.starci.net
+        - jenkins.eks.starci.net
       secretName: utility-letsencrypt-production-tls
   rules:
+    - host: jenkins.eks.starci.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: jenkins-service-external
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
     - host: portainer.eks.starci.net
       http:
         paths:
@@ -29,9 +40,9 @@ spec:
       http:
         paths:
           - backend:
-              service:
-                name: portainer-service-external
+              service:    
+                name: grafana-service-external
                 port:
-                  number: 9000
+                  number: 3000
             path: /
             pathType: Prefix
