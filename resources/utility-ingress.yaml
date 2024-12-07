@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: utility-ingress
+  namespace: ingresses
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - portainer.eks.starci.net
+        - grafana.eks.starci.net
+      secretName: utility-letsencrypt-production-tls
+  rules:
+    - host: portainer.eks.starci.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: portainer-service-external
+                port:
+                  number: 9000
+            path: /
+            pathType: Prefix
+    - host: grafana.eks.starci.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: portainer-service-external
+                port:
+                  number: 9000
+            path: /
+            pathType: Prefix
