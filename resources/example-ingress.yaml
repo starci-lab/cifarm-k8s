@@ -3,22 +3,15 @@ kind: Ingress
 metadata:
   name: demo-ingress
   namespace: game-2048  # Replace with your namespace if different
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-production"  # Refer to the ClusterIssuer
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"           # Redirect HTTP to HTTPS
 spec:
+  ingressClassName: nginx  # Reference the IngressClass here
   rules:
-  - host: eks.starci.net  # Replace with your domain name
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: service-2048  # Replace with your service name
-            port:
-              number: 80
-  tls:
-  - hosts:
-    - eks.starci.net  # The domain name for the certificate
-    secretName: letsencrypt-production-tls  # Secret where the TLS certificate will be stored
+    - http:
+        paths:
+        - path: /test
+          pathType: Prefix
+          backend:
+            service:
+              name: service-2048  # Replace with your service name
+              port:
+                number: 80
