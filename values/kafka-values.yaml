@@ -1,8 +1,5 @@
 # kafka-values.yaml
 
-# Namespace for the Kafka deployment
-namespace: brokers
-
 # Kafka listeners configuration
 listeners:
   client:
