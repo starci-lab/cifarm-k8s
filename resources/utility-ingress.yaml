@@ -13,6 +13,7 @@ spec:
     - hosts:
         - portainer.cifarm.starci.net
         - grafana.cifarm.starci.net
+        - jenkins.cifarm.starci.net
       secretName: utility-letsencrypt-production-tls
   rules:
     - host: portainer.cifarm.starci.net
@@ -35,3 +36,11 @@ spec:
                   number: 9000
             path: /
             pathType: Prefix
+    - host: jenkins.cifarm.starci.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: jenkins-service-external
+                port:
+                  number: 8080
