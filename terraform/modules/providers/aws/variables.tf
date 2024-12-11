@@ -98,15 +98,3 @@ variable "disk_size_secondary_node_group" {
   description = "Disk size for the secondary node group"
   default     = 50
 }
-
-variable "ebs_volume_az" {
-  type        = string
-  description = "Availability zone for the EBS volume"
-  default     = "us-southeast-1a"
-}
-
-variable "ebs_volume_size" {
-  type        = number
-  description = "Size of the EBS volume"
-  default     = 20
-}

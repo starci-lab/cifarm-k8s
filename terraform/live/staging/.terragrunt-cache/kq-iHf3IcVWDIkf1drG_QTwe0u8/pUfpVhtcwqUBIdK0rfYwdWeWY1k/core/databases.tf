@@ -8,7 +8,7 @@ resource "kubernetes_namespace" "databases" {
 # Helm release for the Gameplay PostgreSQL database
 resource "helm_release" "gameplay-postgres" {
     name       = "gameplay-postgres"
-    repository = data.helm_repository.bitnami.metadata[0].name
+    repository = var.bitnami_repository
     chart      = "postgresql-ha"
     namespace  = kubernetes_namespace.databases.metadata[0].name
 
@@ -28,7 +28,7 @@ resource "helm_release" "gameplay-postgres" {
 # Helm release for the Cache Redis database
 resource "helm_release" "cache-redis" {
     name       = "cache-redis"
-    repository = data.helm_repository.bitnami.metadata[0].name
+    repository = var.bitnami_repository
     chart      = "redis"
     namespace  = kubernetes_namespace.databases.metadata[0].name
     values = [
@@ -45,7 +45,7 @@ resource "helm_release" "cache-redis" {
 # Helm release for the Adapter Redis database
 resource "helm_release" "adapter-redis" {
     name       = "adapter-redis"
-    repository = data.helm_repository.bitnami.metadata[0].name
+    repository = var.bitnami_repository
     chart      = "redis"
     namespace  = kubernetes_namespace.databases.metadata[0].name
 
@@ -63,7 +63,7 @@ resource "helm_release" "adapter-redis" {
 # Helm release for the Job Redis database
 resource "helm_release" "job-redis" {
     name       = "job-redis"
-    repository = data.helm_repository.bitnami.metadata[0].name
+    repository = var.bitnami_repository
     chart      = "redis"
     namespace  = kubernetes_namespace.databases.metadata[0].name
 

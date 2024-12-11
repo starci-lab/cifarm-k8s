@@ -34,7 +34,8 @@ output "node_group_secondary_id" {
   value       = module.eks.eks_managed_node_groups.secondary_group.node_group_id
 }
 
-output "ebs_volume_az" {
-  description = "EBS volume availability zone"
-  value       = var.ebs_volume_az
+# EBS CSI IAM Role ARN output
+output "ebs_csi_eks_role_arn" {
+  description = "EBS CSI IAM Role ARN"
+  value       = module.ebs_csi_eks_role.iam_role_arn
 }

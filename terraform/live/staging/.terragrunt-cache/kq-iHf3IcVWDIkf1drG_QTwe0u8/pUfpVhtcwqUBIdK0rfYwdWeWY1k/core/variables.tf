@@ -20,8 +20,9 @@ variable "ebs_volume_base_name" {
   default     = "ebs"
 }
 
-variable "ebs_volume_size" {
-  type        = number
-  description = "Size of the EBS volume"
-  default     = 20
+variable "bitnami_repository" {
+  type        = string
+  description = "Bitnami Helm repository"
+  default     = "oci://registry-1.docker.io/bitnamicharts"
 }
+

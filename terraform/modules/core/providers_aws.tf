@@ -51,3 +51,7 @@ provider "helm" {
     }
   }
 }
+
+data "aws_availability_zones" "available" {
+  
+}

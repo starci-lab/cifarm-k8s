@@ -17,6 +17,8 @@ module "eks" {
   subnet_ids                     = module.vpc.private_subnets
   # Enable public access to the cluster endpoint
   cluster_endpoint_public_access = true
+  
+  # Add-ons
 
   # Define the IAM role ARN
   create_iam_role = false
@@ -73,11 +75,4 @@ module "eks" {
       }
     }
   }
-}
-
-resource "aws_ebs_volume" "ebs_volume" {
-  availability_zone = var.ebs_volume_az
-  size              = var.ebs_volume_size
-  type              = "gp2"
-  encrypted         = true
 }
