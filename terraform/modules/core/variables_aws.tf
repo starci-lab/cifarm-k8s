@@ -1,5 +1,10 @@
-# AWS Module only - If you are using other cloud providers, you can ignore the file.
-# AWS provider
+// AWS credentials
+variable "region" {
+  type = string
+  default     = "ap-southeast-1"
+  description = "AWS region"
+}
+
 variable "access_key" {
   type = string
   description = "AWS access key"
@@ -10,13 +15,6 @@ variable "secret_key" {
   type = string
   description = "AWS secret key"
   sensitive = true
-}
-
-// AWS credentials
-variable "region" {
-  type = string
-  default     = "ap-southeast-1"
-  description = "AWS region"
 }
 
 // EKS cluster

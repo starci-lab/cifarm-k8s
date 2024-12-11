@@ -18,6 +18,16 @@ resource "random_string" "suffix" {
   special = false
 }
 
+# Retrieve EKS cluster configuration
+data "aws_eks_cluster" "cluster" {
+  name = module.eks.cluster_name
+}
+
+# Retrieve EKS cluster auth configuration
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks.cluster_name
+}
+
 locals {
     cluster_name = "${var.cluster_base_name}-${random_string.suffix.result}"
     ebs_csi_role_name = "ebs-csi-role-${random_string.suffix.result}"
@@ -28,16 +38,6 @@ locals {
     account_id         = data.aws_caller_identity.current.account_id
     oidc_provider_arn  = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
     oidc_provider_name = "arn:${local.partition}:iam::${local.account_id}:oidc-provider/${local.oidc_provider_arn}"
-}
-
-# Retrieve EKS cluster configuration
-data "aws_eks_cluster" "cluster" {
-  name = module.eks.cluster_name
-}
-
-# Retrieve EKS cluster auth configuration
-data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks.cluster_name
 }
 
 # Kubernetes provider
