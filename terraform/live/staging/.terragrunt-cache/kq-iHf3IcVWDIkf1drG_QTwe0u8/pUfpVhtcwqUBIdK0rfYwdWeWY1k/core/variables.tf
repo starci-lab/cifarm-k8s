@@ -13,7 +13,6 @@ variable "gameplay_postgres_password" {
   sensitive   = true
 }
 
-
 variable "ebs_volume_base_name" {
   type        = string
   description = "Base name for the EBS volume"
@@ -26,3 +25,4 @@ variable "bitnami_repository" {
   default     = "oci://registry-1.docker.io/bitnamicharts"
 }
 
+ 

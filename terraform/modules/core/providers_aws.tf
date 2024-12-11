@@ -4,18 +4,26 @@ module "provider" {
   source = "../providers/aws"
   access_key = var.access_key
   secret_key = var.secret_key
-}
+  region = var.region
 
-variable "access_key" {
-  type = string
-  description = "AWS access key"
-  sensitive = true
-}
+  # EKS cluster
+  cluster_base_name = var.cluster_base_name
 
-variable "secret_key" {
-  type = string
-  description = "AWS secret key"
-  sensitive = true
+  ## Primary Node Group
+  primary_node_base_group_name = var.primary_node_base_group_name
+  primary_node_instance_type = var.primary_node_instance_type
+  min_size_primary_node_group = var.min_size_primary_node_group
+  max_size_primary_node_group = var.max_size_primary_node_group
+  desired_size_primary_node_group = var.desired_size_primary_node_group
+  disk_size_primary_node_group = var.disk_size_primary_node_group
+
+  ## EKS cluster - Secondary Node Group
+  secondary_node_base_group_name = var.secondary_node_base_group_name
+  secondary_node_instance_type = var.secondary_node_instance_type
+  min_size_secondary_node_group = var.min_size_secondary_node_group
+  max_size_secondary_node_group = var.max_size_secondary_node_group
+  desired_size_secondary_node_group = var.desired_size_secondary_node_group
+  disk_size_secondary_node_group = var.disk_size_secondary_node_group
 }
 
 # Retrieve EKS cluster configuration
