@@ -39,3 +39,5 @@ terraform.rc
 
 # Ingore terraform plan output
 *.tfplan
+
+.env.*

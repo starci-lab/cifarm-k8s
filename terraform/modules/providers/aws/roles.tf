@@ -1,7 +1,7 @@
 # EKS Cluster IAM Role
 # Define an IAM role policy
 resource "aws_iam_role" "cluster" {
-  name = "cluster"
+  name = local.cluster_name
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -21,7 +21,7 @@ resource "aws_iam_role" "cluster" {
 
 # Define an IAM role for node group policies
 resource "aws_iam_role_policy" "cluster" {
-  name = "cluster"
+  name = local.cluster_name
   role = aws_iam_role.cluster.id
 
   # Terraform's "jsonencode" function converts a
@@ -83,8 +83,9 @@ resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSNetworkingPolicy" {
 #####
 # EKS Cluster IAM Role
 # Define an IAM role policy
-resource "aws_iam_role" "node_group" {
-  name = "node-group"
+# Primary Node Group IAM Role
+resource "aws_iam_role" "primary_node_group" {
+  name = local.primary_node_group_name
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -100,41 +101,52 @@ resource "aws_iam_role" "node_group" {
   })
 }
 
-# Define an IAM role for node group policies
-resource "aws_iam_role_policy" "node_group" {
-  name = "node_group"
-  role = aws_iam_role.node_group.id
-
-  policy = jsonencode({
+# Secondary Node Group IAM Role
+resource "aws_iam_role" "secondary_node_group" {
+  name = local.secondary_node_group_name
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Action = [
-          "ec2:Describe*",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
       },
     ]
   })
 }
 
-# Attach AmazonEKSWorkerNodePolicy policies to the IAM role
-resource "aws_iam_role_policy_attachment" "node_group_AmazonEKSWorkerNodePolicy" {
-    policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-    role       = aws_iam_role.node_group.name
+# Primary Node Group Policies
+resource "aws_iam_role_policy_attachment" "primary_node_group_AmazonEKSWorkerNodePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.primary_node_group.name
 }
 
-# Attach AmazonEKS_CNI_Policy policies to the IAM role
-resource "aws_iam_role_policy_attachment" "node_group_AmazonEKS_CNI_Policy" {
-    policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-    role       = aws_iam_role.node_group.name
+resource "aws_iam_role_policy_attachment" "primary_node_group_AmazonEKS_CNI_Policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.primary_node_group.name
 }
 
-# Attach AmazonEC2ContainerRegistryReadOnly policies to the IAM role
-resource "aws_iam_role_policy_attachment" "node_group_AmazonEC2ContainerRegistryReadOnly" {
-    policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-    role       = aws_iam_role.node_group.name
+resource "aws_iam_role_policy_attachment" "primary_node_group_AmazonEC2ContainerRegistryReadOnly" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.primary_node_group.name
 }
 
+# Secondary Node Group Policies
+resource "aws_iam_role_policy_attachment" "secondary_node_group_AmazonEKSWorkerNodePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.secondary_node_group.name
+}
 
+resource "aws_iam_role_policy_attachment" "secondary_node_group_AmazonEKS_CNI_Policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.secondary_node_group.name
+}
+
+resource "aws_iam_role_policy_attachment" "secondary_node_group_AmazonEC2ContainerRegistryReadOnly" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.secondary_node_group.name
+}

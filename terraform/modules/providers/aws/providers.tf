@@ -15,10 +15,8 @@ resource "random_string" "suffix" {
   special = false
 }
 
-resource "aws_iam_user" "current" {
-  name = "current"
-}
-
 locals {
     cluster_name = "${var.cluster_base_name}-${random_string.suffix.result}"
+    primary_node_group_name = "${var.primary_node_base_group_name}-${random_string.suffix.result}"
+    secondary_node_group_name = "${var.secondary_node_base_group_name}-${random_string.suffix.result}"
 }
