@@ -19,10 +19,6 @@ resource "helm_release" "gameplay-postgres" {
             node_group_label = split(":", module.provider.node_group_primary_id)[1]
         })
     ]
-    # Dependency on the namespace being created first
-    depends_on = [ 
-        kubernetes_namespace.databases
-    ]
 }   
 
 # Helm release for the Cache Redis database
@@ -35,10 +31,6 @@ resource "helm_release" "cache-redis" {
         templatefile("manifests/redis-values.yaml", {
             node_group_label = split(":", module.provider.node_group_primary_id)[1]
         })
-    ]
-    # Dependency on the namespace being created first
-    depends_on = [ 
-        kubernetes_namespace.databases
     ]
 }   
 
@@ -54,10 +46,6 @@ resource "helm_release" "adapter-redis" {
             node_group_label = split(":", module.provider.node_group_primary_id)[1]
         })
     ]
-    # Dependency on the namespace being created first
-    depends_on = [ 
-        kubernetes_namespace.databases
-    ]
 }   
 
 # Helm release for the Job Redis database
@@ -71,9 +59,5 @@ resource "helm_release" "job-redis" {
         templatefile("manifests/redis-values.yaml", {
             node_group_label = split(":", module.provider.node_group_primary_id)[1]
         })
-    ]
-    # Dependency on the namespace being created first
-    depends_on = [ 
-        kubernetes_namespace.databases
     ]
 }

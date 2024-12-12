@@ -21,6 +21,7 @@ module "vpc" {
   single_nat_gateway   = true
   # Enable DNS hostnames
   enable_dns_hostnames = true
+  enable_dns_support = true
 
   # Define the tags for the VPC
   tags = {

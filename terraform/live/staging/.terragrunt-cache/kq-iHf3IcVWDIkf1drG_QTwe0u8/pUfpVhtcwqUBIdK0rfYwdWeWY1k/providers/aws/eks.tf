@@ -29,6 +29,22 @@ module "eks" {
     ami_type = "AL2_x86_64"
   }
 
+  # Add-ons
+  cluster_addons =  {
+    coredns = {
+      most_recent = true
+    }
+    kube-proxy = {
+      most_recent = true
+    }
+    vpc-cni = {
+      most_recent = true
+    }
+    aws-ebs-csi-driver = {
+      most_recent = true
+      service_account_role_arn = module.ebs_csi_eks_role.iam_role_arn
+    }
+  }
   # Define the managed node groups
   eks_managed_node_groups = {
     # Define the primary managed node group
@@ -41,15 +57,12 @@ module "eks" {
       subnet_ids = module.vpc.private_subnets
       create_iam_role = false
       create_iam_role_policy = false
-      use_custom_launch_template = false
+      
       iam_role_arn = aws_iam_role.primary_node_group.arn
       update_config = {
         max_unavailable = 1
       }
       disk_size = var.disk_size_primary_node_group
-      labels = {
-        type = "primary"
-      }
     }
     # Define the secondary managed node group
     secondary_group = {
@@ -60,19 +73,12 @@ module "eks" {
       desired_size   = var.desired_size_secondary_node_group
       subnet_ids = module.vpc.private_subnets
       create_iam_role = false
-      use_custom_launch_template = false
       create_iam_role_policy = false
       iam_role_arn = aws_iam_role.secondary_node_group.arn
       update_config = {
         max_unavailable = 1
       }
       disk_size = var.disk_size_secondary_node_group
-      tags = {
-        Category = "secondary"
-      }
-      labels = {
-        type = "secondary"
-      }
     }
   }
 }
