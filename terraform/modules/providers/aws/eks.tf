@@ -17,8 +17,6 @@ module "eks" {
   subnet_ids                     = module.vpc.private_subnets
   # Enable public access to the cluster endpoint
   cluster_endpoint_public_access = true
-  
-  # Add-ons
 
   # Define the IAM role ARN
   create_iam_role = false
