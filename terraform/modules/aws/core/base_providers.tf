@@ -2,14 +2,16 @@
 # This data block fetches the details of an existing Amazon EKS cluster by its name.
 # It includes configuration details such as endpoint, certificate authority, etc.
 data "aws_eks_cluster" "cluster" {
-  name = var.cluster_name  # Fetches the EKS cluster configuration using the cluster name from the variable
+  name = module.eks.cluster_name  # Fetches the EKS cluster configuration using the cluster name from the variable
+  depends_on = [ module.eks.cluster_name ]
 }
 
 # Retrieve EKS cluster auth configuration
 # This data block retrieves the authentication configuration for the EKS cluster.
 # It provides the necessary authentication token to interact with the Kubernetes API of the cluster.
 data "aws_eks_cluster_auth" "cluster" {
-  name = var.cluster_name  # Retrieves the authentication token for the specified cluster
+  name = module.eks.cluster_name  # Retrieves the authentication token for the specified cluster
+  depends_on = [ module.eks.cluster_name ]
 }
 
 # Kubernetes provider configuration

@@ -47,7 +47,7 @@ resource "aws_eks_cluster" "eks_cluster" {
     endpoint_public_access  = true
 
     # Provide the subnet IDs that the EKS cluster should use for its worker nodes
-    subnet_ids = var.private_subnet_ids
+    subnet_ids = module.vpc.private_subnet_ids
   }
 
 

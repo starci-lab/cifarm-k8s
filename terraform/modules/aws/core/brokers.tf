@@ -13,8 +13,8 @@ resource "helm_release" "kafka" {
     namespace  = kubernetes_namespace.brokers.metadata[0].name
 
     values = [
-        templatefile("manifests/kafka-values.yaml", {
-            node_group_label = split(":", module.provider.node_group_primary_id)[1]
+        templatefile("${path.module}/manifests/kafka-values.yaml", {
+            node_group_label = module.eks.primary_node_group_name
         })
     ]
 }   

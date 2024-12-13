@@ -13,8 +13,8 @@ resource "helm_release" "prometheus" {
     namespace  = kubernetes_namespace.monitoring.metadata[0].name
 
     values = [
-        templatefile("manifests/prometheus-values.yaml", {
-            node_group_label = split(":", module.provider.node_group_secondary_id)[1]
+        templatefile("${path.module}/manifests/prometheus-values.yaml", {
+            node_group_label = module.eks.secondary_node_group_name
         })
     ]
 }   
@@ -27,12 +27,12 @@ resource "helm_release" "grafana" {
     namespace  = kubernetes_namespace.monitoring.metadata[0].name
 
     values = [
-        templatefile("manifests/grafana-values.yaml", {
+        templatefile("${path.module}/manifests/grafana-values.yaml", {
             user = var.grafana_user,
             password = var.grafana_password,
             prometheus_url = var.grafana_prometheus_url,
             prometheus_alertmanager_url = var.grafana_prometheus_alertmanager_url,
-            node_group_label = split(":", module.provider.node_group_secondary_id)[1]
+            node_group_label = module.eks.secondary_node_group_name
         })
     ]
 }

@@ -1,7 +1,7 @@
 module "eks" {
   # Source of the EKS module
   # This references the local path where the EKS module is defined (./eks).
-  source = "./eks"
+  source = "../eks"
 
   # AWS Region for the EKS cluster
   # The region where the EKS cluster and associated resources will be created.
@@ -58,12 +58,4 @@ module "eks" {
 
   # Disk size (in GB) for the secondary node group.
   disk_size_secondary_node_group = var.disk_size_secondary_node_group
-
-  # Private Subnet IDs
-  # These are the private subnet IDs within the VPC where EKS worker nodes will be deployed.
-  private_subnet_ids = module.vpc.private_subnet_ids
-
-  # VPC ID
-  # This references the VPC ID where the EKS cluster will be created.
-  vpc_id = module.vpc.vpc_id
 }

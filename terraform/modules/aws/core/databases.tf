@@ -13,10 +13,10 @@ resource "helm_release" "gameplay-postgres" {
     namespace  = kubernetes_namespace.databases.metadata[0].name
 
     values = [
-        templatefile("manifests/postgresql-ha-values.yaml", {
+        templatefile("${path.module}/manifests/postgresql-ha-values.yaml", {
             password = var.gameplay_postgres_password,
             database = var.gameplay_postgres_database,
-            node_group_label = split(":", module.provider.node_group_primary_id)[1]
+            node_group_label = module.eks.primary_node_group_name
         })
     ]
 }   
@@ -28,8 +28,8 @@ resource "helm_release" "cache-redis" {
     chart      = "redis"
     namespace  = kubernetes_namespace.databases.metadata[0].name
     values = [
-        templatefile("manifests/redis-values.yaml", {
-            node_group_label = split(":", module.provider.node_group_primary_id)[1]
+        templatefile("${path.module}/manifests/redis-values.yaml", {
+            node_group_label = module.eks.primary_node_group_name
         })
     ]
 }   
@@ -42,8 +42,8 @@ resource "helm_release" "adapter-redis" {
     namespace  = kubernetes_namespace.databases.metadata[0].name
 
     values = [
-        templatefile("manifests/redis-values.yaml", {
-            node_group_label = split(":", module.provider.node_group_primary_id)[1]
+        templatefile("${path.module}/manifests/redis-values.yaml", {
+            node_group_label = module.eks.primary_node_group_name
         })
     ]
 }   
@@ -56,8 +56,8 @@ resource "helm_release" "job-redis" {
     namespace  = kubernetes_namespace.databases.metadata[0].name
 
     values = [
-        templatefile("manifests/redis-values.yaml", {
-            node_group_label = split(":", module.provider.node_group_primary_id)[1]
+        templatefile("${path.module}/manifests/redis-values.yaml", {
+            node_group_label = module.eks.primary_node_group_name
         })
     ]
 }
