@@ -29,4 +29,8 @@ inputs = {
   # EBS
   ebs_volume_size = 20
   ebs_volume_name = "us-west-2a"
+
+  # Grafana
+  grafana_prometheus_url = "https://prometheus.staging.cifarm.starci.net"
+  grafana_prometheus_alertmanager_url = "https://prometheus-alertmanager.staging.cifarm.starci.net"
 }

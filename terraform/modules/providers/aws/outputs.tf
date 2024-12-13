@@ -34,8 +34,14 @@ output "node_group_secondary_id" {
   value       = module.eks.eks_managed_node_groups.secondary_group.node_group_id
 }
 
-# EBS CSI IAM Role ARN output
+# LB ARN output
+output "lb_role_arn" {
+  description = "Load Balancer ARN"
+  value       = module.lb_role.iam_role_arn
+}
+
+# LB role name output
 output "ebs_csi_eks_role_arn" {
-  description = "EBS CSI IAM Role ARN"
+  description = "Load Balancer Role Name"
   value       = module.ebs_csi_eks_role.iam_role_arn
 }

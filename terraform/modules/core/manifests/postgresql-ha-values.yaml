@@ -2,16 +2,16 @@
 global:
   postgresql:
     # The name of the PostgreSQL database to be created
-    database: example       # Replace example with your database name
+    database: ${database}          # Replace example with your database name
     
     # The password for the PostgreSQL superuser
-    password: example          # Replace example with your password
+    password: ${password}          # Replace example with your password
     
     # The name of the repmgr database used for replication
-    repmgrDatabase: example  # Replication database name (usually same as database)
+    repmgrDatabase: ${database}    # Replication database name (usually same as database)
     
     # The password for the PostgreSQL replication user
-    repmgrPassword: example    # Password for the repmgr user
+    repmgrPassword: ${password}    # Password for the repmgr user
 
 # PostgreSQL PGPool resource configurations (for connection pooling)
 pgpool:

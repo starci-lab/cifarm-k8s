@@ -10,7 +10,7 @@ module "eks" {
 
   # Enable the cluster creator admin permissions
   enable_cluster_creator_admin_permissions = true
-  
+
   # Define the VPC ID
   vpc_id                         = module.vpc.vpc_id
   # Define the subnet IDs
@@ -38,11 +38,8 @@ module "eks" {
     vpc-cni = {
       most_recent = true
     }
-    aws-ebs-csi-driver = {
-      most_recent = true
-      service_account_role_arn = module.ebs_csi_eks_role.iam_role_arn
-    }
   }
+  
   # Define the managed node groups
   eks_managed_node_groups = {
     # Define the primary managed node group
@@ -79,4 +76,34 @@ module "eks" {
       disk_size = var.disk_size_secondary_node_group
     }
   }
+}
+
+# EBS CSI Driver IAM Role
+module "ebs_csi_eks_role" {
+  source    = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  role_name = local.ebs_csi_role_name
+
+  attach_ebs_csi_policy = true
+  
+  oidc_providers = {
+    main = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["kube-system:ebs-csi-controller-sa"]
+    }
+  }
+}
+
+# LB Role
+module "lb_role" {
+ source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+
+ role_name                              = local.lb_role_name
+ attach_load_balancer_controller_policy = true
+
+ oidc_providers = {
+     main = {
+     provider_arn               =  module.eks.oidc_provider_arn
+     namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
+     }
+ }
 }

@@ -4,8 +4,12 @@
 # Replica count for the NGINX Ingress Controller deployment
 replicaCount: 1
 
+nodeSelector:
+  "eks.amazonaws.com/nodegroup": "primary-staging-mfCzvArn-20241212092132359600000018"
 # Default backend resource configuration
 defaultBackend:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": "primary-staging-mfCzvArn-20241212092132359600000018"
   resources:
     requests:
       cpu: 10m

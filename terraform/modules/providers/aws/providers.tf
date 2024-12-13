@@ -31,6 +31,7 @@ data "aws_eks_cluster_auth" "cluster" {
 locals {
     cluster_name = "${var.cluster_base_name}-${random_string.suffix.result}"
     ebs_csi_role_name = "ebs-csi-role-${random_string.suffix.result}"
+    lb_role_name = "lb-role-${random_string.suffix.result}"
     primary_node_group_name = "${var.primary_node_base_group_name}-${random_string.suffix.result}"
     secondary_node_group_name = "${var.secondary_node_base_group_name}-${random_string.suffix.result}"
     

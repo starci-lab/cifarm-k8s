@@ -26,4 +26,8 @@ inputs = {
 
   # Cluster Base Name
   cluster_base_name = "cifarm-production"
+
+    # Grafana
+  grafana_prometheus_url = "https://prometheus.cifarm.starci.net"
+  grafana_prometheus_alertmanager_url = "https://prometheus-alertmanager.cifarm.starci.net"
 }

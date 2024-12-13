@@ -25,4 +25,26 @@ variable "bitnami_repository" {
   default     = "oci://registry-1.docker.io/bitnamicharts"
 }
 
- 
+variable "grafana_user" {
+  type        = string
+  description = "Grafana user"
+  sensitive = true
+}
+
+variable "grafana_password" {
+  type        = string
+  description = "Grafana password"
+  sensitive = true
+}
+
+variable "grafana_prometheus_url" {
+  type = string
+  description = "Prometheus URL for Grafana"
+  default = "https://prometheus.staging.cifarm.starci.net"
+}
+
+variable "grafana_prometheus_alertmanager_url" {
+  type = string
+  description = "Prometheus Alertmanager URL for Grafana"
+  default = "https://prometheus-alertmanager.staging.cifarm.starci.net"
+}
