@@ -14,7 +14,7 @@ resource "helm_release" "prometheus" {
 
     values = [
         templatefile("${path.module}/manifests/prometheus-values.yaml", {
-            node_group_label = module.eks.secondary_node_group_name
+            node_group_label = var.secondary_node_group_name
         })
     ]
 }   
@@ -32,7 +32,7 @@ resource "helm_release" "grafana" {
             password = var.grafana_password,
             prometheus_url = var.grafana_prometheus_url,
             prometheus_alertmanager_url = var.grafana_prometheus_alertmanager_url,
-            node_group_label = module.eks.secondary_node_group_name
+            node_group_label = var.secondary_node_group_name
         })
     ]
 }

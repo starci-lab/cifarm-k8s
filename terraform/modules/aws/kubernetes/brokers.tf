@@ -14,7 +14,7 @@ resource "helm_release" "kafka" {
 
     values = [
         templatefile("${path.module}/manifests/kafka-values.yaml", {
-            node_group_label = module.eks.primary_node_group_name
+            node_group_label = var.primary_node_group_name
         })
     ]
 }   

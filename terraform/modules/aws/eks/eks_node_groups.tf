@@ -5,12 +5,14 @@ resource "aws_eks_node_group" "primary_node_group" {
   
   # Name of the primary node group
   node_group_name = "primary-${var.cluster_name}"
+  
+  instance_types = var.primary_node_instance_type  # EC2 instance type for the primary node group
 
   # IAM role for primary node group
   node_role_arn   = aws_iam_role.primary_node_group.arn
 
   # Subnet IDs where the nodes will be launched
-  subnet_ids      = module.vpc.private_subnet_ids
+  subnet_ids      = var.private_subnet_ids
 
   # Scaling configuration: define the desired, maximum, and minimum size for the node group
   scaling_config {
@@ -28,7 +30,7 @@ resource "aws_eks_node_group" "primary_node_group" {
   depends_on = [
     aws_iam_role_policy_attachment.primary_node_group_AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.primary_node_group_AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.primary_node_group_AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.primary_node_group_AmazonEC2ContainerRegistryReadOnly
   ]
 }
 
@@ -42,11 +44,13 @@ resource "aws_eks_node_group" "secondary_node_group" {
   # Name of the secondary node group
   node_group_name = "secondary-${var.cluster_name}"
 
+  instance_types = var.primary_node_instance_type  # EC2 instance type for the primary node group
+  
   # IAM role for secondary node group
   node_role_arn   = aws_iam_role.secondary_node_group.arn
 
   # Subnet IDs where the nodes will be launched
-  subnet_ids      = module.vpc.private_subnet_ids
+  subnet_ids      = var.private_subnet_ids
 
   # Scaling configuration for secondary node group
   scaling_config {
@@ -64,6 +68,6 @@ resource "aws_eks_node_group" "secondary_node_group" {
   depends_on = [
     aws_iam_role_policy_attachment.secondary_node_group_AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.secondary_node_group_AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.secondary_node_group_AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.secondary_node_group_AmazonEC2ContainerRegistryReadOnly
   ]
 }

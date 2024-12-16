@@ -27,11 +27,11 @@ defaultBackend:
 # NGINX Ingress Controller resource configuration
 resources:
   requests:
-    cpu: 50m
-    memory: 100Mi
+    cpu: 30m
+    memory: 60Mi
   limits:
-    cpu: 500m
-    memory: 1000Mi
+    cpu: 300m
+    memory: 600Mi
 
 # AWS-specific service annotations for load balancer
 service:

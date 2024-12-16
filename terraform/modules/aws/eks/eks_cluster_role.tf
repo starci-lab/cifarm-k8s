@@ -18,6 +18,7 @@ resource "aws_iam_role" "eks_cluster" {
   })
 }
 
+# Create an IAM role policy for the EKS cluster
 resource "aws_iam_role_policy" "cluster" {
   name = "iam-role-policy-eks-cluster-${var.cluster_name}"  # The IAM role policy name dynamically set based on the cluster name
   role = aws_iam_role.eks_cluster.name  # The IAM role to attach the policy to

@@ -95,3 +95,8 @@ variable "disk_size_secondary_node_group" {
   description = "Disk size for the secondary node group"
   default     = 50  // Default disk size is 50 GB
 }
+
+variable "private_subnet_ids" {
+  type = list(string)
+  description = "List of private subnet IDs"
+}
