@@ -6,11 +6,11 @@ alertmanager:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "50m"
-      memory: "100Mi"
+      cpu: "30m"
+      memory: "60Mi"
     limits:
-      cpu: "100m"
-      memory: "200Mi"
+      cpu: "90m"
+      memory: "180Mi"
 
 # Resource settings for Blackbox Exporter
 blackboxExporter:
@@ -18,11 +18,11 @@ blackboxExporter:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "50m"
-      memory: "100Mi"
+      cpu: "30m"
+      memory: "60Mi"
     limits:
-      cpu: "100m"
-      memory: "200Mi"
+      cpu: "90m"
+      memory: "180Mi"
 
 # Resource settings for Operator
 operator:
@@ -30,11 +30,11 @@ operator:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "50m"
-      memory: "100Mi"
+      cpu: "30m"
+      memory: "60Mi"
     limits:
-      cpu: "100m"
-      memory: "200Mi"
+      cpu: "90m"
+      memory: "180Mi"
 
 # Resource settings for Prometheus
 prometheus:
@@ -42,19 +42,19 @@ prometheus:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "100m"
-      memory: "200Mi"
+      cpu: "90m"
+      memory: "180Mi"
     limits:
       cpu: "200m"
       memory: "400Mi"
   thanos:
     resources:
       requests:
-        cpu: "50m"
-        memory: "100Mi"
+        cpu: "30m"
+        memory: "60Mi"
       limits:
-        cpu: "100m"
-        memory: "200Mi"
+        cpu: "90m"
+        memory: "180Mi"
 
 # Resource settings for Node Exporter
 node-exporter:
@@ -62,11 +62,11 @@ node-exporter:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "50m"
-      memory: "100Mi"
+      cpu: "30m"
+      memory: "60Mi"
     limits:
-      cpu: "100m"
-      memory: "200Mi"
+      cpu: "90m"
+      memory: "180Mi"
 
 # Resource settings for Kube-State-Metrics
 kube-state-metrics:
@@ -74,8 +74,8 @@ kube-state-metrics:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "50m"
-      memory: "100Mi"
+      cpu: "30m"
+      memory: "60Mi"
     limits:
-      cpu: "100m"
-      memory: "200Mi"
+      cpu: "90m"
+      memory: "180Mi"

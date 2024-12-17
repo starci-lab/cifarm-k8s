@@ -12,8 +12,8 @@ replica:
       cpu: "10m"               # CPU request for Redis replica (10 millicores)
       memory: "20Mi"           # Memory request for Redis replica (20 MiB)
     limits:
-      cpu: "100m"              # CPU limit for Redis replica (100 millicores)
-      memory: "200Mi"          # Memory limit for Redis replica (200 MiB)
+      cpu: "90m"              # CPU limit for Redis replica (100 millicores)
+      memory: "180Mi"          # Memory limit for Redis replica (200 MiB)
 
 # Redis master configuration
 master:

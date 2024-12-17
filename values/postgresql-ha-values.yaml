@@ -18,12 +18,12 @@ pgpool:
   resources:
     # Resource requests for PGPool, setting the CPU and memory needed at a minimum
     requests:
-      cpu: "40m"                       # Set the requested CPU for PGPool (40 millicores)
-      memory: "80Mi"                   # Set the requested memory for PGPool (80 MiB)
+      cpu: "90m"                       # Set the requested CPU for PGPool (40 millicores)
+      memory: "60Mi"                   # Set the requested memory for PGPool (80 MiB)
     
     # Resource limits for PGPool, setting the maximum CPU and memory PGPool can use
     limits:
-      cpu: "400m"                      # Set the maximum CPU for PGPool (400 millicores)
+      cpu: "90m"                      # Set the maximum CPU for PGPool (400 millicores)
       memory: "800Mi"                  # Set the maximum memory for PGPool (800 MiB)
 
 # PostgreSQL database resource configurations (for the main PostgreSQL instances)
@@ -49,5 +49,5 @@ witness:
     
     # Resource limits for the witness pod, setting the maximum CPU and memory it can use
     limits:
-      cpu: "100m"                      # Set the maximum CPU for witness (100 millicores)
-      memory: "200Mi"                  # Set the maximum memory for witness (200 MiB)
+      cpu: "90m"                      # Set the maximum CPU for witness (100 millicores)
+      memory: "180Mi"                  # Set the maximum memory for witness (200 MiB)

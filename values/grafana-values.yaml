@@ -13,11 +13,11 @@ metrics:
 grafana:
   resources:
     requests:
-      cpu: "10m"  # Minimum CPU requested for the Grafana pod
-      memory: "20Mi"  # Minimum memory requested for the Grafana pod
+      cpu: "30m"  # Minimum CPU requested for the Grafana pod
+      memory: "60Mi"  # Minimum memory requested for the Grafana pod
     limits:
-      cpu: "100m"  # Maximum CPU limit for the Grafana pod
-      memory: "200Mi"  # Maximum memory limit for the Grafana pod
+      cpu: "90m"  # Maximum CPU limit for the Grafana pod
+      memory: "180Mi"  # Maximum memory limit for the Grafana pod
 
 # Data sources configuration for Grafana
 datasources:

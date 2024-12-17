@@ -15,14 +15,14 @@ defaultBackend:
       cpu: 10m
       memory: 20Mi
     limits:
-      cpu: 100m
-      memory: 200Mi
+      cpu: 90m
+      memory: 180Mi
 
 # NGINX Ingress Controller resource configuration
 resources:
   requests:
-    cpu: 50m
-    memory: 100Mi
+    cpu: 30m
+    memory: 60Mi
   limits:
     cpu: 500m
     memory: 1000Mi

@@ -4,11 +4,11 @@ cainjector:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: 50m
-      memory: 100Mi
+      cpu: 30m
+      memory: 60Mi
     limits:
-      cpu: 100m
-      memory: 200Mi
+      cpu: 90m
+      memory: 180Mi
 
 # Resources for the controller component
 controller:
@@ -16,11 +16,11 @@ controller:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: 50m
-      memory: 100Mi
+      cpu: 30m
+      memory: 60Mi
     limits:
-      cpu: 100m
-      memory: 200Mi
+      cpu: 90m
+      memory: 180Mi
 
 # Resources for the webhook component
 webhook:
@@ -28,8 +28,8 @@ webhook:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: 50m
-      memory: 100Mi
+      cpu: 30m
+      memory: 60Mi
     limits:
-      cpu: 100m
-      memory: 200Mi
+      cpu: 90m
+      memory: 180Mi

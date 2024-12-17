@@ -7,8 +7,8 @@ alertmanager:
       cpu: "10m"
       memory: "20Mi"
     limits:
-      cpu: "100m"
-      memory: "200Mi"
+      cpu: "90m"
+      memory: "180Mi"
 
 # Resource settings for Blackbox Exporter
 blackboxExporter:
@@ -17,8 +17,8 @@ blackboxExporter:
       cpu: "10m"
       memory: "20Mi"
     limits:
-      cpu: "100m"
-      memory: "200Mi"
+      cpu: "90m"
+      memory: "180Mi"
 
 # Resource settings for Operator
 operator:
@@ -27,8 +27,8 @@ operator:
       cpu: "10m"
       memory: "20Mi"
     limits:
-      cpu: "100m"
-      memory: "200Mi"
+      cpu: "90m"
+      memory: "180Mi"
 
 # Resource settings for Prometheus
 prometheus:
@@ -45,8 +45,8 @@ prometheus:
         cpu: "10m"
         memory: "20Mi"
       limits:
-        cpu: "100m"
-        memory: "200Mi"
+        cpu: "90m"
+        memory: "180Mi"
 
 # Resource settings for Node Exporter
 node-exporter:
@@ -55,8 +55,8 @@ node-exporter:
       cpu: "10m"
       memory: "20Mi"
     limits:
-      cpu: "100m"
-      memory: "200Mi"
+      cpu: "90m"
+      memory: "180Mi"
 
 # Resource settings for Kube-State-Metrics
 kube-state-metrics:
@@ -65,5 +65,5 @@ kube-state-metrics:
       cpu: "10m"
       memory: "20Mi"
     limits:
-      cpu: "100m"
-      memory: "200Mi"
+      cpu: "90m"
+      memory: "180Mi"

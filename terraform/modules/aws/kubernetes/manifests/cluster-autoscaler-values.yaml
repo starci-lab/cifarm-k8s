@@ -5,18 +5,18 @@ rbac:
     name: cluster-autoscaler
 autoDiscovery:
   clusterName: ${cluster_name}
-  
+
 awsRegion: ${region}
 
 nodeSelector:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
 resources:
   requests:
-    cpu: 50m
-    memory: 100Mi
+    cpu: 30m
+    memory: 60Mi
   limits:
-    cpu: 100m
-    memory: 200Mi
+    cpu: 90m
+    memory: 180Mi
 extraArgs:
   balance-similar-node-groups: true
   skip-nodes-with-system-pods: false
