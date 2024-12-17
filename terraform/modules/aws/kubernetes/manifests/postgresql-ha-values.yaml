@@ -20,13 +20,13 @@ pgpool:
   resources:
     # Resource requests for PGPool, setting the CPU and memory needed at a minimum
     requests:
-      cpu: "40m"                       # Set the requested CPU for PGPool (40 millicores)
-      memory: "80Mi"                   # Set the requested memory for PGPool (80 MiB)
+      cpu: "100m"                       # Set the requested CPU for PGPool (40 millicores)
+      memory: "200Mi"                   # Set the requested memory for PGPool (80 MiB)
     
     # Resource limits for PGPool, setting the maximum CPU and memory PGPool can use
     limits:
-      cpu: "400m"                      # Set the maximum CPU for PGPool (400 millicores)
-      memory: "800Mi"                  # Set the maximum memory for PGPool (800 MiB)
+      cpu: "200m"                      # Set the maximum CPU for PGPool (400 millicores)
+      memory: "400Mi"                  # Set the maximum memory for PGPool (800 MiB)
 
 # PostgreSQL database resource configurations (for the main PostgreSQL instances)
 postgresql:
@@ -35,13 +35,13 @@ postgresql:
   resources:
     # Resource requests for PostgreSQL, setting the CPU and memory needed at a minimum
     requests:
-      cpu: "20m"                       # Set the requested CPU for PostgreSQL (20 millicores)
-      memory: "40Mi"                   # Set the requested memory for PostgreSQL (40 MiB)
+      cpu: "50m"                       # Set the requested CPU for PostgreSQL (20 millicores)
+      memory: "100Mi"                   # Set the requested memory for PostgreSQL (40 MiB)
     
     # Resource limits for PostgreSQL, setting the maximum CPU and memory PostgreSQL can use
     limits:
-      cpu: "200m"                      # Set the maximum CPU for PostgreSQL (200 millicores)
-      memory: "400Mi"                  # Set the maximum memory for PostgreSQL (400 MiB)
+      cpu: "100m"                      # Set the maximum CPU for PostgreSQL (200 millicores)
+      memory: "200Mi"                  # Set the maximum memory for PostgreSQL (400 MiB)
 
 # Witness server resource configurations (for the HA witness pod)
 witness:
@@ -50,8 +50,8 @@ witness:
   resources:
     # Resource requests for the witness pod, setting the CPU and memory needed at a minimum
     requests:
-      cpu: "10m"                       # Set the requested CPU for witness (10 millicores)
-      memory: "20Mi"                   # Set the requested memory for witness (20 MiB)
+      cpu: "50m"                       # Set the requested CPU for witness (10 millicores)
+      memory: "100Mi"                   # Set the requested memory for witness (20 MiB)
     
     # Resource limits for the witness pod, setting the maximum CPU and memory it can use
     limits:

@@ -13,11 +13,11 @@ controller:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "20m"          # Minimum CPU requested for the controller (20 millicores)
-      memory: "40Mi"      # Minimum memory requested for the controller (40 MiB)
+      cpu: "50m"          # Minimum CPU requested for the controller (20 millicores)
+      memory: "100Mi"      # Minimum memory requested for the controller (40 MiB)
     limits:
-      cpu: "200m"         # Maximum CPU allowed for the controller (200 millicores)
-      memory: "400Mi"     # Maximum memory allowed for the controller (400 MiB)
+      cpu: "100m"         # Maximum CPU allowed for the controller (200 millicores)
+      memory: "200Mi"     # Maximum memory allowed for the controller (400 MiB)
 
 # Kafka broker configuration
 broker:

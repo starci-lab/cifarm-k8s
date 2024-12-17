@@ -8,7 +8,7 @@ resource "kubernetes_storage_class" "storageclass_gp2" {
   # Defines the name of the storage class and includes annotations for Kubernetes.
   metadata {
     name = "gp2-encrypted"  # The name of the storage class. This name will be used when requesting persistent volumes.
-    
+  
     # Annotations to mark this storage class as the default for the cluster.
     annotations = {
       "storageclass.kubernetes.io/is-default-class" = "true"  # This marks the storage class as the default one for PVs.

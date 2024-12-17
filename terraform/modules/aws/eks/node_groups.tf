@@ -7,7 +7,7 @@ resource "aws_eks_node_group" "primary_node_group" {
   node_group_name = "primary-${var.cluster_name}"
   
   instance_types = var.primary_node_instance_type  # EC2 instance type for the primary node group
-
+  
   # IAM role for primary node group
   node_role_arn   = aws_iam_role.primary_node_group.arn
 
@@ -30,9 +30,11 @@ resource "aws_eks_node_group" "primary_node_group" {
   depends_on = [
     aws_iam_role_policy_attachment.primary_node_group_AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.primary_node_group_AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.primary_node_group_AmazonEC2ContainerRegistryReadOnly
+    aws_iam_role_policy_attachment.primary_node_group_AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_openid_connect_provider.cluster
   ]
 }
+
 
 ############################################
 
@@ -68,6 +70,7 @@ resource "aws_eks_node_group" "secondary_node_group" {
   depends_on = [
     aws_iam_role_policy_attachment.secondary_node_group_AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.secondary_node_group_AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.secondary_node_group_AmazonEC2ContainerRegistryReadOnly
+    aws_iam_role_policy_attachment.secondary_node_group_AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_openid_connect_provider.cluster
   ]
 }

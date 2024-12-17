@@ -23,3 +23,8 @@ output "secondary_node_group_name" {
   description = "Secondary node group name"  # A description to explain that this output gives the secondary node group's name
   value       = split(":", aws_eks_node_group.secondary_node_group.id)[1]  # Splits the ID by colon and gets the name of the secondary node group
 }
+
+output "cluster_autoscaler_iam_role_arn" {
+  description = "IAM role ARN for the Cluster Autoscaler"
+  value       = aws_iam_role.cluster_autoscaler.arn
+}

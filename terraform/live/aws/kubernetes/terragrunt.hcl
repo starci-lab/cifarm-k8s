@@ -28,5 +28,6 @@ inputs = merge(
     cluster_name      = dependency.eks.outputs.cluster_name,  # Adds the EKS cluster name from the EKS dependency.
     primary_node_group_name = dependency.eks.outputs.primary_node_group_name,  # Adds the primary node group name from the EKS dependency.
     secondary_node_group_name = dependency.eks.outputs.secondary_node_group_name,  # Adds the secondary node group name from the EKS dependency.
+    cluster_autoscaler_iam_role_arn = dependency.eks.outputs.cluster_autoscaler_iam_role_arn,  # Adds the Cluster Autoscaler IAM role ARN.
   }
 )

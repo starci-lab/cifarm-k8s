@@ -18,3 +18,17 @@ resource "helm_release" "nginx_ingress_controller" {
         })
     ]
 }
+
+# Helm release for the Cert-Manager
+resource "helm_release" "cert_manager" {
+    name       = "cert-manager"
+    repository = var.bitnami_repository
+    chart      = "cert-manager"
+    namespace  = kubernetes_namespace.traffic.metadata[0].name
+
+    values = [
+        templatefile("${path.module}/manifests/cert-manager-values.yaml", {
+            node_group_label = var.primary_node_group_name
+        })
+    ]
+}

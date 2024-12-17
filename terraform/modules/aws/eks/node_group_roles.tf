@@ -37,6 +37,11 @@ resource "aws_iam_role_policy_attachment" "primary_node_group_AmazonEC2Container
   role       = aws_iam_role.primary_node_group.name                            # Attach it to the primary node group IAM role
 }
 
+resource "aws_iam_role_policy_attachment" "primary_node_group_AmazonSSMManagedInstanceCore" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"  # ECR Read-Only Policy ARN
+  role       = aws_iam_role.primary_node_group.name                            # Attach it to the primary node group IAM role
+}
+
 ############################################
 
 # IAM Role for Secondary Node Group
@@ -75,5 +80,11 @@ resource "aws_iam_role_policy_attachment" "secondary_node_group_AmazonEKS_CNI_Po
 # Attach Amazon EC2 Container Registry Read-Only Policy to the secondary node group role
 resource "aws_iam_role_policy_attachment" "secondary_node_group_AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"  # ECR Read-Only Policy ARN
+  role       = aws_iam_role.secondary_node_group.name                             # Attach it to the secondary node group IAM role
+}
+
+# Attach Amazon EC2 Container Registry Read-Only Policy to the secondary node group role
+resource "aws_iam_role_policy_attachment" "secondary_node_group_AmazonSSMManagedInstanceCore" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"  # ECR Read-Only Policy ARN
   role       = aws_iam_role.secondary_node_group.name                             # Attach it to the secondary node group IAM role
 }

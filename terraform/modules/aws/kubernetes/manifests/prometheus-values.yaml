@@ -6,8 +6,8 @@ alertmanager:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "10m"
-      memory: "20Mi"
+      cpu: "50m"
+      memory: "100Mi"
     limits:
       cpu: "100m"
       memory: "200Mi"
@@ -18,8 +18,8 @@ blackboxExporter:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "10m"
-      memory: "20Mi"
+      cpu: "50m"
+      memory: "100Mi"
     limits:
       cpu: "100m"
       memory: "200Mi"
@@ -30,8 +30,8 @@ operator:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "10m"
-      memory: "20Mi"
+      cpu: "50m"
+      memory: "100Mi"
     limits:
       cpu: "100m"
       memory: "200Mi"
@@ -42,16 +42,16 @@ prometheus:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "40m"
-      memory: "80Mi"
+      cpu: "100m"
+      memory: "200Mi"
     limits:
-      cpu: "400m"
-      memory: "900Mi"
+      cpu: "200m"
+      memory: "400Mi"
   thanos:
     resources:
       requests:
-        cpu: "10m"
-        memory: "20Mi"
+        cpu: "50m"
+        memory: "100Mi"
       limits:
         cpu: "100m"
         memory: "200Mi"
@@ -62,8 +62,8 @@ node-exporter:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "10m"
-      memory: "20Mi"
+      cpu: "50m"
+      memory: "100Mi"
     limits:
       cpu: "100m"
       memory: "200Mi"
@@ -74,8 +74,8 @@ kube-state-metrics:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "10m"
-      memory: "20Mi"
+      cpu: "50m"
+      memory: "100Mi"
     limits:
       cpu: "100m"
       memory: "200Mi"

@@ -83,6 +83,12 @@ variable "bitnami_repository" {
   default     = "oci://registry-1.docker.io/bitnamicharts"  # Default repository URL for Bitnami charts
 }
 
+variable "system_namespace" {
+  type        = string  # The type is string for the system namespace
+  description = "System namespace for Kubernetes resources"  # Describes the system namespace for Kubernetes resources
+  default     = "kube-system"  # Default system namespace is "kube-system"
+}
+
 # Grafana Prometheus URL configuration
 # The Prometheus URL used by Grafana for monitoring purposes. This is the endpoint from which Grafana fetches metrics.
 variable "grafana_prometheus_url" {
@@ -111,4 +117,9 @@ variable "primary_node_group_name" {
 variable "secondary_node_group_name" {
   type        = string  # Specifies that the value of this variable will be a string.
   description = "Secondary node group name"  # Describes the purpose of the variable as the secondary node group name.
+}
+
+variable "cluster_autoscaler_iam_role_arn" {
+  type        = string  # Specifies that the value of this variable will be a string.
+  description = "IAM role ARN for the Cluster Autoscaler"  # Describes the purpose of the variable as the IAM role ARN for the Cluster Autoscaler.
 }

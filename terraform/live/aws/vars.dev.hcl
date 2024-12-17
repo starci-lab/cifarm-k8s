@@ -15,7 +15,7 @@ inputs = {
   disk_size_secondary_node_group     = 30
 
   # Cluster Name
-  cluster_name = "cifarm-dev"
+  cluster_name = "cifarm-dev-1"
 
   # Grafana
   grafana_prometheus_url = "https://prometheus.cifarm.dev.starci.net"

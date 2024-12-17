@@ -1,0 +1,35 @@
+# Resources for the cainjector component
+cainjector:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: 50m
+      memory: 100Mi
+    limits:
+      cpu: 100m
+      memory: 200Mi
+
+# Resources for the controller component
+controller:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: 50m
+      memory: 100Mi
+    limits:
+      cpu: 100m
+      memory: 200Mi
+
+# Resources for the webhook component
+webhook:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: 50m
+      memory: 100Mi
+    limits:
+      cpu: 100m
+      memory: 200Mi
