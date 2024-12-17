@@ -26,4 +26,4 @@ rem Display the absolute path for verification
 echo Plans directory absolute path: %PLANS_ABS_PATH%
 
 rem Run terragrunt plan with the generated GUID as part of the filename
-terragrunt run-all apply -auto-approve -var-file="%VAR_FILE_ABS_PATH%"
+terragrunt run-all apply -destroy -auto-approve -var-file="%VAR_FILE_ABS_PATH%"
