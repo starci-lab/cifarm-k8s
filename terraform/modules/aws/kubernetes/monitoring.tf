@@ -37,3 +37,17 @@ resource "helm_release" "grafana" {
     ]
 }
 
+# Helm release for the Keda
+resource "helm_release" "keda" {
+    name       = "keda"
+    repository = var.keda_repository
+    chart      = "keda"
+    namespace  = kubernetes_namespace.monitoring.metadata[0].name
+
+    values = [
+        templatefile("${path.module}/manifests/keda-values.yaml", {
+            node_group_label = var.secondary_node_group_name
+        })
+    ]
+}
+

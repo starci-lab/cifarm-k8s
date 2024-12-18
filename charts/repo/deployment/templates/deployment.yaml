@@ -13,9 +13,9 @@ spec:
       labels:
         app.kubernetes.io/name: "{{ .Release.Name }}-selector"
     spec:
-      {{- if .Values.nodeSelector }}
+      # {{- if .Values.nodeSelector }}
       nodeSelector: {{ .Values.nodeSelector }}  
-      {{- end }}
+      # {{- end }}
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

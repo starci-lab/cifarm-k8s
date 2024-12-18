@@ -83,6 +83,12 @@ variable "bitnami_repository" {
   default     = "oci://registry-1.docker.io/bitnamicharts"  # Default repository URL for Bitnami charts
 }
 
+variable "keda_repository" {
+  type        = string  # The type is string for the Keda repository
+  description = "Keda repository"  # Describes the Keda repository
+  default     = "https://kedacore.github.io/charts/"  # Default URL for the Keda repository
+}
+
 variable "cluster_autoscaler_repository" {
   type = string # The type is string for the cluster autoscaler repository
   description = "Cluster autoscaler repository" # Describes the cluster autoscaler repository
@@ -134,4 +140,22 @@ variable "secondary_node_group_name" {
 variable "cluster_autoscaler_iam_role_arn" {
   type        = string  # Specifies that the value of this variable will be a string.
   description = "IAM role ARN for the Cluster Autoscaler"  # Describes the purpose of the variable as the IAM role ARN for the Cluster Autoscaler.
+}
+
+variable "jwt_secret" {
+  type        = string  # Specifies that the value of this variable will be a string.
+  description = "JWT secret"
+  sensitive   = true  # Marks the JWT secret as sensitive to avoid exposure in logs
+}
+
+variable "jenkins_user" {
+  type        = string  # Specifies that the value of this variable will be a string.
+  description = "Jenkins user"  # Describes the purpose of the variable as the Jenkins user.
+  sensitive   = true  # Marks the Jenkins user as sensitive to avoid exposure in logs
+}
+
+variable "jenkins_password" {
+  type        = string  # Specifies that the value of this variable will be a string.
+  description = "Jenkins password"  # Describes the purpose of the variable as the Jenkins password.
+  sensitive   = true  # Marks the Jenkins password as sensitive to avoid exposure in logs
 }

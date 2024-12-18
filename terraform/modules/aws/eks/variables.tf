@@ -93,7 +93,7 @@ variable "desired_size_secondary_node_group" {
 variable "disk_size_secondary_node_group" {
   type        = number  // Disk size for the secondary node group in GB
   description = "Disk size for the secondary node group"
-  default     = 50  // Default disk size is 50 GB
+  default     = 100  // Default disk size is 50 GB
 }
 
 variable "private_subnet_ids" {

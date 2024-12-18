@@ -1,0 +1,23 @@
+# Jenkins configuration
+jenkinsUser: ${jenkins_user}
+jenkinsPassword: ${jenkins_password}
+# Persistence configuration
+persistence:
+  enabled: true
+  size: 10Gi
+
+nodeSelector:
+  "eks.amazonaws.com/nodegroup": ${node_group_label}
+  
+# Resource requests and limits
+resources:
+  requests:
+    cpu: "30m"
+    memory: "60Mi"
+  limits:
+    cpu: "90m"
+    memory: "180Mi"
+
+# Service configuration
+service:
+  type: ClusterIP

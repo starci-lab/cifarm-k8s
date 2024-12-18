@@ -14,9 +14,9 @@ env:
   JWT_ACCESS_TOKEN_EXPIRATION: "1m"
   JWT_REFRESH_TOKEN_EXPIRATION: "7d"
 
-  GAMEPLAY_POSTGRES_DBNAME: "gameplay"
-  GAMEPLAY_POSTGRES_HOST: "gameplay-postgresql-postgresql-ha-pgpool.databases.svc.cluster.local"
-  GAMEPLAY_POSTGRES_PASS: "UqW1R2J7UhKv6Aqf"
+  GAMEPLAY_POSTGRES_DBNAME: ${gameplay_postgres_database}
+  GAMEPLAY_POSTGRES_HOST: "gameplay-postgres-postgresql-ha-pgpool.databases.svc.cluster.local"
+  GAMEPLAY_POSTGRES_PASS: ${gameplay_postgres_password}
   GAMEPLAY_POSTGRES_PORT: 5432
   GAMEPLAY_POSTGRES_USER: "postgres"
 
@@ -38,11 +38,15 @@ env:
 # Resources configuration
 resources:
   requests:
-    cpu: "50m"
-    memory: "100Mi"
+    cpu: "30m"
+    memory: "60Mi"
   limits:
-    cpu: "100m"
-    memory: "150Mi"
+    cpu: "90m"
+    memory: "180Mi"
+
+# Node selector configuration
+nodeSelector: 
+  "eks.amazonaws.com/nodegroup": ${node_group_label}
 
 # Prometheus configuration
 prometheus:
