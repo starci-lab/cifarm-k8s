@@ -9,6 +9,8 @@ service:
   port: 3000
   targetPort: 3000
 
+nodeSelector: {}
+
 env:
   JWT_SECRET: "C3ZofmtZ+hXQF2d~&bBu9x'UtkUyz?)MwXiXy_eGFlyO|:v!JW$?iZ&U6:kPQg("
   JWT_ACCESS_TOKEN_EXPIRATION: "5m"

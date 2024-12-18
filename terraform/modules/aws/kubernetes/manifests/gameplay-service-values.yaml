@@ -1,0 +1,56 @@
+# Image configuration
+image:
+  repository: "cifarm/gameplay-service"
+  tag: "latest"
+
+# Service-related configuration
+service: 
+  type: "ClusterIP"
+  port: 3014
+  targetPort: 3014
+
+env:
+  JWT_SECRET: ${jwt_secret}
+  JWT_ACCESS_TOKEN_EXPIRATION: "1m"
+  JWT_REFRESH_TOKEN_EXPIRATION: "7d"
+
+  GAMEPLAY_POSTGRES_DBNAME: "gameplay"
+  GAMEPLAY_POSTGRES_HOST: "gameplay-postgresql-postgresql-ha-pgpool.databases.svc.cluster.local"
+  GAMEPLAY_POSTGRES_PASS: "UqW1R2J7UhKv6Aqf"
+  GAMEPLAY_POSTGRES_PORT: 5432
+  GAMEPLAY_POSTGRES_USER: "postgres"
+
+  CACHE_REDIS_HOST: "cache-redis-master.databases.svc.cluster.local"
+  CACHE_REDIS_PORT: 6379
+
+  GAMEPLAY_SERVICE_PORT: 3014
+
+  #headless
+  HEADLESS_KAFKA_1_HOST: "kafka-controller-0.kafka-controller-headless.brokers.svc.cluster.local" 
+  HEADLESS_KAFKA_1_PORT: 9092
+
+  HEADLESS_KAFKA_2_HOST: "kafka-controller-1.kafka-controller-headless.brokers.svc.cluster.local" 
+  HEADLESS_KAFKA_2_PORT: 9092
+
+  HEADLESS_KAFKA_3_HOST: "kafka-controller-2.kafka-controller-headless.brokers.svc.cluster.local" 
+  HEADLESS_KAFKA_3_PORT: 9092
+
+# Resources configuration
+resources:
+  requests:
+    cpu: "50m"
+    memory: "100Mi"
+  limits:
+    cpu: "100m"
+    memory: "150Mi"
+
+# Prometheus configuration
+prometheus:
+  serverAddress:
+    host:
+      name: "prometheus-kube-prometheus-prometheus"
+      namespace: "monitoring"
+    port: 9090
+  metricName: "example-scaled-object_keda"
+  query: "sum(rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"example-.*\"}[1m]))"
+  threshold: "0.75"

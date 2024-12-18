@@ -83,6 +83,18 @@ variable "bitnami_repository" {
   default     = "oci://registry-1.docker.io/bitnamicharts"  # Default repository URL for Bitnami charts
 }
 
+variable "cluster_autoscaler_repository" {
+  type = string # The type is string for the cluster autoscaler repository
+  description = "Cluster autoscaler repository" # Describes the cluster autoscaler repository
+  default = "https://kubernetes.github.io/autoscaler" # Default URL for the cluster autoscaler repository
+}
+
+variable "container_repository" {
+  type        = string  # The type is string for the container repository
+  description = "Container repository"  # Describes the container repository
+  default     = "https://starci-lab.github.io/cifarm-k8s/charts"
+}
+
 variable "system_namespace" {
   type        = string  # The type is string for the system namespace
   description = "System namespace for Kubernetes resources"  # Describes the system namespace for Kubernetes resources
