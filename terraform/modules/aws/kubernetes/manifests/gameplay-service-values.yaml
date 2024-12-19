@@ -55,6 +55,6 @@ prometheus:
       name: "prometheus-kube-prometheus-prometheus"
       namespace: "monitoring"
     port: 9090
-  metricName: "example-scaled-object_keda"
+  metricName: "gameplay-service-scale-metric"
   query: "sum(rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"example-.*\"}[1m]))"
   threshold: "0.75"

@@ -1,0 +1,7 @@
+resources:
+  requests:
+    cpu: "30m"
+    memory: "60Mi"
+  limits:
+    cpu: "90m"
+    memory: "180Mi"

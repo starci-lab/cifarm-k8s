@@ -1,0 +1,40 @@
+# Image configuration
+image:
+  repository: "cifarm/rest-api-gateway"
+  tag: "latest"
+
+# Service-related configuration
+service: 
+  type: "ClusterIP"
+  port: 3001
+  targetPort: 3001
+
+env:
+  GAMEPLAY_SERVICE_HOST: gameplay-service-service.containers.svc.cluster.local
+  GAMEPLAY_SERVICE_PORT: 3014
+  # Rest Api Gateway configuration
+  REST_API_GATEWAY_PORT: 3001
+
+# Resources configuration
+resources:
+  requests:
+    cpu: "30m"
+    memory: "60Mi"
+  limits:
+    cpu: "90m"
+    memory: "180Mi"
+
+# Node selector configuration
+nodeSelector: 
+  "eks.amazonaws.com/nodegroup": ${node_group_label}
+
+# Prometheus configuration
+prometheus:
+  serverAddress:
+    host:
+      name: "prometheus-kube-prometheus-prometheus"
+      namespace: "monitoring"
+    port: 9090
+  metricName: "rest-api-gateway-scale-metric"
+  query: "sum(rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"example-.*\"}[1m]))"
+  threshold: "0.75"

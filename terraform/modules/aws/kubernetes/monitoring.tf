@@ -51,3 +51,16 @@ resource "helm_release" "keda" {
     ]
 }
 
+# Helm release for the Portainer
+# resource "helm_release" "portainer" {
+#     name       = "portainer"
+#     repository = var.bitnami_repository
+#     chart      = "portainer"
+#     namespace  = kubernetes_namespace.monitoring.metadata[0].name
+
+#     values = [
+#         templatefile("${path.module}/manifests/portainer-values.yaml", {
+#             node_group_label = var.secondary_node_group_name
+#         })
+#     ]
+# }

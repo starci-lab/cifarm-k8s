@@ -83,6 +83,12 @@ variable "bitnami_repository" {
   default     = "oci://registry-1.docker.io/bitnamicharts"  # Default repository URL for Bitnami charts
 }
 
+variable "portainer_repository" {
+  type        = string  # The type is string for the Portainer repository
+  description = "Portainer repository"  # Describes the Portainer repository
+  default     = "https://portainer.github.io/k8s/"  # Default URL for the Portainer repository
+}
+
 variable "keda_repository" {
   type        = string  # The type is string for the Keda repository
   description = "Keda repository"  # Describes the Keda repository
