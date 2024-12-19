@@ -15,3 +15,8 @@ resources:
 # Service configuration
 service:
   type: ClusterIP
+
+plugins: [
+  "aws-credentials",
+  "kubernetes",
+]
