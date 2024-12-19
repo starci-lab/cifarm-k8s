@@ -9,10 +9,6 @@ dependency "eks" {
   config_path = "../eks"  # Path to the VPC module, which contains network-related configurations (VPC, subnets, etc.).
 }
 
-dependency "domain" {
-  config_path = "../domain"  # Path to the VPC module, which contains network-related configurations (VPC, subnets, etc.).
-}
-
 # The locals block defines local variables for use within the configuration.
 # Here, it's used to dynamically load environment-specific variables from a configuration file.
 locals {
@@ -33,7 +29,5 @@ inputs = merge(
     primary_node_group_name = dependency.eks.outputs.primary_node_group_name,  # Adds the primary node group name from the EKS dependency.
     secondary_node_group_name = dependency.eks.outputs.secondary_node_group_name,  # Adds the secondary node group name from the EKS dependency.
     cluster_autoscaler_iam_role_arn = dependency.eks.outputs.cluster_autoscaler_iam_role_arn,  # Adds the Cluster Autoscaler IAM role ARN.
-
-    domain_name = dependency.domain.outputs.domain_name,  # Adds the domain name from the domain dependency.
   }
 )

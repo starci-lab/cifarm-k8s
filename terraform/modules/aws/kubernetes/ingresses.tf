@@ -30,7 +30,7 @@ resource "kubernetes_ingress_v1" "api" {
   spec {
     ingress_class_name = "nginx"
     rule {
-      host = "api.${var.domain_name}"
+      host = "api.${local.domain_name}"
       http {
         path {
           path = "/"
@@ -46,7 +46,7 @@ resource "kubernetes_ingress_v1" "api" {
       }
     }
     tls {
-      hosts       = ["api.${var.domain_name}"]
+      hosts       = ["api.${local.domain_name}"]
       secret_name = "api-tls"
     }
   }

@@ -177,9 +177,17 @@ variable "cluster_issuer_name" {
   description = "The name of the ClusterIssuer to use for cert-manager"
   default = "letsencrypt-prod"
 }
-variable "domain_name" {
+
+variable "base_domain_name" {
   type = string
-  description = "The domain name used"
+  description = "The base domain name used"
+  default = "starci.net"
+}
+
+variable "subdomain_prefix" {
+  type = string
+  description = "The subdomain prefix used"
+  default = "cifarm.dev"
 }
 
 variable "rest_api_gateway_name" {
@@ -192,4 +200,10 @@ variable "rest_api_gateway_port" {
   type = number
   description = "The port for the REST API Gateway service"
   default = 3001
+}
+
+variable "cloudflare_api_token" {
+  type        = string
+  description = "API token for Cloudflare"
+  sensitive   = true
 }
