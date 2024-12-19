@@ -6,23 +6,22 @@ listeners:
     protocol: "PLAINTEXT"  # Protocol for client communication
   controller:
     protocol: "PLAINTEXT"  # Protocol for controller communication
-
 # Kafka controller resource requests and limits
 controller:
   nodeSelector:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "60m"          # Minimum CPU requested for the controller (20 millicores)
-      memory: "120Mi"      # Minimum memory requested for the controller (40 MiB)
+      cpu: "120m"          # Minimum CPU requested for the controller (20 millicores)
+      memory: "240Mi"      # Minimum memory requested for the controller (40 MiB)
     limits:
-      cpu: "180m"         # Maximum CPU allowed for the controller (200 millicores)
-      memory: "360Mi"     # Maximum memory allowed for the controller (400 MiB)
+      cpu: "360m"         # Maximum CPU allowed for the controller (200 millicores)
+      memory: "720Mi"     # Maximum memory allowed for the controller (400 MiB)
 
 # Kafka broker configuration
-broker:
-  nodeSelector:
-    "eks.amazonaws.com/nodegroup": ${node_group_label}
+# broker:
+#   nodeSelector:
+#     "eks.amazonaws.com/nodegroup": ${node_group_label}
   # resources:
   #   requests:
   #     cpu: "10m"          # Minimum CPU requested for the broker (20 millicores)

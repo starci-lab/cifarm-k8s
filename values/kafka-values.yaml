@@ -4,12 +4,8 @@
 listeners:
   client:
     protocol: "PLAINTEXT"  # Protocol for client communication
-  controller:
-    protocol: "PLAINTEXT"  # Protocol for controller communication
-
 # Kafka controller resource requests and limits
 controller:
-  resources:
     requests:
       cpu: "30m"          # Minimum CPU requested for the controller (20 millicores)
       memory: "60Mi"      # Minimum memory requested for the controller (40 MiB)
