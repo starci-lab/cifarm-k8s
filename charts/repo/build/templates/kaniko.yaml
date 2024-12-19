@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ .Release.Name }}-kaniko"
+  name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
   containers:
@@ -25,7 +25,7 @@ spec:
   volumes:
     - name: kaniko-secret
       secret:
-        secretName: "{{ .Release.Name }}-secret"
+        secretName: {{ .Release.Name }}
         items:
           - key: .dockerconfigjson
             path: config.json

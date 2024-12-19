@@ -7,7 +7,7 @@ resource "kubernetes_namespace" "ingresses" {
 
 resource "kubernetes_service" "rest_api_gateway_service_external" {
   metadata {
-    name      = "rest-api-gateway-service-external"
+    name      = "rest-api-gateway"
     namespace = kubernetes_namespace.ingresses.metadata[0].name
   }
 
