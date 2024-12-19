@@ -1,13 +1,13 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: "{{ .Release.Name }}-scaledobject"
+  name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
 spec:
   scaleTargetRef:
     kind: Deployment
-    name: "{{ .Release.Name }}-deployment"
+    name: {{ .Release.Name }}
   minReplicaCount: {{ .Values.replicas.minCount }}
   maxReplicaCount: {{ .Values.replicas.maxCount }}
   cooldownPeriod:  {{ .Values.replicas.cooldownPeriod }}

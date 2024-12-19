@@ -58,3 +58,10 @@ provider "helm" {
     token                  = data.aws_eks_cluster_auth.cluster.token  # The token for authenticating Helm commands to the cluster
   }
 }
+
+provider "kubectl" {
+  host                   = data.aws_eks_cluster.cluster.endpoint  # Kubernetes API endpoint from the EKS cluster data
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)  # Decodes the certificate authority from the cluster data
+  token                  = data.aws_eks_cluster_auth.cluster.token  # Authentication token for Kubernetes API access
+  load_config_file       = false
+}

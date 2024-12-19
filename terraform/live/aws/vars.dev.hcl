@@ -20,4 +20,9 @@ inputs = {
   # Grafana
   grafana_prometheus_url = "https://prometheus.cifarm.dev.starci.net"
   grafana_prometheus_alertmanager_url = "https://prometheus-alertmanager.cifarm.dev.starci.net"
+
+  base_domain_name = "starci.net"
+  subdomain_prefix = "cifarm.dev"
+
+  email = "cuongnvtse160875@gmail.com"
 }

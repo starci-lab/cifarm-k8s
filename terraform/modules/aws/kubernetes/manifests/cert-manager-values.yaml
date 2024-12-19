@@ -1,14 +1,16 @@
 # Resources for the cainjector component
+installCRDs: true
+
 cainjector:
   nodeSelector:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: 30m
-      memory: 60Mi
+      cpu: 60m
+      memory: 120Mi
     limits:
-      cpu: 90m
-      memory: 180Mi
+      cpu: 180m
+      memory: 360Mi
 
 # Resources for the controller component
 controller:

@@ -165,3 +165,31 @@ variable "jenkins_password" {
   description = "Jenkins password"  # Describes the purpose of the variable as the Jenkins password.
   sensitive   = true  # Marks the Jenkins password as sensitive to avoid exposure in logs
 }
+
+variable "email" {
+  type = string
+  description = "Email address for notifications"
+  default = "cuongnvtse160875@gmail.com"
+}
+
+variable "cluster_issuer_name" {
+  type = string
+  description = "The name of the ClusterIssuer to use for cert-manager"
+  default = "letsencrypt-prod"
+}
+variable "domain_name" {
+  type = string
+  description = "The domain name used"
+}
+
+variable "rest_api_gateway_name" {
+  type = string
+  description = "The name of the REST API Gateway service"
+  default = "rest-api-gateway"
+}
+
+variable "rest_api_gateway_port" {
+  type = number
+  description = "The port for the REST API Gateway service"
+  default = 3001
+}
