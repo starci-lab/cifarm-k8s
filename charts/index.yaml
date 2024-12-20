@@ -6,9 +6,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-20T15:44:36.2245493+07:00"
+    created: "2024-12-20T17:08:59.2693065+07:00"
     description: N/A
-    digest: b5e1710e4b14c53ca7a7e46a39d6b787bc628f55a5d2e2acfd9974a879f50f70
+    digest: d8323c93f1c0a5433398ac5abeef1e2d07298fa2f3daa2b7d7eed79dc08d8d3e
     home: N/A
     icon: N/A
     keywords:
@@ -25,9 +25,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-20T15:44:36.2257291+07:00"
+    created: "2024-12-20T17:08:59.2705213+07:00"
     description: N/A
-    digest: 4f39649b8f6fc9ea451f561262e3d0670112c20e7448bc48b3a504e3ce99f55f
+    digest: ffa64dc651bfa2a3297900eafa989d53ed9493a6ceaecd69bb3419a2e4819d2f
     home: N/A
     icon: N/A
     keywords:
@@ -44,7 +44,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-20T15:44:36.2263668+07:00"
+    created: "2024-12-20T17:08:59.2712008+07:00"
     description: N/A
     digest: ca9c71fc4ee616fa7262c9598db0b51a158f9329e07c0f34c6c6d0444fd1de79
     home: N/A
@@ -57,4 +57,4 @@ entries:
     urls:
     - packages/ingress-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-20T15:44:36.2192693+07:00"
+generated: "2024-12-20T17:08:59.2685222+07:00"

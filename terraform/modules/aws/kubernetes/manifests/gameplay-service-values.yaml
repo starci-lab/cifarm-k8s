@@ -6,8 +6,8 @@ image:
 # Service-related configuration
 service: 
   type: "ClusterIP"
-  port: 3014
-  targetPort: 3014
+  port: ${port}
+  targetPort: ${port}
 
 env:
   JWT_SECRET: ${jwt_secret}
@@ -15,24 +15,24 @@ env:
   JWT_REFRESH_TOKEN_EXPIRATION: "7d"
 
   GAMEPLAY_POSTGRES_DBNAME: ${gameplay_postgres_database}
-  GAMEPLAY_POSTGRES_HOST: "gameplay-postgres-postgresql-ha-pgpool.databases.svc.cluster.local"
+  GAMEPLAY_POSTGRES_HOST: ${gameplay_postgresql_host}
   GAMEPLAY_POSTGRES_PASS: ${gameplay_postgres_password}
   GAMEPLAY_POSTGRES_PORT: 5432
   GAMEPLAY_POSTGRES_USER: "postgres"
 
-  CACHE_REDIS_HOST: "cache-redis-master.databases.svc.cluster.local"
+  CACHE_REDIS_HOST: ${cache_redis_host}
   CACHE_REDIS_PORT: 6379
 
-  GAMEPLAY_SERVICE_PORT: 3014
+  GAMEPLAY_SERVICE_PORT: ${port}
 
   #headless
-  HEADLESS_KAFKA_1_HOST: "kafka-controller-0.kafka-controller-headless.brokers.svc.cluster.local" 
+  HEADLESS_KAFKA_1_HOST: ${kafka_headless_1}
   HEADLESS_KAFKA_1_PORT: 9092
 
-  HEADLESS_KAFKA_2_HOST: "kafka-controller-1.kafka-controller-headless.brokers.svc.cluster.local" 
+  HEADLESS_KAFKA_2_HOST: ${kafka_headless_2}
   HEADLESS_KAFKA_2_PORT: 9092
 
-  HEADLESS_KAFKA_3_HOST: "kafka-controller-2.kafka-controller-headless.brokers.svc.cluster.local" 
+  HEADLESS_KAFKA_3_HOST: ${kafka_headless_3}
   HEADLESS_KAFKA_3_PORT: 9092
 
 # Resources configuration

@@ -3,9 +3,6 @@ resource "kubernetes_namespace" "cert_manager" {
   metadata {
     name = "cert-manager"
   }
-  depends_on = [
-    aws_route53_record.api
-  ]
 }
 
 # Create cert-manager

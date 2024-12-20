@@ -6,14 +6,14 @@ image:
 # Service-related configuration
 service: 
   type: "ClusterIP"
-  port: 3001
-  targetPort: 3001
+  port: ${port}
+  targetPort: ${port}
 
 env:
-  GAMEPLAY_SERVICE_HOST: gameplay-service.containers.svc.cluster.local
-  GAMEPLAY_SERVICE_PORT: 3014
+  GAMEPLAY_SERVICE_HOST: ${gameplay_service_host}
+  GAMEPLAY_SERVICE_PORT: ${gameplay_service_port}
   # Rest Api Gateway configuration
-  REST_API_GATEWAY_PORT: 3001
+  REST_API_GATEWAY_PORT: ${port}
 
 # Resources configuration
 resources:

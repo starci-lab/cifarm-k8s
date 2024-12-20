@@ -190,18 +190,6 @@ variable "subdomain_prefix" {
   default = "cifarm.dev"
 }
 
-variable "rest_api_gateway_name" {
-  type = string
-  description = "The name of the REST API Gateway service"
-  default = "rest-api-gateway"
-}
-
-variable "rest_api_gateway_port" {
-  type = number
-  description = "The port for the REST API Gateway service"
-  default = 3001
-}
-
 variable "cloudflare_api_token" {
   type        = string
   description = "API token for Cloudflare"
