@@ -32,4 +32,11 @@ resource "kubernetes_storage_class" "storageclass_gp2" {
     type      = "gp2"        # Specifies the type of EBS volume. 'gp2' is the General Purpose SSD type.
     encrypted = "true"       # Ensures that the EBS volume is encrypted.
   }
+
+  # allowed_topologies {
+  #   match_label_expressions {
+  #     key      = "topology.ebs.csi.aws.com/zone"
+  #     values   = [data.aws_availability_zones.available.names[2]]
+  #   }
+  # }
 }
