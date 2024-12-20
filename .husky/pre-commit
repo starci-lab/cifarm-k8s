@@ -3,7 +3,5 @@
 helm package ./charts/repo/build --destination ./charts/packages
 helm package ./charts/repo/deployment --destination ./charts/packages
 
-helm package ./charts/repo/ingress --destination ./charts/packages
-
 # Update the index.yaml
 helm repo index ./charts

@@ -10,7 +10,7 @@ service:
   targetPort: 3001
 
 env:
-  GAMEPLAY_SERVICE_HOST: gameplay-service-service.containers.svc.cluster.local
+  GAMEPLAY_SERVICE_HOST: gameplay-service.containers.svc.cluster.local
   GAMEPLAY_SERVICE_PORT: 3014
   # Rest Api Gateway configuration
   REST_API_GATEWAY_PORT: 3001
@@ -18,11 +18,11 @@ env:
 # Resources configuration
 resources:
   requests:
-    cpu: "30m"
-    memory: "60Mi"
+    cpu: "60m"
+    memory: "120Mi"
   limits:
-    cpu: "90m"
-    memory: "180Mi"
+    cpu: "180m"
+    memory: "360Mi"
 
 # Node selector configuration
 nodeSelector: 

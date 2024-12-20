@@ -1,0 +1,31 @@
+# Resources for the cainjector component
+installCRDs: true
+
+cainjector:
+  resources:
+    requests:
+      cpu: 60m
+      memory: 120Mi
+    limits:
+      cpu: 180m
+      memory: 360Mi
+
+# Resources for the controller component
+controller:
+  resources:
+    requests:
+      cpu: 30m
+      memory: 60Mi
+    limits:
+      cpu: 90m
+      memory: 180Mi
+
+# Resources for the webhook component
+webhook:
+  resources:
+    requests:
+      cpu: 30m
+      memory: 60Mi
+    limits:
+      cpu: 90m
+      memory: 180Mi
