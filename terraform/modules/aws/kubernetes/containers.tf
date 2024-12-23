@@ -6,8 +6,13 @@ resource "kubernetes_namespace" "containers" {
 }
 
 locals {
+  # gameplay service
   gameplay_service_name = "gameplay-service"
+  gameplay_service_port = 80
+
+  # rest api gateway
   rest_api_gateway_name = "rest-api-gateway"
+  rest_api_gateway_port = 80
 }
 
 resource "helm_release" "gameplay_service" {
@@ -60,6 +65,4 @@ resource "helm_release" "rest_api_gateway" {
 locals {
   gameplay_service_host = "${local.gameplay_service_name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   rest_api_gateway_host = "${local.rest_api_gateway_name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
-  gameplay_service_port = 80
-  rest_api_gateway_port = 80
 }

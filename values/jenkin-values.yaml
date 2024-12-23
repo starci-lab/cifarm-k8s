@@ -1,20 +1,30 @@
 # Jenkins configuration
 jenkinsUser: "admin"
-replicaCount: 5
+replicaCount: 1
 jenkinsPassword: "Cuong123_A"
 # Persistence configuration
 persistence:
   enabled: true
   size: 10Gi
 
+agent:
+  enabled: true
+  resources:
+    requests:
+      cpu: "240m"
+      memory: "480Mi"
+    limits:
+      cpu: "720m"
+      memory: "1440Mi"
+
 # Resource requests and limits
 resources:
   requests:
-    cpu: "30m"
-    memory: "60Mi"
+    cpu: "120m"
+    memory: "240Mi"
   limits:
-    cpu: "90m"
-    memory: "180Mi"
+    cpu: "360m"
+    memory: "720Mi"
 tls:
   resources:
     requests:
