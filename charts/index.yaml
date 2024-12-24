@@ -6,7 +6,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-23T15:44:45.3874358+07:00"
+    created: "2024-12-25T01:19:13.5230767+07:00"
     description: N/A
     digest: e4983cf217985010c5eef4301ebdbacbd0bfaead73d648b623309af87cc0578e
     home: N/A
@@ -25,7 +25,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-23T15:44:45.3887498+07:00"
+    created: "2024-12-25T01:19:13.5291483+07:00"
     description: N/A
     digest: 7615c5001e3c4326e7b7ea98aceb6dc1c0bac6f015ac2d884f145a4ba7245b34
     home: N/A
@@ -44,7 +44,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-12-23T15:44:45.3894311+07:00"
+    created: "2024-12-25T01:19:13.5357635+07:00"
     description: N/A
     digest: ca9c71fc4ee616fa7262c9598db0b51a158f9329e07c0f34c6c6d0444fd1de79
     home: N/A
@@ -57,4 +57,23 @@ entries:
     urls:
     - packages/ingress-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-23T15:44:45.385477+07:00"
+  microservice:
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.0.0
+    created: "2024-12-25T01:19:13.5370915+07:00"
+    description: This chart is used to deploy a microservice in a Kubernetes cluster.
+    digest: 123feee5d81fa38f241eeaa4206a253cb73db3576c4d4ab0c339149db735859e
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: microservice
+    urls:
+    - packages/microservice-1.0.0.tgz
+    version: 1.0.0
+generated: "2024-12-25T01:19:13.5129137+07:00"
