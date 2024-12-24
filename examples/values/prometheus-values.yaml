@@ -1,0 +1,69 @@
+# prometheus-values.yaml
+
+# Resource settings for Alertmanager
+alertmanager:
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "20Mi"
+    limits:
+      cpu: "90m"
+      memory: "180Mi"
+
+# Resource settings for Blackbox Exporter
+blackboxExporter:
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "20Mi"
+    limits:
+      cpu: "90m"
+      memory: "180Mi"
+
+# Resource settings for Operator
+operator:
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "20Mi"
+    limits:
+      cpu: "90m"
+      memory: "180Mi"
+
+# Resource settings for Prometheus
+prometheus:
+  resources:
+    requests:
+      cpu: "40m"
+      memory: "80Mi"
+    limits:
+      cpu: "400m"
+      memory: "900Mi"
+  thanos:
+    resources:
+      requests:
+        cpu: "10m"
+        memory: "20Mi"
+      limits:
+        cpu: "90m"
+        memory: "180Mi"
+
+# Resource settings for Node Exporter
+node-exporter:
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "20Mi"
+    limits:
+      cpu: "90m"
+      memory: "180Mi"
+
+# Resource settings for Kube-State-Metrics
+kube-state-metrics:
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "20Mi"
+    limits:
+      cpu: "90m"
+      memory: "180Mi"

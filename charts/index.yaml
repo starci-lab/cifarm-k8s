@@ -6,10 +6,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-25T01:21:17.9624401+07:00"
-    description: This chart is used to deploy any service in a Kubernetes cluster.
-      Work best with NestJs services.
-    digest: 47636404997223743f8efb862560bc791ef2619acdcccd902479f76caee3c635
+    created: "2024-12-25T01:22:46.8493674+07:00"
+    description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
+    digest: 2666c597b9cf4222bd675718ae9586053a8b1457bc6a7bcbe7d91257cb644a0b
     home: N/A
     icon: N/A
     keywords:
@@ -20,4 +19,4 @@ entries:
     urls:
     - packages/service-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-25T01:21:17.9611789+07:00"
+generated: "2024-12-25T01:22:46.8481231+07:00"

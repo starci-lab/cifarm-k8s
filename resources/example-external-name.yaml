@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: example-service-external
-  namespace: ingresses    # Replace with your namespace if different
-spec:
-  type: ExternalName
-  externalName: example-service.containers.svc.cluster.local  # The internal service name

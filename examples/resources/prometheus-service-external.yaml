@@ -1,0 +1,20 @@
+# Define an ExternalName service for Prometheus
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service-external  # Name of the external Prometheus service
+  namespace: ingresses  # The namespace where this service will be created, replace with your specific namespace
+spec:
+  type: ExternalName  # Indicates that this service points to an external service or another service within the cluster
+  externalName: prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local  # The internal service name for Prometheus within the cluster
+
+---
+# Define an ExternalName service for Prometheus Alertmanager
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-alertmanager-service-external  # Name of the external Alertmanager service
+  namespace: ingresses  # The namespace where this service will be created, replace with your specific namespace
+spec:
+  type: ExternalName  # Indicates that this service points to an external service or another service within the cluster
+  externalName: prometheus-kube-prometheus-alertmanager.monitoring.svc.cluster.local # The internal service name for Prometheus Alertmanager within the cluster

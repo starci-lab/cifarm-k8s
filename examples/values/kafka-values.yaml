@@ -1,0 +1,14 @@
+# kafka-values.yaml
+
+# Kafka listeners configuration
+listeners:
+  client:
+    protocol: "PLAINTEXT"  # Protocol for client communication
+# Kafka controller resource requests and limits
+controller:
+    requests:
+      cpu: "30m"          # Minimum CPU requested for the controller (20 millicores)
+      memory: "60Mi"      # Minimum memory requested for the controller (40 MiB)
+    limits:
+      cpu: "90m"         # Maximum CPU allowed for the controller (200 millicores)
+      memory: "180Mi"     # Maximum memory allowed for the controller (400 MiB)
