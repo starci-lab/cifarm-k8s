@@ -1,22 +1,23 @@
 apiVersion: v1
 entries:
-  microservice:
+  service:
   - annotations:
       category: Service
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-25T01:19:33.5640429+07:00"
-    description: This chart is used to deploy a microservice in a Kubernetes cluster.
-    digest: 6958e1eb555245e18ba035eef746c2d4c50c3a57eea593279a73c2ab7534be15
+    created: "2024-12-25T01:21:17.9624401+07:00"
+    description: This chart is used to deploy any service in a Kubernetes cluster.
+      Work best with NestJs services.
+    digest: 47636404997223743f8efb862560bc791ef2619acdcccd902479f76caee3c635
     home: N/A
     icon: N/A
     keywords:
     - service
     maintainers:
     - name: CiLab 2.0
-    name: microservice
+    name: service
     urls:
-    - packages/microservice-1.0.0.tgz
+    - packages/service-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-25T01:19:33.5626706+07:00"
+generated: "2024-12-25T01:21:17.9611789+07:00"

@@ -6,7 +6,7 @@ annotations:
   licenses: MIT
 apiVersion: v1
 appVersion: 1.0.0
-description: This chart is used to deploy any service in a Kubernetes cluster. Work best with NestJs services.
+description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
 home: N/A
 icon: N/A
 keywords:
