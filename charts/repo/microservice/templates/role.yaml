@@ -1,0 +1,22 @@
+{{- if and .Values.rbac.enabled (not .Values.rbac.useClusterScope) }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+rules:
+{{- range .Values.rbac.roles }}
+  - apiGroups:
+      {{- range .apiGroups }}
+      - {{ . }}
+      {{- end }}
+    resources:
+      {{- range .resources }}
+      - {{ . }}
+      {{- end }}
+    verbs:
+      {{- range .verbs }}
+      - {{ . }}
+      {{- end }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,46 @@
+# Image configuration
+image:
+  repository: "cifarm/gameplay-subgraph"
+  tag: "latest"
+
+# Service-related configuration
+service: 
+  type: "ClusterIP"
+  port: ${port}
+  targetPort: ${port}
+
+env:
+  CACHE_REDIS_HOST: ${cache_redis_host}
+  CACHE_REDIS_PORT: 6379
+
+  GAMEPLAY_POSTGRES_DBNAME: ${gameplay_postgres_database}
+  GAMEPLAY_POSTGRES_HOST: ${gameplay_postgresql_host}
+  GAMEPLAY_POSTGRES_PASS: ${gameplay_postgres_password}
+  GAMEPLAY_POSTGRES_PORT: 5432
+  GAMEPLAY_POSTGRES_USER: "postgres"
+
+  GRAPHQL_STATIC_SUBGRAPH_PORT: 80
+
+# Resources configuration
+resources:
+  requests:
+    cpu: "60m"
+    memory: "120Mi"
+  limits:
+    cpu: "180m"
+    memory: "360Mi"
+
+# Node selector configuration
+nodeSelector: 
+  "eks.amazonaws.com/nodegroup": ${node_group_label}
+
+# Prometheus configuration
+prometheus:
+  serverAddress:
+    host:
+      name: "prometheus-kube-prometheus-prometheus"
+      namespace: "monitoring"
+    port: 9090
+  metricName: "gameplay-service-scale-metric"
+  query: "sum(rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"example-.*\"}[1m]))"
+  threshold: "0.75"

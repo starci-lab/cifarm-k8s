@@ -1,0 +1,24 @@
+{{ if .Values.replicas.enableScaling }}
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: {{ .Release.Name }}
+  minReplicaCount: {{ .Values.replicas.minCount }}
+  maxReplicaCount: {{ .Values.replicas.maxCount }}
+  cooldownPeriod:  {{ .Values.replicas.cooldownPeriod }}
+  pollingInterval: {{ .Values.replicas.pollingInterval }}
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: "http://{{ .Values.prometheus.serverAddress.host }}:{{ .Values.prometheus.serverAddress.port }}"
+        metricName: {{ .Values.prometheus.metricName }}
+        query: |
+          "{{ .Values.prometheus.query }}""
+        threshold: "{{ .Values.prometheus.threshold }}"
+{{- end }}

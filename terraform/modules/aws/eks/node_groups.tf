@@ -12,7 +12,8 @@ resource "aws_eks_node_group" "primary_node_group" {
   node_role_arn   = aws_iam_role.primary_node_group.arn
 
   # Subnet IDs where the nodes will be launched
-  subnet_ids      = var.private_subnet_ids
+  # Limit to one subnet per node group
+  subnet_ids      = [var.private_subnet_ids[0]]
 
   # Scaling configuration: define the desired, maximum, and minimum size for the node group
   scaling_config {
@@ -52,7 +53,8 @@ resource "aws_eks_node_group" "secondary_node_group" {
   node_role_arn   = aws_iam_role.secondary_node_group.arn
 
   # Subnet IDs where the nodes will be launched
-  subnet_ids      = var.private_subnet_ids
+  # Limit to one subnet per node group
+  subnet_ids      = [var.private_subnet_ids[1]]
 
   # Scaling configuration for secondary node group
   scaling_config {

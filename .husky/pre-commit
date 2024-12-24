@@ -1,7 +1,6 @@
 # Create taz
 
-helm package ./charts/repo/build --destination ./charts/packages
-helm package ./charts/repo/deployment --destination ./charts/packages
+helm package ./charts/repo/microservice --destination ./charts/packages
 
 # Update the index.yaml
 helm repo index ./charts
