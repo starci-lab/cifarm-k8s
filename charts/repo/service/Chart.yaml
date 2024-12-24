@@ -6,7 +6,7 @@ annotations:
   licenses: MIT
 apiVersion: v1
 appVersion: 1.0.0
-description: This chart is used to deploy a microservice in a Kubernetes cluster.
+description: This chart is used to deploy any service in a Kubernetes cluster. Work best with NestJs services.
 home: N/A
 icon: N/A
 keywords:
@@ -14,5 +14,5 @@ keywords:
 maintainers:
 - name: CiLab 2.0
   url: ""
-name: microservice
+name: service
 version: 1.0.0
