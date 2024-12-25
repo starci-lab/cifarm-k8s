@@ -15,7 +15,22 @@ locals {
   gameplay_service = {
     name        = "gameplay-service-build-pipeline"  # Name of the Jenkins pipeline job
     description = "Build the gameplay service using Kaniko then push the image to Dockerhub"  # Job description
-    path        = ".jenkins/builds/gameplay-service/Jenkinsfile"  # Path to the Jenkinsfile
+    path        = ".jenkins/builds/gameplay-service.jenkinsfile"  # Path to the Jenkinsfile
+  }
+  rest_api_gateway = {
+    name        = "rest-api-gateway-build-pipeline"  # Name of the Jenkins pipeline job
+    description = "Build the rest API gateway using Kaniko then push the image to Dockerhub"  # Job description
+    path        = ".jenkins/builds/rest-api-gateway.jenkinsfile"  # Path to the Jenkinsfile
+  }
+  gameplay_subgraph = {
+    name        = "gameplay-subgraph-build-pipeline"  # Name of the Jenkins pipeline job
+    description = "Build the gameplay subgraph using Kaniko then push the image to Dockerhub"  # Job description
+    path        = ".jenkins/builds/gameplay-subgraph.jenkinsfile"  # Path to the Jenkinsfile
+  }
+  graphql_maingraph = {
+    name        = "graphql-maingraph-build-pipeline"  # Name of the Jenkins pipeline job
+    description = "Build the graphql maingraph using Kaniko then push the image to Dockerhub"  # Job description
+    path        = ".jenkins/builds/graphql-maingraph.jenkinsfile"  # Path to the Jenkinsfile
   }
 }
 
