@@ -4,7 +4,7 @@ APP VERSION: {{ .Chart.AppVersion }}
 
 ** Please be patient while the chart is being deployed **
 
-1. Get the Jenkins URL by running:
+1. Get the Service URL by running:
 
 {{- if contains "NodePort" .Values.service.type }}
 

@@ -1,0 +1,68 @@
+# Redis Cache Configuration (non-sensitive, can go to ConfigMap)
+envVarsCM:
+  CACHE_REDIS_HOST: cache-redis-master.databases.svc.cluster.local
+  CACHE_REDIS_PORT: "6379"  # Ensure the port is a string
+
+# Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
+  GAMEPLAY_POSTGRESQL_DBNAME: gameplay
+  GAMEPLAY_POSTGRESQL_HOST: gameplay-postgresql-postgresql-ha-pgpool.databases.svc.cluster.local
+  GAMEPLAY_POSTGRESQL_PORT: "5432"
+  GAMEPLAY_POSTGRESQL_USER: postgres
+  GAMEPLAY_POSTGRESQL_PASS: J78GbFRpTqDj
+  
+  GAMEPLAY_SERVICE_PORT: "8080"  # Specify as string to avoid YAML parsing errors
+  GAMEPLAY_SERVICE_HEALTHCHECK_PORT: "8081"  # Specify as string to avoid YAML parsing errors
+  
+# Kafka Configuration (non-sensitive, can go to ConfigMap)
+  HEADLESS_KAFKA_1_HOST: kafka-controller-0.kafka-controller-headless.brokers.svc.cluster.local
+  HEADLESS_KAFKA_1_PORT: "9092"
+  HEADLESS_KAFKA_2_HOST: kafka-controller-1.kafka-controller-headless.brokers.svc.cluster.local
+  HEADLESS_KAFKA_2_PORT: "9092"
+  HEADLESS_KAFKA_3_HOST: kafka-controller-2.kafka-controller-headless.brokers.svc.cluster.local
+  HEADLESS_KAFKA_3_PORT: "9092"
+  KAFKA_1_HOST: kafka.brokers.svc.cluster.local
+  KAFKA_1_PORT: "9092"
+
+# JWT Authentication Configuration (sensitive, should go to Secrets)
+envVarsSecret:
+  JWT_SECRET: "C3ZofmtZ+hXQF2d~&bBu9x'UtkUyz?)MwXiXy_eGFlyO|:v!JW$?iZ&U6:kPQg("
+  JWT_ACCESS_TOKEN_EXPIRATION: "5m"
+  JWT_REFRESH_TOKEN_EXPIRATION: "7d"
+
+service: 
+  type: "ClusterIP"  # Kubernetes service type: ClusterIP, LoadBalancer, NodePort, etc.
+  ports: 
+    http: 8080  # HTTP port exposed by the service.
+    https: 8443  # HTTPS port exposed by the service.
+# Startup, Liveness and Readiness Probes Configuration
+
+startupProbe:
+  enabled: false
+  initialDelaySeconds: 180
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 6
+
+containerSecurityContext:
+  enabled: true
+  seLinuxOptions: {}
+  runAsUser: 1001
+  runAsGroup: 1001
+  runAsNonRoot: true
+  privileged: false
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: "RuntimeDefault"
+
+# Resource configuration (these should go to the resources section)
+resources:
+  requests:
+    cpu: "100m"
+    memory: "200Mi"
+  limits:
+    cpu: "200m"
+    memory: "400Mi"

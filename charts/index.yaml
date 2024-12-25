@@ -6,9 +6,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-25T19:17:22.2473631+07:00"
+    created: "2024-12-25T19:19:08.0869991+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
-    digest: f0606cb42e20b8575c0a7fe3b2f8a7eb3782217eebf72fad595edc2bc2748964
+    digest: 71923ba5787fdade5405a5a4c114708b827f782176a327dea7c80beb3ec7eba4
     home: N/A
     icon: N/A
     keywords:
@@ -19,4 +19,4 @@ entries:
     urls:
     - packages/service-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-25T19:17:22.2447821+07:00"
+generated: "2024-12-25T19:19:08.0845021+07:00"

@@ -66,7 +66,7 @@ image:
   repository: cifarm/gameplay-service  # Repository for the container image.
   tag: latest  # Tag for the image.
   digest: ""  # Optionally specify an image digest.
-  pullPolicy: IfNotPresent  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.
+  pullPolicy: Always  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.
   pullSecrets: []  # Secrets for private image pull.
 
 debug: false  # Enable debug mode for additional debugging.
@@ -74,8 +74,9 @@ debug: false  # Enable debug mode for additional debugging.
 # Service Configuration
 service: 
   type: "ClusterIP"  # Kubernetes service type: ClusterIP, LoadBalancer, NodePort, etc.
-  port: 3000  # Port the service will expose.
-  targetPort: 3000  # Container's target port.
+  ports: 
+    http: 8080  # HTTP port exposed by the service.
+    https: 8443  # HTTPS port exposed by the service.
 
 # Environment Variables from ConfigMap and Secret
 envVarsCM: 
@@ -88,8 +89,17 @@ envVarsSecret:
 containerPorts:
   http: 8080  # HTTP port exposed by the container.
   https: 8443  # HTTPS port exposed by the container.
+  healthcheck: 8081  # Healthcheck port exposed by the container.
 
-# Liveness and Readiness Probes Configuration
+# Startup, Liveness and Readiness Probes Configuration
+startupProbe:
+  enabled: false
+  initialDelaySeconds: 180
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 6
+
 livenessProbe:
   enabled: true  # Enable liveness probe.
   initialDelaySeconds: 180  # Initial delay before the probe is run.
@@ -99,6 +109,7 @@ livenessProbe:
   failureThreshold: 6  # Number of failed probes before declaring the container unhealthy.
 
 readinessProbe:
+  path: "/healthz"  # Path for the readiness probe.
   enabled: true  # Enable readiness probe.
   initialDelaySeconds: 30  # Initial delay before the probe is run.
   periodSeconds: 5  # Interval between probe checks.
@@ -135,6 +146,21 @@ resources:
   limits:
     cpu: "90m"  # CPU limit for the container.
     memory: "180Mi"  # Memory limit for the container.
+
+# Container Security Context
+containerSecurityContext:
+  enabled: true
+  seLinuxOptions: {}
+  runAsUser: 1001
+  runAsGroup: 1001
+  runAsNonRoot: true
+  privileged: false
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: "RuntimeDefault"
 
 # Pod Security Context
 podSecurityContext:
