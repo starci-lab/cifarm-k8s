@@ -15,7 +15,7 @@ locals {
   gameplay_service = {
     name        = "gameplay-service-build-pipeline"  # Name of the Jenkins pipeline job
     description = "Build the gameplay service using Kaniko then push the image to Dockerhub"  # Job description
-    path        = ".jenkins/gameplay-service/build/Jenkinsfile"  # Path to the Jenkinsfile
+    path        = ".jenkins/builds/gameplay-service/Jenkinsfile"  # Path to the Jenkinsfile
   }
 }
 
