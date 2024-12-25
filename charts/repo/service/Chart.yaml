@@ -16,3 +16,7 @@ maintainers:
   url: ""
 name: service
 version: 1.0.0
+dependencies:
+  - name: common
+    version: 2.x.x
+    repository: oci://registry-1.docker.io/bitnamicharts

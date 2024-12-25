@@ -4,108 +4,26 @@ APP VERSION: {{ .Chart.AppVersion }}
 
 ** Please be patient while the chart is being deployed **
 
----
+1. Get the Jenkins URL by running:
 
-### **Service Access Information**
+{{- if contains "NodePort" .Values.service.type }}
 
-After the deployment completes, you can access the application via the Kubernetes service.
+  export NODE_PORT=$(kubectl get --namespace {{ include "common.names.namespace" . }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ template "common.names.fullname" . }})
+  export NODE_IP=$(kubectl get nodes --namespace {{ include "common.names.namespace" . }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo "Service URL: http://$NODE_IP:$NODE_PORT/"
 
-- **Service Host**: `{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local`
+{{- else if contains "LoadBalancer" .Values.service.type }}
 
-- **Service Port**: `{{ .Values.service.port }}`
+** Please ensure an external IP is associated to the {{ template "common.names.fullname" . }} service before proceeding **
+** Watch the status using: kubectl get svc --namespace {{ include "common.names.namespace" . }} -w {{ template "common.names.fullname" . }} **
 
-- **Target Port**: `{{ .Values.service.targetPort }}`
-  
-The **Service Port** is the port exposed on the service to access the application, while the **Target Port** is the port on which the application itself is listening inside the container. Kubernetes automatically forwards traffic from the service port to the target port.
+  export SERVICE_IP=$(kubectl get svc --namespace {{ include "common.names.namespace" . }} {{ template "common.names.fullname" . }} --template "{{ "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}" }}")
+{{- $port:=.Values.service.ports.http | toString }}
+  echo "Service URL: http://$SERVICE_IP{{- if ne $port "80" }}:{{ .Values.service.ports.http }}{{ end }}/"
 
-To test the service locally, you can forward the Kubernetes service port to your local machine. This allows you to access the service as if it were running locally on your computer.
+{{- else if contains "ClusterIP"  .Values.service.type }}
 
-kubectl port-forward svc/{{ .Release.Name }} -n {{ .Release.Namespace }} {{ .Values.service.port }}:{{ .Values.service.targetPort }}
+  echo "Service URL: http://127.0.0.1:8080/"
+  kubectl port-forward --namespace {{ include "common.names.namespace" . }} svc/{{ template "common.names.fullname" . }} 8080:{{ .Values.service.ports.http }}
 
-After running the kubectl port-forward command, you can access the application locally by navigating to:
-
-http://localhost:{{ .Values.service.port }}
----
-
-### **Environment Variables**
-
-The application is configured with the following environment variables:
-
-{{- range $key, $value := .Values.env }}
-- **{{ $key }}**: "{{ $value }}"
 {{- end }}
-
----
-
-### **Scaling Configuration**
-
-This chart supports automatic scaling. You can configure the number of replicas based on your workload requirements:
-
-- **Enable Auto-Scaling**: `{{ .Values.replicas.enableScaling }}`
-- **Desired Replica Count**: `{{ .Values.replicas.desiredCount }}`
-- **Minimum Replica Count**: `{{ .Values.replicas.minCount }}`
-- **Maximum Replica Count**: `{{ .Values.replicas.maxCount }}`
-- **Cooldown Period**: `{{ .Values.replicas.cooldownPeriod }}`
-- **Polling Interval**: `{{ .Values.replicas.pollingInterval }}`
-
-Scaling will be applied based on the values set above, ensuring your app can automatically adjust according to the load.
-
----
-
-### **Resource Configuration**
-
-The application is configured with the following resource requests and limits:
-
-- **CPU Request**: `{{ .Values.resources.requests.cpu }}`
-- **Memory Request**: `{{ .Values.resources.requests.memory }}`
-  
-- **CPU Limit**: `{{ .Values.resources.limits.cpu }}`
-- **Memory Limit**: `{{ .Values.resources.limits.memory }}`
-  
-These values help to ensure optimal performance and resource management. You can adjust them as needed depending on the expected traffic and resource availability.
-
----
-
-### **Prometheus Monitoring Configuration**
-
-This application supports Prometheus monitoring. The configuration includes the following details:
-
-- **Prometheus Server Address**:
-  - **Host**: `{{ .Values.prometheus.serverAddress.host }}`
-  - **Port**: `{{ .Values.prometheus.serverAddress.port }}`
-  
-- **Metric Name**: `{{ .Values.prometheus.metricName }}`
-  
-- **Prometheus Query**:  
-  `{{ .Values.prometheus.query }}`
-  
-- **Alert Threshold**: `{{ .Values.prometheus.threshold }}`
-  
-You can use these details to monitor your application’s metrics in Prometheus.
-
----
-
-### **RBAC Configuration**
-
-The chart configures RBAC to control access to the application’s resources in the Kubernetes cluster. The current configuration grants access to the following resources:
-
-- **RBAC Enabled**: `{{ .Values.rbac.enabled }}`
-- **Cluster Scope**: `{{ .Values.rbac.useClusterScope }}`
-- **Roles**: 
-{{- range .Values.rbac.roles }}
-  - apiGroups:
-      {{- range .apiGroups }}
-      - {{ . }}
-      {{- end }}
-    resources:
-      {{- range .resources }}
-      - {{ . }}
-      {{- end }}
-    verbs:
-      {{- range .verbs }}
-      - {{ . }}
-      {{- end }}
-{{- end }}
-
-These roles define the permissions required to interact with Kubernetes resources like pods.
----
