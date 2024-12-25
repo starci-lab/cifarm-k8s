@@ -261,3 +261,4 @@ dist
 .pnp.*
 
 terraform.tfvars
+/examples/java/target/

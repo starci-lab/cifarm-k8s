@@ -20,11 +20,11 @@ agent:
   enabled: true
 
 plugins: [
-  "aws-credentials",
+  # "aws-credentials",
   "kubernetes",
   "workflow-job",
   "workflow-aggregator",
   "github",
-  "kubernetes-cli",
+  # "kubernetes-cli",
   # "kubernetes-credentials-provider"
 ]
