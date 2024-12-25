@@ -87,8 +87,7 @@ envVarsSecret:
   FOO4: "bar2"  # Another example from Secret.
 
 containerPorts:
-  http: 8080  # HTTP port exposed by the container.
-  https: 8443  # HTTPS port exposed by the container.
+  app: 8080  # App port exposed by the container.
   healthcheck: 8081  # Healthcheck port exposed by the container.
 
 # Startup, Liveness and Readiness Probes Configuration

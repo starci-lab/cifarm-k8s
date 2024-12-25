@@ -99,14 +99,11 @@ spec:
                 name: {{ include "service.envVarsSecretName" . }}
             {{- end }}
           ports:
-            - name: http
-              containerPort: {{ .Values.containerPorts.http }}
+            - name: app
+              containerPort: {{ .Values.containerPorts.app }}
               protocol: TCP
             - name: healthcheck
               containerPort: {{ .Values.containerPorts.healthcheck }}
-              protocol: TCP
-            - name: https
-              containerPort: {{ .Values.containerPorts.https }}
               protocol: TCP
           {{- if not .Values.diagnosticMode.enabled }}
           {{- if .Values.customStartupProbe }}
@@ -114,14 +111,14 @@ spec:
           {{- else if .Values.startupProbe.enabled }}
           startupProbe: {{- include "common.tplvalues.render" (dict "value" (omit .Values.startupProbe "enabled") "context" $) | nindent 12 }}
             tcpSocket:
-              port: http
+              port: app
           {{- end }}
           {{- if .Values.customLivenessProbe }}
           livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customLivenessProbe "context" $) | nindent 12 }}
           {{- else if .Values.livenessProbe.enabled }}
           livenessProbe:
             tcpSocket:
-              port: http
+              port: app
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
