@@ -1,309 +1,177 @@
 global:
-  imageRegistry: ""
-  ## E.g.
-  ## imagePullSecrets:
-  ##   - myRegistryKeySecretName
-  ##
-  imagePullSecrets: []
-  defaultStorageClass: ""
-  storageClass: ""
-  ## Security parameters
-  ##
+  imageRegistry: ""  # Set the image registry URL (e.g., docker.io).
+  imagePullSecrets: []  # Optionally, specify secrets to pull images from a private registry.
+  defaultStorageClass: ""  # Define default storage class for persistent volumes.
+  storageClass: ""  # Specify the storage class for persistent volumes.
+  
+  # Security parameters
   security:
-    ## @param global.security.allowInsecureImages Allows skipping image verification
-    allowInsecureImages: false
-  ## Compatibility adaptations for Kubernetes platforms
-  ##
+    allowInsecureImages: false  # Set to true to allow skipping image verification.
+  
+  # Compatibility adaptations for Kubernetes platforms
   compatibility:
-    ## Compatibility adaptations for Openshift
-    ##
     openshift:
-      ## @param global.compatibility.openshift.adaptSecurityContext Adapt the securityContext sections of the deployment to make them compatible with Openshift restricted-v2 SCC: remove runAsUser, runAsGroup and fsGroup and let the platform use their allowed default IDs. Possible values: auto (apply if the detected running cluster is Openshift), force (perform the adaptation always), disabled (do not perform adaptation)
-      ##
-      adaptSecurityContext: auto
+      adaptSecurityContext: auto  # Adapt securityContext for OpenShift restricted SCC.
 
-## @param kubeVersion Override Kubernetes version
-##
-kubeVersion: ""
-## @param nameOverride String to partially override common.names.fullname
-##
-nameOverride: ""
-## @param fullnameOverride String to fully override common.names.fullname
-##
-fullnameOverride: ""
+kubeVersion: ""  # Override Kubernetes version if necessary.
+nameOverride: ""  # Override the name used in the deployment.
+fullnameOverride: ""  # Fully override the fullname.
 
-replicaCount: 2
+replicaCount: 2  # Set the number of replicas for the deployment.
 
-commonLabels: {
-  test: "test"
-}
-commonAnnotations: {
-  test: "test"
-}
-lifecycleHooks: {}
-extraDeploy: []
-## Enable diagnostic mode in the deployment
-##
+# Labels and Annotations (removed test entries)
+commonLabels: {}  # Add common labels if needed, otherwise leave empty.
+commonAnnotations: {}  # Add common annotations if needed, otherwise leave empty.
+
+lifecycleHooks: {}  # Define any lifecycle hooks if necessary.
+extraDeploy: []  # Add any extra deployments or configurations.
+
+# Diagnostic Mode
 diagnosticMode:
-  ## @param diagnosticMode.enabled Enable diagnostic mode (all probes will be disabled and the command will be overridden)
-  ##
-  enabled: false
-  ## @param diagnosticMode.command Command to override all containers in the deployment
-  ##
+  enabled: false  # Disable diagnostic mode (set to true to disable probes and override command).
   command:
-    - sleep
-  ## @param diagnosticMode.args Args to override all containers in the deployment
-  ##
+    - sleep  # Command to override containers.
   args:
-    - infinity
+    - infinity  # Arguments to override containers.
 
-podAnnotations: {}
-podLabels: {}
-podAffinityPreset: ""
-podAntiAffinityPreset: soft
-args: []
+# Pod Annotations and Labels
+podAnnotations: {}  # Add pod annotations if necessary.
+podLabels: {}  # Add pod labels if necessary.
+
+podAffinityPreset: ""  # Pod affinity preset, can be soft or hard, or empty.
+podAntiAffinityPreset: soft  # Anti-affinity preset for pod placement.
+
+args: []  # Additional command-line arguments for the container.
+
+# Deployment Update Strategy
 updateStrategy:
-  type: "RollingUpdate"
+  type: "RollingUpdate"  # Use rolling update strategy for pod updates.
 
-## @param podAntiAffinityPreset Pod anti-affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
-## Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
-##
-podAntiAffinityPreset: soft
-## Node affinity preset
-## Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity
-##
+# Pod Affinity, Anti-Affinity, and Node Affinity
+podAntiAffinityPreset: soft  # Anti-affinity preset: 'soft' (preferred) or 'hard' (required).
 nodeAffinityPreset:
-  ## @param nodeAffinityPreset.type Node affinity preset type. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
-  ##
-  type: ""
-  ## @param nodeAffinityPreset.key Node label key to match. Ignored if `affinity` is set
-  ##
-  key: ""
-  ## @param nodeAffinityPreset.values Node label values to match. Ignored if `affinity` is set
-  ## E.g.
-  ## values:
-  ##   - e2e-az1
-  ##   - e2e-az2
-  ##
-  values: []
-## @param affinity Affinity for pod assignment
-## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-## NOTE: podAffinityPreset, podAntiAffinityPreset, and nodeAffinityPreset will be ignored when it's set
-##
-affinity: {}
-## @param nodeSelector Node labels for pod assignment
-## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
-##
-nodeSelector: {}
+  type: ""  # Node affinity type: 'soft' or 'hard'.
+  key: ""  # Node label key to match.
+  values: []  # List of node label values to match.
 
-resourcesPreset: "nano"
-resources: {}
+affinity: {}  # Custom affinity rules for pod placement.
+nodeSelector: {}  # Node labels for pod assignment.
 
-# Image configuration
+resourcesPreset: "nano"  # Predefined resource presets, e.g., nano, micro, small.
+resources: {}  # Custom resource requests and limits for the container.
+
+# Image Configuration
 image:
-  registry: docker.io
-  repository: cifarm/gameplay-service
-  tag: latest
-  digest: ""
-  ## Specify a imagePullPolicy
-  ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
-  ##
-  pullPolicy: IfNotPresent
-  ## Optionally specify an array of imagePullSecrets.
-  ## Secrets must be manually created in the namespace.
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  ## e.g:
-  ## pullSecrets:
-  ##   - myRegistryKeySecretName
-  ##
-  pullSecrets: []
-  ## Enable debug mode
-  ##
-  debug: false
+  registry: docker.io  # Docker registry URL for the image.
+  repository: cifarm/gameplay-service  # Repository for the container image.
+  tag: latest  # Tag for the image.
+  digest: ""  # Optionally specify an image digest.
+  pullPolicy: IfNotPresent  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.
+  pullSecrets: []  # Secrets for private image pull.
 
-# Service-related configuration
+debug: false  # Enable debug mode for additional debugging.
+
+# Service Configuration
 service: 
-  type: "ClusterIP"
-  port: 3000
-  targetPort: 3000
+  type: "ClusterIP"  # Kubernetes service type: ClusterIP, LoadBalancer, NodePort, etc.
+  port: 3000  # Port the service will expose.
+  targetPort: 3000  # Container's target port.
 
-nodeSelector: {}
-
+# Environment Variables from ConfigMap and Secret
 envVarsCM: 
-  FOO: "bar"
-  FOO2: "bar2"
+  FOO: "bar"  # Example environment variable from ConfigMap.
+  FOO2: "bar2"  # Another example from ConfigMap.
 envVarsSecret:
-  FOO3: "bar"
-  FOO4: "bar2"
+  FOO3: "bar"  # Example environment variable from Secret.
+  FOO4: "bar2"  # Another example from Secret.
 
 containerPorts:
-  http: 8080
-  https: 8443
+  http: 8080  # HTTP port exposed by the container.
+  https: 8443  # HTTPS port exposed by the container.
 
+# Liveness and Readiness Probes Configuration
 livenessProbe:
-  enabled: true
-  initialDelaySeconds: 180
-  periodSeconds: 10
-  timeoutSeconds: 5
-  successThreshold: 1
-  failureThreshold: 6
-## @param readinessProbe.enabled Enable readinessProbe
-## @param readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
-## @param readinessProbe.periodSeconds Period seconds for readinessProbe
-## @param readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
-## @param readinessProbe.failureThreshold Failure threshold for readinessProbe
-## @param readinessProbe.successThreshold Success threshold for readinessProbe
-##
+  enabled: true  # Enable liveness probe.
+  initialDelaySeconds: 180  # Initial delay before the probe is run.
+  periodSeconds: 10  # Interval between probe checks.
+  timeoutSeconds: 5  # Timeout for probe response.
+  successThreshold: 1  # Number of successful probes needed.
+  failureThreshold: 6  # Number of failed probes before declaring the container unhealthy.
+
 readinessProbe:
-  enabled: true
-  initialDelaySeconds: 30
-  periodSeconds: 5
-  timeoutSeconds: 3
-  successThreshold: 1
-  failureThreshold: 3
+  enabled: true  # Enable readiness probe.
+  initialDelaySeconds: 30  # Initial delay before the probe is run.
+  periodSeconds: 5  # Interval between probe checks.
+  timeoutSeconds: 3  # Timeout for probe response.
+  successThreshold: 1  # Number of successful probes needed.
+  failureThreshold: 3  # Number of failed probes before declaring the container not ready.
 
-customStartupProbe: {}
-## @param customLivenessProbe Custom livenessProbe that overrides the default one
-##
-customLivenessProbe: {}
-## @param customReadinessProbe Custom readinessProbe that overrides the default one
-#
-customReadinessProbe: {}
-extraVolumeMounts: []
+customStartupProbe: {}  # Optionally, provide a custom startup probe.
 
-startupProbe:
-  enabled: false
-  initialDelaySeconds: 180
-  periodSeconds: 10
-  timeoutSeconds: 5
-  successThreshold: 1
-  failureThreshold: 6
+customLivenessProbe: {}  # Optionally, provide a custom liveness probe.
 
-# Replicas configuration
+customReadinessProbe: {}  # Optionally, provide a custom readiness probe.
+
+# Replicas and Autoscaling Configuration
 autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 3
-  cooldownPeriod: 30
-  pollingInterval: 5
+  enabled: false  # Enable autoscaling.
+  minReplicas: 1  # Minimum number of replicas.
+  maxReplicas: 3  # Maximum number of replicas.
+  cooldownPeriod: 30  # Time to wait after scaling before scaling again.
+  pollingInterval: 5  # Time between scale checks.
   prometheus:
     serverAddress:
-      host: "prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local"
-      port: 9090
-    metricName: "example-metric"
-    query: "sum(rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"example-.*\"}[1m]))"
-    threshold: "0.75"
+      host: "prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local"  # Prometheus server address.
+      port: 9090  # Prometheus port.
+    metricName: "example-metric"  # Name of the metric to scale on.
+    query: "sum(rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"example-.*\"}[1m]))"  # Prometheus query for metric.
+    threshold: "0.75"  # Threshold value for scaling.
 
-# Resources configuration
+# Resource Requests and Limits
 resources:
   requests:
-    cpu: "10m"
-    memory: "20Mi"
+    cpu: "10m"  # CPU request for the container.
+    memory: "20Mi"  # Memory request for the container.
   limits:
-    cpu: "90m"
-    memory: "180Mi"
+    cpu: "90m"  # CPU limit for the container.
+    memory: "180Mi"  # Memory limit for the container.
 
+# Pod Security Context
 podSecurityContext:
-  enabled: true
-  fsGroupChangePolicy: Always
-  sysctls: []
-  supplementalGroups: []
-  fsGroup: 1001
+  enabled: true  # Enable pod security context.
+  fsGroupChangePolicy: Always  # Ensure file system group ownership.
+  sysctls: []  # Custom sysctls for the pod.
+  supplementalGroups: []  # Supplementary groups for the pod.
+  fsGroup: 1001  # File system group for the pod.
 
-hostAliases: []
-## @param extraVolumes Optionally specify extra list of additional volumes for Jenkins pods
-##
-extraVolumes: []
-## @param extraVolumeMounts Optionally specify extra list of additional volumeMounts for Jenkins container(s)
-##
-extraVolumeMounts: []
+# Extra Volumes and Volume Mounts
+extraVolumes: []  # Define extra volumes if necessary.
+extraVolumeMounts: []  # Define extra volume mounts if necessary.
 
-service:
-  ports:
-    http: 80
-  type: ClusterIP
-
+# Security Context for Volume Permissions
 volumePermissions:
-  ## @param volumePermissions.enabled Enable init container that changes the owner/group of the PV mount point to `runAsUser:fsGroup`
-  ##
-  enabled: false
-  ## OS Shell + Utility image
-  ## ref: https://hub.docker.com/r/bitnami/os-shell/tags/
-  ## @param volumePermissions.image.registry [default: REGISTRY_NAME] OS Shell + Utility image registry
-  ## @param volumePermissions.image.repository [default: REPOSITORY_NAME/os-shell] OS Shell + Utility image repository
-  ## @skip volumePermissions.image.tag OS Shell + Utility image tag (immutable tags are recommended)
-  ## @param volumePermissions.image.digest OS Shell + Utility image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
-  ## @param volumePermissions.image.pullPolicy OS Shell + Utility image pull policy
-  ## @param volumePermissions.image.pullSecrets OS Shell + Utility image pull secrets
-  ##
+  enabled: false  # Disable volume permission management (set to true if needed).
   image:
-    registry: docker.io
-    repository: bitnami/os-shell
-    tag: 12-debian-12-r33
-    digest: ""
-    pullPolicy: IfNotPresent
-    ## Optionally specify an array of imagePullSecrets.
-    ## Secrets must be manually created in the namespace.
-    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-    ## e.g:
-    ## pullSecrets:
-    ##   - myRegistryKeySecretName
-    ##
-    pullSecrets: []
-  ## Init container's resource requests and limits
-  ## ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
-  ## @param volumePermissions.resourcesPreset Set container resources according to one common preset (allowed values: none, nano, micro, small, medium, large, xlarge, 2xlarge). This is ignored if volumePermissions.resources is set (volumePermissions.resources is recommended for production).
-  ## More information: https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15
-  ##
-  resourcesPreset: "nano"
-  ## @param volumePermissions.resources Set container requests and limits for different resources like CPU or memory (essential for production workloads)
-  ## Example:
-  ## resources:
-  ##   requests:
-  ##     cpu: 2
-  ##     memory: 512Mi
-  ##   limits:
-  ##     cpu: 3
-  ##     memory: 1024Mi
-  ##
-  resources: {}
-  ## Init container Container Security Context
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
-  ## @param volumePermissions.securityContext.seLinuxOptions [object,nullable] Set SELinux options in container
-  ## @param volumePermissions.securityContext.runAsUser Set init container's Security Context runAsUser
-  ## NOTE: when runAsUser is set to special value "auto", init container will try to chown the
-  ##   data folder to auto-determined user&group, using commands: `id -u`:`id -G | cut -d" " -f2`
-  ##   "auto" is especially useful for OpenShift which has scc with dynamic user ids (and 0 is not allowed)
-  ##
+    registry: docker.io  # Image registry for volume permission manager.
+    repository: bitnami/os-shell  # Image repository for volume permission manager.
+    tag: 12-debian-12-r33  # Image tag.
+    pullPolicy: IfNotPresent  # Image pull policy.
+  resourcesPreset: "nano"  # Resource preset for the volume permissions container.
+  resources: {}  # Custom resource requests and limits for the volume permissions container.
   securityContext:
-    seLinuxOptions: {}
-    runAsUser: 0
+    seLinuxOptions: {}  # SELinux options for the container.
+    runAsUser: 0  # Run as user for volume permissions container.
 
-containerSecurityContext:
-  enabled: true
-  seLinuxOptions: {}
-  runAsUser: 1001
-  runAsGroup: 1001
-  runAsNonRoot: true
-  privileged: false
-  readOnlyRootFilesystem: true
-  allowPrivilegeEscalation: false
-  capabilities:
-    drop: ["ALL"]
-  seccompProfile:
-    type: "RuntimeDefault"
-
-# RBAC configuration
+# RBAC and Service Account Configuration
 rbac:
-  create: true
-  rules: 
-  - apiGroups: [""]
-    resources: ["pods"]
-    verbs: ["get", "list", "watch"]
+  create: true  # Enable creation of RBAC resources.
+  rules:
+    - apiGroups: [""]
+      resources: ["pods"]
+      verbs: ["get", "list", "watch"]
+
 serviceAccount:
-  create: true
-  name: ""
-  annotations: {
-    test2: "test2"
-  }
-  automountServiceAccountToken: false
+  create: true  # Enable creation of a service account.
+  name: ""  # Optionally specify a service account name.
+  annotations: {}  # Add annotations for the service account if needed.
+  automountServiceAccountToken: false  # Do not automatically mount the service account token.
