@@ -23,9 +23,52 @@
             <version>2.487</version>
         </dependency>
         <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-job</artifactId>
+            <version>1468.vcf4f5ee92395</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-step-api</artifactId>
+            <version>678.v3ee58b_469476</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-cps</artifactId>
+            <version>3996.va_f5c1799f978</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-basic-steps</artifactId>
+            <version>1058.vcb_fc1e3a_21a_9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.hudson</groupId>
+            <artifactId>hudson-core</artifactId>
+            <version>3.3.3</version>
+        </dependency>   
+        <dependency>
             <groupId>org.csanchez.jenkins.plugins</groupId>
             <artifactId>kubernetes</artifactId>
             <version>4296.v20a_7e4d77cf6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.hudson.plugins</groupId>
+            <artifactId>git</artifactId>
+            <version>3.0.1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>github-api</artifactId>
+            <version>1.321-478.vc9ce627ce001</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.coravy.hudson.plugins.github</groupId>
+            <artifactId>github</artifactId>
+            <version>0.2</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>

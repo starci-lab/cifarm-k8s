@@ -6,14 +6,29 @@ resource "kubernetes_namespace" "jenkins" {
 }
 
 locals {
-  jenkins_name = "jenkins"
-  jenkins_port = 80
+  jenkins_name       = "jenkins"
+  jenkins_port       = 80
   jenkins_agent_name = "jenkins-agent"
+}
+
+locals {
+  gameplay_service = {
+    name        = "gameplay-service-build-pipeline"  # Name of the Jenkins pipeline job
+    description = "Build the gameplay service using Kaniko then push the image to Dockerhub"  # Job description
+    path        = ".jenkins/gameplay-service/build/Jenkinsfile"  # Path to the Jenkinsfile
+  }
 }
 
 locals {
   jenkins_init_groovy = {
     "kubernetes-cloud.groovy" = file("${path.module}/jenkins-init-groovy/kubernetes-cloud.groovy")
+    "pipeline.groovy" = templatefile("${path.module}/jenkins-init-groovy/pipeline.groovy", {
+      job_name        = local.gameplay_service.name                # Inject job name
+      job_description = local.gameplay_service.description         # Inject job description
+      job_script_path = local.gameplay_service.path                # Inject path to Jenkinsfile
+      git_repo        = var.containers_git_repository              # Git repository for the containers
+      git_repo_branch = var.build_branch                           # Branch to build
+    })
   }
 }
 
@@ -22,7 +37,7 @@ resource "kubernetes_config_map" "jenkins_init_groovy" {
     name      = "jenkins-init-groovy"
     namespace = kubernetes_namespace.jenkins.metadata[0].name
   }
-  
+
   data = local.jenkins_init_groovy
 }
 
@@ -35,19 +50,12 @@ resource "helm_release" "jenkins" {
 
   values = [
     templatefile("${path.module}/manifests/jenkins-values.yaml", {
-      user             = var.jenkins_user,
-      password         = var.jenkins_password,
-      node_group_label = var.secondary_node_group_name
+      user                 = var.jenkins_user,
+      password             = var.jenkins_password,
+      node_group_label     = var.secondary_node_group_name,
+      init_hook_scripts_cm = kubernetes_config_map.jenkins_init_groovy.metadata[0].name
     })
   ]
-
-  dynamic "set" {
-    for_each = local.jenkins_init_groovy
-    content {
-      name  = "initHookScripts.${replace(set.key, ".", "\\.")}"
-      value = set.value
-    }
-  }
 }
 
 locals {

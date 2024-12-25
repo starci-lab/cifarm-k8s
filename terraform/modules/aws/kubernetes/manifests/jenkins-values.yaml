@@ -28,3 +28,5 @@ plugins: [
   # "kubernetes-cli",
   # "kubernetes-credentials-provider"
 ]
+
+initHookScriptsCM: ${init_hook_scripts_cm}

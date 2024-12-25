@@ -4,6 +4,7 @@
 
 package com.mycompany.java;
 
+import java.io.IOException;
 import jenkins.model.*;
 import org.csanchez.jenkins.plugins.kubernetes.*;
 /**
@@ -12,10 +13,11 @@ import org.csanchez.jenkins.plugins.kubernetes.*;
  */
 public class KubernetesCloudExample {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         var jenkins = Jenkins.getInstance();
         
-        var kubernetesCloud = new KubernetesCloud("cifarm-kubernetes", null, null, "jenkins", null, "10", 5, 10, 5);
+        var kubernetesCloud = new KubernetesCloud("cifarm-kubernetes");
+        kubernetesCloud.setNamespace("jenkins");
         kubernetesCloud.setSkipTlsVerify(true);
         kubernetesCloud.setJenkinsUrl("http://jenkins.jenkins.svc.cluster.local");
         kubernetesCloud.setWebSocket(true);

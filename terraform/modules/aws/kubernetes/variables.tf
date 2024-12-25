@@ -195,3 +195,15 @@ variable "cloudflare_api_token" {
   description = "API token for Cloudflare"
   sensitive   = true
 }
+
+variable "build_branch" {
+  type        = string
+  description = "Branch to build"
+  default     = "/build"
+}
+
+variable "containers_git_repository" {
+  type        = string
+  description = "Git repository for containers"
+  default     = "https://github.com/starci-lab/cifarm-containers.git"
+}
