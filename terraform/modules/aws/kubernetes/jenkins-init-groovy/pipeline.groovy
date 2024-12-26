@@ -58,9 +58,9 @@ FlowDefinition flowDefinition = new CpsScmFlowDefinition(scm, jobScriptPath)
 WorkflowJob job = jenkins.getItemByFullName(jobName)
 
 // Add the DisableConcurrentBuildsJobProperty to the job
-DisableConcurrentBuildsJobProperty disableConcurrentBuildsJobProperty = new DisableConcurrentBuildsJobProperty();
-disableConcurrentBuildsJobProperty.setAbortPrevious(true);
-job.addProperty(disableConcurrentBuildsJobProperty);
+DisableConcurrentBuildsJobProperty disableConcurrentBuildsJobProperty = new DisableConcurrentBuildsJobProperty()
+disableConcurrentBuildsJobProperty.setAbortPrevious(true)
+job.addProperty(disableConcurrentBuildsJobProperty)
 
 // Create and configure the job
 job = jenkins.createProject(WorkflowJob.class, jobName)
