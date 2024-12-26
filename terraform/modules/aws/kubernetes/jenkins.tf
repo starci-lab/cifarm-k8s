@@ -35,7 +35,8 @@ locals {
 }
 
 locals {
-  jenkins_init_groovy = {
+  jenkins_init_groovy_name = "jenkins-init-groovy"
+  jenkins_init_groovy_cm = {
     "kubernetes-cloud.groovy" = file("${path.module}/jenkins-init-groovy/kubernetes-cloud.groovy")
     "pipeline.groovy" = templatefile("${path.module}/jenkins-init-groovy/pipeline.groovy", {
       job_name        = local.gameplay_service.name        # Inject job name
@@ -44,26 +45,47 @@ locals {
       git_repo        = var.containers_git_repository      # Git repository for the containers
       git_repo_branch = var.build_branch                   # Branch to build
     })
-    "github-creds.groovy" = templatefile("${path.module}/jenkins-init-groovy/github-creds.groovy", {
-      credentials_id         = "github-credentials" # Inject credentials ID
-      credentialsDescription = "Github credentials for Jenkins" # Inject credentials description
-      access_token           = var.jenkins_github_access_token # Inject access token
 
-      secret_id          = "github-secret"                # Inject secret ID
-      secret_description = "Github secret for Jenkins"    # Inject secret description
-      secret             = var.jenkins_github_hook_secret # Inject secret
-      server_name        = "cifarm"
+    //temporarily set github-creds, fix later
+    "github-creds.groovy" = templatefile("${path.module}/jenkins-init-groovy/github-creds.groovy", {
+      credentials_id          = "github-credentials"             # Inject credentials ID
+      credentials_description = "Github credentials for Jenkins" # Inject credentials description
+      access_token            = var.jenkins_github_access_token  # Inject access token
+      secret_id               = "github-secret"                  # Inject secret ID
+      secret_description      = "Github secret for Jenkins"      # Inject secret description
+      secret                  = var.jenkins_github_hook_secret   # Inject secret
+      server_name             = "cifarm"
+    })
+  }
+  jenkins_init_groovy_secret = {
+    "github-creds.groovy" = templatefile("${path.module}/jenkins-init-groovy/github-creds.groovy", {
+      credentials_id          = "github-credentials"             # Inject credentials ID
+      credentials_description = "Github credentials for Jenkins" # Inject credentials description
+      access_token            = var.jenkins_github_access_token  # Inject access token
+      secret_id               = "github-secret"                  # Inject secret ID
+      secret_description      = "Github secret for Jenkins"      # Inject secret description
+      secret                  = var.jenkins_github_hook_secret   # Inject secret
+      server_name             = "cifarm"
     })
   }
 }
 
 resource "kubernetes_config_map" "jenkins_init_groovy" {
   metadata {
-    name      = "jenkins-init-groovy"
+    name      = local.jenkins_init_groovy_name
     namespace = kubernetes_namespace.jenkins.metadata[0].name
   }
 
-  data = local.jenkins_init_groovy
+  data = local.jenkins_init_groovy_cm
+}
+
+resource "kubernetes_secret" "jenkins_init_groovy" {
+  metadata {
+    name      = local.jenkins_init_groovy_name
+    namespace = kubernetes_namespace.jenkins.metadata[0].name
+  }
+
+  data = local.jenkins_init_groovy_secret
 }
 
 # Helm release for the Jenkins
@@ -75,10 +97,13 @@ resource "helm_release" "jenkins" {
 
   values = [
     templatefile("${path.module}/manifests/jenkins-values.yaml", {
-      user                 = var.jenkins_user,
-      password             = var.jenkins_password,
-      node_group_label     = var.secondary_node_group_name,
-      init_hook_scripts_cm = kubernetes_config_map.jenkins_init_groovy.metadata[0].name,
+      user                     = var.jenkins_user,
+      password                 = var.jenkins_password,
+      node_group_label         = var.secondary_node_group_name,
+      init_hook_scripts_cm     = kubernetes_config_map.jenkins_init_groovy.metadata[0].name,
+      
+      // wrong serviceName - create pull request to change into name
+      // init_hook_scripts_secret = kubernetes_secret.jenkins_init_groovy.metadata[0].name
     })
   ]
 }

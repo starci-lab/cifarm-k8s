@@ -11,7 +11,7 @@ import java.util.Collections;
 import jenkins.model.*;
 import org.eclipse.jgit.transport.*;
 import org.jenkinsci.plugins.workflow.job.*;
-import com.cloudbees.jenkins.plugins.GitHubPushTrigger;
+import com.cloudbees.jenkins.*;
 /**
  *
  * @author cuong
