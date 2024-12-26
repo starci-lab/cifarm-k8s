@@ -55,23 +55,18 @@ FlowDefinition flowDefinition = new CpsScmFlowDefinition(scm, jobScriptPath)
 // Check if the job already exists
 WorkflowJob job = jenkins.getItemByFullName(jobName)
 
-if (job != null) {
-    // Job exists, print message
-    println "Pipeline job '$${jobName}' already exists. Skipping creation."
-} else {
-    // Job does not exist, create and configure the job
-    job = jenkins.createProject(WorkflowJob.class, jobName)
-    job.setDefinition(flowDefinition)
-    job.setDescription(jobDescription)
+// Create and configure the job
+job = jenkins.createProject(WorkflowJob.class, jobName)
+job.setDefinition(flowDefinition)
+job.setDescription(jobDescription)
 
-    // Add GitHub webhook trigger
-    job.addTrigger(new GitHubPushTrigger())
-    // Add SCM polling trigger
-    // job.addTrigger(new SCMTrigger("H/5 * * * *"))
+// Add GitHub webhook trigger
+job.addTrigger(new GitHubPushTrigger())
+// Add SCM polling trigger
+// job.addTrigger(new SCMTrigger("H/5 * * * *"))
 
-    // Save the job
-    job.save()
+// Save the job
+job.save()
 
-    // Print success message
-    println "Pipeline job '$${jobName}' has been created successfully!"
-}
+// Print success message
+println "Pipeline job '$${jobName}' has been created successfully!"

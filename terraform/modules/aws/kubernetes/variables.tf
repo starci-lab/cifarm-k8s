@@ -207,3 +207,16 @@ variable "containers_git_repository" {
   description = "Git repository for containers"
   default     = "https://github.com/starci-lab/cifarm-containers.git"
 }
+
+
+variable "jenkins_github_access_token" {
+  type        = string
+  description = "Github secret for Jenkins"
+  sensitive = true
+}
+
+variable "jenkins_github_hook_secret" {
+  type        = string
+  description = "Github hook secret for Jenkins"
+  sensitive = true
+}

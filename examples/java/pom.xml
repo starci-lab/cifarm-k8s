@@ -65,6 +65,13 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>github-api</artifactId>
+            <version>1.321-478.vc9ce627ce001</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
             <groupId>com.coravy.hudson.plugins.github</groupId>
             <artifactId>github</artifactId>
             <version>0.2</version>
