@@ -14,7 +14,7 @@ import org.csanchez.jenkins.plugins.kubernetes.*;
 public class KubernetesCloudExample {
 
     public static void main(String[] args) throws IOException {
-        var jenkins = Jenkins.getInstance();
+        var jenkins = Jenkins.get();
         
         var kubernetesCloud = new KubernetesCloud("cifarm-kubernetes");
         kubernetesCloud.setNamespace("jenkins");
