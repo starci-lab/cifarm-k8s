@@ -9,6 +9,8 @@ import hudson.plugins.git.BranchSpec
 import hudson.plugins.git.UserRemoteConfig
 import java.util.Collections
 import com.cloudbees.jenkins.GitHubPushTrigger
+import org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty
+
 // Required plugins:
 // - git
 // - workflow-multibranch
@@ -54,6 +56,11 @@ FlowDefinition flowDefinition = new CpsScmFlowDefinition(scm, jobScriptPath)
 
 // Check if the job already exists
 WorkflowJob job = jenkins.getItemByFullName(jobName)
+
+// Add the DisableConcurrentBuildsJobProperty to the job
+DisableConcurrentBuildsJobProperty disableConcurrentBuildsJobProperty = new DisableConcurrentBuildsJobProperty();
+disableConcurrentBuildsJobProperty.setAbortPrevious(true);
+job.addProperty(disableConcurrentBuildsJobProperty);
 
 // Create and configure the job
 job = jenkins.createProject(WorkflowJob.class, jobName)

@@ -12,6 +12,7 @@ import jenkins.model.*;
 import org.eclipse.jgit.transport.*;
 import org.jenkinsci.plugins.workflow.job.*;
 import com.cloudbees.jenkins.*;
+import org.jenkinsci.plugins.workflow.job.properties.*;;
 /**
  *
  * @author cuong
@@ -23,10 +24,12 @@ public class BuildPipelineExample {
         String jobScript = "example/Jenkinsfile";
         String gitRepo = "https://github.com/starci-lab/cifarm-containers.git";
         String branch = "/example";
-        var jenkins = Jenkins.getInstance();
+        var jenkins = Jenkins.get();
         
         var job = (WorkflowJob) jenkins.getItem(pipelineName);
-        
+        var disableConcurrentBuildsJobProperty = new DisableConcurrentBuildsJobProperty();
+        disableConcurrentBuildsJobProperty.setAbortPrevious(true);
+        job.addProperty(disableConcurrentBuildsJobProperty);
         if (job != null) {
             job = jenkins.createProject(WorkflowJob.class, pipelineName);
             
