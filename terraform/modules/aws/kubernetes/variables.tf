@@ -220,3 +220,28 @@ variable "jenkins_github_hook_secret" {
   description = "Github hook secret for Jenkins"
   sensitive = true
 }
+
+# Docker credentials for pushing images to Dockerhub
+variable "docker_username" {
+  type        = string
+  description = "Docker username"
+  default = "cifarm"
+}
+
+variable "docker_password" {
+  type        = string
+  description = "Docker password"
+  sensitive = true
+}
+
+variable "docker_email" {
+  type        = string
+  description = "Docker email"
+  default = "cifarm.starcilab@gmail.com"
+}
+
+variable "docker_registry" {
+  type        = string
+  description = "Docker registry"
+  default     = "https://index.docker.io/v1/"
+}

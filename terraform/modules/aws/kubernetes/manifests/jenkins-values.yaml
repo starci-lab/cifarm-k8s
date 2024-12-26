@@ -30,4 +30,4 @@ plugins: [
 ]
 
 initHookScriptsCM: ${init_hook_scripts_cm}
-initHookScriptsSecret: ${init_hook_scripts_secret}
+# initHookScriptsSecret: init_hook_scripts_secret

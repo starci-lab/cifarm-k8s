@@ -15,22 +15,22 @@ locals {
   gameplay_service = {
     name        = "gameplay-service-build-pipeline"                                          # Name of the Jenkins pipeline job
     description = "Build the gameplay service using Kaniko then push the image to Dockerhub" # Job description
-    path        = ".jenkins/builds/gameplay-service.jenkinsfile"                             # Path to the Jenkinsfile
+    path        = ".jenkins/build/gameplay-service.jenkinsfile"                             # Path to the Jenkinsfile
   }
   rest_api_gateway = {
     name        = "rest-api-gateway-build-pipeline"                                          # Name of the Jenkins pipeline job
     description = "Build the rest API gateway using Kaniko then push the image to Dockerhub" # Job description
-    path        = ".jenkins/builds/rest-api-gateway.jenkinsfile"                             # Path to the Jenkinsfile
+    path        = ".jenkins/build/rest-api-gateway.jenkinsfile"                             # Path to the Jenkinsfile
   }
   gameplay_subgraph = {
     name        = "gameplay-subgraph-build-pipeline"                                          # Name of the Jenkins pipeline job
     description = "Build the gameplay subgraph using Kaniko then push the image to Dockerhub" # Job description
-    path        = ".jenkins/builds/gameplay-subgraph.jenkinsfile"                             # Path to the Jenkinsfile
+    path        = ".jenkins/build/gameplay-subgraph.jenkinsfile"                             # Path to the Jenkinsfile
   }
   graphql_maingraph = {
     name        = "graphql-maingraph-build-pipeline"                                          # Name of the Jenkins pipeline job
     description = "Build the graphql maingraph using Kaniko then push the image to Dockerhub" # Job description
-    path        = ".jenkins/builds/graphql-maingraph.jenkinsfile"                             # Path to the Jenkinsfile
+    path        = ".jenkins/build/graphql-maingraph.jenkinsfile"                             # Path to the Jenkinsfile
   }
 }
 
@@ -51,9 +51,9 @@ locals {
       credentials_id          = "github-credentials"             # Inject credentials ID
       credentials_description = "Github credentials for Jenkins" # Inject credentials description
       access_token            = var.jenkins_github_access_token  # Inject access token
-      secret_id               = "github-secret"                  # Inject secret ID
-      secret_description      = "Github secret for Jenkins"      # Inject secret description
-      secret                  = var.jenkins_github_hook_secret   # Inject secret
+      hook_secret_id          = "github-hook-secret"                  # Inject secret ID
+      hook_secret_description = "Github hook secret for Jenkins"      # Inject secret description
+      hook_secret             = var.jenkins_github_hook_secret   # Inject secret
       server_name             = "cifarm"
     })
   }
@@ -62,9 +62,9 @@ locals {
       credentials_id          = "github-credentials"             # Inject credentials ID
       credentials_description = "Github credentials for Jenkins" # Inject credentials description
       access_token            = var.jenkins_github_access_token  # Inject access token
-      secret_id               = "github-secret"                  # Inject secret ID
-      secret_description      = "Github secret for Jenkins"      # Inject secret description
-      secret                  = var.jenkins_github_hook_secret   # Inject secret
+      hook_secret_id          = "github-hook-secret"                  # Inject secret ID
+      hook_secret_description = "Github hook secret for Jenkins"      # Inject secret description
+      hook_secret             = var.jenkins_github_hook_secret   # Inject secret
       server_name             = "cifarm"
     })
   }
@@ -147,5 +147,31 @@ resource "kubernetes_role_binding" "jenkins" {
     kind      = "ServiceAccount"
     name      = kubernetes_service_account.jenkins.metadata[0].name
     namespace = kubernetes_namespace.jenkins.metadata[0].name
+  }
+}
+
+# regcred secret for pulling images from Dockerhub
+resource "kubernetes_secret" "docker_credentials" {
+  metadata {
+    name = "docker-credentials"
+    namespace = kubernetes_namespace.jenkins.metadata[0].name
+  }
+
+  data = {
+    ".dockerconfigjson" = "${data.template_file.docker_credentials.rendered}"
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+}
+
+# Template file for the 
+data "template_file" "docker_credentials" {
+  template = "${file("${path.module}/jsons/docker-credentials.json")}"
+  vars = {
+    docker_username           = "${var.docker_username}"
+    docker_password           = "${var.docker_password}"
+    docker_registry           = "${var.docker_registry}"
+    docker_email              = "${var.docker_email}"
+    auth                      = base64encode("${var.docker_username}:${var.docker_password}")
   }
 }

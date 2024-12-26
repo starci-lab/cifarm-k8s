@@ -14,10 +14,10 @@ String credentialsId = "${credentials_id}"
 String credentialsDescription = "${credentials_description}"
 String accessToken = "${access_token}"
 
-// configure secret
-String secretId = "${secret_id}"
-String secretDescription = "${secret_description}"
-String secret = "${secret}"
+// configure hook secret
+String hookSecretId = "${hook_secret_id}"
+String hookSecretDescription = "${hook_secret_description}"
+String hookSecret = "${hook_secret}"
 
 // configure github server name
 String serverName = "${server_name}"
@@ -26,6 +26,8 @@ Domain domain = Domain.global()
 
 // create jenkins instance
 SystemCredentialsProvider.StoreImpl store = Jenkins.get().getExtensionList(SystemCredentialsProvider.class)[0].getStore()
+
+// Add GitHub access token if not already present
 if (store.getCredentials(domain).find { it.id == credentialsId } == null) {
   StringCredentialsImpl credentialsText = new StringCredentialsImpl(
         CredentialsScope.GLOBAL,
@@ -43,19 +45,19 @@ GitHubPluginConfig github = Jenkins.get().getExtensionList(GitHubPluginConfig.cl
 GitHubServerConfig githubServerConfig = new GitHubServerConfig(credentialsId)
 githubServerConfig.setName(serverName)  // Set the name of the GitHub server for easy identification
 
-// configure hook secret
-if (store.getCredentials(domain).find { it.id == secretId } == null) {
- StringCredentialsImpl secretText = new StringCredentialsImpl(
+// Add hook secret if not already present
+if (store.getCredentials(domain).find { it.id == hookSecretId } == null) {
+  StringCredentialsImpl hookSecretText = new StringCredentialsImpl(
         CredentialsScope.GLOBAL,
-        secretId,
-        secretDescription,
-        Secret.fromString(secret)
+        hookSecretId,
+        hookSecretDescription,
+        Secret.fromString(hookSecret)
   )
-  store.addCredentials(domain, credentialsText)
+  store.addCredentials(domain, hookSecretText)
 }
 
 // create hook secret configuration
-HookSecretConfig hookSecretConfig = new HookSecretConfig(secretId)
+HookSecretConfig hookSecretConfig = new HookSecretConfig(hookSecretId)
 
 // set configurations
 github.setConfigs([
@@ -66,4 +68,4 @@ github.setConfigs([
 // save configurations
 github.save()
 
-println "GitHub credentials have been successfully configured."
+println "GitHub credentials and hook secret have been successfully configured."
