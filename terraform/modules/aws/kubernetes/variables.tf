@@ -199,7 +199,7 @@ variable "cloudflare_api_token" {
 variable "build_branch" {
   type        = string
   description = "Branch to build"
-  default     = "/build"
+  default     = "build"
 }
 
 variable "containers_git_repository" {
