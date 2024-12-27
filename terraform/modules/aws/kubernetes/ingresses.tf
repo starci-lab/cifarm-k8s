@@ -53,7 +53,8 @@ resource "kubernetes_ingress_v1" "api" {
 
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
-    aws_route53_record.api
+    aws_route53_record.api,
+    helm_release.rest_api_gateway
   ]
 }
 
@@ -105,7 +106,8 @@ resource "kubernetes_ingress_v1" "graphql" {
 
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
-    aws_route53_record.graphql
+    aws_route53_record.graphql,
+    helm_release.graphql_maingraph
   ]
 }
 
@@ -158,6 +160,7 @@ resource "kubernetes_ingress_v1" "jenkins" {
 
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
-    aws_route53_record.jenkins
+    aws_route53_record.jenkins,
+    helm_release.jenkins
   ]
 }
