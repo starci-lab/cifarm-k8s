@@ -6,7 +6,25 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T01:47:04.2969373+07:00"
+    created: "2024-12-28T02:14:11.2691544+07:00"
+    description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
+    digest: 92120dd307fbbefa4b99070b14c5a43d1891090191b44903fa5058bb65dab3ac
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: service
+    urls:
+    - packages/service-1.0.4.tgz
+    version: 1.0.4
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.0.0
+    created: "2024-12-28T02:14:11.2641752+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: ad4106901b37d926480e3ed196c0b3957d96e1450ec0528c46c64f22e8ac195f
     home: N/A
@@ -24,7 +42,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T01:47:04.2951372+07:00"
+    created: "2024-12-28T02:14:11.2617883+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 771302dea582bfaf64a060a7f754530e421bcdecb1947e68c63e227dd0fabdd6
     home: N/A
@@ -42,7 +60,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T01:47:04.2923119+07:00"
+    created: "2024-12-28T02:14:11.2592824+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 98810a8c67218a93ca75eacf98b7d8aff54d232afecee7207b39402a5b4b37be
     home: N/A
@@ -60,7 +78,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T01:47:04.2872529+07:00"
+    created: "2024-12-28T02:14:11.2574191+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 88fcbbe615282c801dbf9080ac562d11125e2d01215373e3f93f4b7d7f54452b
     home: N/A
@@ -73,4 +91,4 @@ entries:
     urls:
     - packages/service-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-28T01:47:04.2848264+07:00"
+generated: "2024-12-28T02:14:11.2548665+07:00"
