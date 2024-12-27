@@ -36,6 +36,46 @@ locals {
   }
 }
 
+resource "helm_release" "gameplay_subgraph" {
+  name       = local.gameplay_subgraph.name
+  repository = var.container_repository
+  chart      = "service"
+  namespace  = kubernetes_namespace.containers.metadata[0].name
+
+  values = [
+    templatefile("${path.module}/manifests/gameplay-subgraph-values.yaml", {
+      node_group_label = var.primary_node_group_name,
+
+      // Gameplay Postgres Configuration
+      gameplay_postgresql_host     = local.gameplay_postgresql.host,
+      gameplay_postgresql_database = var.gameplay_postgresql_database,
+      gameplay_postgresql_password = var.gameplay_postgresql_password,
+      gameplay_postgresql_username = local.gameplay_postgresql.username,
+      gameplay_postgresql_port     = local.gameplay_postgresql.port,
+
+      // Gameplay Service Configuration
+      port              = local.gameplay_subgraph.port,
+      health_check_port = local.gameplay_subgraph.health_check_port,
+
+      // Cache Redis Configuration
+      cache_redis_host = local.cache_redis.host,
+      cache_redis_port = local.cache_redis.port,
+
+      // Resource configurations
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
+    })
+  ]
+
+  depends_on = [
+    helm_release.keda,
+    helm_release.cache_redis,
+    helm_release.gameplay_postgresql,
+  ]
+}
+
 resource "helm_release" "gameplay_service" {
   name       = local.gameplay_service.name
   repository = var.container_repository
