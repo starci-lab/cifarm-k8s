@@ -6,11 +6,11 @@ alertmanager:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "30m"
-      memory: "60Mi"
+      cpu: ${alertmanager_request_cpu}
+      memory: ${alertmanager_request_memory}
     limits:
-      cpu: "90m"
-      memory: "180Mi"
+      cpu: ${alertmanager_limit_cpu}
+      memory: ${alertmanager_limit_memory}
 
 # Resource settings for Blackbox Exporter
 blackboxExporter:
@@ -18,11 +18,11 @@ blackboxExporter:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "30m"
-      memory: "60Mi"
+      cpu: ${blackbox_exporter_request_cpu}
+      memory: ${blackbox_exporter_request_memory}
     limits:
-      cpu: "90m"
-      memory: "180Mi"
+      cpu: ${blackbox_exporter_limit_cpu}
+      memory: ${blackbox_exporter_limit_memory}
 
 # Resource settings for Operator
 operator:
@@ -30,11 +30,11 @@ operator:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "30m"
-      memory: "60Mi"
+      cpu: ${operator_request_cpu}
+      memory: ${operator_request_memory}
     limits:
-      cpu: "90m"
-      memory: "180Mi"
+      cpu: ${operator_limit_cpu}
+      memory: ${operator_limit_memory}
 
 # Resource settings for Prometheus
 prometheus:
@@ -42,19 +42,19 @@ prometheus:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "90m"
-      memory: "180Mi"
+      cpu: ${prometheus_request_cpu}
+      memory: ${prometheus_request_memory}
     limits:
-      cpu: "200m"
-      memory: "400Mi"
+      cpu: ${prometheus_limit_cpu}
+      memory: ${prometheus_limit_memory}
   thanos:
     resources:
       requests:
-        cpu: "30m"
-        memory: "60Mi"
+        cpu: ${thanos_request_cpu}
+        memory: ${thanos_request_memory}
       limits:
-        cpu: "90m"
-        memory: "180Mi"
+        cpu: ${thanos_limit_cpu}
+        memory: ${thanos_limit_memory}
 
 # Resource settings for Node Exporter
 node-exporter:
@@ -62,11 +62,11 @@ node-exporter:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "30m"
-      memory: "60Mi"
+      cpu: ${node_exporter_request_cpu}
+      memory: ${node_exporter_request_memory}
     limits:
-      cpu: "90m"
-      memory: "180Mi"
+      cpu: ${node_exporter_limit_cpu}
+      memory: ${node_exporter_limit_memory}
 
 # Resource settings for Kube-State-Metrics
 kube-state-metrics:
@@ -74,8 +74,8 @@ kube-state-metrics:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "30m"
-      memory: "60Mi"
+      cpu: ${kube_state_metrics_request_cpu}
+      memory: ${kube_state_metrics_request_memory}
     limits:
-      cpu: "90m"
-      memory: "180Mi"
+      cpu: ${kube_state_metrics_limit_cpu}
+      memory: ${kube_state_metrics_limit_memory}

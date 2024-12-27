@@ -3,35 +3,35 @@ installCRDs: true
 
 cainjector:
   nodeSelector:
-    "eks.amazonaws.com/nodegroup": ${node_group_label}
+    "eks.amazonaws.com/nodegroup": "${node_group_label}"
   resources:
     requests:
-      cpu: 60m
-      memory: 120Mi
+      cpu: "${cainjector_request_cpu}"  # Use the specific cainjector request CPU variable
+      memory: "${cainjector_request_memory}"  # Use the specific cainjector request memory variable
     limits:
-      cpu: 180m
-      memory: 360Mi
+      cpu: "${cainjector_limit_cpu}"  # Use the specific cainjector limit CPU variable
+      memory: "${cainjector_limit_memory}"  # Use the specific cainjector limit memory variable
 
 # Resources for the controller component
 controller:
   nodeSelector:
-    "eks.amazonaws.com/nodegroup": ${node_group_label}
+    "eks.amazonaws.com/nodegroup": "${node_group_label}"
   resources:
     requests:
-      cpu: 30m
-      memory: 60Mi
+      cpu: "${controller_request_cpu}"  # Use the specific controller request CPU variable
+      memory: "${controller_request_memory}"  # Use the specific controller request memory variable
     limits:
-      cpu: 90m
-      memory: 180Mi
+      cpu: "${controller_limit_cpu}"  # Use the specific controller limit CPU variable
+      memory: "${controller_limit_memory}"  # Use the specific controller limit memory variable
 
 # Resources for the webhook component
 webhook:
   nodeSelector:
-    "eks.amazonaws.com/nodegroup": ${node_group_label}
+    "eks.amazonaws.com/nodegroup": "${node_group_label}"
   resources:
     requests:
-      cpu: 30m
-      memory: 60Mi
+      cpu: "${webhook_request_cpu}"  # Use the specific webhook request CPU variable
+      memory: "${webhook_request_memory}"  # Use the specific webhook request memory variable
     limits:
-      cpu: 90m
-      memory: 180Mi
+      cpu: "${webhook_limit_cpu}"  # Use the specific webhook limit CPU variable
+      memory: "${webhook_limit_memory}"  # Use the specific webhook limit memory variable

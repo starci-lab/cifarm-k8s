@@ -5,14 +5,12 @@ resource "kubernetes_namespace" "databases" {
   }
 }
 
-
 locals {
   gameplay_postgresql_name = "gameplay-postgresql"
   cache_redis_name         = "cache-redis"
   adapter_redis_name       = "adapter-redis"
   job_redis_name           = "job-redis"
 }
-
 
 # Helm release for the Gameplay PostgreSQL database
 resource "helm_release" "gameplay_postgresql" {
@@ -25,7 +23,21 @@ resource "helm_release" "gameplay_postgresql" {
     templatefile("${path.module}/manifests/postgresql-ha-values.yaml", {
       password         = var.gameplay_postgres_password,
       database         = var.gameplay_postgres_database,
-      node_group_label = var.primary_node_group_name
+      node_group_label = var.primary_node_group_name,
+
+      // Resource configurations
+      pgpool_request_cpu     = local.pod_resource_config["small"].requests.cpu,
+      pgpool_request_memory  = local.pod_resource_config["small"].requests.memory,
+      pgpool_limit_cpu       = local.pod_resource_config["small"].limits.cpu,
+      pgpool_limit_memory    = local.pod_resource_config["small"].limits.memory,
+      request_cpu            = local.pod_resource_config["small"].requests.cpu,
+      request_memory         = local.pod_resource_config["small"].requests.memory,
+      limit_cpu              = local.pod_resource_config["small"].limits.cpu,
+      limit_memory           = local.pod_resource_config["small"].limits.memory,
+      witness_request_cpu    = local.pod_resource_config["small"].requests.cpu,
+      witness_request_memory = local.pod_resource_config["nano"].requests.memory,
+      witness_limit_cpu      = local.pod_resource_config["nano"].limits.cpu,
+      witness_limit_memory   = local.pod_resource_config["nano"].limits.memory
     })
   ]
 }
@@ -38,7 +50,17 @@ resource "helm_release" "cache_redis" {
   namespace  = kubernetes_namespace.databases.metadata[0].name
   values = [
     templatefile("${path.module}/manifests/redis-values.yaml", {
-      node_group_label = var.primary_node_group_name
+      node_group_label = var.primary_node_group_name,
+
+      # Resource configurations
+      replica_request_cpu    = local.pod_resource_config["mirco"].requests.cpu,
+      replica_request_memory = local.pod_resource_config["mirco"].requests.memory,
+      replica_limit_cpu      = local.pod_resource_config["mirco"].limits.cpu,
+      replica_limit_memory   = local.pod_resource_config["mirco"].limits.memory,
+      request_cpu            = local.pod_resource_config["small"].requests.cpu,
+      request_memory         = local.pod_resource_config["small"].requests.memory,
+      limit_cpu              = local.pod_resource_config["small"].limits.cpu,
+      limit_memory           = local.pod_resource_config["small"].limits.memory,
     })
   ]
 }
@@ -52,7 +74,17 @@ resource "helm_release" "adapter_redis" {
 
   values = [
     templatefile("${path.module}/manifests/redis-values.yaml", {
-      node_group_label = var.primary_node_group_name
+      node_group_label = var.primary_node_group_name,
+
+      # Resource configurations
+      replica_request_cpu    = local.pod_resource_config["mirco"].requests.cpu,
+      replica_request_memory = local.pod_resource_config["mirco"].requests.memory,
+      replica_limit_cpu      = local.pod_resource_config["mirco"].limits.cpu,
+      replica_limit_memory   = local.pod_resource_config["mirco"].limits.memory,
+      request_cpu            = local.pod_resource_config["small"].requests.cpu,
+      request_memory         = local.pod_resource_config["small"].requests.memory,
+      limit_cpu              = local.pod_resource_config["small"].limits.cpu,
+      limit_memory           = local.pod_resource_config["small"].limits.memory,
     })
   ]
 }
@@ -66,7 +98,17 @@ resource "helm_release" "job_redis" {
 
   values = [
     templatefile("${path.module}/manifests/redis-values.yaml", {
-      node_group_label = var.primary_node_group_name
+      node_group_label = var.primary_node_group_name,
+
+      # Resource configurations
+      replica_request_cpu    = local.pod_resource_config["mirco"].requests.cpu,
+      replica_request_memory = local.pod_resource_config["mirco"].requests.memory,
+      replica_limit_cpu      = local.pod_resource_config["mirco"].limits.cpu,
+      replica_limit_memory   = local.pod_resource_config["mirco"].limits.memory,
+      request_cpu            = local.pod_resource_config["small"].requests.cpu,
+      request_memory         = local.pod_resource_config["small"].requests.memory,
+      limit_cpu              = local.pod_resource_config["small"].limits.cpu,
+      limit_memory           = local.pod_resource_config["small"].limits.memory,
     })
   ]
 }

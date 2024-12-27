@@ -38,11 +38,11 @@ env:
 # Resources configuration
 resources:
   requests:
-    cpu: "60m"
-    memory: "120Mi"
+    cpu: ${request_cpu}
+    memory: ${request_memory}
   limits:
-    cpu: "180m"
-    memory: "360Mi"
+    cpu: ${limit_cpu}
+    memory: ${limit_memory}
 
 # Node selector configuration
 nodeSelector: 

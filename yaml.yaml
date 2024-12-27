@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kaniko-pod
+  labels:
+    app: kaniko
+spec:
+  containers:
+  - name: kaniko
+    image: bitnami/kaniko:debug  # Kaniko image
+    command:
+      - "/busybox/sleep"  # Use a dummy command to keep the container running
+    args:
+      - "3600"  # Sleep for an hour
+  restartPolicy: Never  # Don't restart the pod once the job is done

@@ -16,32 +16,43 @@ import org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobP
 // - workflow-multibranch
 
 // Variables
-String jobName = "${job_name}"  // Job name
-String jobDescription = "${job_description}"  // Job description
-String jobScriptPath = "${job_script_path}"  // Path to the Jenkinsfile in the repository
-String gitRepo = "${git_repo}"  // Git repository URL
-String gitRepoName = "origin"  // Remote name, e.g., "origin"
-String gitRepoBranch = "${git_repo_branch}"  // Branch pattern, e.g., "*/main" or "*"
-String credentialsId = ""     // Leave empty if no credentials are required
+def jobName = "${job_name}"  // Job name
+def jobDescription = "${job_description}"  // Job description
+def jobScriptPath = "${job_script_path}"  // Path to the Jenkinsfile in the repository
+def gitRepo = "${git_repo}"  // Git repository URL
+def gitRepoName = "origin"  // Remote name, e.g., "origin"
+def gitRepoBranch = "${git_repo_branch}"  // Branch pattern, e.g., "*/main" or "*"
+def credentialsId = ""     // Leave empty if no credentials are required
 
 // Get Jenkins instance
-Jenkins jenkins = Jenkins.get()  // Correct way to get Jenkins instance
+def jenkins = Jenkins.get()
+
+// Check if the job already exists
+def job = jenkins.getItemByFullName(jobName)
+if (job != null) {
+    // Print message and return
+    println "Pipeline job '$${jobName}' already exists!"
+    return
+}
+
+// Create the job
+job = jenkins.createProject(WorkflowJob, jobName)
 
 // Create the Git configuration
-UserRemoteConfig userRemoteConfig = new UserRemoteConfig(gitRepo, gitRepoName, null, credentialsId)
+def userRemoteConfig = new UserRemoteConfig(gitRepo, gitRepoName, null, credentialsId)
 
 // Branch specification (all branches or a specific one)
-List<BranchSpec> branches = Collections.singletonList(new BranchSpec(gitRepoBranch))
+def branches = Collections.singletonList(new BranchSpec(gitRepoBranch))
 
 // Define additional Git configuration (optional, can be left as null if not needed)
-boolean doGenerateSubmoduleConfigurations = false
-List submoduleCfg = null
-Object browser = null
-String gitTool = null
-List extensions = []
+def doGenerateSubmoduleConfigurations = false
+def submoduleCfg = null
+def browser = null
+def gitTool = null
+def extensions = []
 
 // Create GitSCM object
-GitSCM scm = new GitSCM(
+def scm = new GitSCM(
     [userRemoteConfig],                     // Repositories (Remote config)
     branches,                               // Branches
     doGenerateSubmoduleConfigurations,      // Generate submodule configurations
@@ -52,24 +63,20 @@ GitSCM scm = new GitSCM(
 )
 
 // Create the pipeline flow definition
-FlowDefinition flowDefinition = new CpsScmFlowDefinition(scm, jobScriptPath)
+def flowDefinition = new CpsScmFlowDefinition(scm, jobScriptPath)
 
-// Check if the job already exists
-WorkflowJob job = jenkins.getItemByFullName(jobName)
-
-// Add the DisableConcurrentBuildsJobProperty to the job
-DisableConcurrentBuildsJobProperty disableConcurrentBuildsJobProperty = new DisableConcurrentBuildsJobProperty()
-disableConcurrentBuildsJobProperty.setAbortPrevious(true)
-job.addProperty(disableConcurrentBuildsJobProperty)
-
-// Create and configure the job
-job = jenkins.createProject(WorkflowJob.class, jobName)
+// Add properties to the job
 job.setDefinition(flowDefinition)
 job.setDescription(jobDescription)
 
+// Add the DisableConcurrentBuildsJobProperty to the job
+def disableConcurrentBuildsJobProperty = new DisableConcurrentBuildsJobProperty()
+disableConcurrentBuildsJobProperty.setAbortPrevious(true)
+job.addProperty(disableConcurrentBuildsJobProperty)
+
 // Add GitHub webhook trigger
 job.addTrigger(new GitHubPushTrigger())
-// Add SCM polling trigger
+// Add SCM polling trigger (optional, you can uncomment this line if needed)
 // job.addTrigger(new SCMTrigger("H/5 * * * *"))
 
 // Save the job

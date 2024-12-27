@@ -19,6 +19,14 @@ resource "helm_release" "nginx_ingress_controller" {
   values = [
     templatefile("${path.module}/manifests/nginx-ingress-controller-values.yaml", {
       node_group_label = var.primary_node_group_name
+      request_cpu  = local.pod_resource_config["small"].requests.cpu
+      request_memory = local.pod_resource_config["small"].requests.memory
+      limit_cpu    = local.pod_resource_config["small"].limits.cpu
+      limit_memory = local.pod_resource_config["small"].limits.memory
+      default_backend_request_cpu  = local.pod_resource_config["micro"].requests.cpu
+      default_backend_request_memory = local.pod_resource_config["micro"].requests.memory
+      default_backend_limit_cpu    = local.pod_resource_config["micro"].limits.cpu
+      default_backend_limit_memory = local.pod_resource_config["micro"].limits.memory
     })
   ]
 }

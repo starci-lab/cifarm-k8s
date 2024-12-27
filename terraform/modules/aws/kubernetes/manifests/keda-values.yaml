@@ -8,25 +8,25 @@ nodeSelector:
 resources:
   operator:
     requests:
-      cpu: "30m"
-      memory: "60Mi"
+      cpu: ${operator_request_cpu}
+      memory: ${operator_request_memory}
     limits:
-      cpu: "90m"
-      memory: "180Mi"
+      cpu: ${operator_limit_cpu}
+      memory: ${operator_limit_memory}
 
   metricServer:
     requests:
     requests:
-      cpu: "30m"
-      memory: "60Mi"
+      cpu: ${metric_server_request_cpu}
+      memory: ${metric_server_request_memory}
     limits:
-      cpu: "90m"
-      memory: "180Mi"
+      cpu: ${metric_server_limit_cpu}
+      memory: ${metric_server_limit_memory}
 
   webhooks:
     requests:
-      cpu: "30m"
-      memory: "60Mi"
+      cpu: ${webhooks_request_cpu}
+      memory: ${webhooks_request_memory}
     limits:
-      cpu: "90m"
-      memory: "180Mi"
+      cpu: ${webhooks_limit_cpu}
+      memory: "${webhooks_limit_memory}"

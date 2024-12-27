@@ -11,20 +11,19 @@ replica:
   replicaCount: 1
   resources:
     requests:
-      cpu: "30m"               # CPU request for Redis replica (10 millicores)
-      memory: "60Mi"           # Memory request for Redis replica (20 MiB)
+      cpu: ${replica_request_cpu}         # CPU request for Redis replica (20 millicores)
+      memory: ${replica_request_memory}     # Memory request for Redis replica (40 MiB)
     limits:
-      cpu: "90m"              # CPU limit for Redis replica (100 millicores)
-      memory: "180Mi"          # Memory limit for Redis replica (200 MiB)
-
+      cpu: ${replica_limit_cpu}        # CPU limit for Redis replica (200 millicores)
+      memory: ${replica_limit_memory}    # Memory limit for Redis replica (400 MiB)
 # Redis master configuration
 master:
   nodeSelector:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "60m"               # CPU request for Redis master (20 millicores)
-      memory: "120Mi"           # Memory request for Redis master (40 MiB)
+      cpu: ${request_cpu}         # CPU request for Redis master (20 millicores)
+      memory: ${request_memory}     # Memory request for Redis master (40 MiB)
     limits:
-      cpu: "180m"              # CPU limit for Redis master (200 millicores)
-      memory: "360Mi"          # Memory limit for Redis master (400 MiB)
+      cpu: ${limit_cpu}        # CPU limit for Redis master (200 millicores)
+      memory: ${limit_memory}    # Memory limit for Redis master (400 MiB)

@@ -245,3 +245,16 @@ variable "docker_registry" {
   description = "Docker registry"
   default     = "https://index.docker.io/v1/"
 }
+
+# def requestCpu = "${request_cpu}"
+# def requestMemory = "${request_memory}"
+# def limitCpu = "${limit_cpu}"
+# def limitMemory = "${limit_memory}"
+# def nodeSelector = "${node_selector}"
+# def namespace = "${namespace}"
+
+variable "jenkins_agent_request_cpu" {
+  type        = string
+  description = "Jenkins agent request CPU"
+  default     = "180m"
+}

@@ -19,20 +19,20 @@ defaultBackend:
 
   resources:
     requests:
-      cpu: 60m
-      memory: 120Mi
+      cpu: ${default_backend_request_cpu}
+      memory: ${default_backend_request_memory}
     limits:
-      cpu: 180m
-      memory: 360Mi
+      cpu: ${default_backend_limit_cpu}
+      memory: ${default_backend_limit_memory}
 
 # NGINX Ingress Controller resource configuration
 resources:
   requests:
-    cpu: 120m
-    memory: 240Mi
+    cpu: ${request_cpu}
+    memory: ${request_memory}
   limits:
-    cpu: 360m
-    memory: 720Mi
+    cpu: ${limit_cpu}
+    memory: ${limit_memory}
 
 # AWS-specific service annotations for load balancer
 service:

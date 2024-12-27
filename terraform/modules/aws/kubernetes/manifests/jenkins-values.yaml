@@ -6,11 +6,11 @@ jenkinsPassword: ${password}
 # Resource requests and limits
 resources:
   requests:
-    cpu: "240m"
-    memory: "480Mi"
+    cpu: ${request_cpu}
+    memory: ${request_memory}
   limits:
-    cpu: "720m"
-    memory: "1440Mi"
+    cpu: ${limit_cpu}
+    memory: ${limit_memory}
 
 # Service configuration
 service:

@@ -18,7 +18,11 @@ resource "helm_release" "kafka" {
 
     values = [
         templatefile("${path.module}/manifests/kafka-values.yaml", {
-            node_group_label = var.primary_node_group_name
+            node_group_label = var.primary_node_group_name,
+            controller_request_cpu = local.pod_resource_config["small"].requests.cpu,
+            controller_request_memory = local.pod_resource_config["small"].requests.memory,
+            controller_limit_cpu = local.pod_resource_config["small"].limits.cpu,
+            controller_limit_memory = local.pod_resource_config["small"].limits.memory,
         })
     ]
 }   

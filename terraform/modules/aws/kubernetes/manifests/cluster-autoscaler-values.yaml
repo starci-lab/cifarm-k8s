@@ -12,11 +12,11 @@ nodeSelector:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
 resources:
   requests:
-    cpu: 30m
-    memory: 60Mi
+    cpu: ${request_cpu}
+    memory: ${request_memory}
   limits:
-    cpu: 90m
-    memory: 180Mi
+    cpu: ${limit_cpu}
+    memory: ${limit_memory}
 extraArgs:
   balance-similar-node-groups: true
   skip-nodes-with-system-pods: false

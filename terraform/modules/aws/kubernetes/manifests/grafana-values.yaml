@@ -15,11 +15,11 @@ grafana:
     "eks.amazonaws.com/nodegroup": ${node_group_label}
   resources:
     requests:
-      cpu: "30m"  # Minimum CPU requested for the Grafana pod
-      memory: "60Mi"  # Minimum memory requested for the Grafana pod
+      cpu: ${request_cpu}  # Minimum CPU requested for the Grafana pod
+      memory: ${request_memory}  # Minimum memory requested for the Grafana pod
     limits:
-      cpu: "90m"  # Maximum CPU limit for the Grafana pod
-      memory: "180Mi"  # Maximum memory limit for the Grafana pod
+      cpu: ${limit_cpu}  # Maximum CPU limit for the Grafana pod
+      memory: ${limit_memory}  # Maximum memory limit for the Grafana pod
 
 # Data sources configuration for Grafana
 datasources:
