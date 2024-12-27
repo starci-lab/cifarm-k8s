@@ -161,7 +161,7 @@ resource "kubernetes_ingress_v1" "ws" {
 
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
-    aws_route53_record.websocket,
+    aws_route53_record.ws,
     helm_release.websocket_node
   ]
 }
