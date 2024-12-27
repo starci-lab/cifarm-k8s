@@ -57,6 +57,57 @@ resource "kubernetes_ingress_v1" "api" {
   ]
 }
 
+resource "kubernetes_service" "graphql_maingraph_external" {
+  metadata {
+    name      = local.graphql_maingraph.name
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+  }
+
+  spec {
+    type = "ExternalName"  # Specifies this is an ExternalName service
+    external_name = local.graphql_maingraph.host
+  }
+}
+
+resource "kubernetes_ingress_v1" "graphql" {
+  metadata {
+    name      = "graphql"
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+    annotations = {
+      "cert-manager.io/cluster-issuer"                 = var.cluster_issuer_name
+      "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+    }
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = local.api_domain_name
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = local.graphql_maingraph.name
+              port {
+                number = local.graphql_maingraph.port
+              }
+            }
+          }
+        }
+      }
+    }
+    tls {
+      hosts       = [local.graphql_domain_name]
+      secret_name = "graphql-tls"
+    }
+  }
+
+  depends_on = [
+    kubectl_manifest.cluster_issuer_letsencrypt_prod,
+    aws_route53_record.api
+  ]
+}
 
 resource "kubernetes_service" "jenkins_external" {
   metadata {

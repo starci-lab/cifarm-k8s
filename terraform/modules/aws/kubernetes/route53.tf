@@ -20,6 +20,7 @@ data "aws_route53_zone" "zone" {
 locals {
   api_domain_name = "api.${local.domain_name}"
   jenkins_domain_name = "jenkins.${local.domain_name}"
+  graphql_domain_name = "graphql.${local.domain_name}"
 }
 
 # Create A records for the domain api

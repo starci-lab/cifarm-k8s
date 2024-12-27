@@ -1,23 +1,23 @@
 # Redis Cache Configuration (non-sensitive, can go to ConfigMap)
 envVarsCM:
+  GAMEPLAY_SUBGRAPH_HOST: "${gameplay_subgraph_host}"
+  GAMEPLAY_SUBGRAPH_PORT: "${gameplay_subgraph_port}"
+
   CACHE_REDIS_HOST: "${cache_redis_host}"
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
-
-  # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
-  GAMEPLAY_POSTGRESQL_DBNAME: "${gameplay_postgresql_database}"
-  GAMEPLAY_POSTGRESQL_HOST: "${gameplay_postgresql_host}"
-  GAMEPLAY_POSTGRESQL_PORT: "${gameplay_postgresql_port}"
-  GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
-  GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
   
   GAMEPLAY_SUBGRAPH_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
+
+# JWT Authentication Configuration (sensitive, should go to Secrets)
+envVarsSecret:
+  JWT_SECRET: "${jwt_secret}"
 
 containerPorts:
   app: ${port}  # App port exposed by the container.
 
 image:
   registry: docker.io  # Docker registry URL for the image.
-  repository: cifarm/gameplay-subgraph  # Repository for the container image.
+  repository: cifarm/graphql-maingraph  # Repository for the container image.
   tag: latest  # Tag for the image.
   digest: ""  # Optionally specify an image digest.
   pullPolicy: Always  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.
