@@ -6,7 +6,25 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T01:44:48.7804149+07:00"
+    created: "2024-12-28T01:46:46.9900425+07:00"
+    description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
+    digest: d98afa40a90114f6106151a63b6468aefc04f68d28ff8cdb8651cd335684f3b4
+    home: N/A
+    icon: N/A
+    keywords:
+    - service
+    maintainers:
+    - name: CiLab 2.0
+    name: service
+    urls:
+    - packages/service-1.0.3.tgz
+    version: 1.0.3
+  - annotations:
+      category: Service
+      licenses: MIT
+    apiVersion: v1
+    appVersion: 1.0.0
+    created: "2024-12-28T01:46:46.9872197+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 771302dea582bfaf64a060a7f754530e421bcdecb1947e68c63e227dd0fabdd6
     home: N/A
@@ -24,7 +42,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T01:44:48.7779051+07:00"
+    created: "2024-12-28T01:46:46.9842817+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 98810a8c67218a93ca75eacf98b7d8aff54d232afecee7207b39402a5b4b37be
     home: N/A
@@ -42,7 +60,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T01:44:48.7753918+07:00"
+    created: "2024-12-28T01:46:46.9814854+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 88fcbbe615282c801dbf9080ac562d11125e2d01215373e3f93f4b7d7f54452b
     home: N/A
@@ -55,4 +73,4 @@ entries:
     urls:
     - packages/service-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-28T01:44:48.7720244+07:00"
+generated: "2024-12-28T01:46:46.9787315+07:00"
