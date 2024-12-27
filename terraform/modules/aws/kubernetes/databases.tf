@@ -14,7 +14,7 @@ resource "helm_release" "gameplay_postgresql" {
 
   values = [
     templatefile("${path.module}/manifests/postgresql-ha-values.yaml", {
-      password         = var.gameplay_postgresql_database,
+      password         = var.gameplay_postgresql_password,
       database         = var.gameplay_postgresql_database,
       node_group_label = var.primary_node_group_name,
 

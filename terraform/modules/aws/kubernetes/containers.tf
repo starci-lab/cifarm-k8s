@@ -7,45 +7,33 @@ resource "kubernetes_namespace" "containers" {
 
 locals {
   // Gameplay Service
-  gameplay_service_1 = {
+  gameplay_service = {
     name              = "gameplay-service"
     port              = 8080
     health_check_port = 8081
+    host = "gameplay-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
-  gameplay_service_2 = {
-    host = "${local.gameplay_service_1.name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
-  }
-  gameplay_service = merge(local.gameplay_service_1, local.gameplay_service_2)
 
   // Rest API Gateway
-  rest_api_gateway_1 = {
+  rest_api_gateway = {
     name = "rest-api-gateway"
     port = 8080
+    host = "rest-api-gateway-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
-  rest_api_gateway_2 = {
-    host = "${local.rest_api_gateway_1.name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
-  }
-  rest_api_gateway = merge(local.rest_api_gateway_1, local.rest_api_gateway_2)
 
   // Gameplay Subgraph
-  gameplay_subgraph_1 = {
+  gameplay_subgraph = {
     name = "gameplay-subgraph"
     port = 8080
+    host = "gameplay-subgraph-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
-  gameplay_subgraph_2 = {
-    host = "${local.gameplay_subgraph_1.name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
-  }
-  gameplay_subgraph = merge(local.gameplay_subgraph_1, local.gameplay_subgraph_2)
 
   // GraphQL Maingraph
-  graphql_maingraph_1 = {
+  graphql_maingraph = {
     name = "graphql-maingraph"
-  }
-  graphql_maingraph_2 = {
     port = 8080
-    host = "${local.graphql_maingraph_1.name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+    host = "graphql-maingraph-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
-  graphql_maingraph = merge(local.graphql_maingraph_1, local.graphql_maingraph_2)
 }
 
 resource "helm_release" "gameplay_service" {
@@ -114,6 +102,9 @@ resource "helm_release" "rest_api_gateway" {
       node_group_label      = var.primary_node_group_name,
       gameplay_service_host = local.gameplay_service.host,
       gameplay_service_port = local.gameplay_service.port,
+
+      // Jwt
+      jwt_secret                   = var.jwt_secret,
 
       // Rest API Gateway Configuration Port
       port = local.rest_api_gateway.port,

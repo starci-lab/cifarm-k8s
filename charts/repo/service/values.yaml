@@ -75,8 +75,7 @@ debug: false  # Enable debug mode for additional debugging.
 service: 
   type: "ClusterIP"  # Kubernetes service type: ClusterIP, LoadBalancer, NodePort, etc.
   ports: 
-    http: 8080  # HTTP port exposed by the service.
-    https: 8443  # HTTPS port exposed by the service.
+    app: 8080  # App port exposed by the service.
 
 # Environment Variables from ConfigMap and Secret
 envVarsCM: 

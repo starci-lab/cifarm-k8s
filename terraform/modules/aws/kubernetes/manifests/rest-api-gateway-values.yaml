@@ -1,9 +1,13 @@
 # Redis Cache Configuration (non-sensitive, can go to ConfigMap)
 envVarsCM:
-  GAMEPLAY_SERVICE_HOST: ${gameplay_service_host}
-  GAMEPLAY_SERVICE_PORT: ${gameplay_service_port}
+  GAMEPLAY_SERVICE_HOST: "${gameplay_service_host}"
+  GAMEPLAY_SERVICE_PORT: "${gameplay_service_port}"
   # Rest Api Gateway configuration
   REST_API_GATEWAY_PORT: "${port}"
+
+# JWT Authentication Configuration (sensitive, should go to Secrets)
+envVarsSecret:
+  JWT_SECRET: "${jwt_secret}"
 
 containerPorts:
   app: ${port}  # App port exposed by the container.
