@@ -17,27 +17,3 @@ controller:
     limits:
       cpu: ${controller_limit_cpu}        # Maximum CPU allowed for the controller (200 millicores)
       memory: ${controller_limit_memory}    # Maximum memory allowed for the controller (400 MiB)
-
-# Kafka broker configuration
-# broker:
-#   nodeSelector:
-#     "eks.amazonaws.com/nodegroup": ${node_group_label}
-  # resources:
-  #   requests:
-  #     cpu: "10m"          # Minimum CPU requested for the broker (20 millicores)
-  #     memory: "20Mi"      # Minimum memory requested for the broker (40 MiB)
-  #   limits:
-  #     cpu: "90m"         # Maximum CPU allowed for the broker (200 millicores)
-  #     memory: "180Mi"     # Maximum memory allowed for the broker (400 MiB)
-
-# # Kafka provisioning resource requests and limits
-# provisioning:
-#   nodeSelector:
-#     "eks.amazonaws.com/nodegroup": ${node_group_label}
-#   resources:
-#     requests:
-#       cpu: "10m"          # Minimum CPU requested for the provisioning (20 millicores)
-#       memory: "20Mi"      # Minimum memory requested for the provisioning (40 MiB)
-#     limits:
-#       cpu: "90m"         # Maximum CPU allowed for the provisioning (200 millicores)
-#       memory: "180Mi"     # Maximum memory allowed for the provisioning (400 MiB)

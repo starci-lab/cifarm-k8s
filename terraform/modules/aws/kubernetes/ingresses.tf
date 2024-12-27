@@ -12,7 +12,7 @@ resource "kubernetes_service" "rest_api_gateway_external" {
   }
 
   spec {
-    type = "ExternalName"  # Specifies this is an ExternalName service
+    type          = "ExternalName" # Specifies this is an ExternalName service
     external_name = local.rest_api_gateway.host
   }
 }
@@ -65,7 +65,7 @@ resource "kubernetes_service" "graphql_maingraph_external" {
   }
 
   spec {
-    type = "ExternalName"  # Specifies this is an ExternalName service
+    type          = "ExternalName" # Specifies this is an ExternalName service
     external_name = local.graphql_maingraph.host
   }
 }
@@ -83,7 +83,7 @@ resource "kubernetes_ingress_v1" "graphql" {
   spec {
     ingress_class_name = "nginx"
     rule {
-      host = local.api_domain_name
+      host = local.graphql_domain_name
       http {
         path {
           path = "/"
@@ -111,6 +111,61 @@ resource "kubernetes_ingress_v1" "graphql" {
   ]
 }
 
+resource "kubernetes_service" "websocket_node_external" {
+  metadata {
+    name      = local.websocket_node.name
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+  }
+
+  spec {
+    type          = "ExternalName" # Specifies this is an ExternalName service
+    external_name = local.websocket_node.host
+  }
+}
+
+resource "kubernetes_ingress_v1" "ws" {
+  metadata {
+    name      = "io"
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+    annotations = {
+      "cert-manager.io/cluster-issuer"                    = var.cluster_issuer_name
+      "nginx.ingress.kubernetes.io/ssl-redirect"          = "true"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect"    = "true"
+      "nginx.ingress.kubernetes.io/configuration-snippet" = file("${path.module}/confs/resolve_client_ip.conf")
+      "nginx.ingress.kubernetes.io/upstream-hash-by"      = "$client_ip"
+    }
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = local.ws_domain_name
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = local.websocket_node.name
+              port {
+                number = local.websocket_node.port
+              }
+            }
+          }
+        }
+      }
+    }
+    tls {
+      hosts       = [local.ws_domain_name]
+      secret_name = "ws-tls"
+    }
+  }
+
+  depends_on = [
+    kubectl_manifest.cluster_issuer_letsencrypt_prod,
+    aws_route53_record.websocket,
+    helm_release.websocket_node
+  ]
+}
+
 resource "kubernetes_service" "jenkins_external" {
   metadata {
     name      = local.jenkins.name
@@ -118,11 +173,10 @@ resource "kubernetes_service" "jenkins_external" {
   }
 
   spec {
-    type = "ExternalName"  # Specifies this is an ExternalName service
+    type          = "ExternalName" # Specifies this is an ExternalName service
     external_name = local.jenkins.host
   }
 }
-
 
 resource "kubernetes_ingress_v1" "jenkins" {
   metadata {

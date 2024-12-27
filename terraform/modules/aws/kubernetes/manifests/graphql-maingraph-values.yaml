@@ -6,7 +6,7 @@ envVarsCM:
   CACHE_REDIS_HOST: "${cache_redis_host}"
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
   
-  GAMEPLAY_SUBGRAPH_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
+  GRAPHQL_MAINGRAPH_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
 
 # JWT Authentication Configuration (sensitive, should go to Secrets)
 envVarsSecret:

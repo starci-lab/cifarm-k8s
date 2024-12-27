@@ -28,14 +28,18 @@ locals {
     name = "kafka"
     host = "kafka.${kubernetes_namespace.brokers.metadata[0].name}.svc.cluster.local"
     port = 9092
-    controller = {
-      headless = {
-        host_1 = "kafka-controller-0.kafka-controller-headless.${kubernetes_namespace.brokers.metadata[0].name}.svc.cluster.local"
-        port_1 = 9092
-        host_2 = "kafka-controller-1.kafka-controller-headless.${kubernetes_namespace.brokers.metadata[0].name}.svc.cluster.local"
-        port_2 = 9092
-        host_3 = "kafka-controller-2.kafka-controller-headless.${kubernetes_namespace.brokers.metadata[0].name}.svc.cluster.local"
-        port_3 = 9092
+    headless = {
+      headless_1 = {
+        host = "kafka-controller-0.kafka-controller-headless.${kubernetes_namespace.brokers.metadata[0].name}.svc.cluster.local"
+        port = 9092
+      }
+      headless_2 = {
+        host = "kafka-controller-1.kafka-controller-headless.${kubernetes_namespace.brokers.metadata[0].name}.svc.cluster.local"
+        port = 9092
+      }
+      headless_3 = {
+        host = "kafka-controller-2.kafka-controller-headless.${kubernetes_namespace.brokers.metadata[0].name}.svc.cluster.local"
+        port = 9092
       }
     }
   }

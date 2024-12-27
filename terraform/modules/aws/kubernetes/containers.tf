@@ -11,7 +11,7 @@ locals {
     name              = "gameplay-service"
     port              = 8080
     health_check_port = 8081
-    host = "gameplay-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+    host              = "gameplay-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
 
   // Rest API Gateway
@@ -33,6 +33,13 @@ locals {
     name = "graphql-maingraph"
     port = 8080
     host = "graphql-maingraph-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+  }
+
+  // Websocket Node
+  websocket_node = {
+    name = "websocket-node"
+    port = 8080
+    host = "websocket-node-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
 }
 
@@ -59,12 +66,12 @@ resource "helm_release" "gameplay_service" {
       gameplay_postgresql_port     = local.gameplay_postgresql.port,
 
       // Kafka Configuration
-      kafka_headless_1_host = local.kafka.controller.headless.host_1,
-      kafka_headless_1_port = local.kafka.controller.headless.port_1,
-      kafka_headless_2_host = local.kafka.controller.headless.host_2,
-      kafka_headless_2_port = local.kafka.controller.headless.port_2,
-      kafka_headless_3_host = local.kafka.controller.headless.host_3,
-      kafka_headless_3_port = local.kafka.controller.headless.port_3,
+      kafka_headless_1_host = local.kafka.headless.headless_1.host,
+      kafka_headless_1_port = local.kafka.headless.headless_1.port,
+      kafka_headless_2_host = local.kafka.headless.headless_2.host,
+      kafka_headless_2_port = local.kafka.headless.headless_2.port,
+      kafka_headless_3_host = local.kafka.headless.headless_3.host,
+      kafka_headless_3_port = local.kafka.headless.headless_3.port,
 
       // Gameplay Service Configuration
       port              = local.gameplay_service.port,
@@ -104,7 +111,7 @@ resource "helm_release" "rest_api_gateway" {
       gameplay_service_port = local.gameplay_service.port,
 
       // Jwt
-      jwt_secret                   = var.jwt_secret,
+      jwt_secret = var.jwt_secret,
 
       // Rest API Gateway Configuration Port
       port = local.rest_api_gateway.port,
@@ -141,7 +148,7 @@ resource "helm_release" "gameplay_subgraph" {
       gameplay_postgresql_port     = local.gameplay_postgresql.port,
 
       // Gameplay Service Configuration
-      port              = local.gameplay_subgraph.port,
+      port = local.gameplay_subgraph.port,
 
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,
@@ -177,8 +184,8 @@ resource "helm_release" "graphql_maingraph" {
       gameplay_subgraph_port = local.gameplay_subgraph.port,
 
       // Jwt
-      jwt_secret                   = var.jwt_secret,
-      port              = local.graphql_maingraph.port,
+      jwt_secret = var.jwt_secret,
+      port       = local.graphql_maingraph.port,
 
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,
@@ -195,5 +202,53 @@ resource "helm_release" "graphql_maingraph" {
   depends_on = [
     helm_release.keda,
     helm_release.gameplay_subgraph,
+  ]
+}
+
+resource "helm_release" "websocket_node" {
+  name       = local.websocket_node.name
+  repository = var.container_repository
+  chart      = "service"
+  namespace  = kubernetes_namespace.containers.metadata[0].name
+
+  values = [
+    templatefile("${path.module}/manifests/websocket-node-values.yaml", {
+      node_group_label = var.primary_node_group_name,
+
+      // Gameplay Postgres Configuration
+      gameplay_postgresql_host     = local.gameplay_postgresql.host,
+      gameplay_postgresql_database = var.gameplay_postgresql_database,
+      gameplay_postgresql_password = var.gameplay_postgresql_password,
+      gameplay_postgresql_username = local.gameplay_postgresql.username,
+      gameplay_postgresql_port     = local.gameplay_postgresql.port,
+
+      // Gameplay Service Configuration
+      port = local.websocket_node.port,
+
+      // Cache Redis Configuration
+      cache_redis_host = local.cache_redis.host,
+      cache_redis_port = local.cache_redis.port,
+
+      // Adapter Redis Configuration
+      adapter_redis_host = local.adapter_redis.host,
+      adapter_redis_port = local.adapter_redis.port,
+
+      // Resource configurations
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
+
+      // Kafka Configuration
+      kafka_1_host = local.kafka.host,
+      kafka_1_port = local.kafka.port,
+    })
+  ]
+
+  depends_on = [
+    helm_release.keda,
+    helm_release.cache_redis,
+    helm_release.gameplay_postgresql,
+    helm_release.kafka,
   ]
 }
