@@ -16,20 +16,20 @@ resource "helm_release" "cert_manager" {
   values = [
     templatefile("${path.module}/manifests/cert-manager-values.yaml", {
       node_group_label     = var.primary_node_group_name
-      cainjector_request_cpu  = local.pod_resource_config["nano"].requests.cpu
-      cainjector_request_memory = local.pod_resource_config["nano"].requests.memory
-      cainjector_limit_cpu    = local.pod_resource_config["nano"].limits.cpu
-      cainjector_limit_memory = local.pod_resource_config["nano"].limits.memory
+      cainjector_request_cpu  = var.pod_resource_config["nano"].requests.cpu
+      cainjector_request_memory = var.pod_resource_config["nano"].requests.memory
+      cainjector_limit_cpu    = var.pod_resource_config["nano"].limits.cpu
+      cainjector_limit_memory = var.pod_resource_config["nano"].limits.memory
 
-      controller_request_cpu  = local.pod_resource_config["micro"].requests.cpu
-      controller_request_memory = local.pod_resource_config["micro"].requests.memory
-      controller_limit_cpu    = local.pod_resource_config["micro"].limits.cpu
-      controller_limit_memory = local.pod_resource_config["micro"].limits.memory
+      controller_request_cpu  = var.pod_resource_config["micro"].requests.cpu
+      controller_request_memory = var.pod_resource_config["micro"].requests.memory
+      controller_limit_cpu    = var.pod_resource_config["micro"].limits.cpu
+      controller_limit_memory = var.pod_resource_config["micro"].limits.memory
 
-      webhook_request_cpu  = local.pod_resource_config["nano"].requests.cpu
-      webhook_request_memory = local.pod_resource_config["nano"].requests.memory
-      webhook_limit_cpu    = local.pod_resource_config["nano"].limits.cpu
-      webhook_limit_memory = local.pod_resource_config["nano"].limits.memory
+      webhook_request_cpu  = var.pod_resource_config["nano"].requests.cpu
+      webhook_request_memory = var.pod_resource_config["nano"].requests.memory
+      webhook_limit_cpu    = var.pod_resource_config["nano"].limits.cpu
+      webhook_limit_memory = var.pod_resource_config["nano"].limits.memory
     })
   ]
 }

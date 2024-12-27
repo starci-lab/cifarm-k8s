@@ -26,18 +26,18 @@ resource "helm_release" "gameplay_postgresql" {
       node_group_label = var.primary_node_group_name,
 
       // Resource configurations
-      pgpool_request_cpu     = local.pod_resource_config["small"].requests.cpu,
-      pgpool_request_memory  = local.pod_resource_config["small"].requests.memory,
-      pgpool_limit_cpu       = local.pod_resource_config["small"].limits.cpu,
-      pgpool_limit_memory    = local.pod_resource_config["small"].limits.memory,
-      request_cpu            = local.pod_resource_config["small"].requests.cpu,
-      request_memory         = local.pod_resource_config["small"].requests.memory,
-      limit_cpu              = local.pod_resource_config["small"].limits.cpu,
-      limit_memory           = local.pod_resource_config["small"].limits.memory,
-      witness_request_cpu    = local.pod_resource_config["small"].requests.cpu,
-      witness_request_memory = local.pod_resource_config["nano"].requests.memory,
-      witness_limit_cpu      = local.pod_resource_config["nano"].limits.cpu,
-      witness_limit_memory   = local.pod_resource_config["nano"].limits.memory
+      pgpool_request_cpu     = var.pod_resource_config["small"].requests.cpu,
+      pgpool_request_memory  = var.pod_resource_config["small"].requests.memory,
+      pgpool_limit_cpu       = var.pod_resource_config["small"].limits.cpu,
+      pgpool_limit_memory    = var.pod_resource_config["small"].limits.memory,
+      request_cpu            = var.pod_resource_config["small"].requests.cpu,
+      request_memory         = var.pod_resource_config["small"].requests.memory,
+      limit_cpu              = var.pod_resource_config["small"].limits.cpu,
+      limit_memory           = var.pod_resource_config["small"].limits.memory,
+      witness_request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      witness_request_memory = var.pod_resource_config["nano"].requests.memory,
+      witness_limit_cpu      = var.pod_resource_config["nano"].limits.cpu,
+      witness_limit_memory   = var.pod_resource_config["nano"].limits.memory
     })
   ]
 }
@@ -53,14 +53,14 @@ resource "helm_release" "cache_redis" {
       node_group_label = var.primary_node_group_name,
 
       # Resource configurations
-      replica_request_cpu    = local.pod_resource_config["mirco"].requests.cpu,
-      replica_request_memory = local.pod_resource_config["mirco"].requests.memory,
-      replica_limit_cpu      = local.pod_resource_config["mirco"].limits.cpu,
-      replica_limit_memory   = local.pod_resource_config["mirco"].limits.memory,
-      request_cpu            = local.pod_resource_config["small"].requests.cpu,
-      request_memory         = local.pod_resource_config["small"].requests.memory,
-      limit_cpu              = local.pod_resource_config["small"].limits.cpu,
-      limit_memory           = local.pod_resource_config["small"].limits.memory,
+      replica_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
+      replica_request_memory = var.pod_resource_config["micro"].requests.memory,
+      replica_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
+      replica_limit_memory   = var.pod_resource_config["micro"].limits.memory,
+      request_cpu            = var.pod_resource_config["small"].requests.cpu,
+      request_memory         = var.pod_resource_config["small"].requests.memory,
+      limit_cpu              = var.pod_resource_config["small"].limits.cpu,
+      limit_memory           = var.pod_resource_config["small"].limits.memory,
     })
   ]
 }
@@ -77,14 +77,14 @@ resource "helm_release" "adapter_redis" {
       node_group_label = var.primary_node_group_name,
 
       # Resource configurations
-      replica_request_cpu    = local.pod_resource_config["mirco"].requests.cpu,
-      replica_request_memory = local.pod_resource_config["mirco"].requests.memory,
-      replica_limit_cpu      = local.pod_resource_config["mirco"].limits.cpu,
-      replica_limit_memory   = local.pod_resource_config["mirco"].limits.memory,
-      request_cpu            = local.pod_resource_config["small"].requests.cpu,
-      request_memory         = local.pod_resource_config["small"].requests.memory,
-      limit_cpu              = local.pod_resource_config["small"].limits.cpu,
-      limit_memory           = local.pod_resource_config["small"].limits.memory,
+      replica_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
+      replica_request_memory = var.pod_resource_config["micro"].requests.memory,
+      replica_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
+      replica_limit_memory   = var.pod_resource_config["micro"].limits.memory,
+      request_cpu            = var.pod_resource_config["small"].requests.cpu,
+      request_memory         = var.pod_resource_config["small"].requests.memory,
+      limit_cpu              = var.pod_resource_config["small"].limits.cpu,
+      limit_memory           = var.pod_resource_config["small"].limits.memory,
     })
   ]
 }
@@ -101,14 +101,14 @@ resource "helm_release" "job_redis" {
       node_group_label = var.primary_node_group_name,
 
       # Resource configurations
-      replica_request_cpu    = local.pod_resource_config["mirco"].requests.cpu,
-      replica_request_memory = local.pod_resource_config["mirco"].requests.memory,
-      replica_limit_cpu      = local.pod_resource_config["mirco"].limits.cpu,
-      replica_limit_memory   = local.pod_resource_config["mirco"].limits.memory,
-      request_cpu            = local.pod_resource_config["small"].requests.cpu,
-      request_memory         = local.pod_resource_config["small"].requests.memory,
-      limit_cpu              = local.pod_resource_config["small"].limits.cpu,
-      limit_memory           = local.pod_resource_config["small"].limits.memory,
+      replica_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
+      replica_request_memory = var.pod_resource_config["micro"].requests.memory,
+      replica_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
+      replica_limit_memory   = var.pod_resource_config["micro"].limits.memory,
+      request_cpu            = var.pod_resource_config["small"].requests.cpu,
+      request_memory         = var.pod_resource_config["small"].requests.memory,
+      limit_cpu              = var.pod_resource_config["small"].limits.cpu,
+      limit_memory           = var.pod_resource_config["small"].limits.memory,
     })
   ]
 }

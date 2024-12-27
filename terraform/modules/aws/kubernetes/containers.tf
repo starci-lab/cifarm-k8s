@@ -39,10 +39,10 @@ resource "helm_release" "gameplay_service" {
       kafka_headless_3           = local.kafka_controller_headless_host_3,
       port                       = local.gameplay_service_port,
       cache_redis_host           = local.cache_redis_host,
-      request_cpu                = local.pod_resource_config["small"].requests.cpu,
-      request_memory             = local.pod_resource_config["small"].requests.memory,
-      limit_cpu                  = local.pod_resource_config["small"].limits.cpu,
-      limit_memory               = local.pod_resource_config["small"].limits.memory,
+      request_cpu                = var.pod_resource_config["small"].requests.cpu,
+      request_memory             = var.pod_resource_config["small"].requests.memory,
+      limit_cpu                  = var.pod_resource_config["small"].limits.cpu,
+      limit_memory               = var.pod_resource_config["small"].limits.memory,
     })
   ]
 
@@ -64,10 +64,10 @@ resource "helm_release" "rest_api_gateway" {
       gameplay_service_port = local.gameplay_service_port,
       port                  = local.rest_api_gateway_port,
       namespace             = kubernetes_namespace.containers.metadata[0].name,
-      request_cpu                = local.pod_resource_config["small"].requests.cpu,
-      request_memory             = local.pod_resource_config["small"].requests.memory,
-      limit_cpu                  = local.pod_resource_config["small"].limits.cpu,
-      limit_memory               = local.pod_resource_config["small"].limits.memory,
+      request_cpu                = var.pod_resource_config["small"].requests.cpu,
+      request_memory             = var.pod_resource_config["small"].requests.memory,
+      limit_cpu                  = var.pod_resource_config["small"].limits.cpu,
+      limit_memory               = var.pod_resource_config["small"].limits.memory,
     })
   ]
 
@@ -91,10 +91,10 @@ resource "helm_release" "gameplay_subgraph" {
       gameplay_postgres_password = var.gameplay_postgres_password,
       cache_redis_host           = local.cache_redis_host,
       namespace                  = kubernetes_namespace.containers.metadata[0].name,
-      request_cpu                = local.pod_resource_config["small"].requests.cpu,
-      request_memory             = local.pod_resource_config["small"].requests.memory,
-      limit_cpu                  = local.pod_resource_config["small"].limits.cpu,
-      limit_memory               = local.pod_resource_config["small"].limits.memory,
+      request_cpu                = var.pod_resource_config["small"].requests.cpu,
+      request_memory             = var.pod_resource_config["small"].requests.memory,
+      limit_cpu                  = var.pod_resource_config["small"].limits.cpu,
+      limit_memory               = var.pod_resource_config["small"].limits.memory,
     })
   ]
 
@@ -116,10 +116,10 @@ resource "helm_release" "graphql_maingraph" {
       gameplay_service_port = local.gameplay_service_port,
       port                  = local.rest_api_gateway_port,
       namespace             = kubernetes_namespace.containers.metadata[0].name,
-      request_cpu                = local.pod_resource_config["small"].requests.cpu,
-      request_memory             = local.pod_resource_config["small"].requests.memory,
-      limit_cpu                  = local.pod_resource_config["small"].limits.cpu,
-      limit_memory               = local.pod_resource_config["small"].limits.memory,
+      request_cpu                = var.pod_resource_config["small"].requests.cpu,
+      request_memory             = var.pod_resource_config["small"].requests.memory,
+      limit_cpu                  = var.pod_resource_config["small"].limits.cpu,
+      limit_memory               = var.pod_resource_config["small"].limits.memory,
     })
   ]
 

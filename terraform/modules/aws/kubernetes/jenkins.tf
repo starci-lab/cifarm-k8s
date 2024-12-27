@@ -53,10 +53,10 @@ locals {
   }
   jenkins_init_groovy_cm_2 = {
     "kubernetes-cloud.groovy" = templatefile("${path.module}/jenkins-init-groovy/kubernetes-cloud.groovy", {
-        request_cpu = local.pod_resource_config["medium"].requests.cpu
-        request_memory = local.pod_resource_config["medium"].requests.memory
-        limit_cpu = local.pod_resource_config["medium"].limits.cpu
-        limit_memory = local.pod_resource_config["medium"].limits.memory
+        request_cpu = var.pod_resource_config["medium"].requests.cpu
+        request_memory = var.pod_resource_config["medium"].requests.memory
+        limit_cpu = var.pod_resource_config["medium"].limits.cpu
+        limit_memory = var.pod_resource_config["medium"].limits.memory
         node_selector = "eks.amazonaws.com/nodegroup=${var.secondary_node_group_name}"
         namespace = kubernetes_namespace.jenkins.metadata[0].name
     })
@@ -121,10 +121,10 @@ resource "helm_release" "jenkins" {
       init_hook_scripts_cm = kubernetes_config_map.jenkins_init_groovy.metadata[0].name,
       // wrong serviceName - create pull request to change into name
       // init_hook_scripts_secret = kubernetes_secret.jenkins_init_groovy.metadata[0].name,
-      request_cpu          = local.pod_resource_config["small"].requests.cpu,
-      request_memory       = local.pod_resource_config["small"].requests.memory,
-      limit_cpu            = local.pod_resource_config["small"].limits.cpu,
-      limit_memory         = local.pod_resource_config["small"].limits.memory,
+      request_cpu          = var.pod_resource_config["small"].requests.cpu,
+      request_memory       = var.pod_resource_config["small"].requests.memory,
+      limit_cpu            = var.pod_resource_config["small"].limits.cpu,
+      limit_memory         = var.pod_resource_config["small"].limits.memory,
     })
   ]
 }

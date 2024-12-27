@@ -10,10 +10,10 @@ resource "helm_release" "cluster_autoscaler" {
             cluster_autoscaler_iam_role_arn = var.cluster_autoscaler_iam_role_arn,
             node_group_label = var.primary_node_group_name
             region = var.region,
-            request_cpu  = local.pod_resource_config["micro"].requests.cpu
-            request_memory = local.pod_resource_config["micro"].requests.memory
-            limit_cpu    = local.pod_resource_config["micro"].limits.cpu
-            limit_memory = local.pod_resource_config["micro"].limits.memory
+            request_cpu  = var.pod_resource_config["micro"].requests.cpu
+            request_memory = var.pod_resource_config["micro"].requests.memory
+            limit_cpu    = var.pod_resource_config["micro"].limits.cpu
+            limit_memory = var.pod_resource_config["micro"].limits.memory
         })
     ]
 }
