@@ -37,7 +37,7 @@ variable "cluster_name" {
 ### Databases
 # PostgreSQL database configuration for gameplay
 # The variable stores the name of the PostgreSQL database used for gameplay purposes. 
-variable "gameplay_postgres_database" {
+variable "gameplay_postgresql_database" {
   description = "The Gameplay PostgreSQL database name"  # Description of the database name variable
   type        = string  # The variable type is string, as it stores the name of the database
   sensitive   = true  # Marks the value as sensitive to avoid exposure in logs
@@ -45,7 +45,7 @@ variable "gameplay_postgres_database" {
 
 # PostgreSQL password configuration for gameplay
 # The variable stores the password for the Gameplay PostgreSQL database. It is sensitive to maintain security.
-variable "gameplay_postgres_password" {
+variable "gameplay_postgresql_password" {
   description = "The Gameplay PostgreSQL password"  # Describes the password variable for the PostgreSQL database
   type        = string  # The variable type is string as it holds a password
   sensitive   = true  # Marks the password as sensitive
@@ -152,6 +152,18 @@ variable "jwt_secret" {
   type        = string  # Specifies that the value of this variable will be a string.
   description = "JWT secret"
   sensitive   = true  # Marks the JWT secret as sensitive to avoid exposure in logs
+}
+
+variable "jwt_access_token_expiration" {
+  type        = string  # Specifies that the value of this variable will be a string.
+  description = "JWT access token expiration"
+  default     = "3m"  # Default expiration time for JWT access tokens
+}
+
+variable "jwt_refresh_token_expiration" {
+  type        = string  # Specifies that the value of this variable will be a string.
+  description = "JWT refresh token expiration"
+  default     = "7d"  # Default expiration time for JWT refresh tokens
 }
 
 variable "jenkins_user" {
@@ -368,3 +380,4 @@ variable "pod_resource_config" {
     }
   }
 }
+

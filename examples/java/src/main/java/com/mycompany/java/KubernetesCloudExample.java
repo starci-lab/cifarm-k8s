@@ -28,6 +28,9 @@ public class KubernetesCloudExample {
 
         var podTemplate = new PodTemplate();
         podTemplate.setName("Kaniko Agent");
+        podTemplate.setYaml("
+            
+        ");
         podTemplate.setLabel("kaniko");
         podTemplate.setNamespace("jenkins");
         podTemplate.setNodeSelector("jenkins.io/kaniko=true");

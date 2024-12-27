@@ -7,13 +7,13 @@ resource "kubernetes_namespace" "ingresses" {
 
 resource "kubernetes_service" "rest_api_gateway_external" {
   metadata {
-    name      = local.rest_api_gateway_name
+    name      = local.rest_api_gateway.name
     namespace = kubernetes_namespace.ingresses.metadata[0].name
   }
 
   spec {
     type = "ExternalName"  # Specifies this is an ExternalName service
-    external_name = local.rest_api_gateway_host
+    external_name = local.rest_api_gateway.host
   }
 }
 
@@ -36,9 +36,9 @@ resource "kubernetes_ingress_v1" "api" {
           path = "/"
           backend {
             service {
-              name = local.rest_api_gateway_name
+              name = local.rest_api_gateway.name
               port {
-                number = local.rest_api_gateway_port
+                number = local.rest_api_gateway.port
               }
             }
           }
@@ -60,13 +60,13 @@ resource "kubernetes_ingress_v1" "api" {
 
 resource "kubernetes_service" "jenkins_external" {
   metadata {
-    name      = local.jenkins_name
+    name      = local.jenkins.name
     namespace = kubernetes_namespace.ingresses.metadata[0].name
   }
 
   spec {
     type = "ExternalName"  # Specifies this is an ExternalName service
-    external_name = local.jenkins_host
+    external_name = local.jenkins.host
   }
 }
 
@@ -90,9 +90,9 @@ resource "kubernetes_ingress_v1" "jenkins" {
           path = "/"
           backend {
             service {
-              name = local.jenkins_name
+              name = local.jenkins.name
               port {
-                number = local.jenkins_port
+                number = local.jenkins.port
               }
             }
           }

@@ -1,46 +1,42 @@
-# Image configuration
-image:
-  repository: "cifarm/gameplay-subgraph"
-  tag: "latest"
-
-# Service-related configuration
-service: 
-  type: "ClusterIP"
-  port: ${port}
-  targetPort: ${port}
-
-env:
+# Redis Cache Configuration (non-sensitive, can go to ConfigMap)
+envVarsCM:
   CACHE_REDIS_HOST: ${cache_redis_host}
-  CACHE_REDIS_PORT: 6379
+  CACHE_REDIS_PORT: "6379"  # Ensure the port is a string
 
-  GAMEPLAY_POSTGRES_DBNAME: ${gameplay_postgres_database}
-  GAMEPLAY_POSTGRES_HOST: ${gameplay_postgresql_host}
-  GAMEPLAY_POSTGRES_PASS: ${gameplay_postgres_password}
-  GAMEPLAY_POSTGRES_PORT: 5432
-  GAMEPLAY_POSTGRES_USER: "postgres"
+  # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
+  GAMEPLAY_POSTGRESQL_DBNAME: ${gameplay_postgres_database}
+  GAMEPLAY_POSTGRESQL_HOST: ${gameplay_postgresql_host}
+  GAMEPLAY_POSTGRESQL_PORT: "5432"
+  GAMEPLAY_POSTGRESQL_USER: postgres
+  GAMEPLAY_POSTGRESQL_PASS: ${gameplay_postgres_password}
 
-  GRAPHQL_STATIC_SUBGRAPH_PORT: 80
+  GAMEPLAY_SUBGRAPH_PORT: "8080"  # Specify as string to avoid YAML parsing errors
 
-# Resources configuration
-resources:
-  requests:
-    cpu: "60m"
-    memory: "120Mi"
-  limits:
-    cpu: "180m"
-    memory: "360Mi"
+# JWT Authentication Configuration (sensitive, should go to Secrets)
+envVarsSecret:
+  JWT_SECRET: ${jwt_secret}
+  JWT_ACCESS_TOKEN_EXPIRATION: "5m"
+  JWT_REFRESH_TOKEN_EXPIRATION: "7d"
 
-# Node selector configuration
-nodeSelector: 
+containerPorts:
+  app: 8080  # App port exposed by the container.
+  healthCheck: 8081  # Healthcheck port exposed by the container.
+
+image:
+  registry: docker.io  # Docker registry URL for the image.
+  repository: cifarm/gameplay-service  # Repository for the container image.
+  tag: latest  # Tag for the image.
+  digest: ""  # Optionally specify an image digest.
+  pullPolicy: Always  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.
+  pullSecrets: []  # Secrets for private image pull.
+
+nodeSelector:
   "eks.amazonaws.com/nodegroup": ${node_group_label}
 
-# Prometheus configuration
-prometheus:
-  serverAddress:
-    host:
-      name: "prometheus-kube-prometheus-prometheus"
-      namespace: "monitoring"
-    port: 9090
-  metricName: "gameplay-service-scale-metric"
-  query: "sum(rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"example-.*\"}[1m]))"
-  threshold: "0.75"
+resources:
+  requests:
+    cpu: ${request_cpu}
+    memory: ${request_memory}
+  limits:
+    cpu: ${limit_cpu}
+    memory: ${limit_memory}

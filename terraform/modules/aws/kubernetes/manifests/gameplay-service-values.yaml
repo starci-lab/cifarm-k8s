@@ -1,76 +1,47 @@
 # Redis Cache Configuration (non-sensitive, can go to ConfigMap)
 envVarsCM:
-  CACHE_REDIS_HOST: ${cache_redis_host}
-  CACHE_REDIS_PORT: "6379"  # Ensure the port is a string
+  CACHE_REDIS_HOST: "${cache_redis_host}"
+  CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
 
-# Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
-  GAMEPLAY_POSTGRESQL_DBNAME: ${gameplay_postgres_database}
-  GAMEPLAY_POSTGRESQL_HOST: ${gameplay_postgresql_host}
-  GAMEPLAY_POSTGRESQL_PORT: "5432"
-  GAMEPLAY_POSTGRESQL_USER: postgres
-  GAMEPLAY_POSTGRESQL_PASS: ${gameplay_postgres_password}
+  # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
+  GAMEPLAY_POSTGRESQL_DBNAME: "${gameplay_postgresql_database}"
+  GAMEPLAY_POSTGRESQL_HOST: "${gameplay_postgresql_host}"
+  GAMEPLAY_POSTGRESQL_PORT: "${gameplay_postgresql_port}"
+  GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
+  GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
   
-  GAMEPLAY_SERVICE_PORT: "8080"  # Specify as string to avoid YAML parsing errors
-  GAMEPLAY_SERVICE_HEALTH_CHECK_PORT: "8081"  # Specify as string to avoid YAML parsing errors
+  GAMEPLAY_SERVICE_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
+  GAMEPLAY_SERVICE_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
   
 # Kafka Configuration (non-sensitive, can go to ConfigMap)
-  HEADLESS_KAFKA_1_HOST: ${kafka_headless_1}
-  HEADLESS_KAFKA_1_PORT: "9092"
-  HEADLESS_KAFKA_2_HOST: ${kafka_headless_2}
-  HEADLESS_KAFKA_2_PORT: "9092"
-  HEADLESS_KAFKA_3_HOST: ${kafka_headless_3}
-  HEADLESS_KAFKA_3_PORT: "9092"
+  HEADLESS_KAFKA_1_HOST: "${kafka_headless_1_host}"
+  HEADLESS_KAFKA_1_PORT: "${kafka_headless_1_port}"
+  HEADLESS_KAFKA_2_HOST: "${kafka_headless_2_host}"
+  HEADLESS_KAFKA_2_PORT: "${kafka_headless_2_port}"
+  HEADLESS_KAFKA_3_HOST: "${kafka_headless_3_host}"
+  HEADLESS_KAFKA_3_PORT: "${kafka_headless_3_port}"
 
 # JWT Authentication Configuration (sensitive, should go to Secrets)
 envVarsSecret:
-  JWT_SECRET: ${jwt_secret}
-  JWT_ACCESS_TOKEN_EXPIRATION: "5m"
-  JWT_REFRESH_TOKEN_EXPIRATION: "7d"
+  JWT_SECRET: "${jwt_secret}"
+  JWT_ACCESS_TOKEN_EXPIRATION: "${jwt_access_token_expiration}"
+  JWT_REFRESH_TOKEN_EXPIRATION: "${jwt_refresh_token_expiration}"
 
 containerPorts:
-  app: 8080  # App port exposed by the container.
-  healthCheck: 8081  # Healthcheck port exposed by the container.
+  app: ${port}  # App port exposed by the container.
+  healthCheck: "${health_check_port}"  # Healthcheck port exposed by the container.
 
-
-
-# Image configuration
 image:
-  repository: "cifarm/gameplay-service"
-  tag: "latest"
+  registry: docker.io  # Docker registry URL for the image.
+  repository: cifarm/gameplay-service  # Repository for the container image.
+  tag: latest  # Tag for the image.
+  digest: ""  # Optionally specify an image digest.
+  pullPolicy: Always  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.
+  pullSecrets: []  # Secrets for private image pull.
 
-# Service-related configuration
-service: 
-  type: "ClusterIP"
-  port: ${port}
-  targetPort: ${port}
+nodeSelector:
+  "eks.amazonaws.com/nodegroup": ${node_group_label}
 
-env:
-  JWT_SECRET: ${jwt_secret}
-  JWT_ACCESS_TOKEN_EXPIRATION: "1m"
-  JWT_REFRESH_TOKEN_EXPIRATION: "7d"
-
-  GAMEPLAY_POSTGRES_DBNAME: ${gameplay_postgres_database}
-  GAMEPLAY_POSTGRES_HOST: ${gameplay_postgresql_host}
-  GAMEPLAY_POSTGRES_PASS: ${gameplay_postgres_password}
-  GAMEPLAY_POSTGRES_PORT: "5432"
-  GAMEPLAY_POSTGRES_USER: "postgres"
-
-  CACHE_REDIS_HOST: ${cache_redis_host}
-  CACHE_REDIS_PORT: "6379"
-
-  GAMEPLAY_SERVICE_PORT: ${port}
-
-  #headless
-  HEADLESS_KAFKA_1_HOST: ${kafka_headless_1}
-  HEADLESS_KAFKA_1_PORT: "9092"
-
-  HEADLESS_KAFKA_2_HOST: ${kafka_headless_2}
-  HEADLESS_KAFKA_2_PORT: "9092"
-
-  HEADLESS_KAFKA_3_HOST: ${kafka_headless_3}
-  HEADLESS_KAFKA_3_PORT: "9092"
-
-# Resources configuration
 resources:
   requests:
     cpu: ${request_cpu}
@@ -78,18 +49,3 @@ resources:
   limits:
     cpu: ${limit_cpu}
     memory: ${limit_memory}
-
-# Node selector configuration
-nodeSelector: 
-  "eks.amazonaws.com/nodegroup": ${node_group_label}
-
-# Prometheus configuration
-prometheus:
-  serverAddress:
-    host:
-      name: "prometheus-kube-prometheus-prometheus"
-      namespace: "monitoring"
-    port: 9090
-  metricName: "gameplay-service-scale-metric"
-  query: "sum(rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"example-.*\"}[1m]))"
-  threshold: "0.75"

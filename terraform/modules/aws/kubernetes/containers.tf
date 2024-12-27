@@ -6,130 +6,180 @@ resource "kubernetes_namespace" "containers" {
 }
 
 locals {
-  # gameplay service
-  gameplay_service_name = "gameplay-service"
-  gameplay_service_port = 8080
+  // Gameplay Service
+  gameplay_service_1 = {
+    name              = "gameplay-service"
+    port              = 8080
+    health_check_port = 8081
+  }
+  gameplay_service_2 = {
+    host = "${local.gameplay_service_1.name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+  }
+  gameplay_service = merge(local.gameplay_service_1, local.gameplay_service_2)
 
-  # rest api gateway
-  rest_api_gateway_name = "rest-api-gateway"
-  rest_api_gateway_port = 8080
+  // Rest API Gateway
+  rest_api_gateway_1 = {
+    name = "rest-api-gateway"
+    port = 8080
+  }
+  rest_api_gateway_2 = {
+    host = "${local.rest_api_gateway_1.name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+  }
+  rest_api_gateway = merge(local.rest_api_gateway_1, local.rest_api_gateway_2)
 
-  graphql_maingraph_name = "graphql-maingraph"
-  graphql_maingraph_port = 8080
+  // Gameplay Subgraph
+  gameplay_subgraph_1 = {
+    name = "gameplay-subgraph"
+    port = 8080
+  }
+  gameplay_subgraph_2 = {
+    host = "${local.gameplay_subgraph_1.name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+  }
+  gameplay_subgraph = merge(local.gameplay_subgraph_1, local.gameplay_subgraph_2)
 
-  gameplay_subgraph_name = "gameplay-subgraph"
-  gameplay_subgraph_port = 8080
+  // GraphQL Maingraph
+  graphql_maingraph_1 = {
+    name = "graphql-maingraph"
+  }
+  graphql_maingraph_2 = {
+    port = 8080
+    host = "${local.graphql_maingraph_1.name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+  }
+  graphql_maingraph = merge(local.graphql_maingraph_1, local.graphql_maingraph_2)
 }
 
 resource "helm_release" "gameplay_service" {
-  name       = local.gameplay_service_name
+  name       = local.gameplay_service.name
   repository = var.container_repository
-  chart      = "deployment"
+  chart      = "service"
   namespace  = kubernetes_namespace.containers.metadata[0].name
 
   values = [
     templatefile("${path.module}/manifests/gameplay-service-values.yaml", {
-      node_group_label           = var.primary_node_group_name,
-      jwt_secret                 = var.jwt_secret,
-      gameplay_postgresql_host   = local.gameplay_postgresql_host,
-      gameplay_postgres_database = var.gameplay_postgres_database,
-      gameplay_postgres_password = var.gameplay_postgres_password,
-      kafka_headless_1           = local.kafka_controller_headless_host_1,
-      kafka_headless_2           = local.kafka_controller_headless_host_2,
-      kafka_headless_3           = local.kafka_controller_headless_host_3,
-      port                       = local.gameplay_service_port,
-      cache_redis_host           = local.cache_redis_host,
-      request_cpu                = var.pod_resource_config["small"].requests.cpu,
-      request_memory             = var.pod_resource_config["small"].requests.memory,
-      limit_cpu                  = var.pod_resource_config["small"].limits.cpu,
-      limit_memory               = var.pod_resource_config["small"].limits.memory,
+      node_group_label = var.primary_node_group_name,
+
+      // Jwt
+      jwt_secret                   = var.jwt_secret,
+      jwt_access_token_expiration  = var.jwt_access_token_expiration,
+      jwt_refresh_token_expiration = var.jwt_refresh_token_expiration,
+
+      // Gameplay Postgres Configuration
+      gameplay_postgresql_host     = local.gameplay_postgresql.host,
+      gameplay_postgresql_database = var.gameplay_postgresql_database,
+      gameplay_postgresql_password = var.gameplay_postgresql_password,
+      gameplay_postgresql_username = local.gameplay_postgresql.username,
+      gameplay_postgresql_port     = local.gameplay_postgresql.port,
+
+      // Kafka Configuration
+      kafka_headless_1_host = local.kafka.controller.headless.host_1,
+      kafka_headless_1_port = local.kafka.controller.headless.port_1,
+      kafka_headless_2_host = local.kafka.controller.headless.host_2,
+      kafka_headless_2_port = local.kafka.controller.headless.port_2,
+      kafka_headless_3_host = local.kafka.controller.headless.host_3,
+      kafka_headless_3_port = local.kafka.controller.headless.port_3,
+
+      // Gameplay Service Configuration
+      port              = local.gameplay_service.port,
+      health_check_port = local.gameplay_service.health_check_port,
+
+      // Cache Redis Configuration
+      cache_redis_host = local.cache_redis.host,
+      cache_redis_port = local.cache_redis.port,
+
+      // Resource configurations
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
     })
   ]
 
   depends_on = [
-    helm_release.keda
+    helm_release.keda,
+    helm_release.cache_redis,
+    helm_release.kafka,
+    helm_release.gameplay_postgresql,
   ]
 }
 
 resource "helm_release" "rest_api_gateway" {
-  name       = local.rest_api_gateway_name
+  name       = local.rest_api_gateway.name
   repository = var.container_repository
   chart      = "service"
   namespace  = kubernetes_namespace.containers.metadata[0].name
 
   values = [
     templatefile("${path.module}/manifests/rest-api-gateway-values.yaml", {
+      // Gameplay Service Configuration
       node_group_label      = var.primary_node_group_name,
-      gameplay_service_host = local.gameplay_service_host,
-      gameplay_service_port = local.gameplay_service_port,
-      port                  = local.rest_api_gateway_port,
-      namespace             = kubernetes_namespace.containers.metadata[0].name,
-      request_cpu                = var.pod_resource_config["small"].requests.cpu,
-      request_memory             = var.pod_resource_config["small"].requests.memory,
-      limit_cpu                  = var.pod_resource_config["small"].limits.cpu,
-      limit_memory               = var.pod_resource_config["small"].limits.memory,
+      gameplay_service_host = local.gameplay_service.host,
+      gameplay_service_port = local.gameplay_service.port,
+
+      // Rest API Gateway Configuration Port
+      port = local.rest_api_gateway.port,
+
+      // Resource configurations
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
     })
   ]
 
   depends_on = [
-    helm_release.keda
+    helm_release.keda,
+    helm_release.gameplay_service,
   ]
 }
 
-resource "helm_release" "gameplay_subgraph" {
-  name       = local.gameplay_subgraph_name
-  repository = var.container_repository
-  chart      = "service"
-  namespace  = kubernetes_namespace.containers.metadata[0].name
+# resource "helm_release" "gameplay_subgraph" {
+#   name       = local.gameplay_subgraph_name
+#   repository = var.container_repository
+#   chart      = "service"
+#   namespace  = kubernetes_namespace.containers.metadata[0].name
 
-  values = [
-    templatefile("${path.module}/manifests/gameplay-subgraph-values.yaml", {
-      node_group_label           = var.primary_node_group_name,
-      port                       = local.gameplay_subgraph_port,
-      gameplay_postgresql_host   = local.gameplay_postgresql_host,
-      gameplay_postgres_database = var.gameplay_postgres_database,
-      gameplay_postgres_password = var.gameplay_postgres_password,
-      cache_redis_host           = local.cache_redis_host,
-      namespace                  = kubernetes_namespace.containers.metadata[0].name,
-      request_cpu                = var.pod_resource_config["small"].requests.cpu,
-      request_memory             = var.pod_resource_config["small"].requests.memory,
-      limit_cpu                  = var.pod_resource_config["small"].limits.cpu,
-      limit_memory               = var.pod_resource_config["small"].limits.memory,
-    })
-  ]
+#   values = [
+#     templatefile("${path.module}/manifests/gameplay-subgraph-values.yaml", {
+#       node_group_label           = var.primary_node_group_name,
+#       port                       = local.gameplay_subgraph_port,
+#       gameplay_postgresql_host   = local.gameplay_postgresql_host,
+#       gameplay_postgres_database = var.gameplay_postgres_database,
+#       gameplay_postgres_password = var.gameplay_postgres_password,
+#       cache_redis_host           = local.cache_redis_host,
+#       namespace                  = kubernetes_namespace.containers.metadata[0].name,
+#       request_cpu                = var.pod_resource_config["small"].requests.cpu,
+#       request_memory             = var.pod_resource_config["small"].requests.memory,
+#       limit_cpu                  = var.pod_resource_config["small"].limits.cpu,
+#       limit_memory               = var.pod_resource_config["small"].limits.memory,
+#     })
+#   ]
 
-  depends_on = [
-    helm_release.keda
-  ]
-}
+#   depends_on = [
+#     helm_release.keda
+#   ]
+# }
 
-resource "helm_release" "graphql_maingraph" {
-  name       = local.graphql_maingraph_name
-  repository = var.container_repository
-  chart      = "deployment"
-  namespace  = kubernetes_namespace.containers.metadata[0].name
+# resource "helm_release" "graphql_maingraph" {
+#   name       = local.graphql_maingraph_name
+#   repository = var.container_repository
+#   chart      = "deployment"
+#   namespace  = kubernetes_namespace.containers.metadata[0].name
 
-  values = [
-    templatefile("${path.module}/manifests/rest-api-gateway-values.yaml", {
-      node_group_label      = var.primary_node_group_name,
-      gameplay_service_host = local.gameplay_service_host,
-      gameplay_service_port = local.gameplay_service_port,
-      port                  = local.rest_api_gateway_port,
-      namespace             = kubernetes_namespace.containers.metadata[0].name,
-      request_cpu                = var.pod_resource_config["small"].requests.cpu,
-      request_memory             = var.pod_resource_config["small"].requests.memory,
-      limit_cpu                  = var.pod_resource_config["small"].limits.cpu,
-      limit_memory               = var.pod_resource_config["small"].limits.memory,
-    })
-  ]
+#   values = [
+#     templatefile("${path.module}/manifests/rest-api-gateway-values.yaml", {
+#       node_group_label      = var.primary_node_group_name,
+#       gameplay_service_host = local.gameplay_service_host,
+#       gameplay_service_port = local.gameplay_service_port,
+#       port                  = local.rest_api_gateway_port,
+#       namespace             = kubernetes_namespace.containers.metadata[0].name,
+#       request_cpu                = var.pod_resource_config["small"].requests.cpu,
+#       request_memory             = var.pod_resource_config["small"].requests.memory,
+#       limit_cpu                  = var.pod_resource_config["small"].limits.cpu,
+#       limit_memory               = var.pod_resource_config["small"].limits.memory,
+#     })
+#   ]
 
-  depends_on = [
-    helm_release.keda
-  ]
-}
-
-locals {
-  gameplay_service_host = "${local.gameplay_service_name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
-  rest_api_gateway_host = "${local.rest_api_gateway_name}.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
-}
-
+#   depends_on = [
+#     helm_release.keda
+#   ]
+# }

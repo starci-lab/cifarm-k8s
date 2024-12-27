@@ -6,37 +6,40 @@ resource "kubernetes_namespace" "jenkins" {
 }
 
 locals {
-  jenkins_name       = "jenkins"
-  jenkins_port       = 80
-  jenkins_agent_name = "jenkins-agent"
+  jenkins = {
+    name       = "jenkins"
+    agent_name = "jenkins-agent"
+    host       = "jenkins.${kubernetes_namespace.jenkins.metadata[0].name}.svc.cluster.local"
+    port       = 80
+  }
 }
 
 locals {
   containers = {
     gameplay_service = {
-    file        = "gameplay-service-build-pipeline"
-    name        = "Gameplay Service Build Pipeline"                                          # Name of the Jenkins pipeline job
-    description = "Build the gameplay service using Kaniko then push the image to Dockerhub" # Job description
-    path        = ".jenkins/build/gameplay-service.jenkinsfile"                              # Path to the Jenkinsfile
-  }
-  rest_api_gateway = {
-    file        = "rest-api-gateway-build-pipeline"
-    name        = "Rest API Gateway Build Pipeline"                                          # Name of the Jenkins pipeline job
-    description = "Build the rest API gateway using Kaniko then push the image to Dockerhub" # Job description
-    path        = ".jenkins/build/rest-api-gateway.jenkinsfile"                              # Path to the Jenkinsfile
-  }
-  gameplay_subgraph = {
-    file        = "gameplay-subgraph-build-pipeline"
-    name        = "Gameplay Subgraph Build Pipeline"                                          # Name of the Jenkins pipeline job
-    description = "Build the gameplay subgraph using Kaniko then push the image to Dockerhub" # Job description
-    path        = ".jenkins/build/gameplay-subgraph.jenkinsfile"                              # Path to the Jenkinsfile
-  }
-  graphql_maingraph = {
-    file        = "graphql-maingraph-build-pipeline"
-    name        = "GraphQL Maingraph Build Pipeline"                                          # Name of the Jenkins pipeline job
-    description = "Build the graphql maingraph using Kaniko then push the image to Dockerhub" # Job description
-    path        = ".jenkins/build/graphql-maingraph.jenkinsfile"                              # Path to the Jenkinsfile
-  }
+      file        = "gameplay-service-build-pipeline"
+      name        = "Gameplay Service Build Pipeline"                                          # Name of the Jenkins pipeline job
+      description = "Build the gameplay service using Kaniko then push the image to Dockerhub" # Job description
+      path        = ".jenkins/build/gameplay-service.jenkinsfile"                              # Path to the Jenkinsfile
+    }
+    rest_api_gateway = {
+      file        = "rest-api-gateway-build-pipeline"
+      name        = "Rest API Gateway Build Pipeline"                                          # Name of the Jenkins pipeline job
+      description = "Build the rest API gateway using Kaniko then push the image to Dockerhub" # Job description
+      path        = ".jenkins/build/rest-api-gateway.jenkinsfile"                              # Path to the Jenkinsfile
+    }
+    gameplay_subgraph = {
+      file        = "gameplay-subgraph-build-pipeline"
+      name        = "Gameplay Subgraph Build Pipeline"                                          # Name of the Jenkins pipeline job
+      description = "Build the gameplay subgraph using Kaniko then push the image to Dockerhub" # Job description
+      path        = ".jenkins/build/gameplay-subgraph.jenkinsfile"                              # Path to the Jenkinsfile
+    }
+    graphql_maingraph = {
+      file        = "graphql-maingraph-build-pipeline"
+      name        = "GraphQL Maingraph Build Pipeline"                                          # Name of the Jenkins pipeline job
+      description = "Build the graphql maingraph using Kaniko then push the image to Dockerhub" # Job description
+      path        = ".jenkins/build/graphql-maingraph.jenkinsfile"                              # Path to the Jenkinsfile
+    }
   }
 }
 
@@ -44,7 +47,7 @@ locals {
 # Template file for the 
 data "template_file" "jenkins_build_agent" {
   template = file("${path.module}/manifests/jenkins-build-agent.yaml")
-  vars = {  
+  vars = {
     requests_cpu    = var.pod_resource_config["small"].requests.cpu
     requests_memory = var.pod_resource_config["small"].requests.memory
     limits_cpu      = var.pod_resource_config["small"].limits.cpu
@@ -68,9 +71,9 @@ locals {
   }
   jenkins_init_groovy_cm_2 = {
     "kubernetes-cloud.groovy" = templatefile("${path.module}/jenkins-init-groovy/kubernetes-cloud.groovy", {
-        node_selector = "eks.amazonaws.com/nodegroup=${var.secondary_node_group_name}"
-        namespace = kubernetes_namespace.jenkins.metadata[0].name,
-        build_agent_yaml = data.template_file.jenkins_build_agent.rendered
+      node_selector    = "eks.amazonaws.com/nodegroup=${var.secondary_node_group_name}"
+      namespace        = kubernetes_namespace.jenkins.metadata[0].name,
+      build_agent_yaml = data.template_file.jenkins_build_agent.rendered
     })
   }
 
@@ -110,43 +113,39 @@ resource "kubernetes_secret" "jenkins_init_groovy" {
 
 # Helm release for the Jenkins
 resource "helm_release" "jenkins" {
-  name       = local.jenkins_name
+  name       = local.jenkins.name
   repository = var.bitnami_repository
   chart      = "jenkins"
   namespace  = kubernetes_namespace.jenkins.metadata[0].name
-  version = "latest"
-  
+  version    = "13.5.1"
+
   values = [
     templatefile("${path.module}/manifests/jenkins-values.yaml", {
-      user                 = var.jenkins_user,
-      password             = var.jenkins_password,
-      node_group_label     = var.secondary_node_group_name,
-      init_hook_scripts_cm = kubernetes_config_map.jenkins_init_groovy.metadata[0].name,
+      user                     = var.jenkins_user,
+      password                 = var.jenkins_password,
+      node_group_label         = var.secondary_node_group_name,
+      init_hook_scripts_cm     = kubernetes_config_map.jenkins_init_groovy.metadata[0].name,
       init_hook_scripts_secret = kubernetes_secret.jenkins_init_groovy.metadata[0].name,
 
-      request_cpu          = var.pod_resource_config["small"].requests.cpu,
-      request_memory       = var.pod_resource_config["small"].requests.memory,
-      limit_cpu            = var.pod_resource_config["small"].limits.cpu,
-      limit_memory         = var.pod_resource_config["small"].limits.memory,
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
     })
   ]
-}
-
-locals {
-  jenkins_host = "jenkins.${kubernetes_namespace.jenkins.metadata[0].name}.svc.cluster.local"
 }
 
 //Create RBAC for Jenkins agent
 resource "kubernetes_service_account" "jenkins" {
   metadata {
-    name      = local.jenkins_agent_name
+    name      = local.jenkins.agent_name
     namespace = kubernetes_namespace.jenkins.metadata[0].name
   }
 }
 
 resource "kubernetes_role" "jenkins" {
   metadata {
-    name = local.jenkins_agent_name
+    name = local.jenkins.agent_name
   }
 
   rule {
@@ -158,7 +157,7 @@ resource "kubernetes_role" "jenkins" {
 
 resource "kubernetes_role_binding" "jenkins" {
   metadata {
-    name = local.jenkins_agent_name
+    name = local.jenkins.agent_name
   }
 
   role_ref {
