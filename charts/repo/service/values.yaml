@@ -87,7 +87,6 @@ envVarsSecret:
 
 containerPorts:
   app: 8080  # App port exposed by the container.
-  healthCheck: 8081  # Healthcheck port exposed by the container.
 
 # Startup, Liveness and Readiness Probes Configuration
 startupProbe:
