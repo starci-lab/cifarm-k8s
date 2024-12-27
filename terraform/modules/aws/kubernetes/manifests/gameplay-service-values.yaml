@@ -1,3 +1,38 @@
+# Redis Cache Configuration (non-sensitive, can go to ConfigMap)
+envVarsCM:
+  CACHE_REDIS_HOST: ${cache_redis_host}
+  CACHE_REDIS_PORT: "6379"  # Ensure the port is a string
+
+# Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
+  GAMEPLAY_POSTGRESQL_DBNAME: ${gameplay_postgres_database}
+  GAMEPLAY_POSTGRESQL_HOST: ${gameplay_postgresql_host}
+  GAMEPLAY_POSTGRESQL_PORT: "5432"
+  GAMEPLAY_POSTGRESQL_USER: postgres
+  GAMEPLAY_POSTGRESQL_PASS: ${gameplay_postgres_password}
+  
+  GAMEPLAY_SERVICE_PORT: "8080"  # Specify as string to avoid YAML parsing errors
+  GAMEPLAY_SERVICE_HEALTH_CHECK_PORT: "8081"  # Specify as string to avoid YAML parsing errors
+  
+# Kafka Configuration (non-sensitive, can go to ConfigMap)
+  HEADLESS_KAFKA_1_HOST: ${kafka_headless_1}
+  HEADLESS_KAFKA_1_PORT: "9092"
+  HEADLESS_KAFKA_2_HOST: ${kafka_headless_2}
+  HEADLESS_KAFKA_2_PORT: "9092"
+  HEADLESS_KAFKA_3_HOST: ${kafka_headless_3}
+  HEADLESS_KAFKA_3_PORT: "9092"
+
+# JWT Authentication Configuration (sensitive, should go to Secrets)
+envVarsSecret:
+  JWT_SECRET: ${jwt_secret}
+  JWT_ACCESS_TOKEN_EXPIRATION: "5m"
+  JWT_REFRESH_TOKEN_EXPIRATION: "7d"
+
+containerPorts:
+  app: 8080  # App port exposed by the container.
+  healthCheck: 8081  # Healthcheck port exposed by the container.
+
+
+
 # Image configuration
 image:
   repository: "cifarm/gameplay-service"
@@ -17,23 +52,23 @@ env:
   GAMEPLAY_POSTGRES_DBNAME: ${gameplay_postgres_database}
   GAMEPLAY_POSTGRES_HOST: ${gameplay_postgresql_host}
   GAMEPLAY_POSTGRES_PASS: ${gameplay_postgres_password}
-  GAMEPLAY_POSTGRES_PORT: 5432
+  GAMEPLAY_POSTGRES_PORT: "5432"
   GAMEPLAY_POSTGRES_USER: "postgres"
 
   CACHE_REDIS_HOST: ${cache_redis_host}
-  CACHE_REDIS_PORT: 6379
+  CACHE_REDIS_PORT: "6379"
 
   GAMEPLAY_SERVICE_PORT: ${port}
 
   #headless
   HEADLESS_KAFKA_1_HOST: ${kafka_headless_1}
-  HEADLESS_KAFKA_1_PORT: 9092
+  HEADLESS_KAFKA_1_PORT: "9092"
 
   HEADLESS_KAFKA_2_HOST: ${kafka_headless_2}
-  HEADLESS_KAFKA_2_PORT: 9092
+  HEADLESS_KAFKA_2_PORT: "9092"
 
   HEADLESS_KAFKA_3_HOST: ${kafka_headless_3}
-  HEADLESS_KAFKA_3_PORT: 9092
+  HEADLESS_KAFKA_3_PORT: "9092"
 
 # Resources configuration
 resources:

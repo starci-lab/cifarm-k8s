@@ -102,8 +102,8 @@ spec:
             - name: app
               containerPort: {{ .Values.containerPorts.app }}
               protocol: TCP
-            - name: healthcheck
-              containerPort: {{ .Values.containerPorts.healthcheck }}
+            - name: health-check
+              containerPort: {{ .Values.containerPorts.healthCheck }}
               protocol: TCP
           {{- if not .Values.diagnosticMode.enabled }}
           {{- if .Values.customStartupProbe }}
@@ -131,7 +131,7 @@ spec:
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.path }}
-              port: healthcheck
+              port: health-check
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}

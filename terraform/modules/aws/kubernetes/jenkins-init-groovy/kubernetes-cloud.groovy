@@ -4,14 +4,11 @@ import org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud
 import org.csanchez.jenkins.plugins.kubernetes.PodTemplate
 import org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate
 
-// templates
-// def requestCpu = "${request_cpu}"
-// def requestMemory = "${request_memory}"
-// def limitCpu = "${limit_cpu}"
-// def limitMemory = "${limit_memory}"
+// Define the variables
 def nodeSelector = "${node_selector}"
 def namespace = "${namespace}"
-def build_agent_yaml = "${build_agent_yaml}"
+def build_agent_yaml = '''${build_agent_yaml}'''
+
 // Define the cloud name
 def cloudName = "cifarm-kubernetes"
 // Define the Jenkins instance
@@ -41,25 +38,6 @@ podTemplate.setNodeSelector(nodeSelector) // Node selector for the pod template
 
 // Set yaml
 podTemplate.setYaml(build_agent_yaml)
-
-// Create the container template for building
-// ==========================================
-// def containerTemplate = new ContainerTemplate(
-//     "kaniko",  // Container name
-//     "gcr.io/kaniko-project/executor:debug"  // Container image
-// )
-// // Configure container options
-// containerTemplate.setAlwaysPullImage(true)  // Always pull the image
-// containerTemplate.setCommand("/busybox/sleep")  // Set the command to run
-// containerTemplate.setArgs("infinity")  // Set the arguments for the command
-// containerTemplate.setResourceRequestCpu(requestCpu)  // Request CPU resources
-// containerTemplate.setResourceRequestMemory(requestMemory)  // Request Memory resources
-// containerTemplate.setResourceLimitCpu(limitCpu)  // Set CPU resource limits
-// containerTemplate.setResourceLimitMemory(limitMemory)  // Set Memory resource limits
-
-// // Add the container template to the pod template
-// podTemplate.setContainers(Collections.singletonList(containerTemplate))
-// ==========================================
 
 // Add the pod template to the Kubernetes cloud configuration
 kubernetesCloud.addTemplate(podTemplate)

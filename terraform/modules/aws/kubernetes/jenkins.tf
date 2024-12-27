@@ -12,7 +12,8 @@ locals {
 }
 
 locals {
-  gameplay_service = {
+  containers = {
+    gameplay_service = {
     file        = "gameplay-service-build-pipeline"
     name        = "Gameplay Service Build Pipeline"                                          # Name of the Jenkins pipeline job
     description = "Build the gameplay service using Kaniko then push the image to Dockerhub" # Job description
@@ -36,6 +37,7 @@ locals {
     description = "Build the graphql maingraph using Kaniko then push the image to Dockerhub" # Job description
     path        = ".jenkins/build/graphql-maingraph.jenkinsfile"                              # Path to the Jenkinsfile
   }
+  }
 }
 
 
@@ -55,7 +57,7 @@ locals {
   jenkins_init_groovy_name = "jenkins-init-groovy"
   // Create ConfigMap for Jenkins init groovy scripts
   jenkins_init_groovy_cm_1 = {
-    for job in [local.gameplay_service, local.rest_api_gateway, local.gameplay_subgraph, local.graphql_maingraph] :
+    for job in local.containers :
     "${job.file}.groovy" => templatefile("${path.module}/jenkins-init-groovy/pipeline.groovy", {
       job_name        = job.name                      # Inject job name
       job_description = job.description               # Inject job description
@@ -112,7 +114,8 @@ resource "helm_release" "jenkins" {
   repository = var.bitnami_repository
   chart      = "jenkins"
   namespace  = kubernetes_namespace.jenkins.metadata[0].name
-
+  version = "latest"
+  
   values = [
     templatefile("${path.module}/manifests/jenkins-values.yaml", {
       user                 = var.jenkins_user,
