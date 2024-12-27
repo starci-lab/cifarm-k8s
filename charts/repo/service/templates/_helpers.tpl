@@ -33,3 +33,15 @@ Create the name of the secret env vars
 {{- define "service.imagePullSecrets" -}}
 {{- include "common.images.renderPullSecrets" (dict "images" (list .Values.image .Values.volumePermissions.image) "context" $) -}}
 {{- end -}}
+
+{{/* 
+Get  the health check port
+}}
+
+{{- define "service.healthCheckPort" -}}
+{{- if .Values.containerPorts.healthCheck -}}
+{{ .Values.containerPorts.healthCheck }}
+{{- else -}}
+{{ .Values.containerPorts.app }}
+{{- end -}}
+{{- end -}}

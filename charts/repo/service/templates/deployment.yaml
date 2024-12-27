@@ -103,7 +103,7 @@ spec:
               containerPort: {{ .Values.containerPorts.app }}
               protocol: TCP
             - name: health-check
-              containerPort: {{ .Values.containerPorts.healthCheck }}
+              containerPort: {{ include "service.healthCheckPort" . }}
               protocol: TCP
           {{- if not .Values.diagnosticMode.enabled }}
           {{- if .Values.customStartupProbe }}

@@ -105,7 +105,7 @@ resource "kubernetes_ingress_v1" "graphql" {
 
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
-    aws_route53_record.api
+    aws_route53_record.graphql
   ]
 }
 
