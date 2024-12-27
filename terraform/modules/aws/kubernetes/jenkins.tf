@@ -38,6 +38,19 @@ locals {
   }
 }
 
+
+# Template file for the 
+data "template_file" "jenkins_build_agent" {
+  template = file("${path.module}/manifests/jenkins-build-agent.yaml")
+  vars = {  
+    requests_cpu    = var.pod_resource_config["small"].requests.cpu
+    requests_memory = var.pod_resource_config["small"].requests.memory
+    limits_cpu      = var.pod_resource_config["small"].limits.cpu
+    limits_memory   = var.pod_resource_config["small"].limits.memory
+    secret_name     = kubernetes_secret.docker_credentials.metadata[0].name
+  }
+}
+
 locals {
   jenkins_init_groovy_name = "jenkins-init-groovy"
   // Create ConfigMap for Jenkins init groovy scripts
@@ -53,22 +66,9 @@ locals {
   }
   jenkins_init_groovy_cm_2 = {
     "kubernetes-cloud.groovy" = templatefile("${path.module}/jenkins-init-groovy/kubernetes-cloud.groovy", {
-        request_cpu = var.pod_resource_config["medium"].requests.cpu
-        request_memory = var.pod_resource_config["medium"].requests.memory
-        limit_cpu = var.pod_resource_config["medium"].limits.cpu
-        limit_memory = var.pod_resource_config["medium"].limits.memory
         node_selector = "eks.amazonaws.com/nodegroup=${var.secondary_node_group_name}"
-        namespace = kubernetes_namespace.jenkins.metadata[0].name
-    })
-    //temporarily set github-creds, fix later
-    "github-creds.groovy" = templatefile("${path.module}/jenkins-init-groovy/github-creds.groovy", {
-      credentials_id          = "github-credentials"             # Inject credentials ID
-      credentials_description = "Github credentials for Jenkins" # Inject credentials description
-      access_token            = var.jenkins_github_access_token  # Inject access token
-      hook_secret_id          = "github-hook-secret"             # Inject secret ID
-      hook_secret_description = "Github hook secret for Jenkins" # Inject secret description
-      hook_secret             = var.jenkins_github_hook_secret   # Inject secret
-      server_name             = "cifarm"
+        namespace = kubernetes_namespace.jenkins.metadata[0].name,
+        build_agent_yaml = data.template_file.jenkins_build_agent.rendered
     })
   }
 
@@ -119,8 +119,8 @@ resource "helm_release" "jenkins" {
       password             = var.jenkins_password,
       node_group_label     = var.secondary_node_group_name,
       init_hook_scripts_cm = kubernetes_config_map.jenkins_init_groovy.metadata[0].name,
-      // wrong serviceName - create pull request to change into name
-      // init_hook_scripts_secret = kubernetes_secret.jenkins_init_groovy.metadata[0].name,
+      init_hook_scripts_secret = kubernetes_secret.jenkins_init_groovy.metadata[0].name,
+
       request_cpu          = var.pod_resource_config["small"].requests.cpu,
       request_memory       = var.pod_resource_config["small"].requests.memory,
       limit_cpu            = var.pod_resource_config["small"].limits.cpu,
