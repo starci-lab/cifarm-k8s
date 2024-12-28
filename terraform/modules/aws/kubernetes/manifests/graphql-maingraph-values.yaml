@@ -2,6 +2,7 @@
 envVarsCM:
   GAMEPLAY_SUBGRAPH_HOST: "${gameplay_subgraph_host}"
   GAMEPLAY_SUBGRAPH_PORT: "${gameplay_subgraph_port}"
+  GAMEPLAY_SUBGRAPH_HEALTH_CHECK_PORT: "${gameplay_subgraph_health_check_port}"
 
   CACHE_REDIS_HOST: "${cache_redis_host}"
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string

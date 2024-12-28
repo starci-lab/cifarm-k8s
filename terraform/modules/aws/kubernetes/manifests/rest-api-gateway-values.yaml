@@ -2,6 +2,8 @@
 envVarsCM:
   GAMEPLAY_SERVICE_HOST: "${gameplay_service_host}"
   GAMEPLAY_SERVICE_PORT: "${gameplay_service_port}"
+  GAMEPLAY_SERVICE_HEALTH_CHECK_PORT: "${gameplay_service_health_check_port}"
+
   # Rest Api Gateway configuration
   REST_API_GATEWAY_PORT: "${port}"
   REST_API_GATEWAY_HEALTH_CHECK_PORT: "${health_check_port}"

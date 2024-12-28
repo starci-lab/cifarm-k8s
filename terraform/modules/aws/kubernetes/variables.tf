@@ -381,3 +381,14 @@ variable "pod_resource_config" {
   }
 }
 
+variable "socket_io_admin_username" {
+  type        = string
+  description = "Socket.IO admin username"
+  sensitive   = true
+}
+
+variable "socket_io_admin_password" {
+  type        = string
+  description = "Socket.IO admin password"
+  sensitive   = true
+}

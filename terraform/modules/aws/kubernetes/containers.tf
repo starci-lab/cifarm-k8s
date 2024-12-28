@@ -45,6 +45,18 @@ locals {
     health_check_port = 8081
     host = "websocket-node-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
+
+  cron_scheduler = {
+    name = "cron-scheduler"
+    health_check_port = 8081
+    host = "cron-scheduler-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+  }
+
+  cron_worker = {
+    name = "cron-worker"
+    health_check_port = 8081
+    host = "cron-worker-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+  }
 }
 
 resource "helm_release" "gameplay_service" {
@@ -113,6 +125,7 @@ resource "helm_release" "rest_api_gateway" {
       node_group_label      = var.primary_node_group_name,
       gameplay_service_host = local.gameplay_service.host,
       gameplay_service_port = local.gameplay_service.port,
+      gameplay_service_health_check_port = local.gameplay_service.health_check_port,
 
       // Jwt
       jwt_secret = var.jwt_secret,
@@ -188,6 +201,7 @@ resource "helm_release" "graphql_maingraph" {
       // Gameplay Service Configuration
       gameplay_subgraph_host = local.gameplay_subgraph.host,
       gameplay_subgraph_port = local.gameplay_subgraph.port,
+      gameplay_subgraph_health_check_port = local.gameplay_subgraph.health_check_port,
 
       // Jwt
       jwt_secret = var.jwt_secret,
@@ -234,6 +248,9 @@ resource "helm_release" "websocket_node" {
       health_check_port = local.websocket_node.health_check_port,
       production_url = "https://${local.ws_domain_name}"
 
+      admin_username = var.socket_io_admin_username,
+      admin_password = var.socket_io_admin_password,
+
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,
       cache_redis_port = local.cache_redis.port,
@@ -259,5 +276,91 @@ resource "helm_release" "websocket_node" {
     helm_release.cache_redis,
     helm_release.gameplay_postgresql,
     helm_release.kafka,
+  ]
+}
+
+resource "helm_release" "cron_scheduler" {
+  name       = local.cron_scheduler.name
+  repository = var.container_repository
+  chart      = "service"
+  namespace  = kubernetes_namespace.containers.metadata[0].name
+
+  values = [
+    templatefile("${path.module}/manifests/cron-scheduler-values.yaml", {
+      node_group_label = var.primary_node_group_name,
+
+      // Gameplay Postgres Configuration
+      gameplay_postgresql_host     = local.gameplay_postgresql.host,
+      gameplay_postgresql_database = var.gameplay_postgresql_database,
+      gameplay_postgresql_password = var.gameplay_postgresql_password,
+      gameplay_postgresql_username = local.gameplay_postgresql.username,
+      gameplay_postgresql_port     = local.gameplay_postgresql.port,
+
+      // Cache Redis Configuration
+      cache_redis_host = local.cache_redis.host,
+      cache_redis_port = local.cache_redis.port,
+
+      // Job Redis Configuration
+      job_redis_host = local.job_redis.host,
+      job_redis_port = local.job_redis.port,
+
+      // Resource configurations
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
+
+      health_check_port = local.cron_scheduler.health_check_port,
+    })
+  ]
+
+  depends_on = [
+    helm_release.keda,
+    helm_release.cache_redis,
+    helm_release.gameplay_postgresql,
+    helm_release.job_redis,
+  ]
+}
+
+resource "helm_release" "cron_worker" {
+  name       = local.cron_worker.name
+  repository = var.container_repository
+  chart      = "service"
+  namespace  = kubernetes_namespace.containers.metadata[0].name
+
+  values = [
+    templatefile("${path.module}/manifests/cron-worker-values.yaml", {
+      node_group_label = var.primary_node_group_name,
+
+      // Gameplay Postgres Configuration
+      gameplay_postgresql_host     = local.gameplay_postgresql.host,
+      gameplay_postgresql_database = var.gameplay_postgresql_database,
+      gameplay_postgresql_password = var.gameplay_postgresql_password,
+      gameplay_postgresql_username = local.gameplay_postgresql.username,
+      gameplay_postgresql_port     = local.gameplay_postgresql.port,
+
+      // Cache Redis Configuration
+      cache_redis_host = local.cache_redis.host,
+      cache_redis_port = local.cache_redis.port,
+
+      // Job Redis Configuration
+      job_redis_host = local.job_redis.host,
+      job_redis_port = local.job_redis.port,
+
+      // Resource configurations
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
+
+      health_check_port = local.cron_scheduler.health_check_port,
+    })
+  ]
+
+  depends_on = [
+    helm_release.keda,
+    helm_release.cache_redis,
+    helm_release.gameplay_postgresql,
+    helm_release.job_redis,
   ]
 }

@@ -3,9 +3,9 @@ envVarsCM:
   CACHE_REDIS_HOST: "${cache_redis_host}"
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
 
-  ADAPTER_REDIS_HOST: "${adapter_redis_host}"
-  ADAPTER_REDIS_PORT: "${adapter_redis_port}" # Ensure the port is a string
-
+  JOB_REDIS_HOST: "${job_redis_host}"
+  JOB_REDIS_PORT: "${job_redis_port}" # Ensure the port is a string
+ 
   # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
   GAMEPLAY_POSTGRESQL_DBNAME: "${gameplay_postgresql_database}"
   GAMEPLAY_POSTGRESQL_HOST: "${gameplay_postgresql_host}"
@@ -13,33 +13,24 @@ envVarsCM:
   GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
   GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
   
-  WEBSOCKET_NODE_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
-  WEBSOCKET_NODE_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
-  PRODUCTION_URL: "${production_url}"  # Specify as string to avoid YAML parsing errors
-
-  SOCKET_IO_ADMIN_USERNAME: "${admin_username}"
-  SOCKET_IO_ADMIN_PASSWORD: "${admin_password}"
-
-  # Kafka Configuration (non-sensitive, can go to ConfigMap)
-  KAFKA_1_HOST: "${kafka_1_host}"
-  KAFKA_1_PORT: "${kafka_1_port}"
+  CRON_SCHEDULER_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
 
 containerPorts:
   app:
-    port: ${port}  # Port exposed by the container.
+    enabled: false
   healthCheck:
     port: ${health_check_port}  # Health check port exposed by the container.
 
 service:
   ports:
     app:
-      port: ${port}  # Port exposed by the service.
+      enabled: false
     healthCheck:
       port: ${health_check_port}  # Health check port exposed by the service.
 
 image:
   registry: docker.io  # Docker registry URL for the image.
-  repository: cifarm/websocket-node  # Repository for the container image.
+  repository: cifarm/cron-scheduler  # Repository for the container image.
   tag: latest  # Tag for the image.
   digest: ""  # Optionally specify an image digest.
   pullPolicy: Always  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.
