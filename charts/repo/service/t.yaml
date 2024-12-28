@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.7
+    helm.sh/chart: service-1.0.8
 automountServiceAccountToken: false
 ---
 # Source: service/templates/env-vars-secret.yaml
@@ -24,7 +24,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.7
+    helm.sh/chart: service-1.0.8
 type: Opaque
 stringData:
   FOO3: bar
@@ -41,7 +41,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.7
+    helm.sh/chart: service-1.0.8
 data:
   FOO: bar
   FOO2: bar2
@@ -57,7 +57,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.7
+    helm.sh/chart: service-1.0.8
 rules:
   - apiGroups:
     - ""
@@ -79,7 +79,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.7
+    helm.sh/chart: service-1.0.8
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -100,7 +100,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.7
+    helm.sh/chart: service-1.0.8
 spec:
   type: ClusterIP
   ports:
@@ -131,7 +131,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.7
+    helm.sh/chart: service-1.0.8
 spec:
   selector:
     matchLabels:
@@ -147,11 +147,11 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: service
         app.kubernetes.io/version: 1.0.0
-        helm.sh/chart: service-1.0.7
+        helm.sh/chart: service-1.0.8
         app.kubernetes.io/component: service
       annotations:
-        checksum/env-vars-secrets: 1abbce12fe025d041129920abe77a93ad7f66814afd6f02d4b970cf3d02c7776
-        checksum/env-vars-configmap: 8b30a746057054100cd49f79b50c48924c55b983915e4cebe8f693ea89c94a44
+        checksum/env-vars-secrets: b4796554309403eb16cfaad22c8b13e3fd36ab46f60393db0b4e7b9bdf034081
+        checksum/env-vars-configmap: 7bd870f646a8c2a2dd8ed74345608a82c5753915325737a16c0f33e2f7644716
     spec:
       serviceAccountName: release-name-service
       
