@@ -1,9 +1,3 @@
-
-{{- /*
-Copyright Broadcom, Inc. All Rights Reserved.
-SPDX-License-Identifier: APACHE-2.0
-*/}}
-
 apiVersion: {{ include "common.capabilities.deployment.apiVersion" . }}
 kind: Deployment
 metadata:
@@ -98,27 +92,21 @@ spec:
             - secretRef:
                 name: {{ include "service.envVarsSecretName" . }}
             {{- end }}
-          ports:
-            - name: app
-              containerPort: {{ .Values.containerPorts.app }}
-              protocol: TCP
-            - name: health-check
-              containerPort: {{ include "service.healthCheckPort" . }}
-              protocol: TCP
+          ports: {{- include "common.tplvalues.render" (dict "value" .Values.containerPorts "context" $) | nindent 12 }}
           {{- if not .Values.diagnosticMode.enabled }}
           {{- if .Values.customStartupProbe }}
           startupProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customStartupProbe "context" $) | nindent 12 }}
           {{- else if .Values.startupProbe.enabled }}
           startupProbe: {{- include "common.tplvalues.render" (dict "value" (omit .Values.startupProbe "enabled") "context" $) | nindent 12 }}
             tcpSocket:
-              port: app
+              port: {{ .Values.startupProbe.port }}
           {{- end }}
           {{- if .Values.customLivenessProbe }}
           livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customLivenessProbe "context" $) | nindent 12 }}
           {{- else if .Values.livenessProbe.enabled }}
           livenessProbe:
             tcpSocket:
-              port: app
+              port: {{ .Values.livenessProbe.port }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
@@ -131,7 +119,7 @@ spec:
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.path }}
-              port: health-check
+              port: {{ .Values.readinessProbe.port }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}

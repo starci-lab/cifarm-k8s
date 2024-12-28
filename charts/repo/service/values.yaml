@@ -71,14 +71,16 @@ image:
 
 debug: false  # Enable debug mode for additional debugging.
 
-# Health Checks Configuration
-separateHealthCheckPort: ""
-
 # Service Configuration
 service: 
+  enabled: true  # Enable service creation.
   type: "ClusterIP"  # Kubernetes service type: ClusterIP, LoadBalancer, NodePort, etc.
-  ports: 
-    app: 8080  # App port exposed by the service.
+  port: 
+    name: app # Name of the service.
+    port: 8080  # Port exposed by the service.
+    protocol: TCP  # Protocol for the service.
+    targetPort: app  # Target port for the service.
+  extraPorts: []  # Define extra ports if necessary.
 
 # Environment Variables from ConfigMap and Secret
 envVarsCM: 
@@ -89,10 +91,16 @@ envVarsSecret:
   FOO4: "bar2"  # Another example from Secret.
 
 containerPorts:
-  app: 8080  # App port exposed by the container.
+  - name: app
+    containerPort: 8080  # Port exposed by the container.
+    protocol: TCP
+  - name: health-check
+    containerPort: 8081  # Health check port exposed by the container.
+    protocol: TCP
 
 # Startup, Liveness and Readiness Probes Configuration
 startupProbe:
+  port: app
   enabled: false
   initialDelaySeconds: 180
   periodSeconds: 10
@@ -101,6 +109,7 @@ startupProbe:
   failureThreshold: 6
 
 livenessProbe:
+  port: app
   enabled: true  # Enable liveness probe.
   initialDelaySeconds: 180  # Initial delay before the probe is run.
   periodSeconds: 10  # Interval between probe checks.
@@ -109,6 +118,7 @@ livenessProbe:
   failureThreshold: 6  # Number of failed probes before declaring the container unhealthy.
 
 readinessProbe:
+  port: health-check  # Port for the readiness probe.
   path: "/healthz"  # Path for the readiness probe.
   enabled: true  # Enable readiness probe.  initialDelaySeconds: 30  # Initial delay before the probe is run.
   periodSeconds: 5  # Interval between probe checks.

@@ -15,7 +15,7 @@ maintainers:
 - name: CiLab 2.0
   url: ""
 name: service
-version: 1.0.5
+version: 1.0.6
 dependencies:
   - name: common
     version: 2.x.x
