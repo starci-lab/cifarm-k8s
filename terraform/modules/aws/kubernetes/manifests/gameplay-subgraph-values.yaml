@@ -14,23 +14,17 @@ envVarsCM:
   GAMEPLAY_SUBGRAPH_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
 
 containerPorts:
-  - name: app
-    containerPort: ${port}  # App port exposed by the container.
-    protocol: TCP
-  - name: health-check
-    containerPort: ${health_check_port}  # Health check port exposed by the container.
-    protocol: TCP
+  app:
+    port: ${port}  # Port exposed by the container.
+  healthCheck:
+    port: ${health_check_port}  # Health check port exposed by the container.
 
 service:
   ports:
-  - name: app
-    port: ${port}  # Port exposed by the service.
-    targetPort: app  # Port exposed by the container.
-    protocol: TCP  # Protocol used by the service.
-  - name: health-check
-    port: ${health_check_port}  # Health check port exposed by the service.
-    targetPort: health-check  # Health check port exposed by the container.
-    protocol: TCP  # Protocol used by the service.
+    app:
+      port: ${port}  # Port exposed by the service.
+    healthCheck:
+      port: ${health_check_port}  # Health check port exposed by the service.
 
 image:
   registry: docker.io  # Docker registry URL for the image.

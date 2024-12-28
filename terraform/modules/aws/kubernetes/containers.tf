@@ -18,6 +18,7 @@ locals {
   rest_api_gateway = {
     name = "rest-api-gateway"
     port = 8080
+    health_check_port = 8081
     host = "rest-api-gateway-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
 
@@ -25,6 +26,7 @@ locals {
   gameplay_subgraph = {
     name = "gameplay-subgraph"
     port = 8080
+    health_check_port = 8081
     host = "gameplay-subgraph-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
 
@@ -32,6 +34,7 @@ locals {
   graphql_maingraph = {
     name = "graphql-maingraph"
     port = 8080
+    health_check_port = 8081
     host = "graphql-maingraph-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
 
@@ -39,6 +42,7 @@ locals {
   websocket_node = {
     name = "websocket-node"
     port = 8080
+    health_check_port = 8081
     host = "websocket-node-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
 }
@@ -115,6 +119,7 @@ resource "helm_release" "rest_api_gateway" {
 
       // Rest API Gateway Configuration Port
       port = local.rest_api_gateway.port,
+      health_check_port = local.rest_api_gateway.health_check_port,
 
       // Resource configurations
       request_cpu    = var.pod_resource_config["small"].requests.cpu,
@@ -149,6 +154,7 @@ resource "helm_release" "gameplay_subgraph" {
 
       // Gameplay Service Configuration
       port = local.gameplay_subgraph.port,
+      health_check_port = local.gameplay_subgraph.health_check_port,
 
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,
@@ -186,6 +192,7 @@ resource "helm_release" "graphql_maingraph" {
       // Jwt
       jwt_secret = var.jwt_secret,
       port       = local.graphql_maingraph.port,
+      health_check_port = local.graphql_maingraph.health_check_port,
 
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,
@@ -224,6 +231,7 @@ resource "helm_release" "websocket_node" {
 
       // Gameplay Service Configuration
       port = local.websocket_node.port,
+      health_check_port = local.websocket_node.health_check_port,
       production_url = "https://${local.ws_domain_name}"
 
       // Cache Redis Configuration

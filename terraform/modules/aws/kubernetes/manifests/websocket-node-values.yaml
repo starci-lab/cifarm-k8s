@@ -14,6 +14,7 @@ envVarsCM:
   GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
   
   WEBSOCKET_NODE_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
+  WEBSOCKET_NODE_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
   PRODUCTION_URL: "${production_url}"  # Specify as string to avoid YAML parsing errors
 
   # Kafka Configuration (non-sensitive, can go to ConfigMap)
@@ -21,7 +22,17 @@ envVarsCM:
   KAFKA_1_PORT: "${kafka_1_port}"
 
 containerPorts:
-  app: ${port}  # App port exposed by the container.
+  app:
+    port: ${port}  # Port exposed by the container.
+  healthCheck:
+    port: ${health_check_port}  # Health check port exposed by the container.
+
+service:
+  ports:
+    app:
+      port: ${port}  # Port exposed by the service.
+    healthCheck:
+      port: ${health_check_port}  # Health check port exposed by the service.
 
 image:
   registry: docker.io  # Docker registry URL for the image.

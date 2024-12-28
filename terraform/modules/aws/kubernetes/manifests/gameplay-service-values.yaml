@@ -28,25 +28,17 @@ envVarsSecret:
   JWT_REFRESH_TOKEN_EXPIRATION: "${jwt_refresh_token_expiration}"
 
 containerPorts:
-  - name: app
-    containerPort: ${port}  # App port exposed by the container.
-    protocol: TCP
-  - name: health-check
-    containerPort: ${health_check_port}  # Health check port exposed by the container.
-    protocol: TCP
+  app:
+    port: ${port}  # Port exposed by the container.
+  healthCheck:
+    port: ${health_check_port}  # Health check port exposed by the container.
 
 service:
   ports:
-  - name: app
-    port: ${port}  # Port exposed by the service.
-    targetPort: app  # Port exposed by the container.
-    protocol: TCP  # Protocol used by the service.
-  - name: health-check
-    port: ${health_check_port}  # Health check port exposed by the service.
-    targetPort: health-check  # Health check port exposed by the container.
-    protocol: TCP  # Protocol used by the service.
-
-separateHealthCheckPort: ${health_check_port}  # Separate health check port.
+    app:
+      port: ${port}  # Port exposed by the service.
+    healthCheck:
+      port: ${health_check_port}  # Health check port exposed by the service.
 
 image:
   registry: docker.io  # Docker registry URL for the image.

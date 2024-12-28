@@ -4,13 +4,24 @@ envVarsCM:
   GAMEPLAY_SERVICE_PORT: "${gameplay_service_port}"
   # Rest Api Gateway configuration
   REST_API_GATEWAY_PORT: "${port}"
+  REST_API_GATEWAY_HEALTH_CHECK_PORT: "${health_check_port}"
 
 # JWT Authentication Configuration (sensitive, should go to Secrets)
 envVarsSecret:
   JWT_SECRET: "${jwt_secret}"
 
 containerPorts:
-  app: ${port}  # App port exposed by the container.
+  app:
+    port: ${port}  # Port exposed by the container.
+  healthCheck:
+    port: ${health_check_port}  # Health check port exposed by the container.
+
+service:
+  ports:
+    app:
+      port: ${port}  # Port exposed by the service.
+    healthCheck:
+      port: ${health_check_port}  # Health check port exposed by the service.
 
 image:
   registry: docker.io  # Docker registry URL for the image.

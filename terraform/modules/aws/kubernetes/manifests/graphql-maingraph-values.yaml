@@ -7,13 +7,24 @@ envVarsCM:
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
   
   GRAPHQL_MAINGRAPH_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
+  GRAPHQL_MAINGRAPH_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
 
 # JWT Authentication Configuration (sensitive, should go to Secrets)
 envVarsSecret:
   JWT_SECRET: "${jwt_secret}"
 
 containerPorts:
-  app: ${port}  # App port exposed by the container.
+  app:
+    port: ${port}  # Port exposed by the container.
+  healthCheck:
+    port: ${health_check_port}  # Health check port exposed by the container.
+
+service:
+  ports:
+    app:
+      port: ${port}  # Port exposed by the service.
+    healthCheck:
+      port: ${health_check_port}  # Health check port exposed by the service.
 
 image:
   registry: docker.io  # Docker registry URL for the image.
