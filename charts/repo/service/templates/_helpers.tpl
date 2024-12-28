@@ -38,8 +38,8 @@ Create the name of the secret env vars
 Get  the health check port
 */}}
 {{- define "service.healthCheckPort" -}}
-{{- if .Values.containerPorts.healthCheck -}}
-{{ .Values.containerPorts.healthCheck }}
+{{- if .Values.separateHealthCheckPort -}}
+{{ .Values.separateHealthCheckPort }}
 {{- else -}}
 {{ .Values.containerPorts.app }}
 {{- end -}}

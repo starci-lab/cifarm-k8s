@@ -71,6 +71,9 @@ image:
 
 debug: false  # Enable debug mode for additional debugging.
 
+# Health Checks Configuration
+separateHealthCheckPort: ""
+
 # Service Configuration
 service: 
   type: "ClusterIP"  # Kubernetes service type: ClusterIP, LoadBalancer, NodePort, etc.
@@ -107,8 +110,7 @@ livenessProbe:
 
 readinessProbe:
   path: "/healthz"  # Path for the readiness probe.
-  enabled: true  # Enable readiness probe.
-  initialDelaySeconds: 30  # Initial delay before the probe is run.
+  enabled: true  # Enable readiness probe.  initialDelaySeconds: 30  # Initial delay before the probe is run.
   periodSeconds: 5  # Interval between probe checks.
   timeoutSeconds: 3  # Timeout for probe response.
   successThreshold: 1  # Number of successful probes needed.
