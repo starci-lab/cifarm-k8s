@@ -29,7 +29,8 @@ envVarsSecret:
 
 containerPorts:
   app: ${port}  # App port exposed by the container.
-  healthCheck: "${health_check_port}"  # Healthcheck port exposed by the container.
+
+separateHealthCheckPort: ${health_check_port}  # Separate health check port.
 
 image:
   registry: docker.io  # Docker registry URL for the image.

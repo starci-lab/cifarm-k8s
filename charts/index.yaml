@@ -6,9 +6,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T20:07:06.5200646+07:00"
+    created: "2024-12-28T20:07:10.48518+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
-    digest: 42afa654f6f65cfe3e192c018a4bfb405dff954e68bb7e40c79c797b325e64b1
+    digest: fcc03f6c5c37d70c8840e61e5b266ec37168b91cbee942fcd67140bcb9dbc0e9
     home: N/A
     icon: N/A
     keywords:
@@ -24,7 +24,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T20:07:06.517409+07:00"
+    created: "2024-12-28T20:07:10.4827346+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: ad4106901b37d926480e3ed196c0b3957d96e1450ec0528c46c64f22e8ac195f
     home: N/A
@@ -42,7 +42,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T20:07:06.5150435+07:00"
+    created: "2024-12-28T20:07:10.4802115+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 771302dea582bfaf64a060a7f754530e421bcdecb1947e68c63e227dd0fabdd6
     home: N/A
@@ -60,7 +60,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T20:07:06.5126074+07:00"
+    created: "2024-12-28T20:07:10.4780202+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 98810a8c67218a93ca75eacf98b7d8aff54d232afecee7207b39402a5b4b37be
     home: N/A
@@ -78,7 +78,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T20:07:06.5101347+07:00"
+    created: "2024-12-28T20:07:10.4731437+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 88fcbbe615282c801dbf9080ac562d11125e2d01215373e3f93f4b7d7f54452b
     home: N/A
@@ -91,4 +91,4 @@ entries:
     urls:
     - packages/service-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-28T20:07:06.5058139+07:00"
+generated: "2024-12-28T20:07:10.4703191+07:00"

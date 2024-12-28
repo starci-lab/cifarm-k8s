@@ -189,7 +189,7 @@ resource "kubernetes_secret" "docker_credentials" {
 
 # Template file for the 
 data "template_file" "docker_credentials" {
-  template = file("${path.module}/jsons/docker-credentials.json")
+  template = file("${path.module}/credentials/docker-credentials.json")
   vars = {
     docker_username = "${var.docker_username}"
     docker_password = "${var.docker_password}"

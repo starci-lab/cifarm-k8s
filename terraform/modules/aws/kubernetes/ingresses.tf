@@ -131,7 +131,7 @@ resource "kubernetes_ingress_v1" "ws" {
       "cert-manager.io/cluster-issuer"                    = var.cluster_issuer_name
       "nginx.ingress.kubernetes.io/ssl-redirect"          = "true"
       "nginx.ingress.kubernetes.io/force-ssl-redirect"    = "true"
-      "nginx.ingress.kubernetes.io/configuration-snippet" = file("${path.module}/confs/resolve_client_ip.conf")
+      "nginx.ingress.kubernetes.io/configuration-snippet" = file("${path.module}/configs/resolve_client_ip.conf")
       "nginx.ingress.kubernetes.io/upstream-hash-by"      = "$client_ip"
     }
   }
