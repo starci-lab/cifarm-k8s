@@ -224,6 +224,7 @@ resource "helm_release" "websocket_node" {
 
       // Gameplay Service Configuration
       port = local.websocket_node.port,
+      production_url = "https://${local.ws_domain_name}"
 
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,

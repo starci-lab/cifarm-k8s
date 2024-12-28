@@ -131,7 +131,7 @@ spec:
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.path }}
-              port: {{ .Values.readinessProbe.port | quote }}
+              port: health-check
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}

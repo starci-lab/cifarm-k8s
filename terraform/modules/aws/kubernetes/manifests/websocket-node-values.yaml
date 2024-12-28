@@ -14,6 +14,7 @@ envVarsCM:
   GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
   
   WEBSOCKET_NODE_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
+  PRODUCTION_URL: "${production_url}"  # Specify as string to avoid YAML parsing errors
 
   # Kafka Configuration (non-sensitive, can go to ConfigMap)
   KAFKA_1_HOST: "${kafka_1_host}"
