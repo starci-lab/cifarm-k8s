@@ -75,12 +75,15 @@ debug: false  # Enable debug mode for additional debugging.
 service: 
   enabled: true  # Enable service creation.
   type: "ClusterIP"  # Kubernetes service type: ClusterIP, LoadBalancer, NodePort, etc.
-  port: 
-    name: app # Name of the service.
+  ports: 
+  - name: app
     port: 8080  # Port exposed by the service.
-    protocol: TCP  # Protocol for the service.
-    targetPort: app  # Target port for the service.
-  extraPorts: []  # Define extra ports if necessary.
+    targetPort: app  # Port exposed by the container.
+    protocol: TCP  # Protocol used by the service.
+  - name: health-check
+    port: 8081  # Health check port exposed by the service.
+    targetPort: health-check  # Health check port exposed by the container.
+    protocol: TCP  # Protocol used by the service.
 
 # Environment Variables from ConfigMap and Secret
 envVarsCM: 
