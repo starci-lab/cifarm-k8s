@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.6
+    helm.sh/chart: service-1.0.7
 automountServiceAccountToken: false
 ---
 # Source: service/templates/env-vars-secret.yaml
@@ -24,7 +24,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.6
+    helm.sh/chart: service-1.0.7
 type: Opaque
 stringData:
   FOO3: bar
@@ -41,7 +41,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.6
+    helm.sh/chart: service-1.0.7
 data:
   FOO: bar
   FOO2: bar2
@@ -57,7 +57,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.6
+    helm.sh/chart: service-1.0.7
 rules:
   - apiGroups:
     - ""
@@ -79,7 +79,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.6
+    helm.sh/chart: service-1.0.7
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -100,18 +100,21 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.6
+    helm.sh/chart: service-1.0.7
 spec:
   type: ClusterIP
   ports:
+    
     - name: app
       port: 8080
+      targetPort: 
       protocol: TCP
-      targetPort: app
+      nodePort: null
+    
     - name: health-check
       port: 8081
+      targetPort: 
       protocol: TCP
-      targetPort: health-check
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: service
@@ -128,7 +131,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: service
     app.kubernetes.io/version: 1.0.0
-    helm.sh/chart: service-1.0.6
+    helm.sh/chart: service-1.0.7
 spec:
   selector:
     matchLabels:
@@ -144,11 +147,11 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: service
         app.kubernetes.io/version: 1.0.0
-        helm.sh/chart: service-1.0.6
+        helm.sh/chart: service-1.0.7
         app.kubernetes.io/component: service
       annotations:
-        checksum/env-vars-secrets: 37d7becb01cba36b823859703624c7d828d9b6f07c328a0a13c442079bc1e00a
-        checksum/env-vars-configmap: 0b8573cff34d2a7ad05cd67809cbb82316f0f4613256be41d8e1f4bbc69fd426
+        checksum/env-vars-secrets: 1abbce12fe025d041129920abe77a93ad7f66814afd6f02d4b970cf3d02c7776
+        checksum/env-vars-configmap: 8b30a746057054100cd49f79b50c48924c55b983915e4cebe8f693ea89c94a44
     spec:
       serviceAccountName: release-name-service
       
@@ -203,11 +206,13 @@ spec:
             - secretRef:
                 name: release-name-service-env-vars
           ports:
-            - containerPort: 8080
-              name: app
+            
+            - name: app
+              containerPort: 8080
               protocol: TCP
-            - containerPort: 8081
-              name: health-check
+            
+            - name: health-check
+              containerPort: 8081
               protocol: TCP
           livenessProbe:
             tcpSocket:

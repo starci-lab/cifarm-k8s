@@ -1,5 +1,3 @@
-
-{{- if .Values.service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -31,8 +29,26 @@ spec:
   sessionAffinityConfig: {{- include "common.tplvalues.render" (dict "value" .Values.service.sessionAffinityConfig "context" $) | nindent 4 }}
   {{- end }}
   ports:
-    {{- include "common.tplvalues.render" (dict "value" .Values.service.ports "context" $) | nindent 4 }}
+    {{ if .Values.service.ports.app.enabled }}
+    - name: app
+      port: {{ .Values.service.ports.app.port }}
+      targetPort: {{ .Values.service.ports.app.targetPort }}
+      protocol: TCP
+      {{- if (and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.nodePorts.app))) }}
+      nodePort: {{ .Values.service.nodePorts.app }}
+      {{- else if eq .Values.service.type "ClusterIP" }}
+      nodePort: null
+      {{- end }}
+    {{- end }}
+    {{ if .Values.service.ports.healthCheck.enabled }}
+    - name: health-check
+      port: {{ .Values.service.ports.healthCheck.port }}
+      targetPort: {{ .Values.service.ports.healthCheck.targetPort }}
+      protocol: TCP
+    {{- end }}
+    {{- if .Values.service.extraPorts }}
+    {{- include "common.tplvalues.render" (dict "value" .Values.service.extraPorts "context" $) | nindent 4 }}
+    {{- end }}
   {{- $podLabels := include "common.tplvalues.merge" ( dict "values" ( list .Values.podLabels .Values.commonLabels ) "context" . ) }}
   selector: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 4 }}
     app.kubernetes.io/component: service
-{{- end }}

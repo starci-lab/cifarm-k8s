@@ -1,6 +1,5 @@
 
 # SPDX-License-Identifier: MIT
-
 annotations:
   category: Service
   licenses: MIT
@@ -15,7 +14,7 @@ maintainers:
 - name: CiLab 2.0
   url: ""
 name: service
-version: 1.0.7
+version: 1.0.8
 dependencies:
   - name: common
     version: 2.x.x
