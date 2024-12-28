@@ -6,9 +6,9 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T22:27:10.4304501+07:00"
+    created: "2024-12-28T22:28:01.205978+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
-    digest: 9df888cf8846c9cce3a08f81620568f23a4169976f592157124d17f8990c54a7
+    digest: 9c7b8b07ed27afc6ec09333b2a21abf6361668ec1679451d838f82afadc82126
     home: N/A
     icon: N/A
     keywords:
@@ -24,7 +24,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T22:27:10.4285732+07:00"
+    created: "2024-12-28T22:28:01.2035109+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: ad4106901b37d926480e3ed196c0b3957d96e1450ec0528c46c64f22e8ac195f
     home: N/A
@@ -42,7 +42,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T22:27:10.4258561+07:00"
+    created: "2024-12-28T22:28:01.2002998+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 771302dea582bfaf64a060a7f754530e421bcdecb1947e68c63e227dd0fabdd6
     home: N/A
@@ -60,7 +60,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T22:27:10.4241465+07:00"
+    created: "2024-12-28T22:28:01.196204+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 98810a8c67218a93ca75eacf98b7d8aff54d232afecee7207b39402a5b4b37be
     home: N/A
@@ -78,7 +78,7 @@ entries:
       licenses: MIT
     apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-12-28T22:27:10.4218872+07:00"
+    created: "2024-12-28T22:28:01.1935942+07:00"
     description: This chart is used to deploy any CiFarm service in a Kubernetes cluster.
     digest: 88fcbbe615282c801dbf9080ac562d11125e2d01215373e3f93f4b7d7f54452b
     home: N/A
@@ -91,4 +91,4 @@ entries:
     urls:
     - packages/service-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-28T22:27:10.4190383+07:00"
+generated: "2024-12-28T22:28:01.1900427+07:00"
