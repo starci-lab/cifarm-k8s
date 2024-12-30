@@ -1,0 +1,87 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cli
+  namespace: jobs
+spec:
+  template:
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1001
+      automountServiceAccountToken: true
+      containers:
+      - command:
+        - sleep
+        - infinity
+        env:
+        - name: GAMEPLAY_POSTGRESQL_DBNAME
+          value: gameplay
+        - name: GAMEPLAY_POSTGRESQL_HOST
+          value: gameplay-postgresql-postgresql-ha-pgpool.databases.svc.cluster.local
+        - name: GAMEPLAY_POSTGRESQL_PORT
+          value: "5432"
+        - name: GAMEPLAY_POSTGRESQL_USERNAME
+          value: postgres
+        - name: GAMEPLAY_POSTGRESQL_PASSWORD
+          value: J78GbFRpTqDj
+        image: cifarm/cli:latest
+        imagePullPolicy: Always
+        name: db-init
+        resources:
+          limits:
+            cpu: 90m
+            memory: 180Mi
+          requests:
+            cpu: 30m
+            memory: 60Mi
+        volumeMounts:
+        - mountPath: /usr/src/app/db
+          mountPropagation: None
+          name: db
+      - command:
+        - cifarm
+        - db
+        - seed
+        env:
+        - name: GAMEPLAY_POSTGRESQL_DBNAME
+          value: gameplay
+        - name: GAMEPLAY_POSTGRESQL_HOST
+          value: gameplay-postgresql-postgresql-ha-pgpool.databases.svc.cluster.local
+        - name: GAMEPLAY_POSTGRESQL_PORT
+          value: "5432"
+        - name: GAMEPLAY_POSTGRESQL_USERNAME
+          value: postgres
+        - name: GAMEPLAY_POSTGRESQL_PASSWORD
+          value: J78GbFRpTqDj
+        image: cifarm/cli:latest
+        imagePullPolicy: Always
+        name: db-seed
+        resources:
+          limits:
+            cpu: 90m
+            memory: 180Mi
+          requests:
+            cpu: 30m
+            memory: 60Mi
+        volumeMounts:
+        - mountPath: /usr/src/app/db
+          mountPropagation: None
+          name: db
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      shareProcessNamespace: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: db
+        persistentVolumeClaim:
+          claimName: cli
+status:
+  failed: 4
+  ready: 0
+  terminating: 0
+  uncountedTerminatedPods: {}
