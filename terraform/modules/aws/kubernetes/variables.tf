@@ -392,3 +392,9 @@ variable "socket_io_admin_password" {
   description = "Socket.IO admin password"
   sensitive   = true
 }
+
+variable "jenkins_container_cap" {
+  type        = number
+  description = "Jenkins container capacity"
+  default     = 2
+}

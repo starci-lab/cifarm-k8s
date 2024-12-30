@@ -97,7 +97,8 @@ locals {
     "kubernetes-cloud.groovy" = templatefile("${path.module}/jenkins-init-groovy/kubernetes-cloud.groovy", {
       node_selector    = "eks.amazonaws.com/nodegroup=${var.secondary_node_group_name}"
       namespace        = kubernetes_namespace.jenkins.metadata[0].name,
-      build_agent_yaml = data.template_file.jenkins_build_agent.rendered
+      build_agent_yaml = data.template_file.jenkins_build_agent.rendered,
+      container_cap    = var.jenkins_container_cap
     })
   }
 
