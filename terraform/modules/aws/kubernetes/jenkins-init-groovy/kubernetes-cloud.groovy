@@ -7,7 +7,8 @@ import org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate
 // Define the variables
 def nodeSelector = "${node_selector}"
 def namespace = "${namespace}"
-def build_agent_yaml = '''${build_agent_yaml}'''
+def buildAgentYaml = '''${build_agent_yaml}'''
+def containerCap = ${container_cap}
 
 // Define the cloud name
 def cloudName = "cifarm-kubernetes"
@@ -23,11 +24,12 @@ if (jenkins.clouds.find { it.name == cloudName }) {
 }
 
 // Create the KubernetesCloud configuration
-def kubernetesCloud = new KubernetesCloud(cloudName)  // Name of the Kubernetes cloud configuration
-kubernetesCloud.setNamespace(namespace)                         // Kubernetes namespace
-kubernetesCloud.setSkipTlsVerify(true)                          // Skip TLS verification (true if you want to disable it)
-kubernetesCloud.setJenkinsUrl("http://jenkins.jenkins.svc.cluster.local") // Jenkins internal URL in Kubernetes
-kubernetesCloud.setWebSocket(true)                              // Use WebSocket for communication with Jenkins agents
+def kubernetesCloud = new KubernetesCloud(cloudName)                            // Name of the Kubernetes cloud configuration
+kubernetesCloud.setNamespace(namespace)                                         // Kubernetes namespace
+kubernetesCloud.setSkipTlsVerify(true)                                          // Skip TLS verification (true if you want to disable it)
+kubernetesCloud.setJenkinsUrl("http://jenkins.jenkins.svc.cluster.local")       // Jenkins internal URL in Kubernetes
+kubernetesCloud.setWebSocket(true)                                              // Use WebSocket for communication with Jenkins agents
+kubernetesCloud.setContainerCap(containerCap)                                   // Set the maximum number of containers to run concurrently
 
 // Create pod templates
 def podTemplate = new PodTemplate()
@@ -37,7 +39,7 @@ podTemplate.setNamespace(namespace)
 podTemplate.setNodeSelector(nodeSelector) // Node selector for the pod template
 
 // Set yaml
-podTemplate.setYaml(build_agent_yaml)
+podTemplate.setYaml(buildAgentYaml)
 
 // Add the pod template to the Kubernetes cloud configuration
 kubernetesCloud.addTemplate(podTemplate)

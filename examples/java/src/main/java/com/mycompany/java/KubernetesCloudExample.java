@@ -23,6 +23,7 @@ public class KubernetesCloudExample {
         kubernetesCloud.setSkipTlsVerify(true);
         kubernetesCloud.setJenkinsUrl("http://jenkins.jenkins.svc.cluster.local");
         kubernetesCloud.setWebSocket(true);
+        kubernetesCloud.setContainerCap(2);
         jenkins.clouds.add(kubernetesCloud);
         jenkins.save();
 
