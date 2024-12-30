@@ -34,11 +34,35 @@ locals {
       description = "Build the gameplay subgraph using Kaniko then push the image to Dockerhub" # Job description
       path        = ".jenkins/build/gameplay-subgraph.jenkinsfile"                              # Path to the Jenkinsfile
     }
-    graphql_maingraph = {
+    graphql_gateway = {
       file        = "graphql-maingraph-build-pipeline"
       name        = "GraphQL Maingraph Build Pipeline"                                          # Name of the Jenkins pipeline job
       description = "Build the graphql maingraph using Kaniko then push the image to Dockerhub" # Job description
-      path        = ".jenkins/build/graphql-maingraph.jenkinsfile"                              # Path to the Jenkinsfile
+      path        = ".jenkins/build/graphql-gateway.jenkinsfile"                                # Path to the Jenkinsfile
+    }
+    websocket_node = {
+      file        = "websocket-node-build-pipeline"
+      name        = "Websocket Node Build Pipeline"                                          # Name of the Jenkins pipeline job
+      description = "Build the websocket node using Kaniko then push the image to Dockerhub" # Job description
+      path        = ".jenkins/build/websocket-node.jenkinsfile"                              # Path to the Jenkinsfile
+    }
+    cron_scheduler = {
+      file        = "cron-scheduler-build-pipeline"
+      name        = "Cron Scheduler Build Pipeline"                                          # Name of the Jenkins pipeline job
+      description = "Build the cron scheduler using Kaniko then push the image to Dockerhub" # Job description
+      path        = ".jenkins/build/cron-scheduler.jenkinsfile"                              # Path to the Jenkinsfile
+    }
+    cron_worker = {
+      file        = "cron-worker-build-pipeline"
+      name        = "Cron Worker Build Pipeline"                                          # Name of the Jenkins pipeline job
+      description = "Build the cron worker using Kaniko then push the image to Dockerhub" # Job description
+      path        = ".jenkins/build/cron-worker.jenkinsfile"                              # Path to the Jenkinsfile
+    }
+    cli = {
+      file        = "cli-build-pipeline"
+      name        = "CLI Build Pipeline"                                          # Name of the Jenkins pipeline job
+      description = "Build the CLI using Kaniko then push the image to Dockerhub" # Job description
+      path        = ".jenkins/build/cli.jenkinsfile"                              # Path to the Jenkinsfile
     }
   }
 }

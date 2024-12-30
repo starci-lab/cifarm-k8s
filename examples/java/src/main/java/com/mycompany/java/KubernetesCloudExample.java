@@ -32,6 +32,7 @@ public class KubernetesCloudExample {
         podTemplate.setLabel("kaniko");
         podTemplate.setNamespace("jenkins");
         podTemplate.setNodeSelector("jenkins.io/kaniko=true");
+        podTemplate.setNodeSelector("jenkins.io/kaniko=true");
         var containerTemplate =  new ContainerTemplate(
             "kaniko",
             "gcr.io/kaniko-project/executor:latest"

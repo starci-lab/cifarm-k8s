@@ -58,15 +58,15 @@ resource "kubernetes_ingress_v1" "api" {
   ]
 }
 
-resource "kubernetes_service" "graphql_maingraph_external" {
+resource "kubernetes_service" "graphql_gateway_external" {
   metadata {
-    name      = local.graphql_maingraph.name
+    name      = local.graphql_gateway.name
     namespace = kubernetes_namespace.ingresses.metadata[0].name
   }
 
   spec {
     type          = "ExternalName" # Specifies this is an ExternalName service
-    external_name = local.graphql_maingraph.host
+    external_name = local.graphql_gateway.host
   }
 }
 
@@ -89,9 +89,9 @@ resource "kubernetes_ingress_v1" "graphql" {
           path = "/"
           backend {
             service {
-              name = local.graphql_maingraph.name
+              name = local.graphql_gateway.name
               port {
-                number = local.graphql_maingraph.port
+                number = local.graphql_gateway.port
               }
             }
           }
@@ -107,7 +107,7 @@ resource "kubernetes_ingress_v1" "graphql" {
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
     aws_route53_record.graphql,
-    helm_release.graphql_maingraph
+    helm_release.graphql_gateway
   ]
 }
 

@@ -31,11 +31,11 @@ locals {
   }
 
   // GraphQL Maingraph
-  graphql_maingraph = {
-    name = "graphql-maingraph"
+  graphql_gateway = {
+    name = "graphql-gateway"
     port = 8080
     health_check_port = 8081
-    host = "graphql-maingraph-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+    host = "graphql-gateway-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
 
   // Websocket Node
@@ -188,14 +188,14 @@ resource "helm_release" "gameplay_subgraph" {
   ]
 }
 
-resource "helm_release" "graphql_maingraph" {
-  name       = local.graphql_maingraph.name
+resource "helm_release" "graphql_gateway" {
+  name       = local.graphql_gateway.name
   repository = var.container_repository
   chart      = "service"
   namespace  = kubernetes_namespace.containers.metadata[0].name
 
   values = [
-    templatefile("${path.module}/manifests/graphql-maingraph-values.yaml", {
+    templatefile("${path.module}/manifests/graphql-gateway-values.yaml", {
       node_group_label = var.primary_node_group_name,
 
       // Gameplay Service Configuration
@@ -205,8 +205,8 @@ resource "helm_release" "graphql_maingraph" {
 
       // Jwt
       jwt_secret = var.jwt_secret,
-      port       = local.graphql_maingraph.port,
-      health_check_port = local.graphql_maingraph.health_check_port,
+      port       = local.graphql_gateway.port,
+      health_check_port = local.graphql_gateway.health_check_port,
 
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,

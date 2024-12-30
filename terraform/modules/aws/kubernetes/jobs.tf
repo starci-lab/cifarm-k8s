@@ -10,15 +10,15 @@ locals {
     name  = "cli"
     image = "cifarm/cli:latest"
     volume = {
-      name       = "db"
+      name       = "cli-db"
       mount_path = "/usr/src/app/db"
     }
   }
 }
 
-resource "kubernetes_persistent_volume_claim" "cli" {
+resource "kubernetes_persistent_volume_claim" "cli_db" {
   metadata {
-    name      = local.cli.name
+    name      = local.cli.volume.name
     namespace = kubernetes_namespace.jobs.metadata[0].name
   }
 
@@ -26,7 +26,7 @@ resource "kubernetes_persistent_volume_claim" "cli" {
     access_modes = ["ReadWriteOnce"]
     resources {
       requests = {
-        storage = "1Gi"
+        storage = "100Mi"
       }
     }
   }
@@ -134,7 +134,7 @@ resource "kubernetes_job" "cli" {
         volume {
           name = local.cli.volume.name
           persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim.cli.metadata[0].name
+            claim_name = kubernetes_persistent_volume_claim.cli_db.metadata[0].name
           }
         }
       }

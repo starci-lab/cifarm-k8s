@@ -7,8 +7,8 @@ envVarsCM:
   CACHE_REDIS_HOST: "${cache_redis_host}"
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
   
-  GRAPHQL_MAINGRAPH_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
-  GRAPHQL_MAINGRAPH_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
+  GRAPHQL_GATEWAY_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
+  GRAPHQL_GATEWAY_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
 
 # JWT Authentication Configuration (sensitive, should go to Secrets)
 envVarsSecret:
@@ -29,7 +29,7 @@ service:
 
 image:
   registry: docker.io  # Docker registry URL for the image.
-  repository: cifarm/graphql-maingraph  # Repository for the container image.
+  repository: cifarm/graphql-gateway  # Repository for the container image.
   tag: latest  # Tag for the image.
   digest: ""  # Optionally specify an image digest.
   pullPolicy: Always  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.
