@@ -9,6 +9,7 @@ resource "kubernetes_namespace" "databases" {
 resource "helm_release" "gameplay_postgresql" {
   name       = local.gameplay_postgresql.name
   repository = var.bitnami_repository
+  cleanup_on_fail = var.cleanup_on_fail
   chart      = "postgresql-ha"
   namespace  = kubernetes_namespace.databases.metadata[0].name
 
@@ -39,21 +40,24 @@ resource "helm_release" "gameplay_postgresql" {
 resource "helm_release" "cache_redis" {
   name       = local.cache_redis.name
   repository = var.bitnami_repository
-  chart      = "redis"
+  cleanup_on_fail = var.cleanup_on_fail
+  chart      = "redis-cluster"
   namespace  = kubernetes_namespace.databases.metadata[0].name
   values = [
-    templatefile("${path.module}/manifests/redis-values.yaml", {
+    templatefile("${path.module}/manifests/redis-cluster-values.yaml", {
       node_group_label = var.primary_node_group_name,
 
       # Resource configurations
-      replica_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
-      replica_request_memory = var.pod_resource_config["micro"].requests.memory,
-      replica_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
-      replica_limit_memory   = var.pod_resource_config["micro"].limits.memory,
-      request_cpu            = var.pod_resource_config["small"].requests.cpu,
-      request_memory         = var.pod_resource_config["small"].requests.memory,
-      limit_cpu              = var.pod_resource_config["small"].limits.cpu,
-      limit_memory           = var.pod_resource_config["small"].limits.memory,
+      request_cpu               = var.pod_resource_config["small"].requests.cpu,
+      request_memory            = var.pod_resource_config["small"].requests.memory,
+      limit_cpu                 = var.pod_resource_config["small"].limits.cpu,
+      limit_memory              = var.pod_resource_config["small"].limits.memory,
+      update_job_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
+      update_job_request_memory = var.pod_resource_config["micro"].requests.memory,
+      update_job_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
+      update_job_limit_memory   = var.pod_resource_config["micro"].limits.memory,
+
+      password = var.cache_redis_password,
     })
   ]
 }
@@ -62,22 +66,25 @@ resource "helm_release" "cache_redis" {
 resource "helm_release" "adapter_redis" {
   name       = local.adapter_redis.name
   repository = var.bitnami_repository
-  chart      = "redis"
+  cleanup_on_fail = var.cleanup_on_fail
+  chart      = "redis-cluster"
   namespace  = kubernetes_namespace.databases.metadata[0].name
 
   values = [
-    templatefile("${path.module}/manifests/redis-values.yaml", {
+    templatefile("${path.module}/manifests/redis-cluster-values.yaml", {
       node_group_label = var.primary_node_group_name,
 
       # Resource configurations
-      replica_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
-      replica_request_memory = var.pod_resource_config["micro"].requests.memory,
-      replica_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
-      replica_limit_memory   = var.pod_resource_config["micro"].limits.memory,
-      request_cpu            = var.pod_resource_config["small"].requests.cpu,
-      request_memory         = var.pod_resource_config["small"].requests.memory,
-      limit_cpu              = var.pod_resource_config["small"].limits.cpu,
-      limit_memory           = var.pod_resource_config["small"].limits.memory,
+      request_cpu               = var.pod_resource_config["small"].requests.cpu,
+      request_memory            = var.pod_resource_config["small"].requests.memory,
+      limit_cpu                 = var.pod_resource_config["small"].limits.cpu,
+      limit_memory              = var.pod_resource_config["small"].limits.memory,
+      update_job_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
+      update_job_request_memory = var.pod_resource_config["micro"].requests.memory,
+      update_job_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
+      update_job_limit_memory   = var.pod_resource_config["micro"].limits.memory,
+
+      password = var.adapter_redis_password,
     })
   ]
 }
@@ -86,22 +93,25 @@ resource "helm_release" "adapter_redis" {
 resource "helm_release" "job_redis" {
   name       = local.job_redis.name
   repository = var.bitnami_repository
-  chart      = "redis"
+  cleanup_on_fail = var.cleanup_on_fail
+  chart      = "redis-cluster"
   namespace  = kubernetes_namespace.databases.metadata[0].name
 
   values = [
-    templatefile("${path.module}/manifests/redis-values.yaml", {
+    templatefile("${path.module}/manifests/redis-cluster-values.yaml", {
       node_group_label = var.primary_node_group_name,
-
+      
       # Resource configurations
-      replica_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
-      replica_request_memory = var.pod_resource_config["micro"].requests.memory,
-      replica_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
-      replica_limit_memory   = var.pod_resource_config["micro"].limits.memory,
-      request_cpu            = var.pod_resource_config["small"].requests.cpu,
-      request_memory         = var.pod_resource_config["small"].requests.memory,
-      limit_cpu              = var.pod_resource_config["small"].limits.cpu,
-      limit_memory           = var.pod_resource_config["small"].limits.memory,
+      request_cpu               = var.pod_resource_config["small"].requests.cpu,
+      request_memory            = var.pod_resource_config["small"].requests.memory,
+      limit_cpu                 = var.pod_resource_config["small"].limits.cpu,
+      limit_memory              = var.pod_resource_config["small"].limits.memory,
+      update_job_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
+      update_job_request_memory = var.pod_resource_config["micro"].requests.memory,
+      update_job_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
+      update_job_limit_memory   = var.pod_resource_config["micro"].limits.memory,
+
+      password = var.job_redis_password,
     })
   ]
 }
@@ -109,16 +119,16 @@ resource "helm_release" "job_redis" {
 locals {
   # Gameplay PostgreSQL Configuration
   gameplay_postgresql = {
-    name = "gameplay-postgresql"
-    host = "gameplay-postgresql-postgresql-ha-pgpool.${kubernetes_namespace.databases.metadata[0].name}.svc.cluster.local"
-    port = 5432
+    name     = "gameplay-postgresql"
+    host     = "gameplay-postgresql-postgresql-ha-pgpool.${kubernetes_namespace.databases.metadata[0].name}.svc.cluster.local"
+    port     = 5432
     username = "postgres"
   }
 
   # Cache Redis Configuration
   cache_redis = {
     name = "cache-redis"
-    host = "cache-redis-master.${kubernetes_namespace.databases.metadata[0].name}.svc.cluster.local"
+    host = "cache-redis-redis-cluster.${kubernetes_namespace.databases.metadata[0].name}.svc.cluster.local"
     port = 6379
   }
 

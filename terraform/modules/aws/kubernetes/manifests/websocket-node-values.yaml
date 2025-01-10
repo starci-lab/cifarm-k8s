@@ -2,16 +2,16 @@
 envVarsCM:
   CACHE_REDIS_HOST: "${cache_redis_host}"
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
+  CACHE_REDIS_CLUSTER_ENABLED: "${cache_redis_cluster_enabled}" # Ensure the value is a string
 
   ADAPTER_REDIS_HOST: "${adapter_redis_host}"
   ADAPTER_REDIS_PORT: "${adapter_redis_port}" # Ensure the port is a string
+  ADAPTER_REDIS_CLUSTER_ENABLED: "${adapter_redis_cluster_enabled}" # Ensure the value is a string
 
   # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
   GAMEPLAY_POSTGRESQL_DBNAME: "${gameplay_postgresql_database}"
   GAMEPLAY_POSTGRESQL_HOST: "${gameplay_postgresql_host}"
   GAMEPLAY_POSTGRESQL_PORT: "${gameplay_postgresql_port}"
-  GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
-  GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
   
   WEBSOCKET_NODE_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
   WEBSOCKET_NODE_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
@@ -21,8 +21,26 @@ envVarsCM:
   SOCKET_IO_ADMIN_PASSWORD: "${admin_password}"
 
   # Kafka Configuration (non-sensitive, can go to ConfigMap)
-  KAFKA_1_HOST: "${kafka_1_host}"
-  KAFKA_1_PORT: "${kafka_1_port}"
+  KAFKA_HOST: "${kafka_host}"
+  KAFKA_PORT: "${kafka_port}"
+  KAFKA_SASL_ENABLED: "${kafka_sasl_enabled}"
+
+envVarsSecret:
+  # Redis Cache Configuration (sensitive, should go to Secrets)
+  CACHE_REDIS_PASSWORD: "${cache_redis_password}" # Ensure the password is a string
+
+  # Adapter Redis Cache Configuration (sensitive, should go to Secrets)
+  ADAPTER_REDIS_PASSWORD: "${adapter_redis_password}" # Ensure the password is a string
+
+  # Gameplay Test Postgres Configuration (sensitive, should go to Secrets)
+  GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
+  GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
+
+  # Kafka SASL Configuration (sensitive, should go to Secrets)
+  KAFKA_SASL_USERNAME: "${kafka_sasl_user}"
+  KAFKA_SASL_PASSWORD: "${kafka_sasl_password}"
+
+  JWT_SECRET: "${jwt_secret}"  # Ensure the secret is a string
 
 containerPorts:
   app:

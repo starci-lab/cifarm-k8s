@@ -141,6 +141,7 @@ resource "helm_release" "jenkins" {
   name       = local.jenkins.name
   repository = var.bitnami_repository
   chart      = "jenkins"
+  cleanup_on_fail = var.cleanup_on_fail
   namespace  = kubernetes_namespace.jenkins.metadata[0].name
   version    = "13.5.1"
 
@@ -152,10 +153,10 @@ resource "helm_release" "jenkins" {
       init_hook_scripts_cm     = kubernetes_config_map.jenkins_init_groovy.metadata[0].name,
       init_hook_scripts_secret = kubernetes_secret.jenkins_init_groovy.metadata[0].name,
 
-      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
-      request_memory = var.pod_resource_config["medium"].requests.memory,
-      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
-      limit_memory   = var.pod_resource_config["medium"].limits.memory,
+      request_cpu    = var.pod_resource_config["large"].requests.cpu,
+      request_memory = var.pod_resource_config["large"].requests.memory,
+      limit_cpu      = var.pod_resource_config["large"].limits.cpu,
+      limit_memory   = var.pod_resource_config["large"].limits.memory,
     })
   ]
 }

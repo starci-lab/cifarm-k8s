@@ -1,0 +1,27 @@
+# redis-cluster-values.yaml
+
+# Authentication configuration
+password: ${password}
+
+# Redis replica configuration
+redis:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: ${request_cpu}         # CPU request for Redis replica (20 millicores)
+      memory: ${request_memory}     # Memory request for Redis replica (40 MiB)
+    limits:
+      cpu: ${limit_cpu}        # CPU limit for Redis replica (200 millicores)
+      memory: ${limit_memory}    # Memory limit for Redis replica (400 MiB)
+# Redis master configuration
+updateJob:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: ${update_job_request_cpu}         # CPU request for Redis master (20 millicores)
+      memory: ${update_job_request_memory}     # Memory request for Redis master (40 MiB)
+    limits:
+      cpu: ${update_job_limit_cpu}        # CPU limit for Redis master (200 millicores)
+      memory: ${update_job_limit_memory}    # Memory limit for Redis master (400 MiB)

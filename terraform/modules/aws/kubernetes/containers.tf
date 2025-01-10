@@ -62,6 +62,7 @@ locals {
 resource "helm_release" "gameplay_service" {
   name       = local.gameplay_service.name
   repository = var.container_repository
+  cleanup_on_fail = var.cleanup_on_fail
   chart      = "service"
   namespace  = kubernetes_namespace.containers.metadata[0].name
 
@@ -82,12 +83,11 @@ resource "helm_release" "gameplay_service" {
       gameplay_postgresql_port     = local.gameplay_postgresql.port,
 
       // Kafka Configuration
-      kafka_headless_1_host = local.kafka.headless.headless_1.host,
-      kafka_headless_1_port = local.kafka.headless.headless_1.port,
-      kafka_headless_2_host = local.kafka.headless.headless_2.host,
-      kafka_headless_2_port = local.kafka.headless.headless_2.port,
-      kafka_headless_3_host = local.kafka.headless.headless_3.host,
-      kafka_headless_3_port = local.kafka.headless.headless_3.port,
+      kafka_host = local.kafka.host,
+      kafka_port = local.kafka.port,
+      kafka_sasl_enabled = true,
+      kafka_sasl_user = var.kafka_sasl_user,
+      kafka_sasl_password = var.kafka_sasl_password,
 
       // Gameplay Service Configuration
       port              = local.gameplay_service.port,
@@ -96,6 +96,8 @@ resource "helm_release" "gameplay_service" {
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,
       cache_redis_port = local.cache_redis.port,
+      cache_redis_password = var.cache_redis_password,
+      cache_redis_cluster_enabled = true,
 
       // Resource configurations
       request_cpu    = var.pod_resource_config["small"].requests.cpu,
@@ -116,6 +118,7 @@ resource "helm_release" "gameplay_service" {
 resource "helm_release" "rest_api_gateway" {
   name       = local.rest_api_gateway.name
   repository = var.container_repository
+  cleanup_on_fail = var.cleanup_on_fail
   chart      = "service"
   namespace  = kubernetes_namespace.containers.metadata[0].name
 
@@ -151,6 +154,7 @@ resource "helm_release" "rest_api_gateway" {
 resource "helm_release" "gameplay_subgraph" {
   name       = local.gameplay_subgraph.name
   repository = var.container_repository
+  cleanup_on_fail = var.cleanup_on_fail
   chart      = "service"
   namespace  = kubernetes_namespace.containers.metadata[0].name
 
@@ -172,6 +176,10 @@ resource "helm_release" "gameplay_subgraph" {
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,
       cache_redis_port = local.cache_redis.port,
+      cache_redis_cluster_enabled = true,
+      cache_redis_password = var.cache_redis_password,
+
+      jwt_secret = var.jwt_secret,
 
       // Resource configurations
       request_cpu    = var.pod_resource_config["small"].requests.cpu,
@@ -191,6 +199,7 @@ resource "helm_release" "gameplay_subgraph" {
 resource "helm_release" "graphql_gateway" {
   name       = local.graphql_gateway.name
   repository = var.container_repository
+  cleanup_on_fail = var.cleanup_on_fail
   chart      = "service"
   namespace  = kubernetes_namespace.containers.metadata[0].name
 
@@ -211,6 +220,8 @@ resource "helm_release" "graphql_gateway" {
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,
       cache_redis_port = local.cache_redis.port,
+      cache_redis_password = var.cache_redis_password,
+      cache_redis_cluster_enabled = true,
 
       // Resource configurations
       request_cpu    = var.pod_resource_config["small"].requests.cpu,
@@ -229,6 +240,7 @@ resource "helm_release" "graphql_gateway" {
 resource "helm_release" "websocket_node" {
   name       = local.websocket_node.name
   repository = var.container_repository
+  cleanup_on_fail = var.cleanup_on_fail
   chart      = "service"
   namespace  = kubernetes_namespace.containers.metadata[0].name
 
@@ -254,10 +266,14 @@ resource "helm_release" "websocket_node" {
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,
       cache_redis_port = local.cache_redis.port,
+      cache_redis_password = var.cache_redis_password,
+      cache_redis_cluster_enabled = true,
 
       // Adapter Redis Configuration
       adapter_redis_host = local.adapter_redis.host,
       adapter_redis_port = local.adapter_redis.port,
+      adapter_redis_password = var.adapter_redis_password,
+      adapter_redis_cluster_enabled = true,
 
       // Resource configurations
       request_cpu    = var.pod_resource_config["small"].requests.cpu,
@@ -266,8 +282,14 @@ resource "helm_release" "websocket_node" {
       limit_memory   = var.pod_resource_config["small"].limits.memory,
 
       // Kafka Configuration
-      kafka_1_host = local.kafka.host,
-      kafka_1_port = local.kafka.port,
+      kafka_host = local.kafka.host,
+      kafka_port = local.kafka.port,
+      kafka_sasl_enabled = true,
+      kafka_sasl_user = var.kafka_sasl_user,
+      kafka_sasl_password = var.kafka_sasl_password,
+
+      // Jwt
+      jwt_secret = var.jwt_secret,
     })
   ]
 
@@ -282,6 +304,7 @@ resource "helm_release" "websocket_node" {
 resource "helm_release" "cron_scheduler" {
   name       = local.cron_scheduler.name
   repository = var.container_repository
+  cleanup_on_fail = var.cleanup_on_fail
   chart      = "service"
   namespace  = kubernetes_namespace.containers.metadata[0].name
 
@@ -299,10 +322,14 @@ resource "helm_release" "cron_scheduler" {
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,
       cache_redis_port = local.cache_redis.port,
+      cache_redis_password = var.cache_redis_password,
+      cache_redis_cluster_enabled = true,
 
       // Job Redis Configuration
       job_redis_host = local.job_redis.host,
       job_redis_port = local.job_redis.port,
+      job_redis_password = var.job_redis_password,
+      job_redis_cluster_enabled = true,
 
       // Resource configurations
       request_cpu    = var.pod_resource_config["small"].requests.cpu,
@@ -325,6 +352,7 @@ resource "helm_release" "cron_scheduler" {
 resource "helm_release" "cron_worker" {
   name       = local.cron_worker.name
   repository = var.container_repository
+  cleanup_on_fail = var.cleanup_on_fail
   chart      = "service"
   namespace  = kubernetes_namespace.containers.metadata[0].name
 
@@ -342,10 +370,14 @@ resource "helm_release" "cron_worker" {
       // Cache Redis Configuration
       cache_redis_host = local.cache_redis.host,
       cache_redis_port = local.cache_redis.port,
+      cache_redis_password = var.cache_redis_password,
+      cache_redis_cluster_enabled = true,
 
       // Job Redis Configuration
       job_redis_host = local.job_redis.host,
       job_redis_port = local.job_redis.port,
+      job_redis_password = var.job_redis_password,
+      job_redis_cluster_enabled = true,
 
       // Resource configurations
       request_cpu    = var.pod_resource_config["small"].requests.cpu,

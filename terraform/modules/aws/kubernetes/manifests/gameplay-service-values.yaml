@@ -2,30 +2,39 @@
 envVarsCM:
   CACHE_REDIS_HOST: "${cache_redis_host}"
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
+  CACHE_REDIS_CLUSTER_ENABLED: "${cache_redis_cluster_enabled}" # Ensure the value is a string
+  CACHE_REDIS_CLUSTER_RUN_IN_DOCKER: "false" # Ensure the value is a string
 
-  # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
+  # Gameplay Postgres Configuration (non-sensitive, can go to ConfigMap)
   GAMEPLAY_POSTGRESQL_DBNAME: "${gameplay_postgresql_database}"
   GAMEPLAY_POSTGRESQL_HOST: "${gameplay_postgresql_host}"
   GAMEPLAY_POSTGRESQL_PORT: "${gameplay_postgresql_port}"
-  GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
-  GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
   
+  # Gameplay Service Configuration (non-sensitive, can go to ConfigMap)
   GAMEPLAY_SERVICE_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
   GAMEPLAY_SERVICE_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
   
 # Kafka Configuration (non-sensitive, can go to ConfigMap)
-  HEADLESS_KAFKA_1_HOST: "${kafka_headless_1_host}"
-  HEADLESS_KAFKA_1_PORT: "${kafka_headless_1_port}"
-  HEADLESS_KAFKA_2_HOST: "${kafka_headless_2_host}"
-  HEADLESS_KAFKA_2_PORT: "${kafka_headless_2_port}"
-  HEADLESS_KAFKA_3_HOST: "${kafka_headless_3_host}"
-  HEADLESS_KAFKA_3_PORT: "${kafka_headless_3_port}"
+  KAKFA_HOST: "${kafka_host}"
+  KAFKA_PORT: "${kafka_port}"
+  KAFKA_SASL_ENABLED: "${kafka_sasl_enabled}"
 
 # JWT Authentication Configuration (sensitive, should go to Secrets)
 envVarsSecret:
   JWT_SECRET: "${jwt_secret}"
   JWT_ACCESS_TOKEN_EXPIRATION: "${jwt_access_token_expiration}"
   JWT_REFRESH_TOKEN_EXPIRATION: "${jwt_refresh_token_expiration}"
+  
+  # Kafka SASL Configuration (sensitive, should go to Secrets)
+  KAFKA_SASL_USERNAME: "${kafka_sasl_user}"
+  KAFKA_SASL_PASSWORD: "${kafka_sasl_password}"
+
+  # Gameplay Postgres Configuration (sensitive, should go to Secrets)
+  GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
+  GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
+
+  # Redis Cache Configuration (sensitive, should go to Secrets)
+  CACHE_REDIS_PASSWORD: "${cache_redis_password}"
 
 containerPorts:
   app:

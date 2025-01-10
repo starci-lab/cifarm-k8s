@@ -2,34 +2,34 @@
 # Region where AWS resources will be deployed.
 # The `region` variable is used to specify the AWS region for the resources.
 variable "region" {
-  type = string
-  default     = "ap-southeast-1"  # Default region is set to "ap-southeast-1" (Singapore)
-  description = "AWS region"  # Description to specify that this is the region for deployment
+  type        = string
+  default     = "ap-southeast-1" # Default region is set to "ap-southeast-1" (Singapore)
+  description = "AWS region"     # Description to specify that this is the region for deployment
 }
 
 # AWS access key for programmatic access to AWS.
 # The `access_key` variable holds the AWS access key that provides access to AWS services.
 # This key is sensitive and should not be exposed in logs or outputs.
 variable "access_key" {
-  type = string
-  description = "AWS access key"  # Description clarifying that this is the AWS access key
-  sensitive = true  # Marks this variable as sensitive to prevent it from being displayed in logs
+  type        = string
+  description = "AWS access key" # Description clarifying that this is the AWS access key
+  sensitive   = true             # Marks this variable as sensitive to prevent it from being displayed in logs
 }
 
 # AWS secret key corresponding to the access key.
 # The `secret_key` variable holds the AWS secret key that complements the access key and provides secure access.
 # This key is sensitive and should be handled securely.
 variable "secret_key" {
-  type = string
-  description = "AWS secret key"  # Description clarifying that this is the AWS secret key
-  sensitive = true  # Marks this variable as sensitive to prevent it from being displayed in logs
+  type        = string
+  description = "AWS secret key" # Description clarifying that this is the AWS secret key
+  sensitive   = true             # Marks this variable as sensitive to prevent it from being displayed in logs
 }
 
 # Name of the EKS cluster to be created.
 # The `cluster_name` variable is used to specify the name of the EKS cluster that will be created.
 variable "cluster_name" {
-  type        = string  # Specifies that this variable is of type string
-  description = "Name of the EKS cluster"  # Description to specify that this variable holds the name of the EKS cluster
+  type        = string                    # Specifies that this variable is of type string
+  description = "Name of the EKS cluster" # Description to specify that this variable holds the name of the EKS cluster
 }
 
 ##################################################
@@ -38,168 +38,168 @@ variable "cluster_name" {
 # PostgreSQL database configuration for gameplay
 # The variable stores the name of the PostgreSQL database used for gameplay purposes. 
 variable "gameplay_postgresql_database" {
-  description = "The Gameplay PostgreSQL database name"  # Description of the database name variable
-  type        = string  # The variable type is string, as it stores the name of the database
-  sensitive   = true  # Marks the value as sensitive to avoid exposure in logs
+  description = "The Gameplay PostgreSQL database name" # Description of the database name variable
+  type        = string                                  # The variable type is string, as it stores the name of the database
+  sensitive   = true                                    # Marks the value as sensitive to avoid exposure in logs
 }
 
 # PostgreSQL password configuration for gameplay
 # The variable stores the password for the Gameplay PostgreSQL database. It is sensitive to maintain security.
 variable "gameplay_postgresql_password" {
-  description = "The Gameplay PostgreSQL password"  # Describes the password variable for the PostgreSQL database
-  type        = string  # The variable type is string as it holds a password
-  sensitive   = true  # Marks the password as sensitive
+  description = "The Gameplay PostgreSQL password" # Describes the password variable for the PostgreSQL database
+  type        = string                             # The variable type is string as it holds a password
+  sensitive   = true                               # Marks the password as sensitive
 }
 
 # Grafana user configuration
 # Stores the Grafana user credentials for logging into the Grafana dashboard.
 variable "grafana_user" {
-  type        = string  # The variable type is string, storing the username for Grafana login
-  description = "Grafana user"  # Describes the user variable for Grafana access
-  sensitive   = true  # The username is marked as sensitive to avoid exposure
+  type        = string         # The variable type is string, storing the username for Grafana login
+  description = "Grafana user" # Describes the user variable for Grafana access
+  sensitive   = true           # The username is marked as sensitive to avoid exposure
 }
 
 # Grafana password configuration
 # Stores the Grafana password for the user specified in the previous variable.
 variable "grafana_password" {
-  type        = string  # The variable type is string, as it stores the password
-  description = "Grafana password"  # Describes the password variable for Grafana access
-  sensitive   = true  # The password is marked as sensitive to protect security
+  type        = string             # The variable type is string, as it stores the password
+  description = "Grafana password" # Describes the password variable for Grafana access
+  sensitive   = true               # The password is marked as sensitive to protect security
 }
 
 # EBS volume base name configuration
 # This defines the base name for any EBS volumes created in the infrastructure. 
 variable "ebs_volume_base_name" {
-  type        = string  # The variable type is string, as it stores the base name for EBS volumes
-  description = "Base name for the EBS volume"  # Provides a description for the base name of the volume
-  default     = "ebs"  # The default value is "ebs", but it can be overridden by providing a different value
+  type        = string                         # The variable type is string, as it stores the base name for EBS volumes
+  description = "Base name for the EBS volume" # Provides a description for the base name of the volume
+  default     = "ebs"                          # The default value is "ebs", but it can be overridden by providing a different value
 }
 
 # Bitnami Helm repository configuration
 # This variable stores the URL of the Bitnami Helm repository. It is used for chart installation via Helm.
 variable "bitnami_repository" {
-  type        = string  # The type is string since the repository URL is a string value
-  description = "Bitnami Helm repository"  # Describes the URL to the Bitnami Helm chart repository
-  default     = "oci://registry-1.docker.io/bitnamicharts"  # Default repository URL for Bitnami charts
+  type        = string                                     # The type is string since the repository URL is a string value
+  description = "Bitnami Helm repository"                  # Describes the URL to the Bitnami Helm chart repository
+  default     = "oci://registry-1.docker.io/bitnamicharts" # Default repository URL for Bitnami charts
 }
 
 variable "portainer_repository" {
-  type        = string  # The type is string for the Portainer repository
-  description = "Portainer repository"  # Describes the Portainer repository
-  default     = "https://portainer.github.io/k8s/"  # Default URL for the Portainer repository
+  type        = string                             # The type is string for the Portainer repository
+  description = "Portainer repository"             # Describes the Portainer repository
+  default     = "https://portainer.github.io/k8s/" # Default URL for the Portainer repository
 }
 
 variable "keda_repository" {
-  type        = string  # The type is string for the Keda repository
-  description = "Keda repository"  # Describes the Keda repository
-  default     = "https://kedacore.github.io/charts/"  # Default URL for the Keda repository
+  type        = string                               # The type is string for the Keda repository
+  description = "Keda repository"                    # Describes the Keda repository
+  default     = "https://kedacore.github.io/charts/" # Default URL for the Keda repository
 }
 
 variable "cluster_autoscaler_repository" {
-  type = string # The type is string for the cluster autoscaler repository
-  description = "Cluster autoscaler repository" # Describes the cluster autoscaler repository
-  default = "https://kubernetes.github.io/autoscaler" # Default URL for the cluster autoscaler repository
+  type        = string                                    # The type is string for the cluster autoscaler repository
+  description = "Cluster autoscaler repository"           # Describes the cluster autoscaler repository
+  default     = "https://kubernetes.github.io/autoscaler" # Default URL for the cluster autoscaler repository
 }
 
 variable "container_repository" {
-  type        = string  # The type is string for the container repository
-  description = "Container repository"  # Describes the container repository
+  type        = string                 # The type is string for the container repository
+  description = "Container repository" # Describes the container repository
   default     = "https://starci-lab.github.io/cifarm-k8s/charts"
 }
 
 variable "system_namespace" {
-  type        = string  # The type is string for the system namespace
-  description = "System namespace for Kubernetes resources"  # Describes the system namespace for Kubernetes resources
-  default     = "kube-system"  # Default system namespace is "kube-system"
+  type        = string                                      # The type is string for the system namespace
+  description = "System namespace for Kubernetes resources" # Describes the system namespace for Kubernetes resources
+  default     = "kube-system"                               # Default system namespace is "kube-system"
 }
 
 # Grafana Prometheus URL configuration
 # The Prometheus URL used by Grafana for monitoring purposes. This is the endpoint from which Grafana fetches metrics.
 variable "grafana_prometheus_url" {
-  type        = string  # The type is string because the URL is a string
-  description = "Prometheus URL for Grafana"  # Describes the Prometheus URL used by Grafana for monitoring
-  default     = "https://prometheus.staging.cifarm.starci.net"  # Default Prometheus URL for staging environment
+  type        = string                                         # The type is string because the URL is a string
+  description = "Prometheus URL for Grafana"                   # Describes the Prometheus URL used by Grafana for monitoring
+  default     = "https://prometheus.staging.cifarm.starci.net" # Default Prometheus URL for staging environment
 }
 
 # Grafana Prometheus Alertmanager URL configuration
 # This variable stores the URL of the Prometheus Alertmanager, which sends alerts to Grafana when thresholds are reached.
 variable "grafana_prometheus_alertmanager_url" {
-  type        = string  # The type is string for the Alertmanager URL
-  description = "Prometheus Alertmanager URL for Grafana"  # Describes the Alertmanager URL for Grafana
-  default     = "https://prometheus-alertmanager.staging.cifarm.starci.net"  # Default URL for Alertmanager
+  type        = string                                                      # The type is string for the Alertmanager URL
+  description = "Prometheus Alertmanager URL for Grafana"                   # Describes the Alertmanager URL for Grafana
+  default     = "https://prometheus-alertmanager.staging.cifarm.starci.net" # Default URL for Alertmanager
 }
 
 # Variable for the primary node group name in an EKS cluster.
 # This is used to define the name of the primary node group that will be created.
 variable "primary_node_group_name" {
-  type        = string  # Specifies that the value of this variable will be a string.
-  description = "Primary node group name"  # Describes the purpose of the variable as the primary node group name.
+  type        = string                    # Specifies that the value of this variable will be a string.
+  description = "Primary node group name" # Describes the purpose of the variable as the primary node group name.
 }
 
 # Variable for the secondary node group name in an EKS cluster.
 # This is used to define the name of the secondary node group that will be created.
 variable "secondary_node_group_name" {
-  type        = string  # Specifies that the value of this variable will be a string.
-  description = "Secondary node group name"  # Describes the purpose of the variable as the secondary node group name.
+  type        = string                      # Specifies that the value of this variable will be a string.
+  description = "Secondary node group name" # Describes the purpose of the variable as the secondary node group name.
 }
 
 variable "cluster_autoscaler_iam_role_arn" {
-  type        = string  # Specifies that the value of this variable will be a string.
-  description = "IAM role ARN for the Cluster Autoscaler"  # Describes the purpose of the variable as the IAM role ARN for the Cluster Autoscaler.
+  type        = string                                    # Specifies that the value of this variable will be a string.
+  description = "IAM role ARN for the Cluster Autoscaler" # Describes the purpose of the variable as the IAM role ARN for the Cluster Autoscaler.
 }
 
 variable "jwt_secret" {
-  type        = string  # Specifies that the value of this variable will be a string.
+  type        = string # Specifies that the value of this variable will be a string.
   description = "JWT secret"
-  sensitive   = true  # Marks the JWT secret as sensitive to avoid exposure in logs
+  sensitive   = true # Marks the JWT secret as sensitive to avoid exposure in logs
 }
 
 variable "jwt_access_token_expiration" {
-  type        = string  # Specifies that the value of this variable will be a string.
+  type        = string # Specifies that the value of this variable will be a string.
   description = "JWT access token expiration"
-  default     = "3m"  # Default expiration time for JWT access tokens
+  default     = "3m" # Default expiration time for JWT access tokens
 }
 
 variable "jwt_refresh_token_expiration" {
-  type        = string  # Specifies that the value of this variable will be a string.
+  type        = string # Specifies that the value of this variable will be a string.
   description = "JWT refresh token expiration"
-  default     = "7d"  # Default expiration time for JWT refresh tokens
+  default     = "7d" # Default expiration time for JWT refresh tokens
 }
 
 variable "jenkins_user" {
-  type        = string  # Specifies that the value of this variable will be a string.
-  description = "Jenkins user"  # Describes the purpose of the variable as the Jenkins user.
-  sensitive   = true  # Marks the Jenkins user as sensitive to avoid exposure in logs
+  type        = string         # Specifies that the value of this variable will be a string.
+  description = "Jenkins user" # Describes the purpose of the variable as the Jenkins user.
+  sensitive   = true           # Marks the Jenkins user as sensitive to avoid exposure in logs
 }
 
 variable "jenkins_password" {
-  type        = string  # Specifies that the value of this variable will be a string.
-  description = "Jenkins password"  # Describes the purpose of the variable as the Jenkins password.
-  sensitive   = true  # Marks the Jenkins password as sensitive to avoid exposure in logs
+  type        = string             # Specifies that the value of this variable will be a string.
+  description = "Jenkins password" # Describes the purpose of the variable as the Jenkins password.
+  sensitive   = true               # Marks the Jenkins password as sensitive to avoid exposure in logs
 }
 
 variable "email" {
-  type = string
+  type        = string
   description = "Email address for notifications"
-  default = "cuongnvtse160875@gmail.com"
+  default     = "cuongnvtse160875@gmail.com"
 }
 
 variable "cluster_issuer_name" {
-  type = string
+  type        = string
   description = "The name of the ClusterIssuer to use for cert-manager"
-  default = "letsencrypt-prod"
+  default     = "letsencrypt-prod"
 }
 
 variable "base_domain_name" {
-  type = string
+  type        = string
   description = "The base domain name used"
-  default = "starci.net"
+  default     = "starci.net"
 }
 
 variable "subdomain_prefix" {
-  type = string
+  type        = string
   description = "The subdomain prefix used"
-  default = "cifarm.dev"
+  default     = "cifarm.dev"
 }
 
 variable "cloudflare_api_token" {
@@ -224,32 +224,32 @@ variable "containers_git_repository" {
 variable "jenkins_github_access_token" {
   type        = string
   description = "Github secret for Jenkins"
-  sensitive = true
+  sensitive   = true
 }
 
 variable "jenkins_github_hook_secret" {
   type        = string
   description = "Github hook secret for Jenkins"
-  sensitive = true
+  sensitive   = true
 }
 
 # Docker credentials for pushing images to Dockerhub
 variable "docker_username" {
   type        = string
   description = "Docker username"
-  default = "cifarm"
+  default     = "cifarm"
 }
 
 variable "docker_password" {
   type        = string
   description = "Docker password"
-  sensitive = true
+  sensitive   = true
 }
 
 variable "docker_email" {
   type        = string
   description = "Docker email"
-  default = "cifarm.starcilab@gmail.com"
+  default     = "cifarm.starcilab@gmail.com"
 }
 
 variable "docker_registry" {
@@ -308,6 +308,18 @@ variable "pod_resource_config" {
     }
     micro = {
       requests = {
+        cpu               = "45m"  # 1.5 times nano
+        memory            = "90Mi" # 1.5 times nano
+        ephemeral_storage = "50Mi"
+      }
+      limits = {
+        cpu               = "135m"  # 1.5 times nano
+        memory            = "270Mi" # 1.5 times nano
+        ephemeral_storage = "2Gi"
+      }
+    }
+    small = {
+      requests = {
         cpu               = "60m"   # 2 times nano
         memory            = "120Mi" # 2 times nano
         ephemeral_storage = "50Mi"
@@ -318,9 +330,9 @@ variable "pod_resource_config" {
         ephemeral_storage = "2Gi"
       }
     }
-    small = {
+    medium = {
       requests = {
-        cpu               = "90m"  # 3 times nano
+        cpu               = "90m"   # 3 times nano
         memory            = "180Mi" # 3 times nano
         ephemeral_storage = "50Mi"
       }
@@ -330,27 +342,15 @@ variable "pod_resource_config" {
         ephemeral_storage = "2Gi"
       }
     }
-    medium = {
+    large = {
       requests = {
         cpu               = "150m"  # 5 times nano
         memory            = "300Mi" # 5 times nano
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "450m"   # 5 times nano
-        memory            = "900Mi" # 5 times nano
-        ephemeral_storage = "2Gi"
-      }
-    }
-    large = {
-      requests = {
-        cpu               = "300m"   # 10 times nano
-        memory            = "600Mi" # 10 times nano
-        ephemeral_storage = "50Mi"
-      }
-      limits = {
-        cpu               = "900m"  # 20 times nano
-        memory            = "1800Mi" # 20 times nano
+        cpu               = "300m"  # 20 times nano
+        memory            = "900Mi" # 20 times nano
         ephemeral_storage = "2Gi"
       }
     }
@@ -397,4 +397,40 @@ variable "jenkins_container_cap" {
   type        = number
   description = "Jenkins container capacity"
   default     = 2
+}
+
+variable "cache_redis_password" {
+  type        = string
+  description = "Cache Redis password"
+  sensitive   = true
+}
+
+variable "adapter_redis_password" {
+  type        = string
+  description = "Adapter Redis password"
+  sensitive   = true
+}
+
+variable "job_redis_password" {
+  type        = string
+  description = "Job Redis password"
+  sensitive   = true
+}
+
+variable "kafka_sasl_user" {
+  type        = string
+  description = "Kafka SASL user"
+  sensitive   = true
+}
+
+variable "kafka_sasl_password" {
+  type        = string
+  description = "Kafka SASL password"
+  sensitive   = true
+}
+
+variable "cleanup_on_fail" {
+  type        = bool
+  description = "Clean up on fail"
+  default     = true
 }

@@ -1,11 +1,17 @@
 # kafka-values.yaml
 
 # Kafka listeners configuration
+sasl:
+  client:
+    users:
+      - "${sasl_user}"  # Kafka user for client communication
+    passwords:
+      - "${sasl_password}"  # Kafka password for client communication
 listeners:
   client:
-    protocol: "PLAINTEXT"  # Protocol for client communication
+    protocol: "SASL_PLAINTEXT"  # Protocol for client communication
   controller:
-    protocol: "PLAINTEXT"  # Protocol for controller communication
+    protocol: "SASL_PLAINTEXT"  # Protocol for controller communication
 # Kafka controller resource requests and limits
 controller:
   nodeSelector:

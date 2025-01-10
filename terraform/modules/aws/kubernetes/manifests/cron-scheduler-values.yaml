@@ -2,18 +2,29 @@
 envVarsCM:
   CACHE_REDIS_HOST: "${cache_redis_host}"
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
+  CACHE_REDIS_CLUSTER_ENABLED: "${cache_redis_cluster_enabled}" # Ensure the value is a string
 
   JOB_REDIS_HOST: "${job_redis_host}"
   JOB_REDIS_PORT: "${job_redis_port}" # Ensure the port is a string
+  JOB_REDIS_CLUSTER_ENABLED: "${job_redis_cluster_enabled}" # Ensure the value is a string
  
   # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
   GAMEPLAY_POSTGRESQL_DBNAME: "${gameplay_postgresql_database}"
   GAMEPLAY_POSTGRESQL_HOST: "${gameplay_postgresql_host}"
   GAMEPLAY_POSTGRESQL_PORT: "${gameplay_postgresql_port}"
-  GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
-  GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
   
   CRON_SCHEDULER_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
+
+envVarsSecret:
+  # Redis Cache Configuration (sensitive, should go to Secrets)
+  CACHE_REDIS_PASSWORD: "${cache_redis_password}" # Ensure the password is a string
+
+  # Job Redis Cache Configuration (sensitive, should go to Secrets)
+  JOB_REDIS_PASSWORD: "${job_redis_password}" # Ensure the password is a string
+
+  # Gameplay Test Postgres Configuration (sensitive, should go to Secrets)
+  GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
+  GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
 
 containerPorts:
   app:
