@@ -86,7 +86,7 @@ resource "helm_release" "gameplay_service" {
       kafka_host = local.kafka.host,
       kafka_port = local.kafka.port,
       kafka_sasl_enabled = true,
-      kafka_sasl_user = var.kafka_sasl_user,
+      kafka_sasl_username = var.kafka_sasl_username,
       kafka_sasl_password = var.kafka_sasl_password,
 
       // Gameplay Service Configuration
@@ -285,7 +285,7 @@ resource "helm_release" "websocket_node" {
       kafka_host = local.kafka.host,
       kafka_port = local.kafka.port,
       kafka_sasl_enabled = true,
-      kafka_sasl_user = var.kafka_sasl_user,
+      kafka_sasl_username = var.kafka_sasl_username,
       kafka_sasl_password = var.kafka_sasl_password,
 
       // Jwt
@@ -385,7 +385,7 @@ resource "helm_release" "cron_worker" {
       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
       limit_memory   = var.pod_resource_config["small"].limits.memory,
 
-      health_check_port = local.cron_scheduler.health_check_port,
+      health_check_port = local.cron_worker.health_check_port,
     })
   ]
 

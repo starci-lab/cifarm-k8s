@@ -15,7 +15,7 @@ envVarsCM:
   GAMEPLAY_SERVICE_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
   
 # Kafka Configuration (non-sensitive, can go to ConfigMap)
-  KAKFA_HOST: "${kafka_host}"
+  KAFKA_HOST: "${kafka_host}"
   KAFKA_PORT: "${kafka_port}"
   KAFKA_SASL_ENABLED: "${kafka_sasl_enabled}"
 
@@ -26,7 +26,7 @@ envVarsSecret:
   JWT_REFRESH_TOKEN_EXPIRATION: "${jwt_refresh_token_expiration}"
   
   # Kafka SASL Configuration (sensitive, should go to Secrets)
-  KAFKA_SASL_USERNAME: "${kafka_sasl_user}"
+  KAFKA_SASL_USERNAME: "${kafka_sasl_username}"
   KAFKA_SASL_PASSWORD: "${kafka_sasl_password}"
 
   # Gameplay Postgres Configuration (sensitive, should go to Secrets)

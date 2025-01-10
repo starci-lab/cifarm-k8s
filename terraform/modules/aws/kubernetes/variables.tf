@@ -417,7 +417,7 @@ variable "job_redis_password" {
   sensitive   = true
 }
 
-variable "kafka_sasl_user" {
+variable "kafka_sasl_username" {
   type        = string
   description = "Kafka SASL user"
   sensitive   = true

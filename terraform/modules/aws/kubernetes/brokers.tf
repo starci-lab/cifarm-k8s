@@ -20,7 +20,7 @@ resource "helm_release" "kafka" {
       controller_request_memory = var.pod_resource_config["medium"].requests.memory,
       controller_limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
       controller_limit_memory   = var.pod_resource_config["medium"].limits.memory,
-      sasl_user                 = var.kafka_sasl_user,
+      sasl_user                 = var.kafka_sasl_username,
       sasl_password             = var.kafka_sasl_password,
     })
   ]

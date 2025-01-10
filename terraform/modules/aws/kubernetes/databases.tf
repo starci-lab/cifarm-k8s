@@ -135,7 +135,7 @@ locals {
   # Adapter Redis Configuration
   adapter_redis = {
     name = "adapter-redis"
-    host = "adapter-redis-master.${kubernetes_namespace.databases.metadata[0].name}.svc.cluster.local"
+    host = "adapter-redis-redis-cluster.${kubernetes_namespace.databases.metadata[0].name}.svc.cluster.local"
     port = 6379
   }
 
@@ -143,7 +143,7 @@ locals {
 
   job_redis = {
     name = "job-redis"
-    host = "job-redis-master.${kubernetes_namespace.databases.metadata[0].name}.svc.cluster.local"
+    host = "job-redis-redis-cluster.${kubernetes_namespace.databases.metadata[0].name}.svc.cluster.local"
     port = 6379
   }
 }

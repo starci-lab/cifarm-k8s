@@ -37,7 +37,7 @@ envVarsSecret:
   GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
 
   # Kafka SASL Configuration (sensitive, should go to Secrets)
-  KAFKA_SASL_USERNAME: "${kafka_sasl_user}"
+  KAFKA_SASL_USERNAME: "${kafka_sasl_username}"
   KAFKA_SASL_PASSWORD: "${kafka_sasl_password}"
 
   JWT_SECRET: "${jwt_secret}"  # Ensure the secret is a string
