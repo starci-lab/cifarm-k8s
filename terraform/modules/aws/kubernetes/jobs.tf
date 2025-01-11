@@ -7,8 +7,8 @@ resource "kubernetes_namespace" "jobs" {
 
 locals {
   cli = {
-    name        = "cli"
-    image       = "cifarm/cli:latest"
+    name  = "cli"
+    image = "cifarm/cli:latest"
   }
 }
 resource "kubernetes_job" "cli" {
@@ -23,7 +23,7 @@ resource "kubernetes_job" "cli" {
         container {
           name    = "seed-db"
           image   = local.cli.image
-          command = ["cifarm", "db", "seed"]
+          command = ["cifarm", "db", "seed", "-f"]
           resources {
             requests = {
               cpu    = var.pod_resource_config["nano"].requests.cpu,
@@ -58,6 +58,31 @@ resource "kubernetes_job" "cli" {
             name  = "GAMEPLAY_POSTGRESQL_PASSWORD"
             value = var.gameplay_postgresql_password
           }
+
+          env {
+            name  = "CACHE_REDIS_HOST"
+            value = local.cache_redis.host
+          }
+
+          env {
+            name  = "CACHE_REDIS_PORT"
+            value = local.cache_redis.port
+          }
+
+          env {
+            name  = "CACHE_REDIS_PASSWORD"
+            value = var.cache_redis_password
+          }
+
+          env {
+            name  = "CACHE_REDIS_CLUSTER_ENABLED"
+            value = true
+          }
+
+          env {
+            name  = "CACHE_REDIS_CLUSTER_RUN_IN_DOCKER"
+            value = false
+          }
         }
       }
     }
@@ -68,5 +93,7 @@ resource "kubernetes_job" "cli" {
     create = "2m"
     update = "2m"
   }
-
+  depends_on = [
+    helm_release.gameplay_postgresql
+  ]
 }
