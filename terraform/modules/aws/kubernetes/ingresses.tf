@@ -128,9 +128,11 @@ resource "kubernetes_ingress_v1" "ws" {
     name      = "ws"
     namespace = kubernetes_namespace.ingresses.metadata[0].name
     annotations = {
-      "cert-manager.io/cluster-issuer"                 = var.cluster_issuer_name
-      "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
-      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+      "cert-manager.io/cluster-issuer"                    = var.cluster_issuer_name
+      "nginx.ingress.kubernetes.io/ssl-redirect"          = "true"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect"    = "true"
+      "nginx.ingress.kubernetes.io/configuration-snippet" = file("${path.module}/configs/resolve_client_ip.conf")
+      "nginx.ingress.kubernetes.io/upstream-hash-by"      = "$client_ip"
     }
   }
   spec {
@@ -170,10 +172,8 @@ resource "kubernetes_ingress_v1" "ws_admin" {
     namespace = kubernetes_namespace.ingresses.metadata[0].name
     annotations = {
       "cert-manager.io/cluster-issuer"                    = var.cluster_issuer_name
-      "nginx.ingress.kubernetes.io/ssl-redirect"          = "true"
-      "nginx.ingress.kubernetes.io/force-ssl-redirect"    = "true"
-      "nginx.ingress.kubernetes.io/configuration-snippet" = file("${path.module}/configs/resolve_client_ip.conf")
-      "nginx.ingress.kubernetes.io/upstream-hash-by"      = "$client_ip"
+      "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
     }
   }
   spec {

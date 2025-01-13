@@ -108,6 +108,14 @@ resource "helm_release" "gameplay_service" {
     })
   ]
 
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
+
   depends_on = [
     helm_release.keda,
     helm_release.cache_redis,
@@ -145,6 +153,14 @@ resource "helm_release" "rest_api_gateway" {
       limit_memory   = var.pod_resource_config["small"].limits.memory,
     })
   ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 
   depends_on = [
     helm_release.keda,
@@ -190,6 +206,14 @@ resource "helm_release" "gameplay_subgraph" {
     })
   ]
 
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
+
   depends_on = [
     helm_release.keda,
     helm_release.cache_redis,
@@ -231,6 +255,14 @@ resource "helm_release" "graphql_gateway" {
       limit_memory   = var.pod_resource_config["small"].limits.memory,
     })
   ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 
   depends_on = [
     helm_release.keda,
@@ -304,6 +336,14 @@ resource "helm_release" "websocket_node" {
     })
   ]
 
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
+
   depends_on = [
     helm_release.keda,
     helm_release.cache_redis,
@@ -354,6 +394,14 @@ resource "helm_release" "cron_scheduler" {
     })
   ]
 
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
+
   depends_on = [
     helm_release.keda,
     helm_release.cache_redis,
@@ -401,6 +449,14 @@ resource "helm_release" "cron_worker" {
       health_check_port = local.cron_worker.health_check_port,
     })
   ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 
   depends_on = [
     helm_release.keda,

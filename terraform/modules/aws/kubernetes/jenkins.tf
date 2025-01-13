@@ -159,6 +159,14 @@ resource "helm_release" "jenkins" {
       limit_memory   = var.pod_resource_config["large"].limits.memory,
     })
   ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 }
 
 //Create RBAC for Jenkins agent
@@ -199,19 +207,7 @@ resource "kubernetes_role_binding" "jenkins" {
   }
 }
 
-# regcred secret for pulling images from Dockerhub
-resource "kubernetes_secret" "docker_credentials" {
-  metadata {
-    name      = "docker-credentials"
-    namespace = kubernetes_namespace.jenkins.metadata[0].name
-  }
 
-  data = {
-    ".dockerconfigjson" = "${data.template_file.docker_credentials.rendered}"
-  }
-
-  type = "kubernetes.io/dockerconfigjson"
-}
 
 # Template file for the 
 data "template_file" "docker_credentials" {

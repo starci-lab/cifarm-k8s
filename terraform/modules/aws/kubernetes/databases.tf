@@ -34,6 +34,14 @@ resource "helm_release" "gameplay_postgresql" {
       witness_limit_memory   = var.pod_resource_config["nano"].limits.memory
     })
   ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 }
 
 # Helm release for the Cache Redis database
@@ -60,6 +68,14 @@ resource "helm_release" "cache_redis" {
       password = var.cache_redis_password,
     })
   ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 }
 
 # Helm release for the Adapter Redis database
@@ -121,6 +137,14 @@ resource "helm_release" "adapter_mongodb" {
       password = var.adapter_mongodb_password,
     })
   ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 }
 
 # Helm release for the Job Redis database
@@ -148,6 +172,14 @@ resource "helm_release" "job_redis" {
       password = var.job_redis_password,
     })
   ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 }
 
 locals {

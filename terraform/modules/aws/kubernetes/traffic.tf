@@ -29,6 +29,14 @@ resource "helm_release" "nginx_ingress_controller" {
       default_backend_limit_memory = var.pod_resource_config["micro"].limits.memory
     })
   ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 }
 
 data "kubernetes_service" "nginx_ingress_controller" {

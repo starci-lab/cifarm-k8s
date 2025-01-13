@@ -4,10 +4,9 @@ envVarsCM:
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
   CACHE_REDIS_CLUSTER_ENABLED: "${cache_redis_cluster_enabled}" # Ensure the value is a string
 
-  # ADAPTER_REDIS_HOST: "{adapter_redis_host}"
-  # ADAPTER_REDIS_PORT: "{adapter_redis_port}" # Ensure the port is a string
-  # ADAPTER_REDIS_CLUSTER_ENABLED: "{adapter_redis_cluster_enabled}" # Ensure the value is a string
-
+  ADAPTER_REDIS_HOST: "${adapter_redis_host}"
+  ADAPTER_REDIS_PORT: "${adapter_redis_port}" # Ensure the port is a string
+  ADAPTER_REDIS_CLUSTER_ENABLED: "${adapter_redis_cluster_enabled}" # Ensure the value is a string
 
   ADAPTER_MONGODB_HOST: "${adapter_mongodb_host}"
   ADAPTER_MONGODB_PORT: "${adapter_mongodb_port}" # Ensure the port is a string
@@ -26,9 +25,6 @@ envVarsCM:
   
   PRODUCTION_URL: "${production_url}"  # Specify as string to avoid YAML parsing errors
 
-  SOCKET_IO_ADMIN_USERNAME: "${admin_username}"
-  SOCKET_IO_ADMIN_PASSWORD: "${admin_password}"
-
   # Kafka Configuration (non-sensitive, can go to ConfigMap)
   KAFKA_HOST: "${kafka_host}"
   KAFKA_PORT: "${kafka_port}"
@@ -39,7 +35,7 @@ envVarsSecret:
   CACHE_REDIS_PASSWORD: "${cache_redis_password}" # Ensure the password is a string
 
   # Adapter Redis Cache Configuration (sensitive, should go to Secrets)
-  # ADAPTER_REDIS_PASSWORD: "{adapter_redis_password}" # Ensure the password is a string
+  ADAPTER_REDIS_PASSWORD: "${adapter_redis_password}" # Ensure the password is a string
 
   # Gameplay Test Postgres Configuration (sensitive, should go to Secrets)
   GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
@@ -53,6 +49,9 @@ envVarsSecret:
 
   ADAPTER_MONGODB_USERNAME: "${adapter_mongodb_username}"
   ADAPTER_MONGODB_PASSWORD: "${adapter_mongodb_password}"
+  
+  SOCKET_IO_ADMIN_USERNAME: "${admin_username}"
+  SOCKET_IO_ADMIN_PASSWORD: "${admin_password}"
 
 containerPorts:
   app:

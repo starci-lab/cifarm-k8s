@@ -32,6 +32,14 @@ resource "helm_release" "cert_manager" {
       webhook_limit_memory = var.pod_resource_config["nano"].limits.memory
     })
   ]
+
+   dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 }
 
 resource "kubectl_manifest" "cluster_issuer_letsencrypt_prod" {

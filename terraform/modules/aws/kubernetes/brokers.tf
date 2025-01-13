@@ -24,6 +24,14 @@ resource "helm_release" "kafka" {
       sasl_password             = var.kafka_sasl_password,
     })
   ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 }
 
 locals {

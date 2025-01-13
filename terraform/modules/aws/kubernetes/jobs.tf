@@ -7,19 +7,21 @@ resource "kubernetes_namespace" "jobs" {
 
 locals {
   cli = {
-    name  = "cli"
     image = "cifarm/cli:latest"
   }
 }
-resource "kubernetes_job" "cli" {
+resource "kubernetes_job" "seed_db" {
   metadata {
-    name      = local.cli.name
+    name      = "seed-db"
     namespace = kubernetes_namespace.jobs.metadata[0].name
   }
   spec {
     template {
       metadata {}
       spec {
+        image_pull_secrets {
+          name = kubernetes_secret.docker_credentials.metadata[0].name
+        }
         container {
           name    = "seed-db"
           image   = local.cli.image

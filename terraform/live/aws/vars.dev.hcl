@@ -2,9 +2,9 @@
 inputs = {
   # Primary Node Group Variables
   primary_node_instance_type         = ["c5.large"]
-  min_size_primary_node_group        = 1
-  max_size_primary_node_group        = 3
-  desired_size_primary_node_group    = 1
+  min_size_primary_node_group        = 2
+  max_size_primary_node_group        = 2
+  desired_size_primary_node_group    = 2
   disk_size_primary_node_group       = 30
 
   # Secondary Node Group Variables
@@ -15,7 +15,7 @@ inputs = {
   disk_size_secondary_node_group     = 30
 
   # Cluster Name
-  cluster_name = "cifarm-dev-71"
+  cluster_name = "cifarm-dev-73"
 
   # Grafana
   grafana_prometheus_url = "https://prometheus.cifarm.dev.starci.net"

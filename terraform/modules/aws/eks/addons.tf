@@ -6,6 +6,12 @@ resource "aws_eks_addon" "vpc_cni" {
 
   # The name of the add-on, in this case, it is the VPC CNI plugin
   addon_name = "vpc-cni"
+
+  configuration_values = jsonencode({
+    env = {
+      "ENABLE_PREFIX_DELEGATION" = "true"
+    }
+  })
 }
 
 # Define an EKS add-on for kube-proxy
@@ -16,6 +22,7 @@ resource "aws_eks_addon" "kube_proxy" {
 
   # The name of the add-on, which in this case is kube-proxy
   addon_name = "kube-proxy"
+
 }
 
 # Define an EKS add-on for CoreDNS
@@ -29,9 +36,9 @@ resource "aws_eks_addon" "core_dns" {
 
   # Ensure the EKS cluster is created only after the IAM role policies are attached
 
-  depends_on = [ 
+  depends_on = [
     aws_eks_node_group.primary_node_group,
-    aws_eks_node_group.secondary_node_group   
+    aws_eks_node_group.secondary_node_group
   ]
 }
 
@@ -46,10 +53,10 @@ resource "aws_eks_addon" "aws_ebs_csi_driver" {
 
   service_account_role_arn = aws_iam_role.aws_ebs_csi_driver.arn
 
-  depends_on = [  
+  depends_on = [
     aws_iam_role_policy.aws_ebs_csi_driver,
     aws_eks_node_group.primary_node_group,
-    aws_eks_node_group.secondary_node_group   
+    aws_eks_node_group.secondary_node_group
   ]
 }
 
@@ -60,11 +67,11 @@ resource "aws_iam_role" "aws_ebs_csi_driver" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"  # The required "Effect" field
+        Effect = "Allow" # The required "Effect" field
         Principal = {
           Federated = "${aws_iam_openid_connect_provider.cluster.arn}" # The OIDC provider URL
         },
-        Action   = "sts:AssumeRoleWithWebIdentity",
+        Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           StringEquals = {
             "${local.oidc_provider}:aud" : "sts.amazonaws.com",
@@ -76,19 +83,19 @@ resource "aws_iam_role" "aws_ebs_csi_driver" {
   })
 
   # Ensure the EKS cluster is created only after the IAM role policies are attached
-  depends_on = [ aws_iam_openid_connect_provider.cluster ]
+  depends_on = [aws_iam_openid_connect_provider.cluster]
 }
 
 # Define an IAM role policy for the AWS EBS CSI driver
 resource "aws_iam_role_policy" "aws_ebs_csi_driver" {
-  name = "iam-role-policy-aws-ebs-csi-driver-${var.cluster_name}"  # The IAM role policy name dynamically set based on the cluster name
-  role = aws_iam_role.aws_ebs_csi_driver.id  # The IAM role to attach the policy to
+  name = "iam-role-policy-aws-ebs-csi-driver-${var.cluster_name}" # The IAM role policy name dynamically set based on the cluster name
+  role = aws_iam_role.aws_ebs_csi_driver.id                       # The IAM role to attach the policy to
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Action   = [
+        Action = [
           "ec2:ModifyVolume",
           "ec2:EnableFastSnapshotRestores",
           "ec2:DetachVolume",
@@ -105,7 +112,7 @@ resource "aws_iam_role_policy" "aws_ebs_csi_driver" {
         Resource = "*"
       },
       {
-        Action    = "ec2:CreateTags",
+        Action = "ec2:CreateTags",
         Condition = {
           StringEquals = {
             "ec2:CreateAction" = [
@@ -114,22 +121,22 @@ resource "aws_iam_role_policy" "aws_ebs_csi_driver" {
             ]
           }
         },
-        Effect   = "Allow",
+        Effect = "Allow",
         Resource = [
           "arn:aws:ec2:*:*:volume/*",
           "arn:aws:ec2:*:*:snapshot/*"
         ]
       },
       {
-        Action   = "ec2:DeleteTags",
-        Effect   = "Allow",
+        Action = "ec2:DeleteTags",
+        Effect = "Allow",
         Resource = [
           "arn:aws:ec2:*:*:volume/*",
           "arn:aws:ec2:*:*:snapshot/*"
         ]
       },
       {
-        Action    = "ec2:CreateVolume",
+        Action = "ec2:CreateVolume",
         Condition = {
           StringLike = {
             "aws:RequestTag/ebs.csi.aws.com/cluster" = "true"
@@ -139,7 +146,7 @@ resource "aws_iam_role_policy" "aws_ebs_csi_driver" {
         Resource = "arn:aws:ec2:*:*:volume/*"
       },
       {
-        Action    = "ec2:CreateVolume",
+        Action = "ec2:CreateVolume",
         Condition = {
           StringLike = {
             "aws:RequestTag/CSIVolumeName" = "*"
@@ -149,7 +156,7 @@ resource "aws_iam_role_policy" "aws_ebs_csi_driver" {
         Resource = "arn:aws:ec2:*:*:volume/*"
       },
       {
-        Action    = "ec2:CreateVolume",
+        Action = "ec2:CreateVolume",
         Condition = {
           StringLike = {
             "aws:RequestTag/kubernetes.io/cluster/*" = "owned"
@@ -164,7 +171,7 @@ resource "aws_iam_role_policy" "aws_ebs_csi_driver" {
         Resource = "arn:aws:ec2:*:*:snapshot/*"
       },
       {
-        Action    = "ec2:DeleteVolume",
+        Action = "ec2:DeleteVolume",
         Condition = {
           StringLike = {
             "ec2:ResourceTag/ebs.csi.aws.com/cluster" = "true"
@@ -174,7 +181,7 @@ resource "aws_iam_role_policy" "aws_ebs_csi_driver" {
         Resource = "*"
       },
       {
-        Action    = "ec2:DeleteVolume",
+        Action = "ec2:DeleteVolume",
         Condition = {
           StringLike = {
             "ec2:ResourceTag/CSIVolumeName" = "*"
@@ -184,7 +191,7 @@ resource "aws_iam_role_policy" "aws_ebs_csi_driver" {
         Resource = "*"
       },
       {
-        Action    = "ec2:DeleteVolume",
+        Action = "ec2:DeleteVolume",
         Condition = {
           StringLike = {
             "ec2:ResourceTag/kubernetes.io/cluster/*" = "owned"
@@ -194,7 +201,7 @@ resource "aws_iam_role_policy" "aws_ebs_csi_driver" {
         Resource = "*"
       },
       {
-        Action    = "ec2:DeleteVolume",
+        Action = "ec2:DeleteVolume",
         Condition = {
           StringLike = {
             "ec2:ResourceTag/kubernetes.io/created-for/pvc/name" = "*"
@@ -204,7 +211,7 @@ resource "aws_iam_role_policy" "aws_ebs_csi_driver" {
         Resource = "*"
       },
       {
-        Action    = "ec2:DeleteSnapshot",
+        Action = "ec2:DeleteSnapshot",
         Condition = {
           StringLike = {
             "ec2:ResourceTag/CSIVolumeSnapshotName" = "*"
@@ -214,7 +221,7 @@ resource "aws_iam_role_policy" "aws_ebs_csi_driver" {
         Resource = "*"
       },
       {
-        Action    = "ec2:DeleteSnapshot",
+        Action = "ec2:DeleteSnapshot",
         Condition = {
           StringLike = {
             "ec2:ResourceTag/ebs.csi.aws.com/cluster" = "true"
