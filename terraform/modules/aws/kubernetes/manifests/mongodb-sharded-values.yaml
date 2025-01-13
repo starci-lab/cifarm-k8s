@@ -1,0 +1,31 @@
+# values.yaml
+
+auth:
+  rootUser: ${username}
+  rootPassword: ${password}
+configsvr:
+  resources:
+    requests:
+      cpu: ${configsvr_request_cpu}
+      memory: ${configsvr_request_memory}
+    limits:
+      cpu: ${configsvr_limit_cpu}
+      memory: ${configsvr_limit_memory}
+shardsvr:
+  dataNode:
+    resources:
+      requests:
+        cpu: ${shardsvr_data_node_request_cpu}
+        memory: ${shardsvr_data_node_request_memory}
+      limits:
+        cpu: ${shardsvr_data_node_limit_cpu}
+        memory: ${shardsvr_data_node_limit_memory}
+mongos:
+  resources:
+    requests:
+      cpu: ${mongos_request_cpu}
+      memory: ${mongos_request_memory}
+    limits:
+      cpu: ${mongos_limit_cpu}
+      memory: ${mongos_limit_memory}
+

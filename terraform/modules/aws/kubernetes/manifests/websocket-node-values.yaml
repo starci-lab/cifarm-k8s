@@ -4,9 +4,14 @@ envVarsCM:
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
   CACHE_REDIS_CLUSTER_ENABLED: "${cache_redis_cluster_enabled}" # Ensure the value is a string
 
-  ADAPTER_REDIS_HOST: "${adapter_redis_host}"
-  ADAPTER_REDIS_PORT: "${adapter_redis_port}" # Ensure the port is a string
-  ADAPTER_REDIS_CLUSTER_ENABLED: "${adapter_redis_cluster_enabled}" # Ensure the value is a string
+  # ADAPTER_REDIS_HOST: "{adapter_redis_host}"
+  # ADAPTER_REDIS_PORT: "{adapter_redis_port}" # Ensure the port is a string
+  # ADAPTER_REDIS_CLUSTER_ENABLED: "{adapter_redis_cluster_enabled}" # Ensure the value is a string
+
+
+  ADAPTER_MONGODB_HOST: "${adapter_mongodb_host}"
+  ADAPTER_MONGODB_PORT: "${adapter_mongodb_port}" # Ensure the port is a string
+  ADAPTER_MONGODB_DBNAME: "${adapter_mongodb_dbname}"
 
   # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
   GAMEPLAY_POSTGRESQL_DBNAME: "${gameplay_postgresql_database}"
@@ -15,6 +20,10 @@ envVarsCM:
   
   WEBSOCKET_NODE_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
   WEBSOCKET_NODE_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
+  WEBSOCKET_NODE_CLUSTER_ENABLED: "${cluster_enabled}"  # Specify as string to avoid YAML parsing errors
+  WEBSOCKET_NODE_ADAPTER: "${adapter}"
+  WEBSOCKET_NODE_ADMIN_UI_PORT: "${admin_ui_port}"  # Specify as string to avoid YAML parsing errors
+  
   PRODUCTION_URL: "${production_url}"  # Specify as string to avoid YAML parsing errors
 
   SOCKET_IO_ADMIN_USERNAME: "${admin_username}"
@@ -30,7 +39,7 @@ envVarsSecret:
   CACHE_REDIS_PASSWORD: "${cache_redis_password}" # Ensure the password is a string
 
   # Adapter Redis Cache Configuration (sensitive, should go to Secrets)
-  ADAPTER_REDIS_PASSWORD: "${adapter_redis_password}" # Ensure the password is a string
+  # ADAPTER_REDIS_PASSWORD: "{adapter_redis_password}" # Ensure the password is a string
 
   # Gameplay Test Postgres Configuration (sensitive, should go to Secrets)
   GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
@@ -41,6 +50,9 @@ envVarsSecret:
   KAFKA_SASL_PASSWORD: "${kafka_sasl_password}"
 
   JWT_SECRET: "${jwt_secret}"  # Ensure the secret is a string
+
+  ADAPTER_MONGODB_USERNAME: "${adapter_mongodb_username}"
+  ADAPTER_MONGODB_PASSWORD: "${adapter_mongodb_password}"
 
 containerPorts:
   app:
@@ -54,6 +66,11 @@ service:
       port: ${port}  # Port exposed by the service.
     healthCheck:
       port: ${health_check_port}  # Health check port exposed by the service.
+  extraPorts: 
+    - name: admin-ui
+      port: ${admin_ui_port}
+      targetPort: admin-ui
+      protocol: TCP
 
 image:
   registry: docker.io  # Docker registry URL for the image.
@@ -73,3 +90,8 @@ resources:
   limits:
     cpu: ${limit_cpu}
     memory: ${limit_memory}
+
+extraContainerPorts:
+  - name: admin-ui
+    containerPort: ${admin_ui_port}
+    protocol: TCP

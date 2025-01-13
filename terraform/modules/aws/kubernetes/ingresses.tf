@@ -125,14 +125,12 @@ resource "kubernetes_service" "websocket_node_external" {
 
 resource "kubernetes_ingress_v1" "ws" {
   metadata {
-    name      = "io"
+    name      = "ws"
     namespace = kubernetes_namespace.ingresses.metadata[0].name
     annotations = {
-      "cert-manager.io/cluster-issuer"                    = var.cluster_issuer_name
-      "nginx.ingress.kubernetes.io/ssl-redirect"          = "true"
-      "nginx.ingress.kubernetes.io/force-ssl-redirect"    = "true"
-      "nginx.ingress.kubernetes.io/configuration-snippet" = file("${path.module}/configs/resolve_client_ip.conf")
-      "nginx.ingress.kubernetes.io/upstream-hash-by"      = "$client_ip"
+      "cert-manager.io/cluster-issuer"                 = var.cluster_issuer_name
+      "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
     }
   }
   spec {
@@ -156,6 +154,49 @@ resource "kubernetes_ingress_v1" "ws" {
     tls {
       hosts       = [local.ws_domain_name]
       secret_name = "ws-tls"
+    }
+  }
+
+  depends_on = [
+    kubectl_manifest.cluster_issuer_letsencrypt_prod,
+    aws_route53_record.ws,
+    helm_release.websocket_node
+  ]
+}
+
+resource "kubernetes_ingress_v1" "ws_admin" {
+  metadata {
+    name      = "ws-admin"
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+    annotations = {
+      "cert-manager.io/cluster-issuer"                    = var.cluster_issuer_name
+      "nginx.ingress.kubernetes.io/ssl-redirect"          = "true"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect"    = "true"
+      "nginx.ingress.kubernetes.io/configuration-snippet" = file("${path.module}/configs/resolve_client_ip.conf")
+      "nginx.ingress.kubernetes.io/upstream-hash-by"      = "$client_ip"
+    }
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = local.ws_admin_domain_name
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = local.websocket_node.name
+              port {
+                number = local.websocket_node.admin_ui_port
+              }
+            }
+          }
+        }
+      }
+    }
+    tls {
+      hosts       = [local.ws_domain_name]
+      secret_name = "ws-admin-tls"
     }
   }
 

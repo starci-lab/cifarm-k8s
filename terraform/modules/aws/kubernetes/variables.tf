@@ -434,3 +434,15 @@ variable "cleanup_on_fail" {
   description = "Clean up on fail"
   default     = true
 }
+
+variable "adapter_mongodb_username" {
+  type        = string
+  description = "Adapter MongoDB username"
+  default     = "root"
+}
+
+variable "adapter_mongodb_password" {
+  type        = string
+  description = "Adapter MongoDB password"
+  sensitive   = true
+}

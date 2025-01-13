@@ -23,7 +23,7 @@ resource "kubernetes_job" "cli" {
         container {
           name    = "seed-db"
           image   = local.cli.image
-          command = ["cifarm", "db", "seed", "-f"]
+          command = ["cifarm", "db", "seed"]
           resources {
             requests = {
               cpu    = var.pod_resource_config["nano"].requests.cpu,

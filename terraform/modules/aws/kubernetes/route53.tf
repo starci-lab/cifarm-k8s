@@ -22,6 +22,7 @@ locals {
   jenkins_domain_name = "jenkins.${local.domain_name}"
   graphql_domain_name = "graphql.${local.domain_name}"
   ws_domain_name = "ws.${local.domain_name}"
+  ws_admin_domain_name = "ws-admin.${local.domain_name}"
 }
 
 # Create A records for the domain api
@@ -67,6 +68,19 @@ resource "aws_route53_record" "graphql" {
 resource "aws_route53_record" "ws" {
     zone_id = aws_route53_zone.zone.zone_id
     name    = local.ws_domain_name
+    type    = "A"
+    alias {
+        name                   = data.kubernetes_service.nginx_ingress_controller.status[0].load_balancer[0].ingress[0].hostname
+        zone_id                = data.aws_lb_hosted_zone_id.nlb.id
+        evaluate_target_health = true
+    }
+    depends_on = [ cloudflare_record.ns ]
+}
+
+# Create A records for the domain ws-admin
+resource "aws_route53_record" "ws_admin" {
+    zone_id = aws_route53_zone.zone.zone_id
+    name    = local.ws_admin_domain_name
     type    = "A"
     alias {
         name                   = data.kubernetes_service.nginx_ingress_controller.status[0].load_balancer[0].ingress[0].hostname
