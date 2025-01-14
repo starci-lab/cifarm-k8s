@@ -292,7 +292,7 @@ resource "helm_release" "websocket_node" {
       port              = local.websocket_node.port,
       health_check_port = local.websocket_node.health_check_port,
 
-      production_url  = "https://${local.ws_domain_name}"
+      production_url  = "https://${local.io_admin_domain_name}",
       cluster_enabled = false,
       adapter         = "mongodb",
 

@@ -50,3 +50,5 @@ config:
   real-ip-header: "proxy_protocol"
   use-proxy-protocol: "true"
   use-forwarded-headers: "true"
+  annotation-risk-level: "Critical"
+  allow-snippet-annotations: "true"

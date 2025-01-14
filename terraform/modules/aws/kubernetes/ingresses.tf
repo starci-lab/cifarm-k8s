@@ -123,9 +123,9 @@ resource "kubernetes_service" "websocket_node_external" {
   }
 }
 
-resource "kubernetes_ingress_v1" "ws" {
+resource "kubernetes_ingress_v1" "io" {
   metadata {
-    name      = "ws"
+    name      = "io"
     namespace = kubernetes_namespace.ingresses.metadata[0].name
     annotations = {
       "cert-manager.io/cluster-issuer"                    = var.cluster_issuer_name
@@ -138,7 +138,7 @@ resource "kubernetes_ingress_v1" "ws" {
   spec {
     ingress_class_name = "nginx"
     rule {
-      host = local.ws_domain_name
+      host = local.io_domain_name
       http {
         path {
           path = "/"
@@ -154,21 +154,21 @@ resource "kubernetes_ingress_v1" "ws" {
       }
     }
     tls {
-      hosts       = [local.ws_domain_name]
-      secret_name = "ws-tls"
+      hosts       = [local.io_domain_name]
+      secret_name = "io-tls"
     }
   }
 
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
-    aws_route53_record.ws,
+    aws_route53_record.io,
     helm_release.websocket_node
   ]
 }
 
-resource "kubernetes_ingress_v1" "ws_admin" {
+resource "kubernetes_ingress_v1" "io_admin" {
   metadata {
-    name      = "ws-admin"
+    name      = "io-admin"
     namespace = kubernetes_namespace.ingresses.metadata[0].name
     annotations = {
       "cert-manager.io/cluster-issuer"                    = var.cluster_issuer_name
@@ -179,7 +179,7 @@ resource "kubernetes_ingress_v1" "ws_admin" {
   spec {
     ingress_class_name = "nginx"
     rule {
-      host = local.ws_admin_domain_name
+      host = local.io_admin_domain_name
       http {
         path {
           path = "/"
@@ -195,14 +195,14 @@ resource "kubernetes_ingress_v1" "ws_admin" {
       }
     }
     tls {
-      hosts       = [local.ws_domain_name]
-      secret_name = "ws-admin-tls"
+      hosts       = [local.io_admin_domain_name]
+      secret_name = "io-admin-tls"
     }
   }
 
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
-    aws_route53_record.ws,
+    aws_route53_record.io_admin,
     helm_release.websocket_node
   ]
 }
