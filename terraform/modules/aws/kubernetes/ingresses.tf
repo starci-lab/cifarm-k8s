@@ -111,15 +111,15 @@ resource "kubernetes_ingress_v1" "graphql" {
   ]
 }
 
-resource "kubernetes_service" "websocket_node_external" {
+resource "kubernetes_service" "io_gameplay_external" {
   metadata {
-    name      = local.websocket_node.name
+    name      = local.io_gameplay.name
     namespace = kubernetes_namespace.ingresses.metadata[0].name
   }
 
   spec {
     type          = "ExternalName" # Specifies this is an ExternalName service
-    external_name = local.websocket_node.host
+    external_name = local.io_gameplay.host
   }
 }
 
@@ -131,8 +131,8 @@ resource "kubernetes_ingress_v1" "io" {
       "cert-manager.io/cluster-issuer"                    = var.cluster_issuer_name
       "nginx.ingress.kubernetes.io/ssl-redirect"          = "true"
       "nginx.ingress.kubernetes.io/force-ssl-redirect"    = "true"
-      "nginx.ingress.kubernetes.io/configuration-snippet" = file("${path.module}/configs/resolve_client_ip.conf")
-      "nginx.ingress.kubernetes.io/upstream-hash-by"      = "$client_ip"
+      # "nginx.ingress.kubernetes.io/configuration-snippet" = file("${path.module}/configs/resolve_client_ip.conf")
+      # "nginx.ingress.kubernetes.io/upstream-hash-by"      = "$client_ip"
     }
   }
   spec {
@@ -144,9 +144,9 @@ resource "kubernetes_ingress_v1" "io" {
           path = "/"
           backend {
             service {
-              name = local.websocket_node.name
+              name = local.io_gameplay.name
               port {
-                number = local.websocket_node.port
+                number = local.io_gameplay.port
               }
             }
           }
@@ -162,7 +162,7 @@ resource "kubernetes_ingress_v1" "io" {
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
     aws_route53_record.io,
-    helm_release.websocket_node
+    helm_release.io_gameplay
   ]
 }
 
@@ -185,9 +185,9 @@ resource "kubernetes_ingress_v1" "io_admin" {
           path = "/"
           backend {
             service {
-              name = local.websocket_node.name
+              name = local.io_gameplay.name
               port {
-                number = local.websocket_node.admin_ui_port
+                number = local.io_gameplay.admin_ui_port
               }
             }
           }
@@ -203,7 +203,7 @@ resource "kubernetes_ingress_v1" "io_admin" {
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
     aws_route53_record.io_admin,
-    helm_release.websocket_node
+    helm_release.io_gameplay
   ]
 }
 

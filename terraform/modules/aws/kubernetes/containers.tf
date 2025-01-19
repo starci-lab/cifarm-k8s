@@ -39,7 +39,7 @@ locals {
   }
 
   // Websocket Node
-  websocket_node = {
+  io_gameplay = {
     name              = "websocket-node"
     port              = 8080
     health_check_port = 8081
@@ -270,15 +270,15 @@ resource "helm_release" "graphql_gateway" {
   ]
 }
 
-resource "helm_release" "websocket_node" {
-  name            = local.websocket_node.name
+resource "helm_release" "io_gameplay" {
+  name            = local.io_gameplay.name
   repository      = var.container_repository
   cleanup_on_fail = var.cleanup_on_fail
   chart           = "service"
   namespace       = kubernetes_namespace.containers.metadata[0].name
 
   values = [
-    templatefile("${path.module}/manifests/websocket-node-values.yaml", {
+    templatefile("${path.module}/manifests/io-gameplay-values.yaml", {
       node_group_label = var.primary_node_group_name,
 
       // Gameplay Postgres Configuration
@@ -289,8 +289,8 @@ resource "helm_release" "websocket_node" {
       gameplay_postgresql_port     = local.gameplay_postgresql.port,
 
       // Gameplay Service Configuration
-      port              = local.websocket_node.port,
-      health_check_port = local.websocket_node.health_check_port,
+      port              = local.io_gameplay.port,
+      health_check_port = local.io_gameplay.health_check_port,
 
       production_url  = "https://${local.io_admin_domain_name}",
       cluster_enabled = false,
@@ -298,7 +298,7 @@ resource "helm_release" "websocket_node" {
 
       admin_username = var.socket_io_admin_username,
       admin_password = var.socket_io_admin_password,
-      admin_ui_port = local.websocket_node.admin_ui_port,
+      admin_ui_port = local.io_gameplay.admin_ui_port,
 
       // Cache Redis Configuration
       cache_redis_host            = local.cache_redis.host,

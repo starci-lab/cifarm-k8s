@@ -17,11 +17,11 @@ envVarsCM:
   GAMEPLAY_POSTGRESQL_HOST: "${gameplay_postgresql_host}"
   GAMEPLAY_POSTGRESQL_PORT: "${gameplay_postgresql_port}"
   
-  WEBSOCKET_NODE_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
-  WEBSOCKET_NODE_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
-  WEBSOCKET_NODE_CLUSTER_ENABLED: "${cluster_enabled}"  # Specify as string to avoid YAML parsing errors
-  WEBSOCKET_NODE_ADAPTER: "${adapter}"
-  WEBSOCKET_NODE_ADMIN_UI_PORT: "${admin_ui_port}"  # Specify as string to avoid YAML parsing errors
+  IO_GAMEPLAY_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
+  IO_GAMEPLAY_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
+  IO_GAMEPLAY_CLUSTER_ENABLED: "${cluster_enabled}"  # Specify as string to avoid YAML parsing errors
+  IO_GAMEPLAY_ADAPTER: "${adapter}"
+  IO_GAMEPLAY_ADMIN_UI_PORT: "${admin_ui_port}"  # Specify as string to avoid YAML parsing errors
   
   PRODUCTION_URL: "${production_url}"  # Specify as string to avoid YAML parsing errors
 
@@ -73,7 +73,7 @@ service:
 
 image:
   registry: docker.io  # Docker registry URL for the image.
-  repository: cifarm/websocket-node  # Repository for the container image.
+  repository: cifarm/io-gameplay  # Repository for the container image.
   tag: latest  # Tag for the image.
   digest: ""  # Optionally specify an image digest.
   pullPolicy: Always  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.

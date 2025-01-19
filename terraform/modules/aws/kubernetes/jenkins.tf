@@ -40,7 +40,7 @@ locals {
       description = "Build the graphql maingraph using Kaniko then push the image to Dockerhub" # Job description
       path        = ".jenkins/build/graphql-gateway.jenkinsfile"                                # Path to the Jenkinsfile
     }
-    websocket_node = {
+    io_gameplay = {
       file        = "websocket-node-build-pipeline"
       name        = "Websocket Node Build Pipeline"                                          # Name of the Jenkins pipeline job
       description = "Build the websocket node using Kaniko then push the image to Dockerhub" # Job description
