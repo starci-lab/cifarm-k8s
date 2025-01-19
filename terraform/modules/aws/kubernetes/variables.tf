@@ -446,3 +446,33 @@ variable "adapter_mongodb_password" {
   description = "Adapter MongoDB password"
   sensitive   = true
 }
+
+variable "postgresql_max_connections" {
+  type        = number
+  description = "PostgreSQL maximum connections"
+  default     = 1000
+}
+
+variable "pgpool_reserved_connections" {
+  type        = number
+  description = "PGPool reserved connections"
+  default     = 0
+}
+
+variable "pgpool_max_pool" {
+  type        = number
+  description = "PGPool maximum pool"
+  default     = 50
+}
+
+variable "pgpool_child_max_connections" {
+  type        = number
+  description = "PGPool child maximum connections"
+  default     = 5000
+}
+
+variable "pgpool_num_init_children" {
+  type        = number
+  description = "PGPool number of initial child processes"
+  default     = 100
+}

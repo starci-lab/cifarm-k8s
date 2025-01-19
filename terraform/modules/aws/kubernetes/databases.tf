@@ -5,6 +5,10 @@ resource "kubernetes_namespace" "databases" {
   }
 }
 
+  # reservedConnections: ${pgpool_reserved_connections}  # Reserved connections for PGPool
+  # maxPool: ${pgpool_max_pool}  # Maximum number of connections to PGPool
+  # childMaxConnections: ${pgpool_child_max_connections}  # Maximum number of connections per child process
+  # numInitChildren: ${pgpool_num_init_children}  # Number of initial child processes
 # Helm release for the Gameplay PostgreSQL database
 resource "helm_release" "gameplay_postgresql" {
   name            = local.gameplay_postgresql.name
@@ -20,18 +24,27 @@ resource "helm_release" "gameplay_postgresql" {
       node_group_label = var.primary_node_group_name,
 
       // Resource configurations
-      pgpool_request_cpu     = var.pod_resource_config["small"].requests.cpu,
-      pgpool_request_memory  = var.pod_resource_config["small"].requests.memory,
-      pgpool_limit_cpu       = var.pod_resource_config["small"].limits.cpu,
-      pgpool_limit_memory    = var.pod_resource_config["small"].limits.memory,
-      request_cpu            = var.pod_resource_config["small"].requests.cpu,
-      request_memory         = var.pod_resource_config["small"].requests.memory,
-      limit_cpu              = var.pod_resource_config["small"].limits.cpu,
-      limit_memory           = var.pod_resource_config["small"].limits.memory,
-      witness_request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      pgpool_request_cpu     = var.pod_resource_config["medium"].requests.cpu,
+      pgpool_request_memory  = var.pod_resource_config["medium"].requests.memory,
+      pgpool_limit_cpu       = var.pod_resource_config["medium"].limits.cpu,
+      pgpool_limit_memory    = var.pod_resource_config["medium"].limits.memory,
+      request_cpu            = var.pod_resource_config["medium"].requests.cpu,
+      request_memory         = var.pod_resource_config["medium"].requests.memory,
+      limit_cpu              = var.pod_resource_config["medium"].limits.cpu,
+      limit_memory           = var.pod_resource_config["medium"].limits.memory,
+      witness_request_cpu    = var.pod_resource_config["nano"].requests.cpu,
       witness_request_memory = var.pod_resource_config["nano"].requests.memory,
       witness_limit_cpu      = var.pod_resource_config["nano"].limits.cpu,
       witness_limit_memory   = var.pod_resource_config["nano"].limits.memory
+
+      // PGPool connections configurations
+      pgpool_reserved_connections = var.pgpool_reserved_connections,
+      pgpool_max_pool = var.pgpool_max_pool,
+      pgpool_child_max_connections = var.pgpool_child_max_connections,
+      pgpool_num_init_children = var.pgpool_num_init_children,
+
+      // PostgreSQL connections configurations
+      postgresql_max_connections = var.postgresql_max_connections,
     })
   ]
 

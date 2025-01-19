@@ -27,6 +27,12 @@ pgpool:
     limits:
       cpu: ${pgpool_limit_cpu}       # Set the maximum CPU for PGPool (200 millicores)
       memory: ${pgpool_limit_memory}   # Set the maximum memory for PGPool (400 MiB)
+  # No reserved connections for PGPool, mean that all connections are available for use, block instead throwing error
+  
+  reservedConnections: ${pgpool_reserved_connections}  # Reserved connections for PGPool
+  maxPool: ${pgpool_max_pool}  # Maximum number of connections to PGPool
+  childMaxConnections: ${pgpool_child_max_connections}  # Maximum number of connections per child process
+  numInitChildren: ${pgpool_num_init_children}  # Number of initial child processes
 
 # PostgreSQL database resource configurations (for the main PostgreSQL instances)
 postgresql:
@@ -42,7 +48,7 @@ postgresql:
     limits:
       cpu: ${limit_cpu}       # Set the maximum CPU for PostgreSQL (200 millicores)
       memory: ${limit_memory}   # Set the maximum memory for PostgreSQL (400 MiB)
-
+  maxConnections: ${postgresql_max_connections}  # Maximum number of connections to PostgreSQL
 # Witness server resource configurations (for the HA witness pod)
 witness:
   nodeSelector:

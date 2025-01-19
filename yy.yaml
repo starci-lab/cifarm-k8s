@@ -1,29 +1,23 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      more_set_headers "Request-Id: $req_id";
-  name: io
-  namespace: ingresses
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: io.cifarm.dev.starci.net
-    http:
-      paths:
-      - backend:
-          service:
-            name: websocket-node
-            port:
-              number: 8080
-        path: /
-        pathType: Prefix
-  tls:
-  - hosts:
-    - io.cifarm.dev.starci.net
-    secretName: io-tls
+# Global PostgreSQL settings
+global:
+  postgresql:
+    # The name of the PostgreSQL database to be created
+    database: cifarm         # Replace example with your database name
+    
+    # The password for the PostgreSQL superuser
+    password: Cuong123_A         # Replace example with your password
+    
+    # The name of the repmgr database used for replication
+    repmgrDatabase: cifarm   # Replication database name (usually same as database)
+    
+    # The password for the PostgreSQL replication user
+    repmgrPassword: Cuong123_A    # Password for the repmgr user
+
+# PostgreSQL PGPool resource configurations (for connection pooling)
+pgpool:
+  reservedConnections: 0
+  maxPool: "50"  # Maximum number of connections to PGPool
+  childMaxConnections: "100"  # Maximum number of connections per child process
+  numInitChildren: "100"
+postgresql:
+  maxConnections: "100"  # Maximum number of connections to PostgreSQL

@@ -70,4 +70,4 @@ serviceAccount:
   create: true  # Enable creation of a service account.
   name: ""  # Optionally specify a service account name.
   annotations: {}  # Add annotations for the service account if needed.
-  automountServiceAccountToken: false  # Do not automatically mount the service account token.
+  automountServiceAccountToken: true  # Automount the service account token.
