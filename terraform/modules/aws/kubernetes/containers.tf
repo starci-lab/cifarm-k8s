@@ -38,12 +38,12 @@ locals {
     host              = "graphql-gateway-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
   }
 
-  // Websocket Node
+  // IO Gameplay
   io_gameplay = {
-    name              = "websocket-node"
+    name              = "io-gameplay"
     port              = 8080
     health_check_port = 8081
-    host              = "websocket-node-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+    host              = "io-gameplay-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
     admin_ui_port     = 8082
   }
 
@@ -391,6 +391,13 @@ resource "helm_release" "cron_scheduler" {
       limit_memory   = var.pod_resource_config["small"].limits.memory,
 
       health_check_port = local.cron_scheduler.health_check_port,
+
+      // Kafka Configuration
+      kafka_host          = local.kafka.host,
+      kafka_port          = local.kafka.port,
+      kafka_sasl_enabled  = true,
+      kafka_sasl_username = var.kafka_sasl_username,
+      kafka_sasl_password = var.kafka_sasl_password,
     })
   ]
 

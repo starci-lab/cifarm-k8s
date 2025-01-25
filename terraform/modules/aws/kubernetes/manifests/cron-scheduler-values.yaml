@@ -15,6 +15,11 @@ envVarsCM:
   
   CRON_SCHEDULER_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
 
+  # Kafka Configuration (non-sensitive, can go to ConfigMap)
+  KAFKA_HOST: "${kafka_host}"
+  KAFKA_PORT: "${kafka_port}"
+  KAFKA_SASL_ENABLED: "${kafka_sasl_enabled}"
+
 envVarsSecret:
   # Redis Cache Configuration (sensitive, should go to Secrets)
   CACHE_REDIS_PASSWORD: "${cache_redis_password}" # Ensure the password is a string
@@ -25,6 +30,10 @@ envVarsSecret:
   # Gameplay Test Postgres Configuration (sensitive, should go to Secrets)
   GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
   GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
+
+  # Kafka SASL Configuration (sensitive, should go to Secrets)
+  KAFKA_SASL_USERNAME: "${kafka_sasl_username}"
+  KAFKA_SASL_PASSWORD: "${kafka_sasl_password}"
 
 containerPorts:
   app:
