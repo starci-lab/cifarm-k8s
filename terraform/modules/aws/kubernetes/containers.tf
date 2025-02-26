@@ -76,12 +76,12 @@ resource "helm_release" "gameplay_service" {
       jwt_access_token_expiration  = var.jwt_access_token_expiration,
       jwt_refresh_token_expiration = var.jwt_refresh_token_expiration,
 
-      // Gameplay Postgres Configuration
-      gameplay_postgresql_host     = local.gameplay_postgresql.host,
-      gameplay_postgresql_database = var.gameplay_postgresql_database,
-      gameplay_postgresql_password = var.gameplay_postgresql_password,
-      gameplay_postgresql_username = local.gameplay_postgresql.username,
-      gameplay_postgresql_port     = local.gameplay_postgresql.port,
+      // Gameplay Mongodb Configuration
+      gameplay_mongodb_host     = local.gameplay_mongodb.host,
+      gameplay_mongodb_database = local.gameplay_mongodb.database,
+      gameplay_mongodb_password = var.gameplay_mongodb_password,
+      gameplay_mongodb_username = var.gameplay_mongodb_username,
+      gameplay_mongodb_port     = local.gameplay_mongodb.port,
 
       // Kafka Configuration
       kafka_host          = local.kafka.host,
@@ -105,6 +105,10 @@ resource "helm_release" "gameplay_service" {
       request_memory = var.pod_resource_config["small"].requests.memory,
       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
       limit_memory   = var.pod_resource_config["small"].limits.memory,
+
+      // Honeycomb Configuration
+      solana_honeycomb_authority_private_key_mainnet = var.solana_honeycomb_authority_private_key_mainnet
+      solana_honeycomb_authority_private_key_testnet = var.solana_honeycomb_authority_private_key_testnet
     })
   ]
 
@@ -120,7 +124,8 @@ resource "helm_release" "gameplay_service" {
     helm_release.keda,
     helm_release.cache_redis,
     helm_release.kafka,
-    helm_release.gameplay_postgresql,
+    helm_release.gameplay_mongodb,
+    kubernetes_job.seed_db,
   ]
 }
 
@@ -165,6 +170,7 @@ resource "helm_release" "rest_api_gateway" {
   depends_on = [
     helm_release.keda,
     helm_release.gameplay_service,
+    kubernetes_job.seed_db,
   ]
 }
 
@@ -179,12 +185,12 @@ resource "helm_release" "gameplay_subgraph" {
     templatefile("${path.module}/manifests/gameplay-subgraph-values.yaml", {
       node_group_label = var.primary_node_group_name,
 
-      // Gameplay Postgres Configuration
-      gameplay_postgresql_host     = local.gameplay_postgresql.host,
-      gameplay_postgresql_database = var.gameplay_postgresql_database,
-      gameplay_postgresql_password = var.gameplay_postgresql_password,
-      gameplay_postgresql_username = local.gameplay_postgresql.username,
-      gameplay_postgresql_port     = local.gameplay_postgresql.port,
+      // Gameplay Mongodb Configuration
+      gameplay_mongodb_host     = local.gameplay_mongodb.host,
+      gameplay_mongodb_database = local.gameplay_mongodb.database,
+      gameplay_mongodb_password = var.gameplay_mongodb_password,
+      gameplay_mongodb_username = var.gameplay_mongodb_username,
+      gameplay_mongodb_port     = local.gameplay_mongodb.port,
 
       // Gameplay Service Configuration
       port              = local.gameplay_subgraph.port,
@@ -217,7 +223,8 @@ resource "helm_release" "gameplay_subgraph" {
   depends_on = [
     helm_release.keda,
     helm_release.cache_redis,
-    helm_release.gameplay_postgresql,
+    helm_release.gameplay_mongodb,
+    kubernetes_job.seed_db,
   ]
 }
 
@@ -267,6 +274,7 @@ resource "helm_release" "graphql_gateway" {
   depends_on = [
     helm_release.keda,
     helm_release.gameplay_subgraph,
+    kubernetes_job.seed_db,
   ]
 }
 
@@ -281,12 +289,12 @@ resource "helm_release" "io_gameplay" {
     templatefile("${path.module}/manifests/io-gameplay-values.yaml", {
       node_group_label = var.primary_node_group_name,
 
-      // Gameplay Postgres Configuration
-      gameplay_postgresql_host     = local.gameplay_postgresql.host,
-      gameplay_postgresql_database = var.gameplay_postgresql_database,
-      gameplay_postgresql_password = var.gameplay_postgresql_password,
-      gameplay_postgresql_username = local.gameplay_postgresql.username,
-      gameplay_postgresql_port     = local.gameplay_postgresql.port,
+      // Gameplay Mongodb Configuration
+      gameplay_mongodb_host     = local.gameplay_mongodb.host,
+      gameplay_mongodb_database = local.gameplay_mongodb.database,
+      gameplay_mongodb_password = var.gameplay_mongodb_password,
+      gameplay_mongodb_username = var.gameplay_mongodb_username,
+      gameplay_mongodb_port     = local.gameplay_mongodb.port,
 
       // Gameplay Service Configuration
       port              = local.io_gameplay.port,
@@ -294,7 +302,7 @@ resource "helm_release" "io_gameplay" {
 
       production_url  = "https://${local.io_admin_domain_name}",
       cluster_enabled = false,
-      adapter         = "mongodb",
+      adapter         = "redis-stream",
 
       admin_username = var.socket_io_admin_username,
       admin_password = var.socket_io_admin_password,
@@ -312,11 +320,11 @@ resource "helm_release" "io_gameplay" {
       adapter_redis_password = var.adapter_redis_password,
       adapter_redis_cluster_enabled = true,
 
-      adapter_mongodb_host     = local.adapter_mongodb.host,
-      adapter_mongodb_port     = local.adapter_mongodb.port,
-      adapter_mongodb_username = var.adapter_mongodb_username,
-      adapter_mongodb_password = var.adapter_mongodb_password,
-      adapter_mongodb_dbname   = local.adapter_mongodb.database,
+      # adapter_mongodb_host     = local.adapter_mongodb.host,
+      # adapter_mongodb_port     = local.adapter_mongodb.port,
+      # adapter_mongodb_username = var.adapter_mongodb_username,
+      # adapter_mongodb_password = var.adapter_mongodb_password,
+      # adapter_mongodb_dbname   = local.adapter_mongodb.database,
 
       // Resource configurations
       request_cpu    = var.pod_resource_config["small"].requests.cpu,
@@ -347,9 +355,10 @@ resource "helm_release" "io_gameplay" {
   depends_on = [
     helm_release.keda,
     helm_release.cache_redis,
-    helm_release.gameplay_postgresql,
+    helm_release.gameplay_mongodb,
     helm_release.kafka,
-    helm_release.adapter_mongodb,
+    helm_release.adapter_redis,
+    kubernetes_job.seed_db
     # helm_release.adapter_redis,
   ]
 }
@@ -365,12 +374,12 @@ resource "helm_release" "cron_scheduler" {
     templatefile("${path.module}/manifests/cron-scheduler-values.yaml", {
       node_group_label = var.primary_node_group_name,
 
-      // Gameplay Postgres Configuration
-      gameplay_postgresql_host     = local.gameplay_postgresql.host,
-      gameplay_postgresql_database = var.gameplay_postgresql_database,
-      gameplay_postgresql_password = var.gameplay_postgresql_password,
-      gameplay_postgresql_username = local.gameplay_postgresql.username,
-      gameplay_postgresql_port     = local.gameplay_postgresql.port,
+      // Gameplay Mongodb Configuration
+      gameplay_mongodb_host     = local.gameplay_mongodb.host,
+      gameplay_mongodb_database = local.gameplay_mongodb.database,
+      gameplay_mongodb_password = var.gameplay_mongodb_password,
+      gameplay_mongodb_username = var.gameplay_mongodb_username,
+      gameplay_mongodb_port     = local.gameplay_mongodb.port,
 
       // Cache Redis Configuration
       cache_redis_host            = local.cache_redis.host,
@@ -412,8 +421,9 @@ resource "helm_release" "cron_scheduler" {
   depends_on = [
     helm_release.keda,
     helm_release.cache_redis,
-    helm_release.gameplay_postgresql,
+    helm_release.gameplay_mongodb,
     helm_release.job_redis,
+    kubernetes_job.seed_db,
   ]
 }
 
@@ -428,12 +438,12 @@ resource "helm_release" "cron_worker" {
     templatefile("${path.module}/manifests/cron-worker-values.yaml", {
       node_group_label = var.primary_node_group_name,
 
-      // Gameplay Postgres Configuration
-      gameplay_postgresql_host     = local.gameplay_postgresql.host,
-      gameplay_postgresql_database = var.gameplay_postgresql_database,
-      gameplay_postgresql_password = var.gameplay_postgresql_password,
-      gameplay_postgresql_username = local.gameplay_postgresql.username,
-      gameplay_postgresql_port     = local.gameplay_postgresql.port,
+      // Gameplay Mongodb Configuration
+      gameplay_mongodb_host     = local.gameplay_mongodb.host,
+      gameplay_mongodb_database = local.gameplay_mongodb.database,
+      gameplay_mongodb_password = var.gameplay_mongodb_password,
+      gameplay_mongodb_username = var.gameplay_mongodb_username,
+      gameplay_mongodb_port     = local.gameplay_mongodb.port,
 
       // Cache Redis Configuration
       cache_redis_host            = local.cache_redis.host,
@@ -468,7 +478,8 @@ resource "helm_release" "cron_worker" {
   depends_on = [
     helm_release.keda,
     helm_release.cache_redis,
-    helm_release.gameplay_postgresql,
+    helm_release.gameplay_mongodb,
     helm_release.job_redis,
+    kubernetes_job.seed_db,
   ]
 }

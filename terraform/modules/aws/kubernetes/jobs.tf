@@ -37,28 +37,28 @@ resource "kubernetes_job" "seed_db" {
             }
           }
           env {
-            name  = "GAMEPLAY_POSTGRESQL_DBNAME"
-            value = var.gameplay_postgresql_database
+            name  = "GAMEPLAY_MONGODB_DBNAME"
+            value = local.gameplay_mongodb.database
           }
 
           env {
-            name  = "GAMEPLAY_POSTGRESQL_HOST"
-            value = local.gameplay_postgresql.host
+            name  = "GAMEPLAY_MONGODB_HOST"
+            value = local.gameplay_mongodb.host
           }
 
           env {
-            name  = "GAMEPLAY_POSTGRESQL_PORT"
-            value = local.gameplay_postgresql.port
+            name  = "GAMEPLAY_MONGODB_PORT"
+            value = local.gameplay_mongodb.port
           }
 
           env {
-            name  = "GAMEPLAY_POSTGRESQL_USERNAME"
-            value = local.gameplay_postgresql.username
+            name  = "GAMEPLAY_MONGODB_USERNAME"
+            value = var.gameplay_mongodb_username
           }
 
           env {
-            name  = "GAMEPLAY_POSTGRESQL_PASSWORD"
-            value = var.gameplay_postgresql_password
+            name  = "GAMEPLAY_MONGODB_PASSWORD"
+            value = var.gameplay_mongodb_password
           }
 
           env {
@@ -96,6 +96,6 @@ resource "kubernetes_job" "seed_db" {
     update = "2m"
   }
   depends_on = [
-    helm_release.gameplay_postgresql
+    helm_release.gameplay_mongodb
   ]
 }

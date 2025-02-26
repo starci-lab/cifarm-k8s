@@ -34,22 +34,6 @@ variable "cluster_name" {
 
 ##################################################
 # Base configuration for the EKS cluster
-### Databases
-# PostgreSQL database configuration for gameplay
-# The variable stores the name of the PostgreSQL database used for gameplay purposes. 
-variable "gameplay_postgresql_database" {
-  description = "The Gameplay PostgreSQL database name" # Description of the database name variable
-  type        = string                                  # The variable type is string, as it stores the name of the database
-  sensitive   = true                                    # Marks the value as sensitive to avoid exposure in logs
-}
-
-# PostgreSQL password configuration for gameplay
-# The variable stores the password for the Gameplay PostgreSQL database. It is sensitive to maintain security.
-variable "gameplay_postgresql_password" {
-  description = "The Gameplay PostgreSQL password" # Describes the password variable for the PostgreSQL database
-  type        = string                             # The variable type is string as it holds a password
-  sensitive   = true                               # Marks the password as sensitive
-}
 
 # Grafana user configuration
 # Stores the Grafana user credentials for logging into the Grafana dashboard.
@@ -271,6 +255,18 @@ variable "jenkins_agent_request_cpu" {
   default     = "180m"
 }
 
+variable "solana_honeycomb_authority_private_key_mainnet" {
+  type        = string
+  description = "Solana Honeycomb authority private key for mainnet"
+  sensitive   = true
+}
+
+variable "solana_honeycomb_authority_private_key_testnet" {
+  type        = string
+  description = "Solana Honeycomb authority private key for testnet"
+  sensitive   = true
+}
+
 # // templates
 # def requestCpu = "${request_cpu}"
 # def requestMemory = "${request_memory}"
@@ -447,10 +443,22 @@ variable "adapter_mongodb_password" {
   sensitive   = true
 }
 
+variable "gameplay_mongodb_username" {
+  type        = string
+  description = "Gameplay MongoDB username"
+  default     = "root"
+}
+
+variable "gameplay_mongodb_password" {
+  type        = string
+  description = "Gameplay MongoDB password"
+  sensitive   = true
+}
+
 variable "postgresql_max_connections" {
   type        = number
   description = "PostgreSQL maximum connections"
-  default     = 1000
+  default     = 500
 }
 
 variable "pgpool_reserved_connections" {
@@ -468,7 +476,7 @@ variable "pgpool_max_pool" {
 variable "pgpool_child_max_connections" {
   type        = number
   description = "PGPool child maximum connections"
-  default     = 5000
+  default     = 1000
 }
 
 variable "pgpool_num_init_children" {

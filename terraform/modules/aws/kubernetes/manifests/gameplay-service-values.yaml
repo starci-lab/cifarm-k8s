@@ -6,9 +6,9 @@ envVarsCM:
   CACHE_REDIS_CLUSTER_RUN_IN_DOCKER: "false" # Ensure the value is a string
 
   # Gameplay Postgres Configuration (non-sensitive, can go to ConfigMap)
-  GAMEPLAY_POSTGRESQL_DBNAME: "${gameplay_postgresql_database}"
-  GAMEPLAY_POSTGRESQL_HOST: "${gameplay_postgresql_host}"
-  GAMEPLAY_POSTGRESQL_PORT: "${gameplay_postgresql_port}"
+  GAMEPLAY_MONGODB_DBNAME: "${gameplay_mongodb_database}"
+  GAMEPLAY_MONGODB_HOST: "${gameplay_mongodb_host}"
+  GAMEPLAY_MONGODB_PORT: "${gameplay_mongodb_port}"
   
   # Gameplay Service Configuration (non-sensitive, can go to ConfigMap)
   GAMEPLAY_SERVICE_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
@@ -30,11 +30,15 @@ envVarsSecret:
   KAFKA_SASL_PASSWORD: "${kafka_sasl_password}"
 
   # Gameplay Postgres Configuration (sensitive, should go to Secrets)
-  GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
-  GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
+  GAMEPLAY_MONGODB_USERNAME: "${gameplay_mongodb_username}"
+  GAMEPLAY_MONGODB_PASSWORD: "${gameplay_mongodb_password}"
 
   # Redis Cache Configuration (sensitive, should go to Secrets)
   CACHE_REDIS_PASSWORD: "${cache_redis_password}"
+
+  # Honeycomb Configuration (sensitive, should go to Secrets)
+  SOLANA_HONEYCOMB_AUTHORITY_PRIVATE_KEY_MAINNET: "${solana_honeycomb_authority_private_key_mainnet}"
+  SOLANA_HONEYCOMB_AUTHORITY_PRIVATE_KEY_TESTNET: "${solana_honeycomb_authority_private_key_testnet}"
 
 containerPorts:
   app:

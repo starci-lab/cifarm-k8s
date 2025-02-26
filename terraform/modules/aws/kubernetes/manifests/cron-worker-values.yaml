@@ -9,9 +9,9 @@ envVarsCM:
   JOB_REDIS_CLUSTER_ENABLED: "${job_redis_cluster_enabled}" # Ensure the value is a string
  
   # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
-  GAMEPLAY_POSTGRESQL_DBNAME: "${gameplay_postgresql_database}"
-  GAMEPLAY_POSTGRESQL_HOST: "${gameplay_postgresql_host}"
-  GAMEPLAY_POSTGRESQL_PORT: "${gameplay_postgresql_port}"
+  GAMEPLAY_MONGODB_DBNAME: "${gameplay_mongodb_database}"
+  GAMEPLAY_MONGODB_HOST: "${gameplay_mongodb_host}"
+  GAMEPLAY_MONGODB_PORT: "${gameplay_mongodb_port}"
   
   CRON_WORKER_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
   
@@ -23,8 +23,8 @@ envVarsSecret:
   JOB_REDIS_PASSWORD: "${job_redis_password}" # Ensure the password is a string
 
   # Gameplay Test Postgres Configuration (sensitive, should go to Secrets)
-  GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
-  GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
+  GAMEPLAY_MONGODB_USERNAME: "${gameplay_mongodb_username}"
+  GAMEPLAY_MONGODB_PASSWORD: "${gameplay_mongodb_password}"
 
 containerPorts:
   app:

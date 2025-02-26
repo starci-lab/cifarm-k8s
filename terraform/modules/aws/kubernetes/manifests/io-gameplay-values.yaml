@@ -8,14 +8,10 @@ envVarsCM:
   ADAPTER_REDIS_PORT: "${adapter_redis_port}" # Ensure the port is a string
   ADAPTER_REDIS_CLUSTER_ENABLED: "${adapter_redis_cluster_enabled}" # Ensure the value is a string
 
-  ADAPTER_MONGODB_HOST: "${adapter_mongodb_host}"
-  ADAPTER_MONGODB_PORT: "${adapter_mongodb_port}" # Ensure the port is a string
-  ADAPTER_MONGODB_DBNAME: "${adapter_mongodb_dbname}"
-
   # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
-  GAMEPLAY_POSTGRESQL_DBNAME: "${gameplay_postgresql_database}"
-  GAMEPLAY_POSTGRESQL_HOST: "${gameplay_postgresql_host}"
-  GAMEPLAY_POSTGRESQL_PORT: "${gameplay_postgresql_port}"
+  GAMEPLAY_MONGODB_DBNAME: "${gameplay_mongodb_database}"
+  GAMEPLAY_MONGODB_HOST: "${gameplay_mongodb_host}"
+  GAMEPLAY_MONGODB_PORT: "${gameplay_mongodb_port}"
   
   IO_GAMEPLAY_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
   IO_GAMEPLAY_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
@@ -38,8 +34,8 @@ envVarsSecret:
   ADAPTER_REDIS_PASSWORD: "${adapter_redis_password}" # Ensure the password is a string
 
   # Gameplay Test Postgres Configuration (sensitive, should go to Secrets)
-  GAMEPLAY_POSTGRESQL_USERNAME: "${gameplay_postgresql_username}"
-  GAMEPLAY_POSTGRESQL_PASSWORD: "${gameplay_postgresql_password}"
+  GAMEPLAY_MONGODB_USERNAME: "${gameplay_mongodb_username}"
+  GAMEPLAY_MONGODB_PASSWORD: "${gameplay_mongodb_password}"
 
   # Kafka SASL Configuration (sensitive, should go to Secrets)
   KAFKA_SASL_USERNAME: "${kafka_sasl_username}"
@@ -47,9 +43,6 @@ envVarsSecret:
 
   JWT_SECRET: "${jwt_secret}"  # Ensure the secret is a string
 
-  ADAPTER_MONGODB_USERNAME: "${adapter_mongodb_username}"
-  ADAPTER_MONGODB_PASSWORD: "${adapter_mongodb_password}"
-  
   SOCKET_IO_ADMIN_USERNAME: "${admin_username}"
   SOCKET_IO_ADMIN_PASSWORD: "${admin_password}"
 
