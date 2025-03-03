@@ -207,8 +207,6 @@ resource "kubernetes_role_binding" "jenkins" {
   }
 }
 
-
-
 # Template file for the 
 data "template_file" "docker_credentials" {
   template = file("${path.module}/credentials/docker-credentials.json")

@@ -6,6 +6,12 @@ resource "kubernetes_namespace" "containers" {
 }
 
 locals {
+  client = {
+    name = "client"
+    host = "client-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+    port = 3000
+  }
+
   // Gameplay Service
   gameplay_service = {
     name              = "gameplay-service"
@@ -57,6 +63,12 @@ locals {
     name              = "cron-worker"
     health_check_port = 8081
     host              = "cron-worker-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+  }
+
+  telegram_bot = {
+    name              = "telegram-bot"
+    host              = "telegram-bot-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+    health_check_port = 8081
   }
 }
 
@@ -306,7 +318,7 @@ resource "helm_release" "io_gameplay" {
 
       admin_username = var.socket_io_admin_username,
       admin_password = var.socket_io_admin_password,
-      admin_ui_port = local.io_gameplay.admin_ui_port,
+      admin_ui_port  = local.io_gameplay.admin_ui_port,
 
       // Cache Redis Configuration
       cache_redis_host            = local.cache_redis.host,
@@ -315,9 +327,9 @@ resource "helm_release" "io_gameplay" {
       cache_redis_cluster_enabled = true,
 
       // Adapter Redis Configuration
-      adapter_redis_host = local.adapter_redis.host,
-      adapter_redis_port = local.adapter_redis.port,
-      adapter_redis_password = var.adapter_redis_password,
+      adapter_redis_host            = local.adapter_redis.host,
+      adapter_redis_port            = local.adapter_redis.port,
+      adapter_redis_password        = var.adapter_redis_password,
       adapter_redis_cluster_enabled = true,
 
       # adapter_mongodb_host     = local.adapter_mongodb.host,
@@ -481,5 +493,72 @@ resource "helm_release" "cron_worker" {
     helm_release.gameplay_mongodb,
     helm_release.job_redis,
     kubernetes_job.seed_db,
+  ]
+}
+
+resource "helm_release" "telegram_bot" {
+  name            = local.telegram_bot.name
+  repository      = var.container_repository
+  cleanup_on_fail = var.cleanup_on_fail
+  chart           = "service"
+  namespace       = kubernetes_namespace.containers.metadata[0].name
+
+  values = [
+    templatefile("${path.module}/manifests/telegram-bot-values.yaml", {
+      node_group_label     = var.primary_node_group_name,
+      telegram_bot_token   = var.telegram_bot_token,
+      telegram_miniapp_url = var.telegram_miniapp_url,
+      health_check_port    = local.cron_worker.health_check_port,
+
+      // Gameplay Mongodb Configuration
+      gameplay_mongodb_host     = local.gameplay_mongodb.host,
+      gameplay_mongodb_database = local.gameplay_mongodb.database,
+      gameplay_mongodb_password = var.gameplay_mongodb_password,
+      gameplay_mongodb_username = var.gameplay_mongodb_username,
+      gameplay_mongodb_port     = local.gameplay_mongodb.port,
+
+      // Resource configurations
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
+    })
+  ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
+
+  depends_on = [
+    helm_release.keda,
+    helm_release.cache_redis,
+    helm_release.gameplay_mongodb,
+    helm_release.job_redis,
+    kubernetes_job.seed_db,
+  ]
+}
+
+resource "helm_release" "client" {
+  name            = local.client.name
+  repository      = var.container_repository
+  cleanup_on_fail = var.cleanup_on_fail
+  chart           = "service"
+  namespace       = kubernetes_namespace.containers.metadata[0].name
+
+  values = [
+    templatefile("${path.module}/manifests/client-values.yaml", {
+      node_group_label = var.primary_node_group_name,
+      // Gameplay Service Configuration
+      port = local.client.port,
+      // Resource configurations
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
+    })
   ]
 }

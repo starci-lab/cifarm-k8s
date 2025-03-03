@@ -70,23 +70,24 @@ resource "helm_release" "gameplay_mongodb" {
       node_group_label = var.primary_node_group_name,
 
       # Resource configurations
-      configsvr_request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      configsvr_request_memory = var.pod_resource_config["small"].requests.memory,
-      configsvr_limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      configsvr_limit_memory   = var.pod_resource_config["small"].limits.memory,
+      configsvr_request_cpu    = var.pod_resource_config["medium"].requests.cpu,
+      configsvr_request_memory = var.pod_resource_config["medium"].requests.memory,
+      configsvr_limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
+      configsvr_limit_memory   = var.pod_resource_config["medium"].limits.memory,
 
-      mongos_request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      mongos_request_memory = var.pod_resource_config["small"].requests.memory,
-      mongos_limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      mongos_limit_memory   = var.pod_resource_config["small"].limits.memory,
+      mongos_request_cpu    = var.pod_resource_config["medium"].requests.cpu,
+      mongos_request_memory = var.pod_resource_config["medium"].requests.memory,
+      mongos_limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
+      mongos_limit_memory   = var.pod_resource_config["medium"].limits.memory,
 
-      shardsvr_data_node_request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      shardsvr_data_node_request_memory = var.pod_resource_config["small"].requests.memory,
-      shardsvr_data_node_limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      shardsvr_data_node_limit_memory   = var.pod_resource_config["small"].limits.memory,
+      shardsvr_data_node_request_cpu    = var.pod_resource_config["medium"].requests.cpu,
+      shardsvr_data_node_request_memory = var.pod_resource_config["medium"].requests.memory,
+      shardsvr_data_node_limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
+      shardsvr_data_node_limit_memory   = var.pod_resource_config["medium"].limits.memory,
 
       username = var.gameplay_mongodb_username,
       password = var.gameplay_mongodb_password,
+      replica_set_key = var.gameplay_mongodb_auth_replica_set_key,
     })
   ]
 

@@ -3,6 +3,7 @@
 auth:
   rootUser: ${username}
   rootPassword: ${password}
+  replicaSetKey: ${replica_set_key}
 configsvr:
   resources:
     requests:

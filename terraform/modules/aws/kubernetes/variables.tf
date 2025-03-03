@@ -449,6 +449,12 @@ variable "gameplay_mongodb_username" {
   default     = "root"
 }
 
+variable "gameplay_mongodb_auth_replica_set_key" {
+  type        = string
+  description = "Gameplay MongoDB auth replica set key"
+  sensitive   = true
+}
+
 variable "gameplay_mongodb_password" {
   type        = string
   description = "Gameplay MongoDB password"
@@ -483,4 +489,16 @@ variable "pgpool_num_init_children" {
   type        = number
   description = "PGPool number of initial child processes"
   default     = 100
+}
+
+variable "telegram_bot_token" {
+  type        = string
+  description = "Telegram bot token"
+  sensitive   = true
+}
+
+variable "telegram_miniapp_url" {
+  type        = string
+  description = "Telegram miniapp URL"
+  default = "https://client.cifarm.dev.starci.net"
 }

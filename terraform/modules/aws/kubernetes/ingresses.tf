@@ -259,3 +259,58 @@ resource "kubernetes_ingress_v1" "jenkins" {
     helm_release.jenkins
   ]
 }
+
+resource "kubernetes_service" "client_external" {
+  metadata {
+    name      = local.client.name
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+  }
+
+  spec {
+    type          = "ExternalName" # Specifies this is an ExternalName service
+    external_name = local.client.host
+  }
+}
+
+resource "kubernetes_ingress_v1" "client" {
+  metadata {
+    name      = "client"
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+    annotations = {
+      "cert-manager.io/cluster-issuer"                 = var.cluster_issuer_name
+      "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+    }
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = local.client_domain_name
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = local.client.name
+              port {
+                number = local.client.port
+              }
+            }
+          }
+        }
+      }
+    }
+    tls {
+      hosts       = [local.client_domain_name]
+      secret_name = "client-tls"
+    }
+  }
+
+  depends_on = [
+    kubectl_manifest.cluster_issuer_letsencrypt_prod,
+    aws_route53_record.client,
+    helm_release.client
+  ]
+}
+
+

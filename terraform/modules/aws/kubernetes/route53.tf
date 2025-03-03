@@ -23,6 +23,7 @@ locals {
   graphql_domain_name = "graphql.${local.domain_name}"
   io_domain_name = "io.${local.domain_name}"
   io_admin_domain_name = "io-admin.${local.domain_name}"
+  client_domain_name = "client.${local.domain_name}"
 }
 
 # Create A records for the domain api
@@ -81,6 +82,19 @@ resource "aws_route53_record" "io" {
 resource "aws_route53_record" "io_admin" {
     zone_id = aws_route53_zone.zone.zone_id
     name    = local.io_admin_domain_name
+    type    = "A"
+    alias {
+        name                   = data.kubernetes_service.nginx_ingress_controller.status[0].load_balancer[0].ingress[0].hostname
+        zone_id                = data.aws_lb_hosted_zone_id.nlb.id
+        evaluate_target_health = true
+    }
+    depends_on = [ cloudflare_record.ns ]
+}
+
+# Create A records for the domain cifarm
+resource "aws_route53_record" "client" {
+    zone_id = aws_route53_zone.zone.zone_id
+    name    = local.client_domain_name
     type    = "A"
     alias {
         name                   = data.kubernetes_service.nginx_ingress_controller.status[0].load_balancer[0].ingress[0].hostname
