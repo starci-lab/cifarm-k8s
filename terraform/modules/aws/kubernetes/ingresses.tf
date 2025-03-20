@@ -5,58 +5,58 @@ resource "kubernetes_namespace" "ingresses" {
   }
 }
 
-resource "kubernetes_service" "rest_api_gateway_external" {
-  metadata {
-    name      = local.rest_api_gateway.name
-    namespace = kubernetes_namespace.ingresses.metadata[0].name
-  }
+# resource "kubernetes_service" "rest_api_gateway_external" {
+#   metadata {
+#     name      = local.rest_api_gateway.name
+#     namespace = kubernetes_namespace.ingresses.metadata[0].name
+#   }
 
-  spec {
-    type          = "ExternalName" # Specifies this is an ExternalName service
-    external_name = local.rest_api_gateway.host
-  }
-}
+#   spec {
+#     type          = "ExternalName" # Specifies this is an ExternalName service
+#     external_name = local.rest_api_gateway.host
+#   }
+# }
 
-resource "kubernetes_ingress_v1" "api" {
-  metadata {
-    name      = "api"
-    namespace = kubernetes_namespace.ingresses.metadata[0].name
-    annotations = {
-      "cert-manager.io/cluster-issuer"                 = var.cluster_issuer_name
-      "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
-      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-    }
-  }
-  spec {
-    ingress_class_name = "nginx"
-    rule {
-      host = local.api_domain_name
-      http {
-        path {
-          path = "/"
-          backend {
-            service {
-              name = local.rest_api_gateway.name
-              port {
-                number = local.rest_api_gateway.port
-              }
-            }
-          }
-        }
-      }
-    }
-    tls {
-      hosts       = [local.api_domain_name]
-      secret_name = "api-tls"
-    }
-  }
+# resource "kubernetes_ingress_v1" "api" {
+#   metadata {
+#     name      = "api"
+#     namespace = kubernetes_namespace.ingresses.metadata[0].name
+#     annotations = {
+#       "cert-manager.io/cluster-issuer"                 = var.cluster_issuer_name
+#       "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
+#       "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+#     }
+#   }
+#   spec {
+#     ingress_class_name = "nginx"
+#     rule {
+#       host = local.api_domain_name
+#       http {
+#         path {
+#           path = "/"
+#           backend {
+#             service {
+#               name = local.rest_api_gateway.name
+#               port {
+#                 number = local.rest_api_gateway.port
+#               }
+#             }
+#           }
+#         }
+#       }
+#     }
+#     tls {
+#       hosts       = [local.api_domain_name]
+#       secret_name = "api-tls"
+#     }
+#   }
 
-  depends_on = [
-    kubectl_manifest.cluster_issuer_letsencrypt_prod,
-    aws_route53_record.api,
-    helm_release.rest_api_gateway
-  ]
-}
+#   depends_on = [
+#     kubectl_manifest.cluster_issuer_letsencrypt_prod,
+#     aws_route53_record.api,
+#     helm_release.rest_api_gateway
+#   ]
+# }
 
 resource "kubernetes_service" "graphql_gateway_external" {
   metadata {
@@ -272,45 +272,45 @@ resource "kubernetes_service" "client_external" {
   }
 }
 
-resource "kubernetes_ingress_v1" "client" {
-  metadata {
-    name      = "client"
-    namespace = kubernetes_namespace.ingresses.metadata[0].name
-    annotations = {
-      "cert-manager.io/cluster-issuer"                 = var.cluster_issuer_name
-      "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
-      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-    }
-  }
-  spec {
-    ingress_class_name = "nginx"
-    rule {
-      host = local.client_domain_name
-      http {
-        path {
-          path = "/"
-          backend {
-            service {
-              name = local.client.name
-              port {
-                number = local.client.port
-              }
-            }
-          }
-        }
-      }
-    }
-    tls {
-      hosts       = [local.client_domain_name]
-      secret_name = "client-tls"
-    }
-  }
+# resource "kubernetes_ingress_v1" "client" {
+#   metadata {
+#     name      = "client"
+#     namespace = kubernetes_namespace.ingresses.metadata[0].name
+#     annotations = {
+#       "cert-manager.io/cluster-issuer"                 = var.cluster_issuer_name
+#       "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
+#       "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+#     }
+#   }
+#   spec {
+#     ingress_class_name = "nginx"
+#     rule {
+#       host = local.client_domain_name
+#       http {
+#         path {
+#           path = "/"
+#           backend {
+#             service {
+#               name = local.client.name
+#               port {
+#                 number = local.client.port
+#               }
+#             }
+#           }
+#         }
+#       }
+#     }
+#     tls {
+#       hosts       = [local.client_domain_name]
+#       secret_name = "client-tls"
+#     }
+#   }
 
-  depends_on = [
-    kubectl_manifest.cluster_issuer_letsencrypt_prod,
-    aws_route53_record.client,
-    helm_release.client
-  ]
-}
+#   depends_on = [
+#     kubectl_manifest.cluster_issuer_letsencrypt_prod,
+#     aws_route53_record.client,
+#     helm_release.client
+#   ]
+# }
 
 

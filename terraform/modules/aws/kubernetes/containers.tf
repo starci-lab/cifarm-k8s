@@ -72,119 +72,119 @@ locals {
   }
 }
 
-resource "helm_release" "gameplay_service" {
-  name            = local.gameplay_service.name
-  repository      = var.container_repository
-  cleanup_on_fail = var.cleanup_on_fail
-  chart           = "service"
-  namespace       = kubernetes_namespace.containers.metadata[0].name
+# resource "helm_release" "gameplay_service" {
+#   name            = local.gameplay_service.name
+#   repository      = var.container_repository
+#   cleanup_on_fail = var.cleanup_on_fail
+#   chart           = "service"
+#   namespace       = kubernetes_namespace.containers.metadata[0].name
 
-  values = [
-    templatefile("${path.module}/manifests/gameplay-service-values.yaml", {
-      node_group_label = var.primary_node_group_name,
+#   values = [
+#     templatefile("${path.module}/manifests/gameplay-service-values.yaml", {
+#       node_group_label = var.primary_node_group_name,
 
-      // Jwt
-      jwt_secret                   = var.jwt_secret,
-      jwt_access_token_expiration  = var.jwt_access_token_expiration,
-      jwt_refresh_token_expiration = var.jwt_refresh_token_expiration,
+#       // Jwt
+#       jwt_secret                   = var.jwt_secret,
+#       jwt_access_token_expiration  = var.jwt_access_token_expiration,
+#       jwt_refresh_token_expiration = var.jwt_refresh_token_expiration,
 
-      // Gameplay Mongodb Configuration
-      gameplay_mongodb_host     = local.gameplay_mongodb.host,
-      gameplay_mongodb_database = local.gameplay_mongodb.database,
-      gameplay_mongodb_password = var.gameplay_mongodb_password,
-      gameplay_mongodb_username = var.gameplay_mongodb_username,
-      gameplay_mongodb_port     = local.gameplay_mongodb.port,
+#       // Gameplay Mongodb Configuration
+#       gameplay_mongodb_host     = local.gameplay_mongodb.host,
+#       gameplay_mongodb_database = local.gameplay_mongodb.database,
+#       gameplay_mongodb_password = var.gameplay_mongodb_password,
+#       gameplay_mongodb_username = var.gameplay_mongodb_username,
+#       gameplay_mongodb_port     = local.gameplay_mongodb.port,
 
-      // Kafka Configuration
-      kafka_host          = local.kafka.host,
-      kafka_port          = local.kafka.port,
-      kafka_sasl_enabled  = true,
-      kafka_sasl_username = var.kafka_sasl_username,
-      kafka_sasl_password = var.kafka_sasl_password,
+#       // Kafka Configuration
+#       kafka_host          = local.kafka.host,
+#       kafka_port          = local.kafka.port,
+#       kafka_sasl_enabled  = true,
+#       kafka_sasl_username = var.kafka_sasl_username,
+#       kafka_sasl_password = var.kafka_sasl_password,
 
-      // Gameplay Service Configuration
-      port              = local.gameplay_service.port,
-      health_check_port = local.gameplay_service.health_check_port,
+#       // Gameplay Service Configuration
+#       port              = local.gameplay_service.port,
+#       health_check_port = local.gameplay_service.health_check_port,
 
-      // Cache Redis Configuration
-      cache_redis_host            = local.cache_redis.host,
-      cache_redis_port            = local.cache_redis.port,
-      cache_redis_password        = var.cache_redis_password,
-      cache_redis_cluster_enabled = true,
+#       // Cache Redis Configuration
+#       cache_redis_host            = local.cache_redis.host,
+#       cache_redis_port            = local.cache_redis.port,
+#       cache_redis_password        = var.cache_redis_password,
+#       cache_redis_cluster_enabled = true,
 
-      // Resource configurations
-      request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      request_memory = var.pod_resource_config["small"].requests.memory,
-      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      limit_memory   = var.pod_resource_config["small"].limits.memory,
+#       // Resource configurations
+#       request_cpu    = var.pod_resource_config["small"].requests.cpu,
+#       request_memory = var.pod_resource_config["small"].requests.memory,
+#       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+#       limit_memory   = var.pod_resource_config["small"].limits.memory,
 
-      // Honeycomb Configuration
-      solana_honeycomb_authority_private_key_mainnet = var.solana_honeycomb_authority_private_key_mainnet
-      solana_honeycomb_authority_private_key_testnet = var.solana_honeycomb_authority_private_key_testnet
-    })
-  ]
+#       // Honeycomb Configuration
+#       solana_honeycomb_authority_private_key_mainnet = var.solana_honeycomb_authority_private_key_mainnet
+#       solana_honeycomb_authority_private_key_testnet = var.solana_honeycomb_authority_private_key_testnet
+#     })
+#   ]
 
-  dynamic "set" {
-    for_each = local.set_pull_secrets
-    content {
-      name  = set.value.name
-      value = set.value.value
-    }
-  }
+#   dynamic "set" {
+#     for_each = local.set_pull_secrets
+#     content {
+#       name  = set.value.name
+#       value = set.value.value
+#     }
+#   }
 
-  depends_on = [
-    helm_release.keda,
-    helm_release.cache_redis,
-    helm_release.kafka,
-    helm_release.gameplay_mongodb,
-    kubernetes_job.seed_db,
-  ]
-}
+#   depends_on = [
+#     helm_release.keda,
+#     helm_release.cache_redis,
+#     helm_release.kafka,
+#     helm_release.gameplay_mongodb,
+#     kubernetes_job.seed_db,
+#   ]
+# }
 
-resource "helm_release" "rest_api_gateway" {
-  name            = local.rest_api_gateway.name
-  repository      = var.container_repository
-  cleanup_on_fail = var.cleanup_on_fail
-  chart           = "service"
-  namespace       = kubernetes_namespace.containers.metadata[0].name
+# resource "helm_release" "rest_api_gateway" {
+#   name            = local.rest_api_gateway.name
+#   repository      = var.container_repository
+#   cleanup_on_fail = var.cleanup_on_fail
+#   chart           = "service"
+#   namespace       = kubernetes_namespace.containers.metadata[0].name
 
-  values = [
-    templatefile("${path.module}/manifests/rest-api-gateway-values.yaml", {
-      // Gameplay Service Configuration
-      node_group_label                   = var.primary_node_group_name,
-      gameplay_service_host              = local.gameplay_service.host,
-      gameplay_service_port              = local.gameplay_service.port,
-      gameplay_service_health_check_port = local.gameplay_service.health_check_port,
+#   values = [
+#     templatefile("${path.module}/manifests/rest-api-gateway-values.yaml", {
+#       // Gameplay Service Configuration
+#       node_group_label                   = var.primary_node_group_name,
+#       gameplay_service_host              = local.gameplay_service.host,
+#       gameplay_service_port              = local.gameplay_service.port,
+#       gameplay_service_health_check_port = local.gameplay_service.health_check_port,
 
-      // Jwt
-      jwt_secret = var.jwt_secret,
+#       // Jwt
+#       jwt_secret = var.jwt_secret,
 
-      // Rest API Gateway Configuration Port
-      port              = local.rest_api_gateway.port,
-      health_check_port = local.rest_api_gateway.health_check_port,
+#       // Rest API Gateway Configuration Port
+#       port              = local.rest_api_gateway.port,
+#       health_check_port = local.rest_api_gateway.health_check_port,
 
-      // Resource configurations
-      request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      request_memory = var.pod_resource_config["small"].requests.memory,
-      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      limit_memory   = var.pod_resource_config["small"].limits.memory,
-    })
-  ]
+#       // Resource configurations
+#       request_cpu    = var.pod_resource_config["small"].requests.cpu,
+#       request_memory = var.pod_resource_config["small"].requests.memory,
+#       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+#       limit_memory   = var.pod_resource_config["small"].limits.memory,
+#     })
+#   ]
 
-  dynamic "set" {
-    for_each = local.set_pull_secrets
-    content {
-      name  = set.value.name
-      value = set.value.value
-    }
-  }
+#   dynamic "set" {
+#     for_each = local.set_pull_secrets
+#     content {
+#       name  = set.value.name
+#       value = set.value.value
+#     }
+#   }
 
-  depends_on = [
-    helm_release.keda,
-    helm_release.gameplay_service,
-    kubernetes_job.seed_db,
-  ]
-}
+#   depends_on = [
+#     helm_release.keda,
+#     helm_release.gameplay_service,
+#     kubernetes_job.seed_db,
+#   ]
+# }
 
 resource "helm_release" "gameplay_subgraph" {
   name            = local.gameplay_subgraph.name
@@ -215,6 +215,17 @@ resource "helm_release" "gameplay_subgraph" {
       cache_redis_password        = var.cache_redis_password,
 
       jwt_secret = var.jwt_secret,
+
+      // Kafka Configuration
+      kafka_host          = local.kafka.host,
+      kafka_port          = local.kafka.port,
+      kafka_sasl_enabled  = true,
+      kafka_sasl_username = var.kafka_sasl_username,
+      kafka_sasl_password = var.kafka_sasl_password,
+
+      // Honeycomb Configuration
+      solana_honeycomb_authority_private_key_mainnet = var.solana_honeycomb_authority_private_key_mainnet
+      solana_honeycomb_authority_private_key_testnet = var.solana_honeycomb_authority_private_key_testnet
 
       // Resource configurations
       request_cpu    = var.pod_resource_config["small"].requests.cpu,
@@ -467,7 +478,15 @@ resource "helm_release" "cron_worker" {
       job_redis_host            = local.job_redis.host,
       job_redis_port            = local.job_redis.port,
       job_redis_password        = var.job_redis_password,
+      
       job_redis_cluster_enabled = true,
+
+      // Kafka Configuration
+      kafka_host          = local.kafka.host,
+      kafka_port          = local.kafka.port,
+      kafka_sasl_enabled  = true,
+      kafka_sasl_username = var.kafka_sasl_username,
+      kafka_sasl_password = var.kafka_sasl_password,
 
       // Resource configurations
       request_cpu    = var.pod_resource_config["small"].requests.cpu,
@@ -542,23 +561,23 @@ resource "helm_release" "telegram_bot" {
   ]
 }
 
-resource "helm_release" "client" {
-  name            = local.client.name
-  repository      = var.container_repository
-  cleanup_on_fail = var.cleanup_on_fail
-  chart           = "service"
-  namespace       = kubernetes_namespace.containers.metadata[0].name
+# resource "helm_release" "client" {
+#   name            = local.client.name
+#   repository      = var.container_repository
+#   cleanup_on_fail = var.cleanup_on_fail
+#   chart           = "service"
+#   namespace       = kubernetes_namespace.containers.metadata[0].name
 
-  values = [
-    templatefile("${path.module}/manifests/client-values.yaml", {
-      node_group_label = var.primary_node_group_name,
-      // Gameplay Service Configuration
-      port = local.client.port,
-      // Resource configurations
-      request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      request_memory = var.pod_resource_config["small"].requests.memory,
-      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      limit_memory   = var.pod_resource_config["small"].limits.memory,
-    })
-  ]
-}
+#   values = [
+#     templatefile("${path.module}/manifests/client-values.yaml", {
+#       node_group_label = var.primary_node_group_name,
+#       // Gameplay Service Configuration
+#       port = local.client.port,
+#       // Resource configurations
+#       request_cpu    = var.pod_resource_config["small"].requests.cpu,
+#       request_memory = var.pod_resource_config["small"].requests.memory,
+#       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+#       limit_memory   = var.pod_resource_config["small"].limits.memory,
+#     })
+#   ]
+# }

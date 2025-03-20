@@ -13,6 +13,11 @@ envVarsCM:
   GAMEPLAY_MONGODB_HOST: "${gameplay_mongodb_host}"
   GAMEPLAY_MONGODB_PORT: "${gameplay_mongodb_port}"
   
+  # Kafka Configuration (non-sensitive, can go to ConfigMap)
+  KAFKA_HOST: "${kafka_host}"
+  KAFKA_PORT: "${kafka_port}"
+  KAFKA_SASL_ENABLED: "${kafka_sasl_enabled}"
+
   CRON_WORKER_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
   
 envVarsSecret:
@@ -25,6 +30,10 @@ envVarsSecret:
   # Gameplay Test Postgres Configuration (sensitive, should go to Secrets)
   GAMEPLAY_MONGODB_USERNAME: "${gameplay_mongodb_username}"
   GAMEPLAY_MONGODB_PASSWORD: "${gameplay_mongodb_password}"
+
+  # Kafka SASL Configuration (sensitive, should go to Secrets)
+  KAFKA_SASL_USERNAME: "${kafka_sasl_username}"
+  KAFKA_SASL_PASSWORD: "${kafka_sasl_password}"
 
 containerPorts:
   app:
