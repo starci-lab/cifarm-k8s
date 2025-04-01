@@ -45,11 +45,11 @@ locals {
   }
 
   // IO Gameplay
-  io_gameplay = {
-    name              = "io-gameplay"
+  ws = {
+    name              = "ws"
     port              = 8080
     health_check_port = 8081
-    host              = "io-gameplay-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+    host              = "ws-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
     admin_ui_port     = 8082
   }
 
@@ -301,15 +301,15 @@ resource "helm_release" "graphql_gateway" {
   ]
 }
 
-resource "helm_release" "io_gameplay" {
-  name            = local.io_gameplay.name
+resource "helm_release" "ws" {
+  name            = local.ws.name
   repository      = var.container_repository
   cleanup_on_fail = var.cleanup_on_fail
   chart           = "service"
   namespace       = kubernetes_namespace.containers.metadata[0].name
 
   values = [
-    templatefile("${path.module}/manifests/io-gameplay-values.yaml", {
+    templatefile("${path.module}/manifests/ws-values.yaml", {
       node_group_label = var.primary_node_group_name,
 
       // Gameplay Mongodb Configuration
@@ -320,16 +320,16 @@ resource "helm_release" "io_gameplay" {
       gameplay_mongodb_port     = local.gameplay_mongodb.port,
 
       // Gameplay Service Configuration
-      port              = local.io_gameplay.port,
-      health_check_port = local.io_gameplay.health_check_port,
+      port              = local.ws.port,
+      health_check_port = local.ws.health_check_port,
 
-      production_url  = "https://${local.io_admin_domain_name}",
+      production_url  = "https://${local.ws_admin_domain_name}",
       cluster_enabled = false,
       adapter         = "redis-stream",
 
-      admin_username = var.socket_io_admin_username,
-      admin_password = var.socket_io_admin_password,
-      admin_ui_port  = local.io_gameplay.admin_ui_port,
+      admin_username = var.ws_admin_username,
+      admin_password = var.ws_admin_password,
+      admin_ui_port  = local.ws.admin_ui_port,
 
       // Cache Redis Configuration
       cache_redis_host            = local.cache_redis.host,

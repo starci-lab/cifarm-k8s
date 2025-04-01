@@ -16,18 +16,6 @@ locals {
 
 locals {
   containers = {
-    gameplay_service = {
-      file        = "gameplay-service-build-pipeline"
-      name        = "Gameplay Service Build Pipeline"                                          # Name of the Jenkins pipeline job
-      description = "Build the gameplay service using Kaniko then push the image to Dockerhub" # Job description
-      path        = ".jenkins/build/gameplay-service.jenkinsfile"                              # Path to the Jenkinsfile
-    }
-    rest_api_gateway = {
-      file        = "rest-api-gateway-build-pipeline"
-      name        = "Rest API Gateway Build Pipeline"                                          # Name of the Jenkins pipeline job
-      description = "Build the rest API gateway using Kaniko then push the image to Dockerhub" # Job description
-      path        = ".jenkins/build/rest-api-gateway.jenkinsfile"                              # Path to the Jenkinsfile
-    }
     gameplay_subgraph = {
       file        = "gameplay-subgraph-build-pipeline"
       name        = "Gameplay Subgraph Build Pipeline"                                          # Name of the Jenkins pipeline job
@@ -40,11 +28,11 @@ locals {
       description = "Build the graphql maingraph using Kaniko then push the image to Dockerhub" # Job description
       path        = ".jenkins/build/graphql-gateway.jenkinsfile"                                # Path to the Jenkinsfile
     }
-    io_gameplay = {
+    ws = {
       file        = "websocket-node-build-pipeline"
       name        = "Websocket Node Build Pipeline"                                          # Name of the Jenkins pipeline job
       description = "Build the websocket node using Kaniko then push the image to Dockerhub" # Job description
-      path        = ".jenkins/build/websocket-node.jenkinsfile"                              # Path to the Jenkinsfile
+      path        = ".jenkins/build/ws.jenkinsfile"                              # Path to the Jenkinsfile
     }
     cron_scheduler = {
       file        = "cron-scheduler-build-pipeline"

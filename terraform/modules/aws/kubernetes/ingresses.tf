@@ -111,21 +111,21 @@ resource "kubernetes_ingress_v1" "graphql" {
   ]
 }
 
-resource "kubernetes_service" "io_gameplay_external" {
+resource "kubernetes_service" "ws_external" {
   metadata {
-    name      = local.io_gameplay.name
+    name      = local.ws.name
     namespace = kubernetes_namespace.ingresses.metadata[0].name
   }
 
   spec {
     type          = "ExternalName" # Specifies this is an ExternalName service
-    external_name = local.io_gameplay.host
+    external_name = local.ws.host
   }
 }
 
-resource "kubernetes_ingress_v1" "io" {
+resource "kubernetes_ingress_v1" "ws" {
   metadata {
-    name      = "io"
+    name      = "ws"
     namespace = kubernetes_namespace.ingresses.metadata[0].name
     annotations = {
       "cert-manager.io/cluster-issuer"                    = var.cluster_issuer_name
@@ -138,15 +138,15 @@ resource "kubernetes_ingress_v1" "io" {
   spec {
     ingress_class_name = "nginx"
     rule {
-      host = local.io_domain_name
+      host = local.ws_domain_name
       http {
         path {
           path = "/"
           backend {
             service {
-              name = local.io_gameplay.name
+              name = local.ws.name
               port {
-                number = local.io_gameplay.port
+                number = local.ws.port
               }
             }
           }
@@ -154,21 +154,21 @@ resource "kubernetes_ingress_v1" "io" {
       }
     }
     tls {
-      hosts       = [local.io_domain_name]
-      secret_name = "io-tls"
+      hosts       = [local.ws_domain_name]
+      secret_name = "ws-tls"
     }
   }
 
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
-    aws_route53_record.io,
-    helm_release.io_gameplay
+    aws_route53_record.ws,
+    helm_release.ws
   ]
 }
 
-resource "kubernetes_ingress_v1" "io_admin" {
+resource "kubernetes_ingress_v1" "ws_admin" {
   metadata {
-    name      = "io-admin"
+    name      = "ws-admin"
     namespace = kubernetes_namespace.ingresses.metadata[0].name
     annotations = {
       "cert-manager.io/cluster-issuer"                    = var.cluster_issuer_name
@@ -179,15 +179,15 @@ resource "kubernetes_ingress_v1" "io_admin" {
   spec {
     ingress_class_name = "nginx"
     rule {
-      host = local.io_admin_domain_name
+      host = local.ws_admin_domain_name
       http {
         path {
           path = "/"
           backend {
             service {
-              name = local.io_gameplay.name
+              name = local.ws.name
               port {
-                number = local.io_gameplay.admin_ui_port
+                number = local.ws.admin_ui_port
               }
             }
           }
@@ -195,15 +195,15 @@ resource "kubernetes_ingress_v1" "io_admin" {
       }
     }
     tls {
-      hosts       = [local.io_admin_domain_name]
-      secret_name = "io-admin-tls"
+      hosts       = [local.ws_admin_domain_name]
+      secret_name = "ws-admin-tls"
     }
   }
 
   depends_on = [
     kubectl_manifest.cluster_issuer_letsencrypt_prod,
-    aws_route53_record.io_admin,
-    helm_release.io_gameplay
+    aws_route53_record.ws_admin,
+    helm_release.ws
   ]
 }
 

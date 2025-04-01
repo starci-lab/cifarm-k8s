@@ -13,11 +13,11 @@ envVarsCM:
   GAMEPLAY_MONGODB_HOST: "${gameplay_mongodb_host}"
   GAMEPLAY_MONGODB_PORT: "${gameplay_mongodb_port}"
   
-  IO_GAMEPLAY_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
-  IO_GAMEPLAY_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
-  IO_GAMEPLAY_CLUSTER_ENABLED: "${cluster_enabled}"  # Specify as string to avoid YAML parsing errors
-  IO_GAMEPLAY_ADAPTER: "${adapter}"
-  IO_GAMEPLAY_ADMIN_UI_PORT: "${admin_ui_port}"  # Specify as string to avoid YAML parsing errors
+  WS_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
+  WS_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
+  WS_CLUSTER_ENABLED: "${cluster_enabled}"  # Specify as string to avoid YAML parsing errors
+  WS_ADAPTER: "${adapter}"
+  WS_ADMIN_UI_PORT: "${admin_ui_port}"  # Specify as string to avoid YAML parsing errors
   
   PRODUCTION_URL: "${production_url}"  # Specify as string to avoid YAML parsing errors
 
@@ -43,8 +43,11 @@ envVarsSecret:
 
   JWT_SECRET: "${jwt_secret}"  # Ensure the secret is a string
 
-  SOCKET_IO_ADMIN_USERNAME: "${admin_username}"
-  SOCKET_IO_ADMIN_PASSWORD: "${admin_password}"
+  WS_ADMIN_USERNAME: "${admin_username}"
+  WS_ADMIN_PASSWORD: "${admin_password}"
+
+  WS_ALLOW_ORIGIN_1: "${allow_origin_1}"
+  WS_ALLOW_ORIGIN_2: "${allow_origin_2}"
 
 containerPorts:
   app:
@@ -66,7 +69,7 @@ service:
 
 image:
   registry: docker.io  # Docker registry URL for the image.
-  repository: cifarm/io-gameplay  # Repository for the container image.
+  repository: cifarm/ws  # Repository for the container image.
   tag: latest  # Tag for the image.
   digest: ""  # Optionally specify an image digest.
   pullPolicy: Always  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.

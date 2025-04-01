@@ -177,13 +177,13 @@ variable "cluster_issuer_name" {
 variable "base_domain_name" {
   type        = string
   description = "The base domain name used"
-  default     = "starci.net"
+  default     = "cifarm.xyz"
 }
 
 variable "subdomain_prefix" {
   type        = string
   description = "The subdomain prefix used"
-  default     = "cifarm.dev"
+  default     = "eks"
 }
 
 variable "cloudflare_api_token" {
@@ -377,13 +377,13 @@ variable "pod_resource_config" {
   }
 }
 
-variable "socket_io_admin_username" {
+variable "ws_admin_username" {
   type        = string
   description = "Socket.IO admin username"
   sensitive   = true
 }
 
-variable "socket_io_admin_password" {
+variable "ws_admin_password" {
   type        = string
   description = "Socket.IO admin password"
   sensitive   = true
@@ -500,5 +500,5 @@ variable "telegram_bot_token" {
 variable "telegram_miniapp_url" {
   type        = string
   description = "Telegram miniapp URL"
-  default = "https://client.cifarm.dev.starci.net"
+  default = "https://www.cifarm.xyz"
 }

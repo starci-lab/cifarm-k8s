@@ -10,6 +10,9 @@ envVarsCM:
   GRAPHQL_GATEWAY_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
   GRAPHQL_GATEWAY_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
 
+  GRAPHQL_ALLOW_ORIGIN_1: "${allow_origin_1}"
+  GRAPHQL_ALLOW_ORIGIN_2: "${allow_origin_2}"
+
 # JWT Authentication Configuration (sensitive, should go to Secrets)
 envVarsSecret:
   JWT_SECRET: "${jwt_secret}"
