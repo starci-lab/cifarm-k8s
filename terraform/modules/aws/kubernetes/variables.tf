@@ -377,13 +377,13 @@ variable "pod_resource_config" {
   }
 }
 
-variable "ws_admin_username" {
+variable "socket_io_admin_username" {
   type        = string
   description = "Socket.IO admin username"
   sensitive   = true
 }
 
-variable "ws_admin_password" {
+variable "socket_io_admin_password" {
   type        = string
   description = "Socket.IO admin password"
   sensitive   = true
@@ -520,9 +520,3 @@ variable "graphql_allow_origin_1" {
   description = "GraphQL allow origin 1"
   default     = "https://cifarm.xyz"
 }
-
-variable "graphql_allow_origin_2" {
-  type        = string
-  description = "GraphQL allow origin 2"
-}
-

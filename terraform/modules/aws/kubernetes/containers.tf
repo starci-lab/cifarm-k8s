@@ -331,8 +331,8 @@ resource "helm_release" "ws" {
       cluster_enabled = false,
       adapter         = "redis-stream",
 
-      admin_username = var.ws_admin_username,
-      admin_password = var.ws_admin_password,
+      admin_username = var.socket_io_admin_username,
+      admin_password = var.socket_io_admin_password,
       admin_ui_port  = local.ws.admin_ui_port,
 
       // Cache Redis Configuration

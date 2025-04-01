@@ -26,6 +26,9 @@ envVarsCM:
   KAFKA_PORT: "${kafka_port}"
   KAFKA_SASL_ENABLED: "${kafka_sasl_enabled}"
 
+  WS_ALLOW_ORIGIN_1: "${allow_origin_1}"
+  WS_ALLOW_ORIGIN_2: "${allow_origin_2}"
+
 envVarsSecret:
   # Redis Cache Configuration (sensitive, should go to Secrets)
   CACHE_REDIS_PASSWORD: "${cache_redis_password}" # Ensure the password is a string
@@ -43,11 +46,8 @@ envVarsSecret:
 
   JWT_SECRET: "${jwt_secret}"  # Ensure the secret is a string
 
-  WS_ADMIN_USERNAME: "${admin_username}"
-  WS_ADMIN_PASSWORD: "${admin_password}"
-
-  WS_ALLOW_ORIGIN_1: "${allow_origin_1}"
-  WS_ALLOW_ORIGIN_2: "${allow_origin_2}"
+  SOCKET_IO_ADMIN_USERNAME: "${admin_username}"
+  SOCKET_IO_ADMIN_PASSWORD: "${admin_password}"
 
 containerPorts:
   app:
