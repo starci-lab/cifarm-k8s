@@ -232,6 +232,8 @@ resource "helm_release" "gameplay_subgraph" {
       request_memory = var.pod_resource_config["small"].requests.memory,
       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
       limit_memory   = var.pod_resource_config["small"].limits.memory,
+
+      
     })
   ]
 
@@ -283,6 +285,8 @@ resource "helm_release" "graphql_gateway" {
       request_memory = var.pod_resource_config["small"].requests.memory,
       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
       limit_memory   = var.pod_resource_config["small"].limits.memory,
+
+      allow_origin_1 = var.graphql_allow_origin_1,
     })
   ]
 
@@ -361,6 +365,9 @@ resource "helm_release" "ws" {
       kafka_sasl_enabled  = true,
       kafka_sasl_username = var.kafka_sasl_username,
       kafka_sasl_password = var.kafka_sasl_password,
+
+      allow_origin_1 = var.ws_allow_origin_1,
+      allow_origin_2 = var.ws_allow_origin_2,
 
       // Jwt
       jwt_secret = var.jwt_secret,

@@ -502,3 +502,27 @@ variable "telegram_miniapp_url" {
   description = "Telegram miniapp URL"
   default = "https://www.cifarm.xyz"
 }
+
+variable "ws_allow_origin_1" {
+  type        = string
+  description = "WebSocket allow origin 1"
+  default     = "https://cifarm.xyz"
+}
+
+variable "ws_allow_origin_2" {
+  type        = string
+  description = "WebSocket allow origin 2"
+  default     = "https://ws-admin.eks.cifarm.xyz"
+}
+
+variable "graphql_allow_origin_1" {
+  type        = string
+  description = "GraphQL allow origin 1"
+  default     = "https://cifarm.xyz"
+}
+
+variable "graphql_allow_origin_2" {
+  type        = string
+  description = "GraphQL allow origin 2"
+}
+
