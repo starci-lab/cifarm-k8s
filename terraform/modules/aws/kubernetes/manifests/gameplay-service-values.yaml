@@ -40,6 +40,9 @@ envVarsSecret:
   SOLANA_HONEYCOMB_AUTHORITY_PRIVATE_KEY_MAINNET: "${solana_honeycomb_authority_private_key_mainnet}"
   SOLANA_HONEYCOMB_AUTHORITY_PRIVATE_KEY_TESTNET: "${solana_honeycomb_authority_private_key_testnet}"
 
+  SOLANA_METAPLEX_AUTHORITY_PRIVATE_KEY_MAINNET: "${solana_metaplex_authority_private_key_mainnet}"
+  SOLANA_METAPLEX_AUTHORITY_PRIVATE_KEY_TESTNET: "${solana_metaplex_authority_private_key_testnet}"
+
 containerPorts:
   app:
     port: ${port}  # Port exposed by the container.

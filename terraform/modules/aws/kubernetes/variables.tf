@@ -520,3 +520,27 @@ variable "graphql_allow_origin_1" {
   description = "GraphQL allow origin 1"
   default     = "https://cifarm.xyz"
 }
+
+variable "solana_metaplex_authority_private_key_mainnet" {
+  type        = string
+  description = "Solana Metaplex authority private key for mainnet"
+  sensitive   = true
+}
+
+variable "solana_metaplex_authority_private_key_testnet" {
+  type        = string
+  description = "Solana Metaplex authority private key for testnet"
+  sensitive   = true
+}
+
+variable "farcaster_signer_uuid" {
+  type        = string
+  description = "Farcaster signer UUID"
+  sensitive   = true
+}
+
+variable "farcaster_api_key" {
+  type        = string
+  description = "Farcaster API key"
+  sensitive   = true
+}

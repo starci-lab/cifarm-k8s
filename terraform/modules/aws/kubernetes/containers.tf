@@ -188,26 +188,24 @@ locals {
 
 resource "helm_release" "gameplay_subgraph" {
   name            = local.gameplay_subgraph.name
-  repository      = var.container_repository
+  repository      = "https://starci-lab.github.io/cifarm-k8s/charts"
+
   cleanup_on_fail = var.cleanup_on_fail
   chart           = "service"
   namespace       = kubernetes_namespace.containers.metadata[0].name
-
+  
   values = [
     templatefile("${path.module}/manifests/gameplay-subgraph-values.yaml", {
       node_group_label = var.primary_node_group_name,
-
       // Gameplay Mongodb Configuration
       gameplay_mongodb_host     = local.gameplay_mongodb.host,
       gameplay_mongodb_database = local.gameplay_mongodb.database,
       gameplay_mongodb_password = var.gameplay_mongodb_password,
       gameplay_mongodb_username = var.gameplay_mongodb_username,
       gameplay_mongodb_port     = local.gameplay_mongodb.port,
-
       // Gameplay Service Configuration
       port              = local.gameplay_subgraph.port,
       health_check_port = local.gameplay_subgraph.health_check_port,
-
       // Cache Redis Configuration
       cache_redis_host            = local.cache_redis.host,
       cache_redis_port            = local.cache_redis.port,
@@ -222,17 +220,17 @@ resource "helm_release" "gameplay_subgraph" {
       kafka_sasl_enabled  = true,
       kafka_sasl_username = var.kafka_sasl_username,
       kafka_sasl_password = var.kafka_sasl_password,
-
       // Honeycomb Configuration
-      solana_honeycomb_authority_private_key_mainnet = var.solana_honeycomb_authority_private_key_mainnet
-      solana_honeycomb_authority_private_key_testnet = var.solana_honeycomb_authority_private_key_testnet
-
+      solana_honeycomb_authority_private_key_mainnet = var.solana_honeycomb_authority_private_key_mainnet,
+      solana_honeycomb_authority_private_key_testnet = var.solana_honeycomb_authority_private_key_testnet,
+      // Metaplex Configuration
+      solana_metaplex_authority_private_key_mainnet = var.solana_metaplex_authority_private_key_mainnet,
+      solana_metaplex_authority_private_key_testnet = var.solana_metaplex_authority_private_key_testnet,
       // Resource configurations
       request_cpu    = var.pod_resource_config["small"].requests.cpu,
       request_memory = var.pod_resource_config["small"].requests.memory,
       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
       limit_memory   = var.pod_resource_config["small"].limits.memory,
-
       
     })
   ]

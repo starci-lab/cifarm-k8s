@@ -100,6 +100,23 @@ resource "kubernetes_job" "seed_db" {
             name  = "CACHE_REDIS_HOST"
             value = local.cache_redis.host
           }
+          env {
+            name  = "SOLANA_METAPLEX_AUTHORITY_PRIVATE_KEY_MAINNET"
+            value = var.solana_metaplex_authority_private_key_mainnet
+          }
+
+          env {
+            name  = "SOLANA_METAPLEX_AUTHORITY_PRIVATE_KEY_TESTNET"
+            value = var.solana_metaplex_authority_private_key_testnet
+          }
+          env {
+            name  = "FARCASTER_SIGNER_UUID"
+            value = var.farcaster_signer_uuid
+          }
+          env {
+            name  = "FARCASTER_API_KEY"
+            value = var.farcaster_api_key
+          }
         }
       }
     }
