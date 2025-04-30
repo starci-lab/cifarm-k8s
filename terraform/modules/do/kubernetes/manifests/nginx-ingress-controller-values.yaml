@@ -1,0 +1,54 @@
+# nginx-ingress-controller-values.yaml
+# Depraecated: This chart is deprecated as of version 5.0.0
+
+# Replica count for the NGINX Ingress Controller deployment
+replicaCount: 2
+autoscaling.enabled: true
+
+# Kind of the NGINX Ingress Controller
+kind: DaemonSet
+
+# NGINX Ingress Controller node selector
+nodeSelector:
+  "doks.digitalocean.com/node-pool": ${node_pool_label}
+
+# Default backend resource configuration
+defaultBackend:
+  nodeSelector:
+    "doks.digitalocean.com/node-pool": ${node_pool_label}
+
+  resources:
+    requests:
+      cpu: ${default_backend_request_cpu}
+      memory: ${default_backend_request_memory}
+    limits:
+      cpu: ${default_backend_limit_cpu}
+      memory: ${default_backend_limit_memory}
+
+# NGINX Ingress Controller resource configuration
+resources:
+  requests:
+    cpu: ${request_cpu}
+    memory: ${request_memory}
+  limits:
+    cpu: ${limit_cpu}
+    memory: ${limit_memory}
+
+# AWS-specific service annotations for load balancer
+service:
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-size-unit: "1"
+    service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-type: "cookies"
+    service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-name: "cookie"
+    service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-ttl: "60"
+    # service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
+# NGINX configuration to handle real IP headers and proxy protocol
+config:
+  # real-ip-header: "proxy_protocol"
+  # use-proxy-protocol: "true"
+  # use-forwarded-headers: "true"
+  # annotation-risk-level: "Critical"
+  # allow-snippet-annotations: "true"
+
+publishService:
+  enabled: true

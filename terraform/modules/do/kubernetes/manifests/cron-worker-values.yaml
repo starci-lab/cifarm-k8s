@@ -3,66 +3,61 @@ envVarsCM:
   CACHE_REDIS_HOST: "${cache_redis_host}"
   CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
   CACHE_REDIS_CLUSTER_ENABLED: "${cache_redis_cluster_enabled}" # Ensure the value is a string
-  CACHE_REDIS_CLUSTER_RUN_IN_DOCKER: "false" # Ensure the value is a string
 
+  JOB_REDIS_HOST: "${job_redis_host}"
+  JOB_REDIS_PORT: "${job_redis_port}" # Ensure the port is a string
+  JOB_REDIS_CLUSTER_ENABLED: "${job_redis_cluster_enabled}" # Ensure the value is a string
+ 
   # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
   GAMEPLAY_MONGODB_DBNAME: "${gameplay_mongodb_database}"
   GAMEPLAY_MONGODB_HOST: "${gameplay_mongodb_host}"
   GAMEPLAY_MONGODB_PORT: "${gameplay_mongodb_port}"
   
-  GAMEPLAY_SUBGRAPH_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
-  GAMEPLAY_SUBGRAPH_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
-
   # Kafka Configuration (non-sensitive, can go to ConfigMap)
   KAFKA_HOST: "${kafka_host}"
   KAFKA_PORT: "${kafka_port}"
   KAFKA_SASL_ENABLED: "${kafka_sasl_enabled}"
 
+  CRON_WORKER_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
+  
 envVarsSecret:
-  JWT_SECRET: "${jwt_secret}"
-
   # Redis Cache Configuration (sensitive, should go to Secrets)
   CACHE_REDIS_PASSWORD: "${cache_redis_password}" # Ensure the password is a string
+
+  # Job Redis Cache Configuration (sensitive, should go to Secrets)
+  JOB_REDIS_PASSWORD: "${job_redis_password}" # Ensure the password is a string
 
   # Gameplay Test Postgres Configuration (sensitive, should go to Secrets)
   GAMEPLAY_MONGODB_USERNAME: "${gameplay_mongodb_username}"
   GAMEPLAY_MONGODB_PASSWORD: "${gameplay_mongodb_password}"
 
-   # Kafka SASL Configuration (sensitive, should go to Secrets)
+  # Kafka SASL Configuration (sensitive, should go to Secrets)
   KAFKA_SASL_USERNAME: "${kafka_sasl_username}"
   KAFKA_SASL_PASSWORD: "${kafka_sasl_password}"
 
-  # Honeycomb Configuration (sensitive, should go to Secrets)
-  SOLANA_HONEYCOMB_AUTHORITY_PRIVATE_KEY_MAINNET: "${solana_honeycomb_authority_private_key_mainnet}"
-  SOLANA_HONEYCOMB_AUTHORITY_PRIVATE_KEY_TESTNET: "${solana_honeycomb_authority_private_key_testnet}"
-
-  # Metaplex Configuration (sensitive, should go to Secrets)
-  SOLANA_METAPLEX_AUTHORITY_PRIVATE_KEY_MAINNET: "${solana_metaplex_authority_private_key_mainnet}"
-  SOLANA_METAPLEX_AUTHORITY_PRIVATE_KEY_TESTNET: "${solana_metaplex_authority_private_key_testnet}"
-
 containerPorts:
   app:
-    port: ${port}  # Port exposed by the container.
+    enabled: false
   healthCheck:
     port: ${health_check_port}  # Health check port exposed by the container.
 
 service:
   ports:
     app:
-      port: ${port}  # Port exposed by the service.
+      enabled: false
     healthCheck:
       port: ${health_check_port}  # Health check port exposed by the service.
 
 image:
   registry: docker.io  # Docker registry URL for the image.
-  repository: cifarm/gameplay-subgraph  # Repository for the container image.
+  repository: cifarm/cron-worker  # Repository for the container image.
   tag: latest  # Tag for the image.
   digest: ""  # Optionally specify an image digest.
   pullPolicy: Always  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.
   pullSecrets: []  # Secrets for private image pull.
 
 nodeSelector:
-  "eks.amazonaws.com/nodegroup": ${node_group_label}
+  "doks.digitalocean.com/node-pool": ${node_pool_label}
 
 resources:
   requests:

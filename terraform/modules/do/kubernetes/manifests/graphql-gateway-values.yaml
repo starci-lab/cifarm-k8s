@@ -1,0 +1,49 @@
+# Redis Cache Configuration (non-sensitive, can go to ConfigMap)
+envVarsCM:
+  GAMEPLAY_SUBGRAPH_HOST: "${gameplay_subgraph_host}"
+  GAMEPLAY_SUBGRAPH_PORT: "${gameplay_subgraph_port}"
+  GAMEPLAY_SUBGRAPH_HEALTH_CHECK_PORT: "${gameplay_subgraph_health_check_port}"
+
+  CACHE_REDIS_HOST: "${cache_redis_host}"
+  CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
+  
+  GRAPHQL_GATEWAY_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
+  GRAPHQL_GATEWAY_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
+
+  GRAPHQL_ALLOW_ORIGIN_1: "${allow_origin_1}"
+
+# JWT Authentication Configuration (sensitive, should go to Secrets)
+envVarsSecret:
+  JWT_SECRET: "${jwt_secret}"
+
+containerPorts:
+  app:
+    port: ${port}  # Port exposed by the container.
+  healthCheck:
+    port: ${health_check_port}  # Health check port exposed by the container.
+
+service:
+  ports:
+    app:
+      port: ${port}  # Port exposed by the service.
+    healthCheck:
+      port: ${health_check_port}  # Health check port exposed by the service.
+
+image:
+  registry: docker.io  # Docker registry URL for the image.
+  repository: cifarm/graphql-gateway  # Repository for the container image.
+  tag: latest  # Tag for the image.
+  digest: ""  # Optionally specify an image digest.
+  pullPolicy: Always  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.
+  pullSecrets: []  # Secrets for private image pull.
+
+nodeSelector:
+  "doks.digitalocean.com/node-pool": ${node_pool_label}
+
+resources:
+  requests:
+    cpu: ${request_cpu}
+    memory: ${request_memory}
+  limits:
+    cpu: ${limit_cpu}
+    memory: ${limit_memory}

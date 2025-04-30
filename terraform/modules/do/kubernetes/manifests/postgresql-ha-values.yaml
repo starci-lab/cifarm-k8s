@@ -1,0 +1,65 @@
+# Global PostgreSQL settings
+global:
+  postgresql:
+    # The name of the PostgreSQL database to be created
+    database: ${database}          # Replace example with your database name
+    
+    # The password for the PostgreSQL superuser
+    password: ${password}          # Replace example with your password
+    
+    # The name of the repmgr database used for replication
+    repmgrDatabase: ${database}    # Replication database name (usually same as database)
+    
+    # The password for the PostgreSQL replication user
+    repmgrPassword: ${password}    # Password for the repmgr user
+
+# PostgreSQL PGPool resource configurations (for connection pooling)
+pgpool:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    # Resource requests for PGPool, setting the CPU and memory needed at a minimum
+    requests:
+      cpu: ${pgpool_request_cpu}        # Set the requested CPU for PGPool (40 millicores)
+      memory: ${pgpool_request_memory}    # Set the requested memory for PGPool (80 MiB)
+    
+    # Resource limits for PGPool, setting the maximum CPU and memory PGPool can use
+    limits:
+      cpu: ${pgpool_limit_cpu}       # Set the maximum CPU for PGPool (200 millicores)
+      memory: ${pgpool_limit_memory}   # Set the maximum memory for PGPool (400 MiB)
+  # No reserved connections for PGPool, mean that all connections are available for use, block instead throwing error
+  
+  reservedConnections: ${pgpool_reserved_connections}  # Reserved connections for PGPool
+  maxPool: ${pgpool_max_pool}  # Maximum number of connections to PGPool
+  childMaxConnections: ${pgpool_child_max_connections}  # Maximum number of connections per child process
+  numInitChildren: ${pgpool_num_init_children}  # Number of initial child processes
+
+# PostgreSQL database resource configurations (for the main PostgreSQL instances)
+postgresql:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    # Resource requests for PostgreSQL, setting the CPU and memory needed at a minimum
+    requests:
+      cpu: ${request_cpu}        # Set the requested CPU for PostgreSQL (20 millicores)
+      memory: ${request_memory}    # Set the requested memory for PostgreSQL (40 MiB)
+    
+    # Resource limits for PostgreSQL, setting the maximum CPU and memory PostgreSQL can use
+    limits:
+      cpu: ${limit_cpu}       # Set the maximum CPU for PostgreSQL (200 millicores)
+      memory: ${limit_memory}   # Set the maximum memory for PostgreSQL (400 MiB)
+  maxConnections: ${postgresql_max_connections}  # Maximum number of connections to PostgreSQL
+# Witness server resource configurations (for the HA witness pod)
+witness:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    # Resource requests for the witness pod, setting the CPU and memory needed at a minimum
+    requests:
+      cpu: ${witness_request_cpu}        # Set the requested CPU for witness (30 millicores)
+      memory: ${witness_request_memory}    # Set the requested memory for witness (60 MiB)
+    
+    # Resource limits for the witness pod, setting the maximum CPU and memory it can use
+    limits:
+      cpu: ${witness_limit_cpu}       # Set the maximum CPU for witness (200 millicores)
+      memory: ${witness_limit_memory}   # Set the maximum memory for witness (400 MiB)

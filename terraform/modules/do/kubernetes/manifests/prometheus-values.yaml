@@ -1,0 +1,81 @@
+# prometheus-values.yaml
+
+# Resource settings for Alertmanager
+alertmanager:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: ${alertmanager_request_cpu}
+      memory: ${alertmanager_request_memory}
+    limits:
+      cpu: ${alertmanager_limit_cpu}
+      memory: ${alertmanager_limit_memory}
+
+# Resource settings for Blackbox Exporter
+blackboxExporter:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: ${blackbox_exporter_request_cpu}
+      memory: ${blackbox_exporter_request_memory}
+    limits:
+      cpu: ${blackbox_exporter_limit_cpu}
+      memory: ${blackbox_exporter_limit_memory}
+
+# Resource settings for Operator
+operator:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: ${operator_request_cpu}
+      memory: ${operator_request_memory}
+    limits:
+      cpu: ${operator_limit_cpu}
+      memory: ${operator_limit_memory}
+
+# Resource settings for Prometheus
+prometheus:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: ${prometheus_request_cpu}
+      memory: ${prometheus_request_memory}
+    limits:
+      cpu: ${prometheus_limit_cpu}
+      memory: ${prometheus_limit_memory}
+  thanos:
+    resources:
+      requests:
+        cpu: ${thanos_request_cpu}
+        memory: ${thanos_request_memory}
+      limits:
+        cpu: ${thanos_limit_cpu}
+        memory: ${thanos_limit_memory}
+
+# Resource settings for Node Exporter
+node-exporter:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: ${node_exporter_request_cpu}
+      memory: ${node_exporter_request_memory}
+    limits:
+      cpu: ${node_exporter_limit_cpu}
+      memory: ${node_exporter_limit_memory}
+
+# Resource settings for Kube-State-Metrics
+kube-state-metrics:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: ${kube_state_metrics_request_cpu}
+      memory: ${kube_state_metrics_request_memory}
+    limits:
+      cpu: ${kube_state_metrics_limit_cpu}
+      memory: ${kube_state_metrics_limit_memory}

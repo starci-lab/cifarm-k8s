@@ -1,0 +1,32 @@
+# values.yaml
+
+replicaCount: 1
+
+nodeSelector:
+  "eks.amazonaws.com/nodegroup": ${node_group_label}
+  
+resources:
+  operator:
+    requests:
+      cpu: ${operator_request_cpu}
+      memory: ${operator_request_memory}
+    limits:
+      cpu: ${operator_limit_cpu}
+      memory: ${operator_limit_memory}
+
+  metricServer:
+    requests:
+    requests:
+      cpu: ${metric_server_request_cpu}
+      memory: ${metric_server_request_memory}
+    limits:
+      cpu: ${metric_server_limit_cpu}
+      memory: ${metric_server_limit_memory}
+
+  webhooks:
+    requests:
+      cpu: ${webhooks_request_cpu}
+      memory: ${webhooks_request_memory}
+    limits:
+      cpu: ${webhooks_limit_cpu}
+      memory: "${webhooks_limit_memory}"

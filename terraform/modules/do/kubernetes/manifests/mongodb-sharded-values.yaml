@@ -1,0 +1,42 @@
+# values.yaml
+
+auth:
+  rootUser: ${username}
+  rootPassword: ${password}
+  replicaSetKey: ${replica_set_key}
+configsvr:
+  persistence:
+    size: ${configsvr_persistence_size}
+  nodeSelector:
+    "doks.digitalocean.com/node-pool": ${node_pool_label}
+  resources:
+    requests:
+      cpu: ${configsvr_request_cpu}
+      memory: ${configsvr_request_memory}
+    limits:
+      cpu: ${configsvr_limit_cpu}
+      memory: ${configsvr_limit_memory}
+shardsvr:
+  persistence:
+    size: ${shardsvr_persistence_size}
+  dataNode:
+    nodeSelector:
+      "doks.digitalocean.com/node-pool": ${node_pool_label}
+    resources:
+      requests:
+        cpu: ${shardsvr_data_node_request_cpu}
+        memory: ${shardsvr_data_node_request_memory}
+      limits:
+        cpu: ${shardsvr_data_node_limit_cpu}
+        memory: ${shardsvr_data_node_limit_memory}
+mongos:
+  nodeSelector:
+    "doks.digitalocean.com/node-pool": ${node_pool_label}
+  resources:
+    requests:
+      cpu: ${mongos_request_cpu}
+      memory: ${mongos_request_memory}
+    limits:
+      cpu: ${mongos_limit_cpu}
+      memory: ${mongos_limit_memory}
+

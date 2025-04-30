@@ -1,0 +1,33 @@
+replicaCount: 1
+# Jenkins configuration
+jenkinsUser: ${user}
+jenkinsPassword: ${password}
+
+# Resource requests and limits
+resources:
+  requests:
+    cpu: ${request_cpu}
+    memory: ${request_memory}
+  limits:
+    cpu: ${limit_cpu}
+    memory: ${limit_memory}
+
+# Service configuration
+service:
+  type: ClusterIP
+
+agent:
+  enabled: true
+
+plugins: [
+  # "aws-credentials",
+  "kubernetes",
+  "workflow-job",
+  "workflow-aggregator",
+  "github",
+  # "kubernetes-cli",
+  # "kubernetes-credentials-provider"
+]
+
+initHookScriptsCM: ${init_hook_scripts_cm}
+initHookScriptsSecret: ${init_hook_scripts_secret}

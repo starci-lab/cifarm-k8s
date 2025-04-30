@@ -1,0 +1,37 @@
+# Resources for the cainjector component
+installCRDs: true
+
+cainjector:
+  nodeSelector:
+    "doks.digitalocean.com/node-pool": "${node_pool_label}"
+  resources:
+    requests:
+      cpu: "${cainjector_request_cpu}"  # Use the specific cainjector request CPU variable
+      memory: "${cainjector_request_memory}"  # Use the specific cainjector request memory variable
+    limits:
+      cpu: "${cainjector_limit_cpu}"  # Use the specific cainjector limit CPU variable
+      memory: "${cainjector_limit_memory}"  # Use the specific cainjector limit memory variable
+
+# Resources for the controller component
+controller:
+  nodeSelector:
+    "doks.digitalocean.com/node-pool": "${node_pool_label}"
+  resources:
+    requests:
+      cpu: "${controller_request_cpu}"  # Use the specific controller request CPU variable
+      memory: "${controller_request_memory}"  # Use the specific controller request memory variable
+    limits:
+      cpu: "${controller_limit_cpu}"  # Use the specific controller limit CPU variable
+      memory: "${controller_limit_memory}"  # Use the specific controller limit memory variable
+
+# Resources for the webhook component
+webhook:
+  nodeSelector:
+    "doks.digitalocean.com/node-pool": "${node_pool_label}"
+  resources:
+    requests:
+      cpu: "${webhook_request_cpu}"  # Use the specific webhook request CPU variable
+      memory: "${webhook_request_memory}"  # Use the specific webhook request memory variable
+    limits:
+      cpu: "${webhook_limit_cpu}"  # Use the specific webhook limit CPU variable
+      memory: "${webhook_limit_memory}"  # Use the specific webhook limit memory variable

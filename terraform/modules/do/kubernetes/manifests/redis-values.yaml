@@ -1,0 +1,32 @@
+# redis-values.yaml
+
+# Disable authentication for Redis
+auth:
+  enabled: false
+
+# Redis replica configuration
+replica:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: ${replica_request_cpu}         # CPU request for Redis replica (20 millicores)
+      memory: ${replica_request_memory}     # Memory request for Redis replica (40 MiB)
+    limits:
+      cpu: ${replica_limit_cpu}        # CPU limit for Redis replica (200 millicores)
+      memory: ${replica_limit_memory}    # Memory limit for Redis replica (400 MiB)
+# Redis master configuration
+master:
+  nodeSelector:
+    "eks.amazonaws.com/nodegroup": ${node_group_label}
+  resources:
+    requests:
+      cpu: ${request_cpu}         # CPU request for Redis master (20 millicores)
+      memory: ${request_memory}     # Memory request for Redis master (40 MiB)
+    limits:
+      cpu: ${limit_cpu}        # CPU limit for Redis master (200 millicores)
+      memory: ${limit_memory}    # Memory limit for Redis master (400 MiB)
+
+persistence:
+  size: ${persistence_size}

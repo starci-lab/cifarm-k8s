@@ -81,7 +81,7 @@ resource "helm_release" "gameplay_subgraph" {
   
   values = [
     templatefile("${path.module}/manifests/gameplay-subgraph-values.yaml", {
-      node_group_label = var.primary_node_group_name,
+      node_pool_label = var.primary_node_pool_name,
       // Gameplay Mongodb Configuration
       gameplay_mongodb_host     = local.gameplay_mongodb.host,
       gameplay_mongodb_database = local.gameplay_mongodb.database,
@@ -116,6 +116,7 @@ resource "helm_release" "gameplay_subgraph" {
       request_memory = var.pod_resource_config["small"].requests.memory,
       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
       limit_memory   = var.pod_resource_config["small"].limits.memory,
+      
     })
   ]
 
@@ -144,7 +145,7 @@ resource "helm_release" "graphql_gateway" {
 
   values = [
     templatefile("${path.module}/manifests/graphql-gateway-values.yaml", {
-      node_group_label = var.primary_node_group_name,
+      node_pool_label = var.primary_node_pool_name,
 
       // Gameplay Service Configuration
       gameplay_subgraph_host              = local.gameplay_subgraph.host,
@@ -196,7 +197,7 @@ resource "helm_release" "ws" {
 
   values = [
     templatefile("${path.module}/manifests/ws-values.yaml", {
-      node_group_label = var.primary_node_group_name,
+      node_pool_label = var.primary_node_pool_name,
 
       // Gameplay Mongodb Configuration
       gameplay_mongodb_host     = local.gameplay_mongodb.host,
@@ -209,7 +210,7 @@ resource "helm_release" "ws" {
       port              = local.ws.port,
       health_check_port = local.ws.health_check_port,
 
-      production_url  = "https://${local.ws_admin_domain_name}",
+      production_url  = "https://example.com",
       cluster_enabled = false,
       adapter         = "redis-stream",
 
@@ -284,7 +285,7 @@ resource "helm_release" "cron_scheduler" {
 
   values = [
     templatefile("${path.module}/manifests/cron-scheduler-values.yaml", {
-      node_group_label = var.primary_node_group_name,
+      node_pool_label = var.primary_node_pool_name,
 
       // Gameplay Mongodb Configuration
       gameplay_mongodb_host     = local.gameplay_mongodb.host,
@@ -348,7 +349,7 @@ resource "helm_release" "cron_worker" {
 
   values = [
     templatefile("${path.module}/manifests/cron-worker-values.yaml", {
-      node_group_label = var.primary_node_group_name,
+      node_pool_label = var.primary_node_pool_name,
 
       // Gameplay Mongodb Configuration
       gameplay_mongodb_host     = local.gameplay_mongodb.host,
@@ -403,70 +404,3 @@ resource "helm_release" "cron_worker" {
     kubernetes_job.seed_db,
   ]
 }
-
-resource "helm_release" "telegram_bot" {
-  name            = local.telegram_bot.name
-  repository      = var.container_repository
-  cleanup_on_fail = var.cleanup_on_fail
-  chart           = "service"
-  namespace       = kubernetes_namespace.containers.metadata[0].name
-
-  values = [
-    templatefile("${path.module}/manifests/telegram-bot-values.yaml", {
-      node_group_label     = var.primary_node_group_name,
-      telegram_bot_token   = var.telegram_bot_token,
-      telegram_miniapp_url = var.telegram_miniapp_url,
-      health_check_port    = local.cron_worker.health_check_port,
-
-      // Gameplay Mongodb Configuration
-      gameplay_mongodb_host     = local.gameplay_mongodb.host,
-      gameplay_mongodb_database = local.gameplay_mongodb.database,
-      gameplay_mongodb_password = var.gameplay_mongodb_password,
-      gameplay_mongodb_username = var.gameplay_mongodb_username,
-      gameplay_mongodb_port     = local.gameplay_mongodb.port,
-
-      // Resource configurations
-      request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      request_memory = var.pod_resource_config["small"].requests.memory,
-      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      limit_memory   = var.pod_resource_config["small"].limits.memory,
-    })
-  ]
-
-  dynamic "set" {
-    for_each = local.set_pull_secrets
-    content {
-      name  = set.value.name
-      value = set.value.value
-    }
-  }
-
-  depends_on = [
-    # helm_release.keda,
-    helm_release.cache_redis,
-    helm_release.gameplay_mongodb,
-    helm_release.job_redis,
-    kubernetes_job.seed_db,
-  ]
-}
-
-# resource "helm_release" "client" {
-#   name            = local.client.name
-#   repository      = var.container_repository
-#   cleanup_on_fail = var.cleanup_on_fail
-#   chart           = "service"
-#   namespace       = kubernetes_namespace.containers.metadata[0].name
-
-#   values = [
-#     templatefile("${path.module}/manifests/client-values.yaml", {
-#       node_group_label = var.primary_node_group_name,
-#       // Gameplay Service Configuration
-#       port = local.client.port,
-#       // Resource configurations
-#       request_cpu    = var.pod_resource_config["small"].requests.cpu,
-#       request_memory = var.pod_resource_config["small"].requests.memory,
-#       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-#       limit_memory   = var.pod_resource_config["small"].limits.memory,
-#     })
-#   ]
-# }

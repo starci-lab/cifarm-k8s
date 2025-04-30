@@ -28,12 +28,12 @@ resource "kubernetes_job" "seed_db" {
           command = ["cifarm", "db", "seed", "-c", "-f"]
           resources {
             requests = {
-              cpu    = var.pod_resource_config["nano"].requests.cpu,
-              memory = var.pod_resource_config["nano"].requests.memory
+              cpu    = var.pod_resource_config["micro"].requests.cpu,
+              memory = var.pod_resource_config["micro"].requests.memory
             }
             limits = {
-              cpu    = var.pod_resource_config["nano"].limits.cpu,
-              memory = var.pod_resource_config["nano"].limits.memory
+              cpu    = var.pod_resource_config["micro"].limits.cpu,
+              memory = var.pod_resource_config["micro"].limits.memory
             }
           }
           env {
@@ -123,8 +123,8 @@ resource "kubernetes_job" "seed_db" {
   }
   wait_for_completion = true
   timeouts {
-    create = "2m"
-    update = "2m"
+    create = "4m"
+    update = "4m"
   }
   depends_on = [
     helm_release.gameplay_mongodb

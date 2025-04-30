@@ -1,0 +1,27 @@
+# kafka-values.yaml
+
+# Kafka listeners configuration
+sasl:
+  client:
+    users:
+      - "${sasl_user}"  # Kafka user for client communication
+    passwords:
+      - "${sasl_password}"  # Kafka password for client communication
+listeners:
+  client:
+    protocol: "SASL_PLAINTEXT"  # Protocol for client communication
+  controller:
+    protocol: "SASL_PLAINTEXT"  # Protocol for controller communication
+# Kafka controller resource requests and limits
+controller:
+  persistence:
+    size: ${persistence_size}
+  nodeSelector:
+    "doks.digitalocean.com/node-pool": ${node_pool_label}
+  resources:
+    requests:
+      cpu: ${controller_request_cpu}         # Minimum CPU requested for the controller (20 millicores)
+      memory: ${controller_request_memory}     # Minimum memory requested for the controller (40 MiB)
+    limits:
+      cpu: ${controller_limit_cpu}        # Maximum CPU allowed for the controller (200 millicores)
+      memory: ${controller_limit_memory}    # Maximum memory allowed for the controller (400 MiB)
