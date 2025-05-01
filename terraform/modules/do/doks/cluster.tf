@@ -11,18 +11,13 @@ resource "digitalocean_kubernetes_cluster" "cluster" {
   auto_upgrade = true
   node_pool {
     name       = var.primary_node_pool_name
-    size       = "s-2vcpu-4gb"
-    node_count = 2
-    auto_scale = false
+    size       = var.primary_node_size
+    node_count = var.primary_node_count
+    auto_scale = var.primary_node_auto_scale
     //min_nodes  = 2
     //max_nodes  = 3
     labels = {
       "doks.digitalocean.com/node-pool" = var.primary_node_pool_name
     }
   }
-}
-
-data "digitalocean_kubernetes_cluster" "cluster" {
-  name = var.cluster_name
-  //depends_on = [ digitalocean_kubernetes_cluster.cluster ]
 }

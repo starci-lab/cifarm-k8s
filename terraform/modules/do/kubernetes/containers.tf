@@ -210,7 +210,7 @@ resource "helm_release" "ws" {
       port              = local.ws.port,
       health_check_port = local.ws.health_check_port,
 
-      production_url  = "https://example.com",
+      production_url  = local.ws_admin_domain_name,
       cluster_enabled = false,
       adapter         = "redis-stream",
 

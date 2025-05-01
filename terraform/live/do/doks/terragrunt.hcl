@@ -1,12 +1,6 @@
 # Specifies the source location of the Terraform module, which in this case is the EKS module in the AWS infrastructure.
 terraform {
-  source = "../../../modules/do/kubernetes"  # Path to the shared Kubernetes module, relative to the current Terragrunt configuration.
-}
-
-# Defines a dependency on the VPC module located in the parent directory under "../vpc".
-# This allows you to use outputs like private_subnet_ids and vpc_id from the VPC module.
-dependency "doks" {
-  config_path = "../doks"  # Path to the VPC module, which contains network-related configurations (VPC, subnets, etc.).
+  source = "../../../modules/do/doks"  # Path to the shared Kubernetes module, relative to the current Terragrunt configuration.
 }
 
 # The locals block defines local variables for use within the configuration.
@@ -23,8 +17,5 @@ locals {
 # - Additional values from the VPC dependency (private_subnet_ids and vpc_id).
 inputs = merge(
   local.common_vars.inputs,  # Merges the inputs from the environment-specific file into the inputs block.
-  {
-    cluster_name      = dependency.doks.outputs.cluster_name,  # Adds the EKS cluster name from the EKS dependency.
-    primary_node_pool_name = dependency.doks.outputs.primary_node_pool_name  # Adds the primary node group name from the EKS dependency.
-  }
+  {}
 )
