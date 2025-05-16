@@ -116,6 +116,9 @@ resource "helm_release" "gameplay_subgraph" {
       request_memory = var.pod_resource_config["small"].requests.memory,
       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
       limit_memory   = var.pod_resource_config["small"].limits.memory,
+
+      // Cipher Secret (sensitive, should go to Secrets)
+      cipher_secret = var.cipher_secret,
     })
   ]
 
@@ -253,6 +256,9 @@ resource "helm_release" "ws" {
 
       // Jwt
       jwt_secret = var.jwt_secret,
+
+      // Cipher Secret (sensitive, should go to Secrets)
+      cipher_secret = var.cipher_secret,
     })
   ]
 
@@ -384,6 +390,9 @@ resource "helm_release" "cron_worker" {
       limit_memory   = var.pod_resource_config["small"].limits.memory,
 
       health_check_port = local.cron_worker.health_check_port,
+
+      // Cipher Secret (sensitive, should go to Secrets)
+      cipher_secret = var.cipher_secret,
     })
   ]
 
@@ -404,42 +413,52 @@ resource "helm_release" "cron_worker" {
   ]
 }
 
-resource "helm_release" "telegram_bot" {
-  name            = local.telegram_bot.name
+resource "helm_release" "social_auth" {
+  name            = local.social_auth.name
   repository      = var.container_repository
   cleanup_on_fail = var.cleanup_on_fail
   chart           = "service"
   namespace       = kubernetes_namespace.containers.metadata[0].name
 
   values = [
-    templatefile("${path.module}/manifests/telegram-bot-values.yaml", {
-      node_group_label     = var.primary_node_group_name,
-      telegram_bot_token   = var.telegram_bot_token,
-      telegram_miniapp_url = var.telegram_miniapp_url,
-      health_check_port    = local.cron_worker.health_check_port,
+    templatefile("${path.module}/manifests/social-auth-values.yaml", {
+      cipher_secret = var.cipher_secret,
+      // Session Secret
+      session_secret = var.session_secret,
 
-      // Gameplay Mongodb Configuration
-      gameplay_mongodb_host     = local.gameplay_mongodb.host,
-      gameplay_mongodb_database = local.gameplay_mongodb.database,
-      gameplay_mongodb_password = var.gameplay_mongodb_password,
-      gameplay_mongodb_username = var.gameplay_mongodb_username,
-      gameplay_mongodb_port     = local.gameplay_mongodb.port,
+      // Social Auth Configuration
+      social_auth_host = local.social_auth.host,
+      social_auth_port = local.social_auth.port,
+      social_auth_health_check_port = local.social_auth.health_check_port,
 
-      // Resource configurations
-      request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      request_memory = var.pod_resource_config["small"].requests.memory,
-      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      limit_memory   = var.pod_resource_config["small"].limits.memory,
+      // Web App URLs
+      web_app_url_mainnet = var.web_app_url_mainnet,
+      web_app_url_testnet = var.web_app_url_testnet,
+
+      // Google Cloud OAuth
+      google_cloud_oauth_client_id = var.google_cloud_oauth_client_id,
+      google_cloud_oauth_client_secret = var.google_cloud_oauth_client_secret,
+      google_cloud_oauth_redirect_uri = var.google_cloud_oauth_redirect_uri,
+      
+      // X OAuth
+      x_oauth_client_id = var.x_oauth_client_id,
+      x_oauth_client_secret = var.x_oauth_client_secret,
+      x_oauth_redirect_uri = var.x_oauth_redirect_uri,
+
+      // Facebook OAuth 
+      facebook_oauth_client_id = var.facebook_oauth_client_id,
+      facebook_oauth_client_secret = var.facebook_oauth_client_secret,
+      facebook_oauth_redirect_uri = var.facebook_oauth_redirect_uri,
     })
   ]
 
-  dynamic "set" {
-    for_each = local.set_pull_secrets
-    content {
-      name  = set.value.name
-      value = set.value.value
+     dynamic "set" {
+      for_each = local.set_pull_secrets
+      content {
+        name  = set.value.name
+        value = set.value.value
+      }
     }
-  }
 
   depends_on = [
     # helm_release.keda,
@@ -449,6 +468,52 @@ resource "helm_release" "telegram_bot" {
     kubernetes_job.seed_db,
   ]
 }
+
+# resource "helm_release" "telegram_bot" {
+#   name            = local.telegram_bot.name
+#   repository      = var.container_repository
+#   cleanup_on_fail = var.cleanup_on_fail
+#   chart           = "service"
+#   namespace       = kubernetes_namespace.containers.metadata[0].name
+
+#   values = [
+#     templatefile("${path.module}/manifests/telegram-bot-values.yaml", {
+#       node_group_label     = var.primary_node_group_name,
+#       telegram_bot_token   = var.telegram_bot_token,
+#       telegram_miniapp_url = var.telegram_miniapp_url,
+#       health_check_port    = local.cron_worker.health_check_port,
+
+#       // Gameplay Mongodb Configuration
+#       gameplay_mongodb_host     = local.gameplay_mongodb.host,
+#       gameplay_mongodb_database = local.gameplay_mongodb.database,
+#       gameplay_mongodb_password = var.gameplay_mongodb_password,
+#       gameplay_mongodb_username = var.gameplay_mongodb_username,
+#       gameplay_mongodb_port     = local.gameplay_mongodb.port,
+
+#       // Resource configurations
+#       request_cpu    = var.pod_resource_config["small"].requests.cpu,
+#       request_memory = var.pod_resource_config["small"].requests.memory,
+#       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+#       limit_memory   = var.pod_resource_config["small"].limits.memory,
+#     })
+#   ]
+
+#   dynamic "set" {
+#     for_each = local.set_pull_secrets
+#     content {
+#       name  = set.value.name
+#       value = set.value.value
+#     }
+#   }
+
+#   depends_on = [
+#     # helm_release.keda,
+#     helm_release.cache_redis,
+#     helm_release.gameplay_mongodb,
+#     helm_release.job_redis,
+#     kubernetes_job.seed_db,
+#   ]
+# }
 
 # resource "helm_release" "client" {
 #   name            = local.client.name

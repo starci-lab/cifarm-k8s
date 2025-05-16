@@ -297,37 +297,37 @@ variable "pod_resource_config" {
     }
     large = {
       requests = {
-        cpu               = "125m"  # 5 * 25
-        memory            = "250Mi" # 5 * 50
+        cpu               = "100m"  # 5 * 25
+        memory            = "200Mi" # 5 * 50
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "500m"   # 20 * 25
-        memory            = "1000Mi" # 20 * 50
+        cpu               = "300m"   # 20 * 25
+        memory            = "600Mi" # 20 * 50
         ephemeral_storage = "2Gi"
       }
     }
     xlarge = {
       requests = {
-        cpu               = "500m"   # 20 * 25
-        memory            = "1000Mi" # 20 * 50
+        cpu               = "300m"   # 20 * 25
+        memory            = "600Mi" # 20 * 50
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "1500m"  # 20 * 75
-        memory            = "3000Mi" # 20 * 150
+        cpu               = "900m"  # 20 * 75
+        memory            = "1800Mi" # 20 * 150
         ephemeral_storage = "2Gi"
       }
     }
     "2xlarge" = {
       requests = {
-        cpu               = "750m"   # 30 * 25
-        memory            = "1500Mi" # 30 * 50
+        cpu               = "450m"   # 30 * 25
+        memory            = "900Mi" # 30 * 50
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "2250m"  # 30 * 75
-        memory            = "4500Mi" # 30 * 150
+        cpu               = "1350m"  # 30 * 75
+        memory            = "2700Mi" # 30 * 150
         ephemeral_storage = "2Gi"
       }
     }
@@ -531,6 +531,128 @@ variable "kafka_persistence_size" {
   description = "Kafka persistence size"
   default     = "2Gi"
 }
+
+variable "s3_digitalocean1_endpoint" {
+  type        = string
+  description = "DigitalOcean Spaces endpoint"
+  sensitive   = true
+}
+
+variable "s3_digitalocean1_access_key_id" {
+  type        = string
+  description = "DigitalOcean Spaces access key ID"
+  sensitive   = true
+}
+
+variable "s3_digitalocean1_secret_access_key" {
+  type        = string
+  description = "DigitalOcean Spaces secret access key"
+  sensitive   = true
+}
+
+variable "s3_digitalocean1_region" {
+  type        = string
+  description = "DigitalOcean Spaces region"
+  default     = "sgp1"
+}
+
+variable "s3_digitalocean1_bucket_name" {
+  type        = string
+  description = "DigitalOcean Spaces bucket name"
+  default     = "cifarm"
+}
+
+variable "solana_vault_private_key_testnet" {
+  type        = string
+  description = "Solana Vault private key for testnet"
+  sensitive   = true
+}
+
+variable "solana_vault_private_key_mainnet" {
+  type        = string
+  description = "Solana Vault private key for mainnet"
+  sensitive   = true
+}
+
+variable "session_secret" {
+  type        = string
+  description = "Session secret"
+  sensitive   = true
+}
+
+variable "cipher_secret" {
+  type        = string
+  description = "Cipher secret"
+  sensitive   = true
+}
+
+variable "web_app_url_mainnet" {
+  type        = string
+  description = "Web app URL for mainnet"
+  default     = "https://cifarm.xyz"
+}
+
+variable "web_app_url_testnet" {
+  type        = string
+  description = "Web app URL for testnet"
+  default     = "https://testnet.cifarm.xyz"
+}
+
+variable "google_cloud_oauth_client_id" {
+  type        = string
+  description = "Google Cloud OAuth client ID"
+  sensitive   = true
+}
+
+variable "google_cloud_oauth_client_secret" {
+  type        = string
+  description = "Google Cloud OAuth client secret"
+  sensitive   = true
+}
+
+variable "google_cloud_oauth_redirect_uri" {
+  type        = string
+  description = "Google Cloud OAuth redirect URI"
+  default     = "https://auth.cifarm.xyz/auth/google/callback"
+}
+
+variable "x_oauth_client_id" {
+  type        = string
+  description = "X OAuth client ID"
+  sensitive   = true
+}
+
+variable "x_oauth_client_secret" {
+  type        = string
+  description = "X OAuth client secret"
+  sensitive   = true
+}
+
+variable "x_oauth_redirect_uri" {
+  type        = string
+  description = "X OAuth redirect URI"
+  default     = "https://auth.cifarm.xyz/auth/x/callback"
+}
+
+variable "facebook_oauth_client_id" {
+  type        = string
+  description = "Facebook OAuth client ID"
+  sensitive   = true
+}
+
+variable "facebook_oauth_client_secret" {
+  type        = string
+  description = "Facebook OAuth client secret"
+  sensitive   = true
+}
+
+variable "facebook_oauth_redirect_uri" {
+  type        = string
+  description = "Facebook OAuth redirect URI"
+  default     = "https://auth.cifarm.xyz/auth/facebook/callback"
+}
+
+
 
 
 

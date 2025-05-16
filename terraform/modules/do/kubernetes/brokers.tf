@@ -16,10 +16,10 @@ resource "helm_release" "kafka" {
   values = [
     templatefile("${path.module}/manifests/kafka-values.yaml", {
       node_pool_label           = var.primary_node_pool_name,
-      controller_request_cpu    = var.pod_resource_config["medium"].requests.cpu,
-      controller_request_memory = var.pod_resource_config["medium"].requests.memory,
-      controller_limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
-      controller_limit_memory   = var.pod_resource_config["medium"].limits.memory,
+      controller_request_cpu    = var.pod_resource_config["large"].requests.cpu,
+      controller_request_memory = var.pod_resource_config["large"].requests.memory,
+      controller_limit_cpu      = var.pod_resource_config["large"].limits.cpu,
+      controller_limit_memory   = var.pod_resource_config["large"].limits.memory,
       sasl_user                 = var.kafka_sasl_username,
       sasl_password             = var.kafka_sasl_password,
 

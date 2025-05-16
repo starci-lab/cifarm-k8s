@@ -35,6 +35,9 @@ envVarsSecret:
   KAFKA_SASL_USERNAME: "${kafka_sasl_username}"
   KAFKA_SASL_PASSWORD: "${kafka_sasl_password}"
 
+  # Cipher Secret (sensitive, should go to Secrets)
+  CIPHER_SECRET: "${cipher_secret}"
+
 containerPorts:
   app:
     enabled: false

@@ -16,7 +16,7 @@ variable "region" {
 variable "cluster_version" {
   type        = string
   description = "Cluster version"
-  default     = "1.32.2-do.0"
+  default     = "1.32.2-do.1"
 }
 
 variable "cluster_name" {

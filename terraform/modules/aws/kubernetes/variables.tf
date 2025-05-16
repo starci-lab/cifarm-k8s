@@ -544,3 +544,110 @@ variable "farcaster_api_key" {
   description = "Farcaster API key"
   sensitive   = true
 }
+
+variable "session_secret" {
+  type        = string
+  description = "Session secret"
+  sensitive   = true
+}
+
+variable "cipher_secret" {
+  type        = string
+  description = "Cipher secret"
+  sensitive   = true
+}
+
+variable "web_app_url_mainnet" {
+  type        = string
+  description = "Web app URL for mainnet"
+  default     = "https://cifarm.xyz"
+}
+
+variable "web_app_url_testnet" {
+  type        = string
+  description = "Web app URL for testnet"
+  default     = "https://testnet.cifarm.xyz"
+}
+
+variable "google_cloud_oauth_client_id" {
+  type        = string
+  description = "Google Cloud OAuth client ID"
+  sensitive   = true
+}
+
+variable "google_cloud_oauth_client_secret" {
+  type        = string
+  description = "Google Cloud OAuth client secret"
+  sensitive   = true
+}
+
+variable "google_cloud_oauth_redirect_uri" {
+  type        = string
+  description = "Google Cloud OAuth redirect URI"
+  default     = "https://auth.cifarm.xyz/auth/google/callback"
+}
+
+variable "x_oauth_client_id" {
+  type        = string
+  description = "X OAuth client ID"
+  sensitive   = true
+}
+
+variable "x_oauth_client_secret" {
+  type        = string
+  description = "X OAuth client secret"
+  sensitive   = true
+}
+
+variable "x_oauth_redirect_uri" {
+  type        = string
+  description = "X OAuth redirect URI"
+  default     = "https://auth.cifarm.xyz/auth/x/callback"
+}
+
+variable "facebook_oauth_client_id" {
+  type        = string
+  description = "Facebook OAuth client ID"
+  sensitive   = true
+}
+
+variable "facebook_oauth_client_secret" {
+  type        = string
+  description = "Facebook OAuth client secret"
+  sensitive   = true
+}
+
+variable "facebook_oauth_redirect_uri" {
+  type        = string
+  description = "Facebook OAuth redirect URI"
+  default     = "https://auth.cifarm.xyz/auth/facebook/callback"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

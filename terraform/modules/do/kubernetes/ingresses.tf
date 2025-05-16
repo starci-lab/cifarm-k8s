@@ -154,4 +154,56 @@ resource "kubernetes_ingress_v1" "ws_admin" {
   ]
 }
 
+resource "kubernetes_service" "auth_external" {
+  metadata {
+    name      = local.social_auth.name
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+  }
 
+  spec {
+    type          = "ExternalName" # Specifies this is an ExternalName service
+    external_name = local.social_auth.host
+  }
+}
+
+resource "kubernetes_ingress_v1" "auth" {
+  metadata {
+    name      = "auth"
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+    annotations = {
+      "cert-manager.io/cluster-issuer"                 = var.cluster_issuer_name
+      "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+      "acme.cert-manager.io/http01-edit-in-place"     = "true"
+    }
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = local.auth_domain_name
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = local.social_auth.name
+              port {
+                number = local.social_auth.port
+              }
+            }
+          }
+        }
+      }
+    }
+    tls {
+      hosts       = [local.auth_domain_name]
+      secret_name = "auth-tls"
+    }
+  }
+
+  depends_on = [
+    kubectl_manifest.cluster_issuer_letsencrypt_prod,
+    cloudflare_record.auth,
+    helm_release.social_auth
+  ]
+}

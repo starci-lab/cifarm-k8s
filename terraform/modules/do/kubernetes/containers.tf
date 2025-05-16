@@ -70,6 +70,13 @@ locals {
     host              = "telegram-bot-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
     health_check_port = 8081
   }
+
+  social_auth = {
+    name              = "social-auth"
+    host              = "social-auth-service.${kubernetes_namespace.containers.metadata[0].name}.svc.cluster.local"
+    port              = 8080
+    health_check_port = 8081
+  }
 }
 
 resource "helm_release" "gameplay_subgraph" {
@@ -116,7 +123,20 @@ resource "helm_release" "gameplay_subgraph" {
       request_memory = var.pod_resource_config["small"].requests.memory,
       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
       limit_memory   = var.pod_resource_config["small"].limits.memory,
-      
+
+      // DigitalOcean Spaces Configuration
+      s3_digitalocean1_endpoint = var.s3_digitalocean1_endpoint,
+      s3_digitalocean1_access_key_id = var.s3_digitalocean1_access_key_id,
+      s3_digitalocean1_secret_access_key = var.s3_digitalocean1_secret_access_key,
+      s3_digitalocean1_region = var.s3_digitalocean1_region,
+      s3_digitalocean1_bucket_name = var.s3_digitalocean1_bucket_name,
+
+      // Solana Vault Configuration
+      solana_vault_private_key_testnet = var.solana_vault_private_key_testnet,
+      solana_vault_private_key_mainnet = var.solana_vault_private_key_mainnet,
+    
+      // Cipher Secret
+      cipher_secret = var.cipher_secret,
     })
   ]
 
@@ -170,6 +190,9 @@ resource "helm_release" "graphql_gateway" {
       limit_memory   = var.pod_resource_config["small"].limits.memory,
 
       allow_origin_1 = var.graphql_allow_origin_1,
+
+      // Cipher Secret
+      cipher_secret = var.cipher_secret,
     })
   ]
 
@@ -254,6 +277,7 @@ resource "helm_release" "ws" {
 
       // Jwt
       jwt_secret = var.jwt_secret,
+      cipher_secret = var.cipher_secret,
     })
   ]
 
@@ -320,6 +344,9 @@ resource "helm_release" "cron_scheduler" {
       kafka_sasl_enabled  = true,
       kafka_sasl_username = var.kafka_sasl_username,
       kafka_sasl_password = var.kafka_sasl_password,
+      
+      // Cipher Secret
+      cipher_secret = var.cipher_secret,
     })
   ]
 
@@ -384,6 +411,9 @@ resource "helm_release" "cron_worker" {
       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
       limit_memory   = var.pod_resource_config["small"].limits.memory,
 
+      // Cipher Secret
+      cipher_secret = var.cipher_secret,
+
       health_check_port = local.cron_worker.health_check_port,
     })
   ]
@@ -395,6 +425,70 @@ resource "helm_release" "cron_worker" {
       value = set.value.value
     }
   }
+
+  depends_on = [
+    # helm_release.keda,
+    helm_release.cache_redis,
+    helm_release.gameplay_mongodb,
+    helm_release.job_redis,
+    kubernetes_job.seed_db,
+  ]
+}
+
+
+resource "helm_release" "social_auth" {
+  name            = local.social_auth.name
+  repository      = var.container_repository
+  cleanup_on_fail = var.cleanup_on_fail
+  chart           = "service"
+  namespace       = kubernetes_namespace.containers.metadata[0].name
+
+  values = [
+    templatefile("${path.module}/manifests/social-auth-values.yaml", {
+      node_pool_label = var.primary_node_pool_name,
+
+      cipher_secret = var.cipher_secret,
+      // Session Secret
+      session_secret = var.session_secret,
+
+      // Social Auth Configuration
+      port = local.social_auth.port,
+      health_check_port = local.social_auth.health_check_port,
+
+      // Web App URLs
+      web_app_url_mainnet = var.web_app_url_mainnet,
+      web_app_url_testnet = var.web_app_url_testnet,
+
+      // Google Cloud OAuth
+      google_cloud_oauth_client_id = var.google_cloud_oauth_client_id,
+      google_cloud_oauth_client_secret = var.google_cloud_oauth_client_secret,
+      google_cloud_oauth_redirect_uri = var.google_cloud_oauth_redirect_uri,
+      
+      // X OAuth
+      x_oauth_client_id = var.x_oauth_client_id,
+      x_oauth_client_secret = var.x_oauth_client_secret,
+      x_oauth_redirect_uri = var.x_oauth_redirect_uri,
+
+      // Facebook OAuth 
+      facebook_oauth_client_id = var.facebook_oauth_client_id,
+      facebook_oauth_client_secret = var.facebook_oauth_client_secret,
+      facebook_oauth_redirect_uri = var.facebook_oauth_redirect_uri,
+
+      // Resource configurations
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
+    })
+  ]
+
+     dynamic "set" {
+      for_each = local.set_pull_secrets
+      content {
+        name  = set.value.name
+        value = set.value.value
+      }
+    }
 
   depends_on = [
     # helm_release.keda,

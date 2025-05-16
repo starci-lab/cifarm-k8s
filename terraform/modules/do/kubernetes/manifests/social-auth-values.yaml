@@ -1,23 +1,29 @@
+replicaCount: 1  # Number of replicas for the deployment.
 # Redis Cache Configuration (non-sensitive, can go to ConfigMap)
 envVarsCM:
-  GAMEPLAY_SUBGRAPH_HOST: "${gameplay_subgraph_host}"
-  GAMEPLAY_SUBGRAPH_PORT: "${gameplay_subgraph_port}"
-  GAMEPLAY_SUBGRAPH_HEALTH_CHECK_PORT: "${gameplay_subgraph_health_check_port}"
+  SOCIAL_AUTH_PORT: "${port}"
+  SOCIAL_AUTH_HEALTH_CHECK_PORT: "${health_check_port}"
 
-  CACHE_REDIS_HOST: "${cache_redis_host}"
-  CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
-  
-  GRAPHQL_GATEWAY_PORT: "${port}"  # Specify as string to avoid YAML parsing errors
-  GRAPHQL_GATEWAY_HEALTH_CHECK_PORT: "${health_check_port}"  # Specify as string to avoid YAML parsing errors
-
-  GRAPHQL_ALLOW_ORIGIN_1: "${allow_origin_1}"
+  # Rest Api Gateway configuration
+  WEB_APP_URL_MAINNET: "${web_app_url_mainnet}"
+  WEB_APP_URL_TESTNET: "${web_app_url_testnet}"
 
 # JWT Authentication Configuration (sensitive, should go to Secrets)
 envVarsSecret:
-  JWT_SECRET: "${jwt_secret}"
-
-  # Cipher Secret (sensitive, should go to Secrets)
   CIPHER_SECRET: "${cipher_secret}"
+  SESSION_SECRET: "${session_secret}"
+
+  GOOGLE_CLOUD_OAUTH_CLIENT_ID: "${google_cloud_oauth_client_id}"
+  GOOGLE_CLOUD_OAUTH_CLIENT_SECRET: "${google_cloud_oauth_client_secret}"
+  GOOGLE_CLOUD_OAUTH_REDIRECT_URI: "${google_cloud_oauth_redirect_uri}"
+
+  X_OAUTH_CLIENT_ID: "${x_oauth_client_id}"
+  X_OAUTH_CLIENT_SECRET: "${x_oauth_client_secret}"
+  X_OAUTH_REDIRECT_URI: "${x_oauth_redirect_uri}"
+
+  FACEBOOK_OAUTH_CLIENT_ID: "${facebook_oauth_client_id}"
+  FACEBOOK_OAUTH_CLIENT_SECRET: "${facebook_oauth_client_secret}"
+  FACEBOOK_OAUTH_REDIRECT_URI: "${facebook_oauth_redirect_uri}"
 
 containerPorts:
   app:
@@ -34,7 +40,7 @@ service:
 
 image:
   registry: docker.io  # Docker registry URL for the image.
-  repository: cifarm/graphql-gateway  # Repository for the container image.
+  repository: cifarm/social-auth  # Repository for the container image.
   tag: latest  # Tag for the image.
   digest: ""  # Optionally specify an image digest.
   pullPolicy: Always  # Image pull policy, can be 'Always', 'IfNotPresent', or 'Never'.

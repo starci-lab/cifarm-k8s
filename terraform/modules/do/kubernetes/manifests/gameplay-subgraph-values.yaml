@@ -40,6 +40,20 @@ envVarsSecret:
   SOLANA_METAPLEX_AUTHORITY_PRIVATE_KEY_MAINNET: "${solana_metaplex_authority_private_key_mainnet}"
   SOLANA_METAPLEX_AUTHORITY_PRIVATE_KEY_TESTNET: "${solana_metaplex_authority_private_key_testnet}"
 
+  # Solana Vault Configuration (sensitive, should go to Secrets)
+  SOLANA_VAULT_PRIVATE_KEY_TESTNET: "${solana_vault_private_key_testnet}"
+  SOLANA_VAULT_PRIVATE_KEY_MAINNET: "${solana_vault_private_key_mainnet}"
+
+  # DigitalOcean Spaces Configuration (sensitive, should go to Secrets)
+  S3_DIGITALOCEAN1_ENDPOINT: "${s3_digitalocean1_endpoint}"
+  S3_DIGITALOCEAN1_ACCESS_KEY_ID: "${s3_digitalocean1_access_key_id}"
+  S3_DIGITALOCEAN1_SECRET_ACCESS_KEY: "${s3_digitalocean1_secret_access_key}"
+  S3_DIGITALOCEAN1_REGION: "${s3_digitalocean1_region}"
+  S3_DIGITALOCEAN1_BUCKET_NAME: "${s3_digitalocean1_bucket_name}"
+
+  # Cipher Secret (sensitive, should go to Secrets)
+  CIPHER_SECRET: "${cipher_secret}"
+
 containerPorts:
   app:
     port: ${port}  # Port exposed by the container.

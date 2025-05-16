@@ -49,6 +49,8 @@ envVarsSecret:
   SOCKET_IO_ADMIN_USERNAME: "${admin_username}"
   SOCKET_IO_ADMIN_PASSWORD: "${admin_password}"
 
+  CIPHER_SECRET: "${cipher_secret}"
+
 containerPorts:
   app:
     port: ${port}  # Port exposed by the container.

@@ -116,6 +116,26 @@ resource "kubernetes_job" "seed_db" {
             name  = "FARCASTER_API_KEY"
             value = var.farcaster_api_key
           }
+          env {
+            name  = "S3_DIGITALOCEAN1_ENDPOINT"
+            value = var.s3_digitalocean1_endpoint
+          }
+          env {
+            name  = "S3_DIGITALOCEAN1_ACCESS_KEY_ID"
+            value = var.s3_digitalocean1_access_key_id
+          }
+          env {
+            name  = "S3_DIGITALOCEAN1_SECRET_ACCESS_KEY"
+            value = var.s3_digitalocean1_secret_access_key
+          }
+          env {
+            name  = "S3_DIGITALOCEAN1_REGION"
+            value = var.s3_digitalocean1_region
+          }
+          env {
+            name  = "S3_DIGITALOCEAN1_BUCKET_NAME"
+            value = var.s3_digitalocean1_bucket_name
+          }
         }
       }
     }

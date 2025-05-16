@@ -16,6 +16,7 @@ locals {
   ws_domain_name = "ws.${local.domain_name}"
   ws_admin_domain_name = "ws-admin.${local.domain_name}"
   graphql_domain_name = "graphql.${local.domain_name}"
+  auth_domain_name = "auth.${local.domain_name}"
 }
 
 # Create the NS records in Cloudflare for each name server
@@ -39,3 +40,10 @@ resource "cloudflare_record" "graphql" {
   content  = data.kubernetes_service.nginx_ingress_controller.status[0].load_balancer[0].ingress[0].ip
   zone_id  = data.cloudflare_zone.zone.id
 } 
+
+resource "cloudflare_record" "auth" {
+  name     = local.auth_domain_name
+  type     = "A"
+  content  = data.kubernetes_service.nginx_ingress_controller.status[0].load_balancer[0].ingress[0].ip
+  zone_id  = data.cloudflare_zone.zone.id
+}
