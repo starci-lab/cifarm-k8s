@@ -4,6 +4,16 @@ envVarsCM:
   SOCIAL_AUTH_PORT: "${port}"
   SOCIAL_AUTH_HEALTH_CHECK_PORT: "${health_check_port}"
 
+  # Gameplay Mongodb Configuration  # Gameplay Test Postgres Configuration (non-sensitive, can go to ConfigMap)
+  GAMEPLAY_MONGODB_DBNAME: "${gameplay_mongodb_database}"
+  GAMEPLAY_MONGODB_HOST: "${gameplay_mongodb_host}"
+  GAMEPLAY_MONGODB_PORT: "${gameplay_mongodb_port}"
+
+  # Redis Cache Configuration (non-sensitive, can go to ConfigMap)
+  CACHE_REDIS_HOST: "${cache_redis_host}"
+  CACHE_REDIS_PORT: "${cache_redis_port}" # Ensure the port is a string
+  CACHE_REDIS_CLUSTER_ENABLED: "${cache_redis_cluster_enabled}" # Ensure the value is a string
+  
   # Rest Api Gateway configuration
   WEB_APP_URL_MAINNET: "${web_app_url_mainnet}"
   WEB_APP_URL_TESTNET: "${web_app_url_testnet}"
@@ -24,6 +34,12 @@ envVarsSecret:
   FACEBOOK_OAUTH_CLIENT_ID: "${facebook_oauth_client_id}"
   FACEBOOK_OAUTH_CLIENT_SECRET: "${facebook_oauth_client_secret}"
   FACEBOOK_OAUTH_REDIRECT_URI: "${facebook_oauth_redirect_uri}"
+  JWT_SECRET: "${jwt_secret}"
+  # Redis Cache Configuration (sensitive, should go to Secrets)
+  CACHE_REDIS_PASSWORD: "${cache_redis_password}" # Ensure the password is a string
+  # Gameplay Test Postgres Configuration (sensitive, should go to Secrets)
+  GAMEPLAY_MONGODB_USERNAME: "${gameplay_mongodb_username}"
+  GAMEPLAY_MONGODB_PASSWORD: "${gameplay_mongodb_password}"
 
 containerPorts:
   app:

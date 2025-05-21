@@ -479,6 +479,22 @@ resource "helm_release" "social_auth" {
       request_memory = var.pod_resource_config["small"].requests.memory,
       limit_cpu      = var.pod_resource_config["small"].limits.cpu,
       limit_memory   = var.pod_resource_config["small"].limits.memory,
+
+       // Gameplay Mongodb Configuration
+      gameplay_mongodb_host     = local.gameplay_mongodb.host,
+      gameplay_mongodb_database = local.gameplay_mongodb.database,
+      gameplay_mongodb_password = var.gameplay_mongodb_password,
+      gameplay_mongodb_username = var.gameplay_mongodb_username,
+      gameplay_mongodb_port     = local.gameplay_mongodb.port,
+
+      // Cache Redis Configuration
+      cache_redis_host            = local.cache_redis.host,
+      cache_redis_port            = local.cache_redis.port,
+      cache_redis_password        = var.cache_redis_password,
+      cache_redis_cluster_enabled = true,
+
+      // jwt secret
+      jwt_secret = var.jwt_secret,
     })
   ]
 

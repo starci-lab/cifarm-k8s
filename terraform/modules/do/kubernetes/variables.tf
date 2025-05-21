@@ -613,7 +613,7 @@ variable "google_cloud_oauth_client_secret" {
 variable "google_cloud_oauth_redirect_uri" {
   type        = string
   description = "Google Cloud OAuth redirect URI"
-  default     = "https://auth.cifarm.xyz/auth/google/callback"
+  default     = "https://auth.doks.cifarm.xyz/auth/google/callback"
 }
 
 variable "x_oauth_client_id" {
@@ -631,7 +631,7 @@ variable "x_oauth_client_secret" {
 variable "x_oauth_redirect_uri" {
   type        = string
   description = "X OAuth redirect URI"
-  default     = "https://auth.cifarm.xyz/auth/x/callback"
+  default     = "https://auth.doks.cifarm.xyz/auth/x/callback"
 }
 
 variable "facebook_oauth_client_id" {
@@ -649,7 +649,7 @@ variable "facebook_oauth_client_secret" {
 variable "facebook_oauth_redirect_uri" {
   type        = string
   description = "Facebook OAuth redirect URI"
-  default     = "https://auth.cifarm.xyz/auth/facebook/callback"
+  default     = "https://auth.doks.cifarm.xyz/auth/facebook/callback"
 }
 
 
