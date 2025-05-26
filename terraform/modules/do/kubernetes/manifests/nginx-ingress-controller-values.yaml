@@ -40,9 +40,10 @@ service:
     service.beta.kubernetes.io/do-loadbalancer-size-unit: "1"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-type: "cookies"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-name: "cookie"
-    service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-ttl: "60"
+    service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-ttl: "300"
     # service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
 # NGINX configuration to handle real IP headers and proxy protocol
+externalTrafficPolicy: Local
 config:
   # real-ip-header: "proxy_protocol"
   # use-proxy-protocol: "true"

@@ -136,6 +136,10 @@ resource "kubernetes_job" "seed_db" {
             name  = "S3_DIGITALOCEAN1_BUCKET_NAME"
             value = var.s3_digitalocean1_bucket_name
           }
+          env {
+            name = "CIPHER_SECRET"
+            value = var.cipher_secret
+          }
         }
       }
     }
