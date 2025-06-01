@@ -29,7 +29,6 @@ envVarsCM:
 
   WS_ALLOW_ORIGIN_1: "${allow_origin_1}"
   WS_ALLOW_ORIGIN_2: "${allow_origin_2}"
-
 envVarsSecret:
   # Redis Cache Configuration (sensitive, should go to Secrets)
   CACHE_REDIS_PASSWORD: "${cache_redis_password}" # Ensure the password is a string

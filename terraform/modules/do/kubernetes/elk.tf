@@ -5,11 +5,17 @@ resource "kubernetes_namespace" "elk" {
 }
 
 locals {
-  # Cache Redis Configuration
+  # Elasticsearch Configuration
   elasticsearch = {
     name = "elasticsearch"
     host = "elasticsearch.${kubernetes_namespace.elk.metadata[0].name}.svc.cluster.local"
     port = 9200
+  }
+  # Kibana Configuration
+  kibana = {
+    name = "kibana"
+    host = "kibana.${kubernetes_namespace.elk.metadata[0].name}.svc.cluster.local"
+    port = 5601
   }
 }
 
@@ -52,11 +58,35 @@ resource "helm_release" "elasticsearch" {
     })
   ]
 
-  # dynamic "set" {
-  #   for_each = local.set_pull_secrets
-  #   content {
-  #     name  = set.value.name
-  #     value = set.value.value
-  #   }
-  # }
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
+}
+
+resource "helm_release" "kibana" {
+  name            = local.kibana.name
+  repository      = var.bitnami_repository
+  cleanup_on_fail = var.cleanup_on_fail
+  chart           = "kibana"
+  namespace       = kubernetes_namespace.elk.metadata[0].name
+
+  values = [
+    templatefile("${path.module}/manifests/kibana-values.yaml", {
+      node_pool_label = var.primary_node_pool_name,
+      kibana_username = var.kibana_username,
+      kibana_password = var.kibana_password,
+    })
+  ]
+
+  dynamic "set" {
+    for_each = local.set_pull_secrets
+    content {
+      name  = set.value.name
+      value = set.value.value
+    }
+  }
 }

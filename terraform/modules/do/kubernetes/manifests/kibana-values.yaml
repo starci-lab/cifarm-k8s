@@ -1,0 +1,10 @@
+elasticsearch:
+  security:
+    auth:
+      enabled: true
+      kibanaUsername: ${kibana_username}
+      kibanaPassword: ${kibana_password}
+  tls:
+    enabled: true
+    usePemCerts: true
+

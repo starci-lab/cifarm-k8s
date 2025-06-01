@@ -18,6 +18,9 @@ envVarsCM:
   KAFKA_HOST: "${kafka_host}"
   KAFKA_PORT: "${kafka_port}"
   KAFKA_SASL_ENABLED: "${kafka_sasl_enabled}"
+    
+  # Elasticsearch Configuration (sensitive, should go to Secrets)
+  ELASTICSEARCH_URL: "${elasticsearch_url}"
 
 envVarsSecret:
   JWT_SECRET: "${jwt_secret}"
@@ -54,6 +57,10 @@ envVarsSecret:
 
   # Cipher Secret (sensitive, should go to Secrets)
   CIPHER_SECRET: "${cipher_secret}"
+
+  # Elasticsearch Configuration (sensitive, should go to Secrets)
+  ELASTICSEARCH_USERNAME: "${elasticsearch_username}"
+  ELASTICSEARCH_PASSWORD: "${elasticsearch_password}"
 
 containerPorts:
   app:

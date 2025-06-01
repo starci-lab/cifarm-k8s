@@ -137,6 +137,11 @@ resource "helm_release" "gameplay_subgraph" {
     
       // Cipher Secret
       cipher_secret = var.cipher_secret,
+
+      // Elasticsearch Configuration
+      elasticsearch_url = "http://${local.elasticsearch.host}:${local.elasticsearch.port}",
+      elasticsearch_password = var.elasticsearch_password,
+      elasticsearch_username = var.elasticsearch_username,
     })
   ]
 
@@ -349,7 +354,7 @@ resource "helm_release" "cron_scheduler" {
       cipher_secret = var.cipher_secret,
 
       // Elasticsearch Configuration
-      elasticsearch_url = "https://${local.elasticsearch.host}:${local.elasticsearch.port}",
+      elasticsearch_url = "http://${local.elasticsearch.host}:${local.elasticsearch.port}",
       elasticsearch_password = var.elasticsearch_password,
       elasticsearch_username = var.elasticsearch_username,
     })
