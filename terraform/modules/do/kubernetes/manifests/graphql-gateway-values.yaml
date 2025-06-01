@@ -1,3 +1,4 @@
+replicaCount: 1
 # Redis Cache Configuration (non-sensitive, can go to ConfigMap)
 envVarsCM:
   GAMEPLAY_SUBGRAPH_HOST: "${gameplay_subgraph_host}"

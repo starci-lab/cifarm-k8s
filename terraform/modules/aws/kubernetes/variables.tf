@@ -345,20 +345,20 @@ variable "pod_resource_config" {
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "300m"  # 20 times nano
+        cpu               = "450m"  # 20 times nano
         memory            = "900Mi" # 20 times nano
         ephemeral_storage = "2Gi"
       }
     }
     xlarge = {
       requests = {
-        cpu               = "600m"   # 20 times nano
-        memory            = "1200Mi" # 20 times nano
+        cpu               = "225m"   # 20 times nano
+        memory            = "450Mi" # 20 times nano
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "1800m"  # 20 times nano
-        memory            = "3600Mi" # 20 times nano
+        cpu               = "675m"  # 20 times nano
+        memory            = "1350Mi" # 20 times nano
         ephemeral_storage = "2Gi"
       }
     }

@@ -214,7 +214,7 @@ resource "helm_release" "ws" {
 
       production_url  = "https://${local.ws_admin_domain_name}",
       cluster_enabled = false,
-      adapter         = "redis-stream",
+      adapter         = "redis",
 
       admin_username = var.socket_io_admin_username,
       admin_password = var.socket_io_admin_password,

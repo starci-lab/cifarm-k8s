@@ -250,84 +250,84 @@ variable "pod_resource_config" {
     nano = {
       requests = {
         cpu               = "25m"
-        memory            = "50Mi"
+        memory            = "52Mi"
         ephemeral_storage = "50Mi"
       }
       limits = {
         cpu               = "75m"
-        memory            = "150Mi"
+        memory            = "154Mi"
         ephemeral_storage = "2Gi"
       }
     }
     micro = {
       requests = {
         cpu               = "38m"  # 1.5 * 25
-        memory            = "75Mi" # 1.5 * 50
+        memory            = "77Mi" # 1.5 * 50
         ephemeral_storage = "50Mi"
       }
       limits = {
         cpu               = "113m"  # 1.5 * 75
-        memory            = "225Mi" # 1.5 * 150
+        memory            = "231Mi" # 1.5 * 150
         ephemeral_storage = "2Gi"
       }
     }
     small = {
       requests = {
         cpu               = "50m"   # 2 * 25
-        memory            = "100Mi" # 2 * 50
+        memory            = "103Mi" # 2 * 50
         ephemeral_storage = "50Mi"
       }
       limits = {
         cpu               = "150m"  # 2 * 75
-        memory            = "300Mi" # 2 * 150
+        memory            = "308Mi" # 2 * 150
         ephemeral_storage = "2Gi"
       }
     }
     medium = {
       requests = {
         cpu               = "75m"   # 3 * 25
-        memory            = "150Mi" # 3 * 50
+        memory            = "154Mi" # 3 * 50
         ephemeral_storage = "50Mi"
       }
       limits = {
         cpu               = "225m"  # 3 * 75
-        memory            = "450Mi" # 3 * 150
+        memory            = "462Mi" # 3 * 150
         ephemeral_storage = "2Gi"
       }
     }
     large = {
       requests = {
-        cpu               = "100m"  # 5 * 25
-        memory            = "200Mi" # 5 * 50
+        cpu               = "125m"  # 5 * 25
+        memory            = "256Mi" # 5 * 50
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "300m"   # 20 * 25
-        memory            = "600Mi" # 20 * 50
+        cpu               = "375m"   # 20 * 25
+        memory            = "768Mi" # 20 * 50
         ephemeral_storage = "2Gi"
       }
     }
     xlarge = {
       requests = {
-        cpu               = "300m"   # 20 * 25
-        memory            = "600Mi" # 20 * 50
+        cpu               = "250m"   # 20 * 25
+        memory            = "512Mi" # 20 * 50
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "900m"  # 20 * 75
-        memory            = "1800Mi" # 20 * 150
+        cpu               = "750m"  # 20 * 75
+        memory            = "1536Mi" # 20 * 150
         ephemeral_storage = "2Gi"
       }
     }
     "2xlarge" = {
       requests = {
-        cpu               = "450m"   # 30 * 25
-        memory            = "900Mi" # 30 * 50
+        cpu               = "500m"   # 30 * 25
+        memory            = "1Gi" # 30 * 50
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "1350m"  # 30 * 75
-        memory            = "2700Mi" # 30 * 150
+        cpu               = "1500m"  # 30 * 75
+        memory            = "3Gi" # 30 * 150
         ephemeral_storage = "2Gi"
       }
     }
@@ -652,9 +652,34 @@ variable "facebook_oauth_redirect_uri" {
   default     = "https://auth.doks.cifarm.xyz/auth/facebook/callback"
 }
 
+variable "elasticsearch_password" {
+  type        = string
+  description = "Elasticsearch password"
+  sensitive   = true
+}
 
+variable "elasticsearch_username" {
+  type        = string
+  description = "Elasticsearch username"
+  default     = "elastic"
+}
 
+variable "kibana_username" {
+  type        = string
+  description = "Kibana username"
+  sensitive   = true
+}
 
+variable "kibana_password" {
+  type        = string
+  description = "Kibana password"
+  sensitive   = true
+}
 
+variable "master_persistence_size" {
+  type        = string
+  description = "Master persistence size"
+  default     = "2Gi"
+}
 
 

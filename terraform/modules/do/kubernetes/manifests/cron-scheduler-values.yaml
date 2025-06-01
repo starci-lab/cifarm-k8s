@@ -21,6 +21,9 @@ envVarsCM:
   KAFKA_PORT: "${kafka_port}"
   KAFKA_SASL_ENABLED: "${kafka_sasl_enabled}"
 
+  # Elasticsearch Configuration (sensitive, should go to Secrets)
+  ELASTICSEARCH_URL: "${elasticsearch_url}"
+
 envVarsSecret:
   # Redis Cache Configuration (sensitive, should go to Secrets)
   CACHE_REDIS_PASSWORD: "${cache_redis_password}" # Ensure the password is a string
@@ -35,6 +38,9 @@ envVarsSecret:
   # Kafka SASL Configuration (sensitive, should go to Secrets)
   KAFKA_SASL_USERNAME: "${kafka_sasl_username}"
   KAFKA_SASL_PASSWORD: "${kafka_sasl_password}"
+
+  ELASTICSEARCH_USERNAME: "${elasticsearch_username}"
+  ELASTICSEARCH_PASSWORD: "${elasticsearch_password}"
 
   # Cipher Secret (sensitive, should go to Secrets)
   CIPHER_SECRET: "${cipher_secret}"

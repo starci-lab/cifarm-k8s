@@ -119,10 +119,10 @@ resource "helm_release" "gameplay_subgraph" {
       solana_metaplex_authority_private_key_mainnet = var.solana_metaplex_authority_private_key_mainnet,
       solana_metaplex_authority_private_key_testnet = var.solana_metaplex_authority_private_key_testnet,
       // Resource configurations
-      request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      request_memory = var.pod_resource_config["small"].requests.memory,
-      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      limit_memory   = var.pod_resource_config["small"].limits.memory,
+      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
+      request_memory = var.pod_resource_config["medium"].requests.memory,
+      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
+      limit_memory   = var.pod_resource_config["medium"].limits.memory,
 
       // DigitalOcean Spaces Configuration
       s3_digitalocean1_endpoint = var.s3_digitalocean1_endpoint,
@@ -184,10 +184,10 @@ resource "helm_release" "graphql_gateway" {
       cache_redis_cluster_enabled = true,
 
       // Resource configurations
-      request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      request_memory = var.pod_resource_config["small"].requests.memory,
-      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      limit_memory   = var.pod_resource_config["small"].limits.memory,
+      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
+      request_memory = var.pod_resource_config["medium"].requests.memory,
+      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
+      limit_memory   = var.pod_resource_config["medium"].limits.memory,
 
       allow_origin_1 = var.graphql_allow_origin_1,
 
@@ -235,7 +235,7 @@ resource "helm_release" "ws" {
 
       production_url  = local.ws_admin_domain_name,
       cluster_enabled = false,
-      adapter         = "redis-stream",
+      adapter         = "redis",
 
       admin_username = var.socket_io_admin_username,
       admin_password = var.socket_io_admin_password,
@@ -260,10 +260,10 @@ resource "helm_release" "ws" {
       # adapter_mongodb_dbname   = local.adapter_mongodb.database,
 
       // Resource configurations
-      request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      request_memory = var.pod_resource_config["small"].requests.memory,
-      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      limit_memory   = var.pod_resource_config["small"].limits.memory,
+      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
+      request_memory = var.pod_resource_config["medium"].requests.memory,
+      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
+      limit_memory   = var.pod_resource_config["medium"].limits.memory,
 
       // Kafka Configuration
       kafka_host          = local.kafka.host,
@@ -331,10 +331,10 @@ resource "helm_release" "cron_scheduler" {
       job_redis_cluster_enabled = true,
 
       // Resource configurations
-      request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      request_memory = var.pod_resource_config["small"].requests.memory,
-      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      limit_memory   = var.pod_resource_config["small"].limits.memory,
+      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
+      request_memory = var.pod_resource_config["medium"].requests.memory,
+      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
+      limit_memory   = var.pod_resource_config["medium"].limits.memory,
 
       health_check_port = local.cron_scheduler.health_check_port,
 
@@ -347,6 +347,11 @@ resource "helm_release" "cron_scheduler" {
       
       // Cipher Secret
       cipher_secret = var.cipher_secret,
+
+      // Elasticsearch Configuration
+      elasticsearch_url = "https://${local.elasticsearch.host}:${local.elasticsearch.port}",
+      elasticsearch_password = var.elasticsearch_password,
+      elasticsearch_username = var.elasticsearch_username,
     })
   ]
 
@@ -364,6 +369,7 @@ resource "helm_release" "cron_scheduler" {
     helm_release.gameplay_mongodb,
     helm_release.job_redis,
     kubernetes_job.seed_db,
+    helm_release.elasticsearch,
   ]
 }
 
@@ -406,10 +412,10 @@ resource "helm_release" "cron_worker" {
       kafka_sasl_password = var.kafka_sasl_password,
 
       // Resource configurations
-      request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      request_memory = var.pod_resource_config["small"].requests.memory,
-      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      limit_memory   = var.pod_resource_config["small"].limits.memory,
+      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
+      request_memory = var.pod_resource_config["medium"].requests.memory,
+      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
+      limit_memory   = var.pod_resource_config["medium"].limits.memory,
 
       // Cipher Secret
       cipher_secret = var.cipher_secret,
@@ -432,6 +438,7 @@ resource "helm_release" "cron_worker" {
     helm_release.gameplay_mongodb,
     helm_release.job_redis,
     kubernetes_job.seed_db,
+    helm_release.cron_scheduler
   ]
 }
 
@@ -475,10 +482,10 @@ resource "helm_release" "social_auth" {
       facebook_oauth_redirect_uri = var.facebook_oauth_redirect_uri,
 
       // Resource configurations
-      request_cpu    = var.pod_resource_config["small"].requests.cpu,
-      request_memory = var.pod_resource_config["small"].requests.memory,
-      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
-      limit_memory   = var.pod_resource_config["small"].limits.memory,
+      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
+      request_memory = var.pod_resource_config["medium"].requests.memory,
+      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
+      limit_memory   = var.pod_resource_config["medium"].limits.memory,
 
        // Gameplay Mongodb Configuration
       gameplay_mongodb_host     = local.gameplay_mongodb.host,

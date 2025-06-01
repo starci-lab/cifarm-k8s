@@ -1,3 +1,4 @@
+replicaCount: 1
 # Redis Cache Configuration (non-sensitive, can go to ConfigMap)
 envVarsCM:
   CACHE_REDIS_HOST: "${cache_redis_host}"

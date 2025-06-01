@@ -2,11 +2,11 @@
 # Depraecated: This chart is deprecated as of version 5.0.0
 
 # Replica count for the NGINX Ingress Controller deployment
-replicaCount: 2
+replicaCount: 1
 autoscaling.enabled: true
 
 # Kind of the NGINX Ingress Controller
-kind: DaemonSet
+# kind: DaemonSet
 
 # NGINX Ingress Controller node selector
 nodeSelector:
@@ -38,6 +38,7 @@ resources:
 service:
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-size-unit: "1"
+    service.beta.kubernetes.io/do-loadbalancer-type: "REGIONAL_NETWORK"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-type: "cookies"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-name: "cookie"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-ttl: "300"
@@ -53,3 +54,10 @@ config:
 
 publishService:
   enabled: true
+
+containerPorts:
+  http: 80
+  https: 443
+
+containerSecurityContext:
+  allowPrivilegeEscalation: true
