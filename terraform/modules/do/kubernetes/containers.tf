@@ -79,6 +79,25 @@ locals {
   }
 }
 
+data "kubernetes_secret" "elasticsearch_master_crt" {
+  metadata {
+    name      = "elasticsearch-master-crt"
+    namespace = kubernetes_namespace.elk.metadata[0].name
+  }
+  depends_on = [helm_release.elasticsearch]
+}
+
+resource "kubernetes_secret" "elasticsearch_master_crt" {
+  metadata {
+    name      = "elasticsearch-master-crt"
+    namespace = kubernetes_namespace.containers.metadata[0].name
+  }
+
+  data = data.kubernetes_secret.elasticsearch_master_crt.data
+
+  type = data.kubernetes_secret.elasticsearch_master_crt.type
+}
+
 resource "helm_release" "gameplay_subgraph" {
   name            = local.gameplay_subgraph.name
   repository      = var.container_repository
@@ -119,10 +138,10 @@ resource "helm_release" "gameplay_subgraph" {
       solana_metaplex_authority_private_key_mainnet = var.solana_metaplex_authority_private_key_mainnet,
       solana_metaplex_authority_private_key_testnet = var.solana_metaplex_authority_private_key_testnet,
       // Resource configurations
-      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
-      request_memory = var.pod_resource_config["medium"].requests.memory,
-      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
-      limit_memory   = var.pod_resource_config["medium"].limits.memory,
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
 
       // DigitalOcean Spaces Configuration
       s3_digitalocean1_endpoint = var.s3_digitalocean1_endpoint,
@@ -139,9 +158,10 @@ resource "helm_release" "gameplay_subgraph" {
       cipher_secret = var.cipher_secret,
 
       // Elasticsearch Configuration
-      elasticsearch_url = "http://${local.elasticsearch.host}:${local.elasticsearch.port}",
+      elasticsearch_url = "https://${local.elasticsearch.host}:${local.elasticsearch.port}",
       elasticsearch_password = var.elasticsearch_password,
       elasticsearch_username = var.elasticsearch_username,
+      elasticsearch_require_tls = true,
     })
   ]
 
@@ -158,6 +178,8 @@ resource "helm_release" "gameplay_subgraph" {
     helm_release.cache_redis,
     helm_release.gameplay_mongodb,
     kubernetes_job.seed_db,
+    helm_release.elasticsearch,
+    kubernetes_secret.elasticsearch_master_crt,
   ]
 }
 
@@ -189,10 +211,10 @@ resource "helm_release" "graphql_gateway" {
       cache_redis_cluster_enabled = true,
 
       // Resource configurations
-      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
-      request_memory = var.pod_resource_config["medium"].requests.memory,
-      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
-      limit_memory   = var.pod_resource_config["medium"].limits.memory,
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
 
       allow_origin_1 = var.graphql_allow_origin_1,
 
@@ -265,10 +287,10 @@ resource "helm_release" "ws" {
       # adapter_mongodb_dbname   = local.adapter_mongodb.database,
 
       // Resource configurations
-      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
-      request_memory = var.pod_resource_config["medium"].requests.memory,
-      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
-      limit_memory   = var.pod_resource_config["medium"].limits.memory,
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
 
       // Kafka Configuration
       kafka_host          = local.kafka.host,
@@ -336,10 +358,10 @@ resource "helm_release" "cron_scheduler" {
       job_redis_cluster_enabled = true,
 
       // Resource configurations
-      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
-      request_memory = var.pod_resource_config["medium"].requests.memory,
-      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
-      limit_memory   = var.pod_resource_config["medium"].limits.memory,
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
 
       health_check_port = local.cron_scheduler.health_check_port,
 
@@ -354,9 +376,10 @@ resource "helm_release" "cron_scheduler" {
       cipher_secret = var.cipher_secret,
 
       // Elasticsearch Configuration
-      elasticsearch_url = "http://${local.elasticsearch.host}:${local.elasticsearch.port}",
+      elasticsearch_url = "https://${local.elasticsearch.host}:${local.elasticsearch.port}",
       elasticsearch_password = var.elasticsearch_password,
       elasticsearch_username = var.elasticsearch_username,
+      elasticsearch_require_tls = true,
     })
   ]
 
@@ -375,6 +398,7 @@ resource "helm_release" "cron_scheduler" {
     helm_release.job_redis,
     kubernetes_job.seed_db,
     helm_release.elasticsearch,
+    kubernetes_secret.elasticsearch_master_crt,
   ]
 }
 
@@ -417,10 +441,10 @@ resource "helm_release" "cron_worker" {
       kafka_sasl_password = var.kafka_sasl_password,
 
       // Resource configurations
-      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
-      request_memory = var.pod_resource_config["medium"].requests.memory,
-      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
-      limit_memory   = var.pod_resource_config["medium"].limits.memory,
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
 
       // Cipher Secret
       cipher_secret = var.cipher_secret,
@@ -487,10 +511,10 @@ resource "helm_release" "social_auth" {
       facebook_oauth_redirect_uri = var.facebook_oauth_redirect_uri,
 
       // Resource configurations
-      request_cpu    = var.pod_resource_config["medium"].requests.cpu,
-      request_memory = var.pod_resource_config["medium"].requests.memory,
-      limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
-      limit_memory   = var.pod_resource_config["medium"].limits.memory,
+      request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      request_memory = var.pod_resource_config["small"].requests.memory,
+      limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      limit_memory   = var.pod_resource_config["small"].limits.memory,
 
        // Gameplay Mongodb Configuration
       gameplay_mongodb_host     = local.gameplay_mongodb.host,

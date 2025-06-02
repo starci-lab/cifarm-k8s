@@ -1,4 +1,7 @@
 elasticsearch:
+  hosts:
+    - ${elasticsearch_host}
+  port: ${elasticsearch_port}
   security:
     auth:
       enabled: true
@@ -6,5 +9,20 @@ elasticsearch:
       kibanaPassword: ${kibana_password}
   tls:
     enabled: true
+    existingSecret: elasticsearch-master-crt
     usePemCerts: true
+
+replicaCount: 1
+
+persistence:
+  size: ${kibana_persistence_size}
+
+resources:
+  requests:
+    cpu: ${kibana_cpu_request}
+    memory: ${kibana_memory_request}
+  limits:
+    cpu: ${kibana_cpu_limit}
+    memory: ${kibana_memory_limit}
+
 

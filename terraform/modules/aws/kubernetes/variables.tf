@@ -292,85 +292,85 @@ variable "pod_resource_config" {
   default = {
     nano = {
       requests = {
-        cpu               = "30m"
-        memory            = "60Mi"
+        cpu               = "50m"
+        memory            = "100Mi"
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "90m"
-        memory            = "180Mi"
+        cpu               = "150m"
+        memory            = "300Mi"
         ephemeral_storage = "2Gi"
       }
     }
     micro = {
       requests = {
-        cpu               = "45m"  # 1.5 times nano
-        memory            = "90Mi" # 1.5 times nano
+        cpu               = "100m"  # 1.5 times nano
+        memory            = "200Mi" # 1.5 times nano
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "135m"  # 1.5 times nano
-        memory            = "270Mi" # 1.5 times nano
+        cpu               = "300m"  # 1.5 times nano
+        memory            = "600Mi" # 1.5 times nano
         ephemeral_storage = "2Gi"
       }
     }
     small = {
       requests = {
-        cpu               = "60m"   # 2 times nano
-        memory            = "120Mi" # 2 times nano
+        cpu               = "150m"   # 2 times nano
+        memory            = "300Mi" # 2 times nano
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "180m"  # 2 times nano
-        memory            = "360Mi" # 2 times nano
+        cpu               = "300m"  # 2 times nano
+        memory            = "600Mi" # 2 times nano
         ephemeral_storage = "2Gi"
       }
     }
     medium = {
       requests = {
-        cpu               = "90m"   # 3 times nano
-        memory            = "180Mi" # 3 times nano
+        cpu               = "250m"   # 3 times nano
+        memory            = "500Mi" # 3 times nano
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "270m"  # 3 times nano
-        memory            = "540Mi" # 3 times nano
+        cpu               = "750m"  # 3 times nano
+        memory            = "1500Mi" # 3 times nano
         ephemeral_storage = "2Gi"
       }
     }
     large = {
       requests = {
-        cpu               = "150m"  # 5 times nano
-        memory            = "300Mi" # 5 times nano
+        cpu               = "500m"  # 5 times nano
+        memory            = "1000Mi" # 5 times nano
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "450m"  # 20 times nano
-        memory            = "900Mi" # 20 times nano
+        cpu               = "1500m"  # 20 times nano
+        memory            = "3000Mi" # 20 times nano
         ephemeral_storage = "2Gi"
       }
     }
     xlarge = {
       requests = {
-        cpu               = "225m"   # 20 times nano
-        memory            = "450Mi" # 20 times nano
+        cpu               = "1000m"   # 20 times nano
+        memory            = "2000Mi" # 20 times nano
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "675m"  # 20 times nano
-        memory            = "1350Mi" # 20 times nano
+        cpu               = "3000m"  # 20 times nano
+        memory            = "6000Mi" # 20 times nano
         ephemeral_storage = "2Gi"
       }
     }
     "2xlarge" = {
       requests = {
-        cpu               = "2700m"  # 30 times nano
-        memory            = "5400Mi" # 30 times nano
+        cpu               = "2000m"  # 30 times nano
+        memory            = "4000Mi" # 30 times nano
         ephemeral_storage = "50Mi"
       }
       limits = {
-        cpu               = "5400m"   # 30 times nano
-        memory            = "10800Mi" # 30 times nano
+        cpu               = "6000m"   # 30 times nano
+        memory            = "12000Mi" # 30 times nano
         ephemeral_storage = "2Gi"
       }
     }

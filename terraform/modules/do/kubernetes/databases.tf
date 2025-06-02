@@ -18,20 +18,20 @@ resource "helm_release" "gameplay_mongodb" {
       node_pool_label = var.primary_node_pool_name,
 
       # Resource configurations
-      configsvr_request_cpu    = var.pod_resource_config["large"].requests.cpu,
-      configsvr_request_memory = var.pod_resource_config["large"].requests.memory,
-      configsvr_limit_cpu      = var.pod_resource_config["large"].limits.cpu,
-      configsvr_limit_memory   = var.pod_resource_config["large"].limits.memory,
+      configsvr_request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      configsvr_request_memory = var.pod_resource_config["small"].requests.memory,
+      configsvr_limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      configsvr_limit_memory   = var.pod_resource_config["small"].limits.memory,
 
-      mongos_request_cpu    = var.pod_resource_config["large"].requests.cpu,
-      mongos_request_memory = var.pod_resource_config["large"].requests.memory,
-      mongos_limit_cpu      = var.pod_resource_config["large"].limits.cpu,
-      mongos_limit_memory   = var.pod_resource_config["large"].limits.memory,
+      mongos_request_cpu    = var.pod_resource_config["small"].requests.cpu,
+      mongos_request_memory = var.pod_resource_config["small"].requests.memory,
+      mongos_limit_cpu      = var.pod_resource_config["small"].limits.cpu,
+      mongos_limit_memory   = var.pod_resource_config["small"].limits.memory,
 
-      shardsvr_data_node_request_cpu    = var.pod_resource_config["xlarge"].requests.cpu,
-      shardsvr_data_node_request_memory = var.pod_resource_config["xlarge"].requests.memory,
-      shardsvr_data_node_limit_cpu      = var.pod_resource_config["xlarge"].limits.cpu,
-      shardsvr_data_node_limit_memory   = var.pod_resource_config["xlarge"].limits.memory,
+      shardsvr_data_node_request_cpu    = var.pod_resource_config["medium"].requests.cpu,
+      shardsvr_data_node_request_memory = var.pod_resource_config["medium"].requests.memory,
+      shardsvr_data_node_limit_cpu      = var.pod_resource_config["medium"].limits.cpu,
+      shardsvr_data_node_limit_memory   = var.pod_resource_config["medium"].limits.memory,
 
       username = var.gameplay_mongodb_username,
       password = var.gameplay_mongodb_password,
@@ -63,14 +63,14 @@ resource "helm_release" "cache_redis" {
       node_pool_label = var.primary_node_pool_name,
 
       # Resource configurations
-      request_cpu               = var.pod_resource_config["medium"].requests.cpu,
-      request_memory            = var.pod_resource_config["medium"].requests.memory,
-      limit_cpu                 = var.pod_resource_config["medium"].limits.cpu,
-      limit_memory              = var.pod_resource_config["medium"].limits.memory,
-      update_job_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
-      update_job_request_memory = var.pod_resource_config["micro"].requests.memory,
-      update_job_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
-      update_job_limit_memory   = var.pod_resource_config["micro"].limits.memory,
+      request_cpu               = var.pod_resource_config["small"].requests.cpu,
+      request_memory            = var.pod_resource_config["small"].requests.memory,
+      limit_cpu                 = var.pod_resource_config["small"].limits.cpu,
+      limit_memory              = var.pod_resource_config["small"].limits.memory,
+      update_job_request_cpu    = var.pod_resource_config["nano"].requests.cpu,
+      update_job_request_memory = var.pod_resource_config["nano"].requests.memory,
+      update_job_limit_cpu      = var.pod_resource_config["nano"].limits.cpu,
+      update_job_limit_memory   = var.pod_resource_config["nano"].limits.memory,
 
       password = var.cache_redis_password,
 
@@ -100,14 +100,14 @@ resource "helm_release" "adapter_redis" {
       node_pool_label = var.primary_node_pool_name,
 
       # Resource configurations
-      request_cpu               = var.pod_resource_config["medium"].requests.cpu,
-      request_memory            = var.pod_resource_config["medium"].requests.memory,
-      limit_cpu                 = var.pod_resource_config["medium"].limits.cpu,
-      limit_memory              = var.pod_resource_config["medium"].limits.memory,
-      update_job_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
-      update_job_request_memory = var.pod_resource_config["micro"].requests.memory,
-      update_job_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
-      update_job_limit_memory   = var.pod_resource_config["micro"].limits.memory,
+      request_cpu               = var.pod_resource_config["small"].requests.cpu,
+      request_memory            = var.pod_resource_config["small"].requests.memory,
+      limit_cpu                 = var.pod_resource_config["small"].limits.cpu,
+      limit_memory              = var.pod_resource_config["small"].limits.memory,
+      update_job_request_cpu    = var.pod_resource_config["nano"].requests.cpu,
+      update_job_request_memory = var.pod_resource_config["nano"].requests.memory,
+      update_job_limit_cpu      = var.pod_resource_config["nano"].limits.cpu,
+      update_job_limit_memory   = var.pod_resource_config["nano"].limits.memory,
 
       password = var.adapter_redis_password,
 
@@ -129,14 +129,14 @@ resource "helm_release" "job_redis" {
       node_pool_label = var.primary_node_pool_name,
 
       # Resource configurations
-      request_cpu               = var.pod_resource_config["medium"].requests.cpu,
-      request_memory            = var.pod_resource_config["medium"].requests.memory,
-      limit_cpu                 = var.pod_resource_config["medium"].limits.cpu,
-      limit_memory              = var.pod_resource_config["medium"].limits.memory,
-      update_job_request_cpu    = var.pod_resource_config["micro"].requests.cpu,
-      update_job_request_memory = var.pod_resource_config["micro"].requests.memory,
-      update_job_limit_cpu      = var.pod_resource_config["micro"].limits.cpu,
-      update_job_limit_memory   = var.pod_resource_config["micro"].limits.memory,
+      request_cpu               = var.pod_resource_config["small"].requests.cpu,
+      request_memory            = var.pod_resource_config["small"].requests.memory,
+      limit_cpu                 = var.pod_resource_config["small"].limits.cpu,
+      limit_memory              = var.pod_resource_config["small"].limits.memory,
+      update_job_request_cpu    = var.pod_resource_config["nano"].requests.cpu,
+      update_job_request_memory = var.pod_resource_config["nano"].requests.memory,
+      update_job_limit_cpu      = var.pod_resource_config["nano"].limits.cpu,
+      update_job_limit_memory   = var.pod_resource_config["nano"].limits.memory,
 
       password = var.job_redis_password,
 

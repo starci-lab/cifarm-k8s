@@ -22,6 +22,8 @@ envVarsCM:
   # Elasticsearch Configuration (sensitive, should go to Secrets)
   ELASTICSEARCH_URL: "${elasticsearch_url}"
 
+  # Elasticsearch TLS Configuration (sensitive, should go to Secrets)
+  ELASTICSEARCH_REQUIRE_TLS: "${elasticsearch_require_tls}"
 envVarsSecret:
   JWT_SECRET: "${jwt_secret}"
 
@@ -61,7 +63,6 @@ envVarsSecret:
   # Elasticsearch Configuration (sensitive, should go to Secrets)
   ELASTICSEARCH_USERNAME: "${elasticsearch_username}"
   ELASTICSEARCH_PASSWORD: "${elasticsearch_password}"
-
 containerPorts:
   app:
     port: ${port}  # Port exposed by the container.
@@ -93,3 +94,13 @@ resources:
   limits:
     cpu: ${limit_cpu}
     memory: ${limit_memory}
+
+extraVolumeMounts:
+  - name: elasticsearch-cert
+    mountPath: /etc/elasticsearch/certs
+    readOnly: true
+
+extraVolumes:
+  - name: elasticsearch-cert
+    secret:
+      secretName: elasticsearch-master-crt

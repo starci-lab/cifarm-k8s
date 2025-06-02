@@ -1,5 +1,5 @@
 security:
-  enabled: false
+  enabled: true
   # PASSWORD must be the same value passed to elasticsearch to get an "out of the box" experience
   elasticPassword: "${elasticsearch_password}"
   tls:
@@ -77,5 +77,3 @@ ingest:
     limits:
       cpu: ${ingest_limit_cpu}
       memory: ${ingest_limit_memory}
-
-

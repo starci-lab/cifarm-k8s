@@ -24,6 +24,8 @@ envVarsCM:
   # Elasticsearch Configuration (sensitive, should go to Secrets)
   ELASTICSEARCH_URL: "${elasticsearch_url}"
 
+  # Elasticsearch TLS Configuration (sensitive, should go to Secrets)
+  ELASTICSEARCH_REQUIRE_TLS: "${elasticsearch_require_tls}"
 envVarsSecret:
   # Redis Cache Configuration (sensitive, should go to Secrets)
   CACHE_REDIS_PASSWORD: "${cache_redis_password}" # Ensure the password is a string
@@ -90,3 +92,13 @@ serviceAccount:
   name: ""  # Optionally specify a service account name.
   annotations: {}  # Add annotations for the service account if needed.
   automountServiceAccountToken: true  # Automount the service account token.
+
+extraVolumeMounts:
+  - name: elasticsearch-cert
+    mountPath: /etc/elasticsearch/certs
+    readOnly: true
+
+extraVolumes:
+  - name: elasticsearch-cert
+    secret:
+      secretName: elasticsearch-master-crt
