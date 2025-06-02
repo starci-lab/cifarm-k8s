@@ -682,3 +682,20 @@ variable "kibana_persistence_size" {
   default     = "2Gi"
 }
 
+variable "google_cloud_driver_client_email" {
+  type        = string
+  description = "Google Cloud driver client email"
+  sensitive   = true
+}
+
+variable "google_cloud_driver_private_key" {
+  type        = string
+  description = "Google Cloud driver private key"
+  sensitive   = true
+}
+
+variable "google_cloud_driver_folder_id" {
+  type        = string
+  description = "Google Cloud driver folder ID"
+  sensitive   = true
+}
