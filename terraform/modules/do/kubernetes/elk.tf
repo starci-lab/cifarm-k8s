@@ -80,10 +80,10 @@ resource "helm_release" "kibana" {
       kibana_username = var.kibana_username,
       kibana_password = var.kibana_password,
 
-      kibana_cpu_request = var.pod_resource_config["micro"].requests.cpu,
-      kibana_memory_request = var.pod_resource_config["micro"].requests.memory,
-      kibana_cpu_limit = var.pod_resource_config["micro"].limits.cpu,
-      kibana_memory_limit = var.pod_resource_config["micro"].limits.memory,
+      kibana_cpu_request = var.pod_resource_config["small"].requests.cpu,
+      kibana_memory_request = var.pod_resource_config["small"].requests.memory,
+      kibana_cpu_limit = var.pod_resource_config["small"].limits.cpu,
+      kibana_memory_limit = var.pod_resource_config["small"].limits.memory,
       
       elasticsearch_host = local.elasticsearch.host,
       elasticsearch_port = local.elasticsearch.port,

@@ -209,3 +209,52 @@ resource "kubernetes_ingress_v1" "auth" {
     helm_release.social_auth
   ]
 }
+
+resource "kubernetes_service" "kibana_external" {
+  metadata {
+    name      = local.kibana.name
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+  }
+
+  spec {
+    type          = "ExternalName" # Specifies this is an ExternalName service
+    external_name = local.kibana.host
+  }
+}
+
+resource "kubernetes_ingress_v1" "kibana" {
+  metadata {
+    name      = "kibana"
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+    annotations = {
+      "cert-manager.io/cluster-issuer"                 = var.cluster_issuer_name
+      "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+      "acme.cert-manager.io/http01-edit-in-place"     = "true"
+    }
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = local.kibana_domain_name
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = local.kibana.name
+              port {
+                number = local.kibana.port
+              }
+            }
+          }
+        }
+      }
+    }
+    tls {
+      hosts       = [local.kibana_domain_name]
+      secret_name = "kibana-tls"
+    }
+  }
+}
+

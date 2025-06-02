@@ -63,10 +63,10 @@ resource "helm_release" "cache_redis" {
       node_pool_label = var.primary_node_pool_name,
 
       # Resource configurations
-      request_cpu               = var.pod_resource_config["small"].requests.cpu,
-      request_memory            = var.pod_resource_config["small"].requests.memory,
-      limit_cpu                 = var.pod_resource_config["small"].limits.cpu,
-      limit_memory              = var.pod_resource_config["small"].limits.memory,
+      request_cpu               = var.pod_resource_config["micro"].requests.cpu,
+      request_memory            = var.pod_resource_config["micro"].requests.memory,
+      limit_cpu                 = var.pod_resource_config["micro"].limits.cpu,
+      limit_memory              = var.pod_resource_config["micro"].limits.memory,
       update_job_request_cpu    = var.pod_resource_config["nano"].requests.cpu,
       update_job_request_memory = var.pod_resource_config["nano"].requests.memory,
       update_job_limit_cpu      = var.pod_resource_config["nano"].limits.cpu,
@@ -100,10 +100,10 @@ resource "helm_release" "adapter_redis" {
       node_pool_label = var.primary_node_pool_name,
 
       # Resource configurations
-      request_cpu               = var.pod_resource_config["small"].requests.cpu,
-      request_memory            = var.pod_resource_config["small"].requests.memory,
-      limit_cpu                 = var.pod_resource_config["small"].limits.cpu,
-      limit_memory              = var.pod_resource_config["small"].limits.memory,
+      request_cpu               = var.pod_resource_config["micro"].requests.cpu,
+      request_memory            = var.pod_resource_config["micro"].requests.memory,
+      limit_cpu                 = var.pod_resource_config["micro"].limits.cpu,
+      limit_memory              = var.pod_resource_config["micro"].limits.memory,
       update_job_request_cpu    = var.pod_resource_config["nano"].requests.cpu,
       update_job_request_memory = var.pod_resource_config["nano"].requests.memory,
       update_job_limit_cpu      = var.pod_resource_config["nano"].limits.cpu,
@@ -129,10 +129,10 @@ resource "helm_release" "job_redis" {
       node_pool_label = var.primary_node_pool_name,
 
       # Resource configurations
-      request_cpu               = var.pod_resource_config["small"].requests.cpu,
-      request_memory            = var.pod_resource_config["small"].requests.memory,
-      limit_cpu                 = var.pod_resource_config["small"].limits.cpu,
-      limit_memory              = var.pod_resource_config["small"].limits.memory,
+      request_cpu               = var.pod_resource_config["micro"].requests.cpu,
+      request_memory            = var.pod_resource_config["micro"].requests.memory,
+      limit_cpu                 = var.pod_resource_config["micro"].limits.cpu,
+      limit_memory              = var.pod_resource_config["micro"].limits.memory,
       update_job_request_cpu    = var.pod_resource_config["nano"].requests.cpu,
       update_job_request_memory = var.pod_resource_config["nano"].requests.memory,
       update_job_limit_cpu      = var.pod_resource_config["nano"].limits.cpu,

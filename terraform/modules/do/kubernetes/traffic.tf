@@ -19,14 +19,14 @@ resource "helm_release" "nginx_ingress_controller" {
   values = [
     templatefile("${path.module}/manifests/nginx-ingress-controller-values.yaml", {
       node_pool_label = var.primary_node_pool_name
-      request_cpu  = var.pod_resource_config["small"].requests.cpu
-      request_memory = var.pod_resource_config["small"].requests.memory
-      limit_cpu    = var.pod_resource_config["small"].limits.cpu
-      limit_memory = var.pod_resource_config["small"].limits.memory
-      default_backend_request_cpu  = var.pod_resource_config["micro"].requests.cpu
-      default_backend_request_memory = var.pod_resource_config["micro"].requests.memory
-      default_backend_limit_cpu    = var.pod_resource_config["micro"].limits.cpu
-      default_backend_limit_memory = var.pod_resource_config["micro"].limits.memory
+      request_cpu  = var.pod_resource_config["micro"].requests.cpu
+      request_memory = var.pod_resource_config["micro"].requests.memory
+      limit_cpu    = var.pod_resource_config["micro"].limits.cpu
+      limit_memory = var.pod_resource_config["micro"].limits.memory
+      default_backend_request_cpu  = var.pod_resource_config["nano"].requests.cpu
+      default_backend_request_memory = var.pod_resource_config["nano"].requests.memory
+      default_backend_limit_cpu    = var.pod_resource_config["nano"].limits.cpu
+      default_backend_limit_memory = var.pod_resource_config["nano"].limits.memory
     })
   ]
 

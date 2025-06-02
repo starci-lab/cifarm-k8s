@@ -21,10 +21,10 @@ resource "helm_release" "cert_manager" {
       cainjector_limit_cpu    = var.pod_resource_config["nano"].limits.cpu
       cainjector_limit_memory = var.pod_resource_config["nano"].limits.memory
 
-      controller_request_cpu  = var.pod_resource_config["micro"].requests.cpu
-      controller_request_memory = var.pod_resource_config["micro"].requests.memory
-      controller_limit_cpu    = var.pod_resource_config["micro"].limits.cpu
-      controller_limit_memory = var.pod_resource_config["micro"].limits.memory
+      controller_request_cpu  = var.pod_resource_config["nano"].requests.cpu
+      controller_request_memory = var.pod_resource_config["nano"].requests.memory
+      controller_limit_cpu    = var.pod_resource_config["nano"].limits.cpu
+      controller_limit_memory = var.pod_resource_config["nano"].limits.memory
 
       webhook_request_cpu  = var.pod_resource_config["nano"].requests.cpu
       webhook_request_memory = var.pod_resource_config["nano"].requests.memory
