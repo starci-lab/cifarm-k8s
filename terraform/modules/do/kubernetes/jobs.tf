@@ -185,7 +185,7 @@ resource "kubernetes_cron_job_v1" "backup_db" {
     name      = "backup-db"
     namespace = kubernetes_namespace.jobs.metadata[0].name
     annotations = {
-      "backup/version" = "v2"
+      "backup/version" = "v3"
     }
   }
   
@@ -546,6 +546,10 @@ resource "kubernetes_job" "instant_backup_db" {
     backoff_limit = 3
   }
   wait_for_completion = true
+  timeouts {
+    create = "1h"
+    update = "1h"
+  }
   depends_on = [
     helm_release.gameplay_mongodb
   ]
