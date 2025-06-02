@@ -51,10 +51,8 @@ resource "helm_release" "elasticsearch" {
       ingest_limit_memory = var.pod_resource_config["large"].limits.memory,
 
       elasticsearch_password = var.elasticsearch_password,
-      kibana_username = var.kibana_username,
-      kibana_password = var.kibana_password,
 
-      master_persistence_size = var.master_persistence_size,
+      master_persistence_size = var.master_persistence_size
     })
   ]
 
@@ -77,7 +75,6 @@ resource "helm_release" "kibana" {
   values = [
     templatefile("${path.module}/manifests/kibana-values.yaml", {
       node_pool_label = var.primary_node_pool_name,
-      kibana_username = var.kibana_username,
       kibana_password = var.kibana_password,
 
       kibana_cpu_request = var.pod_resource_config["small"].requests.cpu,

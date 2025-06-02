@@ -5,12 +5,13 @@ elasticsearch:
   security:
     auth:
       enabled: true
-      kibanaUsername: ${kibana_username}
       kibanaPassword: ${kibana_password}
-  tls:
-    enabled: true
-    existingSecret: elasticsearch-master-crt
-    usePemCerts: true
+      createSystemUser: true
+      elasticsearchPasswordSecret: elasticsearch
+    tls:
+      enabled: true
+      existingSecret: elasticsearch-master-crt
+      usePemCerts: true
 
 replicaCount: 1
 

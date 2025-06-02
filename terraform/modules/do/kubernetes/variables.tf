@@ -664,12 +664,6 @@ variable "elasticsearch_username" {
   default     = "elastic"
 }
 
-variable "kibana_username" {
-  type        = string
-  description = "Kibana username"
-  sensitive   = true
-}
-
 variable "kibana_password" {
   type        = string
   description = "Kibana password"
