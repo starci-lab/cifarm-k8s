@@ -80,6 +80,9 @@ resource "kubernetes_ingress_v1" "ws" {
       "nginx.ingress.kubernetes.io/ssl-redirect"          = "true"
       "nginx.ingress.kubernetes.io/force-ssl-redirect"    = "true"
       "acme.cert-manager.io/http01-edit-in-place"         = "true"
+      "nginx.ingress.kubernetes.io/affinity"              = "cookie"
+      "nginx.ingress.kubernetes.io/session-cookie-name"   = "sticky-session"
+      "nginx.ingress.kubernetes.io/session-cookie-max-age" = "172800"
       # "nginx.ingress.kubernetes.io/configuration-snippet" = file("${path.module}/configs/resolve_client_ip.conf")
       # "nginx.ingress.kubernetes.io/upstream-hash-by"      = "$client_ip"
     }
