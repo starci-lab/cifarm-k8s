@@ -15,6 +15,9 @@ resource "kubernetes_job" "seed_db" {
   metadata {
     name      = "seed-db"
     namespace = kubernetes_namespace.jobs.metadata[0].name
+    annotations = {
+      "backup/version" = "v2"
+    }
   }
   spec {
     template {
