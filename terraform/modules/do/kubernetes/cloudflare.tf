@@ -18,6 +18,7 @@ locals {
   graphql_domain_name = "graphql.${local.domain_name}"
   auth_domain_name = "auth.${local.domain_name}"
   kibana_domain_name = "kibana.${local.domain_name}"
+  grafana_domain_name= "grafana.${local.domain_name}"
 }
 
 # Create the NS records in Cloudflare for each name server
@@ -54,4 +55,12 @@ resource "cloudflare_record" "kibana" {
   type     = "A"
   content  = data.kubernetes_service.nginx_ingress_controller.status[0].load_balancer[0].ingress[0].ip
   zone_id  = data.cloudflare_zone.zone.id
+}
+
+resource "cloudflare_record" "grafana" {
+  name     = local.grafana_domain_name
+  type     = "A"
+  content  = data.kubernetes_service.nginx_ingress_controller.status[0].load_balancer[0].ingress[0].ip
+  zone_id  = data.cloudflare_zone.zone.id
+  proxied = false
 }

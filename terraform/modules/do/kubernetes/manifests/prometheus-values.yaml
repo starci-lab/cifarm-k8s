@@ -1,9 +1,7 @@
-# prometheus-values.yaml
-
 # Resource settings for Alertmanager
 alertmanager:
   nodeSelector:
-    "eks.amazonaws.com/nodegroup": ${node_group_label}
+    "doks.digitalocean.com/node-pool": ${node_group_label}
   resources:
     requests:
       cpu: ${alertmanager_request_cpu}
@@ -15,7 +13,7 @@ alertmanager:
 # Resource settings for Blackbox Exporter
 blackboxExporter:
   nodeSelector:
-    "eks.amazonaws.com/nodegroup": ${node_group_label}
+    "doks.digitalocean.com/node-pool": ${node_group_label}
   resources:
     requests:
       cpu: ${blackbox_exporter_request_cpu}
@@ -27,7 +25,7 @@ blackboxExporter:
 # Resource settings for Operator
 operator:
   nodeSelector:
-    "eks.amazonaws.com/nodegroup": ${node_group_label}
+    "doks.digitalocean.com/node-pool": ${node_group_label}
   resources:
     requests:
       cpu: ${operator_request_cpu}
@@ -39,7 +37,7 @@ operator:
 # Resource settings for Prometheus
 prometheus:
   nodeSelector:
-    "eks.amazonaws.com/nodegroup": ${node_group_label}
+    "doks.digitalocean.com/node-pool": ${node_group_label}
   resources:
     requests:
       cpu: ${prometheus_request_cpu}
@@ -55,11 +53,17 @@ prometheus:
       limits:
         cpu: ${thanos_limit_cpu}
         memory: ${thanos_limit_memory}
+  serviceMonitorSelector: 
+    matchLabels:
+        release: ${service_monitor_selector}
+  serviceMonitorNamespaceSelector:
+      matchNames:
+        - ${service_monitor_namespace_selector}
 
 # Resource settings for Node Exporter
 node-exporter:
   nodeSelector:
-    "eks.amazonaws.com/nodegroup": ${node_group_label}
+    "doks.digitalocean.com/node-pool": ${node_group_label}
   resources:
     requests:
       cpu: ${node_exporter_request_cpu}
@@ -71,7 +75,7 @@ node-exporter:
 # Resource settings for Kube-State-Metrics
 kube-state-metrics:
   nodeSelector:
-    "eks.amazonaws.com/nodegroup": ${node_group_label}
+    "doks.digitalocean.com/node-pool": ${node_group_label}
   resources:
     requests:
       cpu: ${kube_state_metrics_request_cpu}

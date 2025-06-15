@@ -12,7 +12,7 @@ metrics:
 # Resource requests and limits for the Grafana pod
 grafana:
   nodeSelector:
-    "eks.amazonaws.com/nodegroup": ${node_group_label}
+    "doks.digitalocean.com/node-pool": ${node_group_label}
   resources:
     requests:
       cpu: ${request_cpu}  # Minimum CPU requested for the Grafana pod

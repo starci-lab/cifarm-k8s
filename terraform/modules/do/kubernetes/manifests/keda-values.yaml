@@ -1,10 +1,42 @@
-# values.yaml
 
-replicaCount: 1
+crds: 
+ install: true
+
+rbac: 
+ create: true
+ enabledCustomScaledRefKinds: false
 
 nodeSelector:
-  "eks.amazonaws.com/nodegroup": ${node_group_label}
-  
+   "doks.digitalocean.com/node-pool": ${node_group_label}
+
+prometheus:
+  metricServer:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      interval: ${interval_scrape}
+      scrapeTimeout:  ${timeout_scrape}
+      additionalLabels:
+        release: ${service_monitor_selector}  
+
+  operator:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      interval: ${interval_scrape}
+      scrapeTimeout:  ${timeout_scrape}
+      additionalLabels:
+        release: ${service_monitor_selector}    
+
+  webhooks:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      interval: ${interval_scrape}
+      scrapeTimeout:  ${timeout_scrape}
+      additionalLabels:
+        release: ${service_monitor_selector}   
+
 resources:
   operator:
     requests:
@@ -15,7 +47,6 @@ resources:
       memory: ${operator_limit_memory}
 
   metricServer:
-    requests:
     requests:
       cpu: ${metric_server_request_cpu}
       memory: ${metric_server_request_memory}

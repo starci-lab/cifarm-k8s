@@ -699,3 +699,32 @@ variable "google_cloud_driver_folder_id" {
   description = "Google Cloud driver folder ID"
   sensitive   = true
 }
+
+variable "service_monitoring_keda" {
+  type        = string
+  description = "service monitoring keda"
+  default = "prometheus"
+}
+
+
+variable "scrape_time_config" {
+  description = "scrape time for different kinds of metrics"
+  type = map(object({
+    interval_scrape = string
+    timeout_scrape  = string
+  }))
+  default = {
+    slow = {
+      interval_scrape = "30s"
+      timeout_scrape  = "10s"
+    }
+    medium = {
+      interval_scrape = "15s"
+      timeout_scrape  = "5s"
+    }
+    fast = {
+      interval_scrape = "10s"
+      timeout_scrape  = "2s"
+    }
+  }
+}

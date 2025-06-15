@@ -261,3 +261,54 @@ resource "kubernetes_ingress_v1" "kibana" {
   }
 }
 
+resource "kubernetes_service" "grafana_external" {
+  metadata {
+    name      = local.grafana.name
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+  }
+
+  spec {
+    type          = "ExternalName"
+    external_name = local.grafana.host
+  }
+}
+
+
+resource "kubernetes_ingress_v1" "grafana-ingress" {
+  metadata {
+    name      = "grafana-ingress"
+    namespace = kubernetes_namespace.ingresses.metadata[0].name
+
+    annotations = {
+      "cert-manager.io/cluster-issuer"                 = var.cluster_issuer_name
+      "kubernetes.io/ingress.class"    = "nginx"
+      "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+      "acme.cert-manager.io/http01-edit-in-place"     = "true"
+    }
+  }
+
+  spec {
+    ingress_class_name = "nginx"
+
+    tls {
+      hosts      = [local.grafana_domain_name]
+      secret_name = "grafanatls"
+    }
+
+    rule {
+      host = local.grafana_domain_name
+      http {
+        path {
+          path      = "/"
+          backend {
+            service {
+              name = local.grafana.name
+              port { number = local.grafana.port }
+            }
+          }
+        }
+      }
+    }
+  }
+}
